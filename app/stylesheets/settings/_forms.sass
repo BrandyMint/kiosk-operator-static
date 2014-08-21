@@ -27,13 +27,16 @@
     @each $s in top, left, right
       border-#{$s}: 1px solid $line-color
 
-%plain-input__input
-  @extend %plain-input-style
+%plain-input-base
   height: $block-padding*3
   font-size: $font-size-large
   line-height: $block-padding
-  @extend %font-light
   @extend %block-padding
+  @extend %font-light
+
+%plain-input__input
+  @extend %plain-input-style
+  @extend %plain-input-base
   &, &:hover, &:focus
     background-color: #fff
   &:focus

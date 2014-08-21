@@ -1,12 +1,9 @@
 a
   @extend %font-medium
   cursor: pointer
+  +transition(color 0.2s ease)
   &, &:hover
     text-decoration: none
-
-
-.nav, .pagination, .carousel, .panel-title a
-  cursor: pointer
 
 //@each $c in gray $gray, gray-light $gray-light, gray-lighter $gray-lighter
   .link-#{nth($c,1)}

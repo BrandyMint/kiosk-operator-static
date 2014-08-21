@@ -16,6 +16,21 @@
     background-color: $blue-dark
     border-color: $blue-dark
 
+.btn-primary
+  background-color: $blue
+  border-color: $blue
+  &:hover
+    background-color: $blue-dark
+    border-color: $blue-dark
+
+.btn-gray-dark
+  background-color: $gray-dark
+  border-color: $gray-dark
+  +link-colors(#fff, #fff)
+  &:hover
+    background-color: darken($gray-dark, 15%)
+    border-color: darken($gray-dark, 15%)
+
 .btn-lg
   padding: 12px 16px
 

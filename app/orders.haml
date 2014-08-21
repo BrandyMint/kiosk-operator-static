@@ -1,0 +1,98 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => "utf-8"}
+    %title Kiosk
+    %meta{:content => "", :name => "description"}
+    %meta{:content => "width=device-width, initial-scale=1, user-scalable=no", :name => "viewport"}
+    %link{:href => "stylesheets/app.css", :rel => "stylesheet"}
+  %body
+    .app-left-sidebar
+      %ul.left-sidebar__nav
+        - links = [{slug: 'info', icon: 'fa fa-info-circle', title: 'Что делать?'}, {slug: 'orders', icon: 'fa fa-th-large', title: 'Товары', href: '#'}, {slug: 'orders', icon: 'fa fa-shopping-cart', title: 'Заказы'}, {slug: 'catalog', icon: 'fa fa-folder-open', title: 'Каталог'}]
+        - for l of links
+          - l = links[l]
+          %li
+            %a.left-sidebar__nav-link{href: "#{l.href}"}
+              %i.left-sidebar__nav-link-icon{class: "#{l.icon} nav-link-icon-#{l.slug}"}
+              .left-sidebar__nav-link-title= l.title
+              .clearfix
+    .app-main-content
+      .container-fluid
+        .col-md-10.col-md-offset-1
+          .orders-list
+            .pull-right
+              %h1 Field&Rag
+            .clearfix
+            .orders-list__list
+              %h1.orders-list__title.pull-left Заказы
+              %form.pull-right
+                %input.form-control.orders-list__search-input{type: 'search', placeholder: 'Найти название, номер, город'}
+              .clearfix
+              %table.table.orders-list__table
+                %thead.orders-list__table-header
+                  - table_columns = ['Статус', 'Номер', 'Что в заказе', 'Город', 'Когда', 'Стоимость']
+                  - for col of table_columns
+                    - col = table_columns[col]
+                    %td.orders-list__table-header-cell= col
+                %tr
+                  %td.orders-list__table-status.orders-list__table-status-new
+                    Новый
+                  %td.orders-list__table-number
+                    0001
+                  %td
+                    Стол компьтерный Rage
+                  %td.orders-list__table-location
+                    Москва
+                  %td.orders-list__table-time
+                    Два часа назад
+                  %td
+                    %span.order-status-bullet.order-status-bullet-new
+                    15 800 руб.
+
+                %tr
+                  %td.orders-list__table-status.orders-list__table-status-delivery
+                    Доставка
+                  %td.orders-list__table-number
+                    0002
+                  %td
+                    Велосипед Linus, сумка пояс...
+                  %td.orders-list__table-location
+                    Москва
+                  %td.orders-list__table-time
+                    27 января 22:15
+                  %td
+                    %span.order-status-bullet.order-status-bullet-delivery
+                    15 800 руб.
+
+                %tr
+                  %td.orders-list__table-status.orders-list__table-status-cancelled
+                    Отменён
+                  %td.orders-list__table-number
+                    0003
+                  %td
+                    Стол компьтерный Rage
+                  %td.orders-list__table-location
+                    Москва
+                  %td.orders-list__table-time
+                    Два часа назад
+                  %td
+                    %span.order-status-bullet.order-status-bullet-cancelled
+                    15 800 руб.
+
+                %tr
+                  %td.orders-list__table-status.orders-list__table-status-paused
+                    Пауза
+                  %td.orders-list__table-number
+                    0004
+                  %td
+                    Стол компьтерный Rage
+                  %td.orders-list__table-location
+                    Москва
+                  %td.orders-list__table-time
+                    Два часа назад
+                  %td
+                    %span.order-status-bullet.order-status-bullet-paused
+                    15 800 руб.
+
+

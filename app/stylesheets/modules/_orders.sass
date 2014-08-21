@@ -1,0 +1,62 @@
+$order-status-bullet-size: 10px
+
+.orders-list__list
+  margin-top: $grid-gutter-width
+
+.orders-list__title
+  margin-top: 0
+
+.orders-list__search-input
+  width: 300px
+
+.orders-list__table
+  @extend .table
+  @extend .table-striped
+  margin:
+    top: $grid-gutter-width
+    bottom: $grid-gutter-width
+  & > tbody > tr > td
+    vertical-align: middle
+    padding: 10px
+    border:
+      top: none
+      bottom: 1px solid $line-color
+    &.orders-list__table-status
+      padding: 15px 10px
+
+.orders-list__table-header
+  border-bottom: 1px solid $line-color
+
+.orders-list__table-header-cell
+  color: $gray-light
+  padding-bottom: 0.5em
+  font-size: $font-size-small
+
+.orders-list__table-number,
+.orders-list__table-location,
+.orders-list__table-time
+  color: $gray-light
+
+.orders-list__table-status
+  color: #fff
+  text-align: center
+  background-color: $gray-light
+
+.order-status-bullet
+  display: inline-block
+  width: $order-status-bullet-size
+  height: $order-status-bullet-size
+  +border-radius(100%)
+  background-color: $gray-lighter
+  margin-right: 3px
+
+@each $c in new $green, delivery $blue, cancelled $red, paused $yellow
+  .orders-list__table > tbody > tr > td
+    &.orders-list__table-status-#{nth($c,1)}
+      background-color: nth($c,2)
+      border-bottom-color: nth($c,2)
+  .order-status-bullet-#{nth($c,1)}
+    background-color: nth($c,2)
+
+
+

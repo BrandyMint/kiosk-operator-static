@@ -1,0 +1,13 @@
+a
+  @extend %font-medium
+  cursor: pointer
+  &, &:hover
+    text-decoration: none
+
+
+.nav, .pagination, .carousel, .panel-title a
+  cursor: pointer
+
+//@each $c in gray $gray, gray-light $gray-light, gray-lighter $gray-lighter
+  .link-#{nth($c,1)}
+    +link-colors(nth($c,2), darken(nth($c,2), 10%))

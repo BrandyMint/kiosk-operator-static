@@ -1,0 +1,110 @@
+=antialiased
+  -webkit-font-smoothing: antialiased
+
+%antialiased
+  -webkit-font-smoothing: antialiased
+
+=transformsFix
+  -webkit-backface-visibility: hidden
+
+//=bgImage($image, $imgsPath: $imagesPath)
+  background-image: url("#{$imgsPath}/#{$image}")
+
+//=coverImageHeight($height: $coverImageHeight, $height-xs: $coverImageHeight-xs)
+  min-height: $height
+  @media screen and (max-width: $screen-xs)
+    min-height: $height-xs
+
+
+// grayscale      ex: filter: grayscale(100%);
+// sepia          ex: filter: sepia(100%);
+// saturate       ex: filter: saturate(0%);
+// hue-rotate     ex: filter: hue-rotate(45deg);
+// invert         ex: filter: invert(100%);
+// brightness     ex: filter: brightness(15%);
+// contrast       ex: filter: contrast(200%);
+// blur           ex: filter: blur(2px);
+
+=filter( $var )
+  -webkit-filter: $var
+  -moz-filter: $var
+  -ms-filter: $var
+  -o-filter: $var
+  filter: $var
+
+=svg-bg($name, $extension: png, $color: transparent, $position: 0 0, $repeat: no-repeat, $imgsPath: $imagesPath)
+  background: url("#{$imgsPath}/#{$name}.#{$extension}") $color $position $repeat
+  background: none url("#{$imgsPath}/#{$name}.svg") $color $position $repeat
+
+=svg-bg-image($name, $imgsPath: $imagesPath)
+  background-image: url("#{$imgsPath}/#{$name}.png")
+  background-image: url("#{$imgsPath}/#{$name}.svg")
+
+=display-box
+  display: -webkit-box
+  display: -moz-box
+  display: box
+
+
+// Shorthand for media queries
+
+= breakpoint($point)
+  @if $point == tablet
+    @media (max-width: $tablet-width)
+      @content
+  @if $point == desktop
+    @media (min-width: $desktop-width-min)
+      @content
+
+// shorthand for collapsed (narrow) sidebars
+
+=right-sidebar--collapsed
+  .right-sidebar--collapsed &
+    @content
+
+=left-sidebar--collapsed
+  .left-sidebar--collapsed &
+    @content
+
+=right-sidebar--collapsed-tablet
+  +breakpoint(tablet)
+    .right-sidebar--collapsed &
+      @content
+
+=left-sidebar--collapsed-tablet
+  +breakpoint(tablet)
+    .left-sidebar--collapsed &
+      @content
+
+// for expanded sidebars
+
+=right-sidebar--expanded
+  .right-sidebar--expanded &
+    @content
+
+=left-sidebar--expanded
+  .left-sidebar--expanded &
+    @content
+
+=right-sidebar--expanded-tablet
+  +breakpoint(tablet)
+    .right-sidebar--expanded &
+      @content
+=left-sidebar--expanded-tablet
+  +breakpoint(tablet)
+    .left-sidebar--expanded &
+      @content
+
+
+=center-block-container
+  text-align: center
+  &:before
+    content: ''
+    display: inline-block
+    height: 100%
+    vertical-align: middle
+    margin-right: -0.25em
+
+=center-block-content
+  display: inline-block
+  vertical-align: middle

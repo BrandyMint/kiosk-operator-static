@@ -18,7 +18,7 @@
       right: none
       bottom: 1px solid $line-color
     +box-shadow(none)
-    +border-radius(0)
+    border-radius: 0
     background: none
     outline: none
 
@@ -66,7 +66,7 @@ input.plain-input__input
 
 .plain-input__input
   &.input-group-addon
-    +border-radius(0)
+    border-radius: 0
     @extend %plain-input-style
     padding:
       top: 0
@@ -132,7 +132,7 @@ input[type="radio"]
       margin-right: 10px
       border: 1px solid $line-color
       background-color: #fff
-      +border-radius(100%)
+      border-radius: 100%
       font-size: 10px
       line-height: 13px
       text-align: center
@@ -165,7 +165,7 @@ input[type="radio"]
   cursor: pointer
   &, &:hover, &:focus
     border: 1px solid $line-color
-    +border-radius($border-radius-base)
+    border-radius: $border-radius-base
     background:
       position: right center
       repeat: no-repeat
@@ -176,4 +176,4 @@ input[type="radio"]
 
 
 input[type="search"]
-  +border-radius(30px)
+  border-radius: 30px

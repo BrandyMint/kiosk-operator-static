@@ -57,7 +57,7 @@ gulp.task "scripts", ->
 options.sass =
   errLogToConsole: true
   sourceComments: 'normal'
-  #sourceMap: 'sass'
+  includePaths: ['app/stylesheets/']
 
 gulp.task "sass", ->
   gulp

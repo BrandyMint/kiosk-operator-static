@@ -8,6 +8,8 @@ gulp = require("gulp")
 
 path = require("path")
 sass = require('gulp-sass')
+#haml = require('gulp-hamlc')
+haml = require('gulp-haml-coffee')
 
 $ = require("gulp-load-plugins")()
 sourcemaps = require("gulp-sourcemaps")
@@ -62,6 +64,8 @@ gulp.task "sass", ->
     .src("./app/stylesheets/app.sass")
     .pipe(sass(options.sass))
     .pipe(gulp.dest("dist/stylesheets"))
+    .pipe($.connect.reload())
+    .on "error", $.util.log
   return
 
 gulp.task "jade", ->
@@ -81,9 +85,8 @@ gulp.task "fonts", ->
 
 gulp.task "assets", ->
   gulp
-    .src("app/{api,stylesheets,includes}/**/*.{less,sass,css,json,html,js}")
+    .src("app/{api,stylesheets,includes}/**/*.{less,sass,css,json,html,haml,js}")
     .pipe gulp.dest("dist/")
-
 
 # HTML
 gulp.task "html", ->
@@ -95,6 +98,14 @@ gulp.task "html", ->
     .pipe($.connect.reload())
     .on "error", $.util.log
 
+gulp.task "haml", ->
+  gulp
+    .src("app/**/*.haml")
+    .pipe(haml())
+    .pipe(gulp.dest("dist"))
+    .pipe($.connect.reload())
+    .on "error", $.util.log
+  return
 
 # Images
 gulp.task "images", ->
@@ -131,6 +142,7 @@ gulp.task "bundle", [
 # Build
 gulp.task "build", [
   "html"
+  "haml"
   "bundle"
   "images"
 ]
@@ -167,6 +179,7 @@ gulp.task "watch", [
   "images"
   "assets"
   "html"
+  "haml"
   "bundle"
   "connect"
 ], ->
@@ -176,7 +189,8 @@ gulp.task "watch", [
   
   # Watch .html files
   gulp.watch "app/*.html", ["html"]
-  
+  gulp.watch "app/**/*.haml", ["haml"]
+ 
   # Watch .jade files
   #gulp.watch('app/template/**/*.jade', ['jade', 'html']);
   

@@ -7,20 +7,6 @@
     > bower install
 
 
-Разработка
-----------
-
-В браузере:
-
-Есть залогиненный пользователь или нет
-
-    > localStorage.setItem('userLogged', false/true)
-
-Локальная смена адресов хостов:
-
-    > localStorage.setItem('host', 'http://api.taaasty.ru/')
-    > localStorage.setItem('api_host', 'http://api.taaasty.ru/')
-
 Запуск
 ------
 
@@ -35,7 +21,8 @@ http://livereload.com/ в помощь!
 ------------
 
 1. Исходник `./scripts/main.coffee` билдится с помощью `browserify` и превращается в `./scripts/bundle.js`
-2. Стиль `./stylesheepts/main.less` собирается в `./stylesheets/main.css`
+2. Стиль `./stylesheepts/app.sass` собирается в `./stylesheets/app.css`
+с помощью gulp-sass (node-sass, libsass).
 3. Сторонние пакеты устанавливаются через bundle в `app/bower_components` и билдятся в `./scripts/vendor.js`
 
 
@@ -83,5 +70,4 @@ https://github.com/blueimp/jQuery-File-Upload/wiki/Browser-support
 
 ## TODO
 
-Подключить git@github.com:eligrey/classList.js.git для поддержки IE9 в MediumEditor
 

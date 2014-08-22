@@ -7,6 +7,8 @@
     %meta{:content => "width=device-width, initial-scale=1, user-scalable=no", :name => "viewport"}
     %link{:href => "stylesheets/app.css", :rel => "stylesheet"}
   %body
+    %script{src: 'scripts/bundle.js'}
+
     .app-left-sidebar
       %ul.left-sidebar__nav
         - links = [{slug: 'info', icon: 'fa fa-info-circle', title: 'Что делать?'}, {slug: 'orders', icon: 'fa fa-th-large', title: 'Товары', href: '#'}, {slug: 'orders', icon: 'fa fa-shopping-cart', title: 'Заказы'}, {slug: 'catalog', icon: 'fa fa-folder-open', title: 'Каталог'}]
@@ -35,7 +37,7 @@
                   - for col of table_columns
                     - col = table_columns[col]
                     %td.orders-list__table-header-cell= col
-                %tr
+                %tr.orders-list__table-row{role: 'orders-list__table-row'}
                   %td.orders-list__table-status.orders-list__table-status-new
                     Новый
                   %td.orders-list__table-number
@@ -50,7 +52,7 @@
                     %span.order-status-bullet.order-status-bullet-new
                     15 800 руб.
 
-                %tr
+                %tr.orders-list__table-row{role: 'orders-list__table-row'}
                   %td.orders-list__table-status.orders-list__table-status-delivery
                     Доставка
                   %td.orders-list__table-number
@@ -65,7 +67,7 @@
                     %span.order-status-bullet.order-status-bullet-delivery
                     15 800 руб.
 
-                %tr
+                %tr.orders-list__table-row{role: 'orders-list__table-row'}
                   %td.orders-list__table-status.orders-list__table-status-cancelled
                     Отменён
                   %td.orders-list__table-number
@@ -80,7 +82,7 @@
                     %span.order-status-bullet.order-status-bullet-cancelled
                     15 800 руб.
 
-                %tr
+                %tr.orders-list__table-row{role: 'orders-list__table-row'}
                   %td.orders-list__table-status.orders-list__table-status-paused
                     Пауза
                   %td.orders-list__table-number
@@ -94,5 +96,72 @@
                   %td
                     %span.order-status-bullet.order-status-bullet-paused
                     15 800 руб.
+
+    
+    .modal.fade{"aria-hidden" => "true", "aria-labelledby" => "mySmallModalLabel", :role => "order-modal", :tabindex => "-1"}
+      .modal-dialog
+        .modal-content{role: 'modal-content'}
+          .modal-header
+            .pull-left
+              Заказ №0003
+            .pull-right
+              .dropdown
+                %a.orders-list__modal-btn.orders-list__modal-btn-new{href: '#', 'data-toggle': 'dropdown'}
+                  Новый
+                  &nbsp;
+                  %i.fa.fa-angle-down
+                %ul.dropdown-menu.orders-list__modal-dropdown-menu
+                  %li
+                    %a.orders-list__modal-btn.orders-list__modal-btn-delivery
+                      Доставка
+                  %li
+                    %a.orders-list__modal-btn.orders-list__modal-btn-cancelled
+                      Отменён
+                  %li
+                    %a.orders-list__modal-btn.orders-list__modal-btn-paused
+                      Пауза
+            .clearfix
+            -#%button.close{"data-dismiss" => "modal", :type => "button"}
+              %span{"aria-hidden" => "true"} ×
+              %span.sr-only Close
+          .modal-body
+            .row
+              .col-md-3
+                Товары
+              .col-md-9
+                - for i in [0..2]
+                  .media.order-products__list-item
+                    .pull-left
+                      .media-object
+                        %img{src: 'images/product-thumb.png', width: 34, height: 34}
+                    .media-body
+                      Мыльница с якорем
+            %hr
+            .row
+              .col-md-3
+                Покупатель
+              .col-md-9
+                Лучинин Евгений Павлович, genue.luben@gmail.com,
+                %nobr +7 (905) 716-14-51
+            %hr
+            .row
+              .col-md-3
+                Адрес
+              .col-md-9
+                Москва, 123100, улица 1905 года, 5-39
+            %hr
+            .row
+              .col-md-3
+                Стоимость
+              .col-md-9
+                %span.order-products__list-item-cost 15 800 руб.
+                &nbsp;&nbsp;
+                %span.order-status-bullet.order-status-bullet-new
+                Оплачено
+            %hr
+
+
+
+
 
 

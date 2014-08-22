@@ -43,6 +43,17 @@ gulp.task "scripts", ->
         'eventEmitter':
           path: 'app/bower_components/eventEmitter/EventEmitter.js'
           exports: null
+        'bootstrap':
+          path: 'app/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js'
+          exports: 'bootstrap'
+          depends:
+            'jquery': '$'
+        'jquery.role':
+          path: 'app/bower_components/jquery.role/lib/role.js'
+          exports: null
+          depends:
+            'jquery': '$'
+
     ))
     .on("error", handleError)
     .pipe($.rename("bundle.js"))

@@ -15,14 +15,15 @@ $order-status-bullet-size: 10px
   margin:
     top: $grid-gutter-width
     bottom: $grid-gutter-width
-  & > tbody > tr > td
-    vertical-align: middle
-    padding: 10px
-    border:
-      top: none
-      bottom: 1px solid $line-color
-    &.orders-list__table-status
-      padding: 15px 10px
+  & > tbody > tr
+    & > td
+      vertical-align: middle
+      padding: 10px
+      border:
+        top: none
+        bottom: 1px solid $line-color
+      &.orders-list__table-status
+        padding: 15px 10px
 
 .orders-list__table-header
   border-bottom: 1px solid $line-color
@@ -57,6 +58,49 @@ $order-status-bullet-size: 10px
       border-bottom-color: nth($c,2)
   .order-status-bullet-#{nth($c,1)}
     background-color: nth($c,2)
+  .orders-list__modal-btn-#{nth($c,1)}
+    &,
+    .dropdown-menu.orders-list__modal-dropdown-menu > li > &
+      background-color: nth($c,2)
+      &:hover, &:focus
+        background-color: darken(nth($c,2), 20%)
 
 
+.orders-list__table-row
+  cursor: pointer
+  +transition(background 0.2s ease)
+  &:hover
+    background-color: $gray-lighter
 
+.orders-list__modal-btn
+  @extend .btn
+  @extend .btn-large
+  border-radius: 0
+  margin: - $grid-gutter-width/2
+  padding: $grid-gutter-width/2
+  +antialiased
+  &, &:hover, &:focus
+    color: #fff
+  font-weight: bold
+
+.dropdown-menu.orders-list__modal-dropdown-menu
+  padding: 0
+  margin:
+    top: $grid-gutter-width/2 - 1px
+    left: - $grid-gutter-width/2 - 1px
+  & > li
+    padding: 0
+    margin: 0
+    & > a
+      &.orders-list__modal-btn
+        padding: $grid-gutter-width/2
+        margin: 0
+        display: block
+        font-weight: bold
+        &, &:hover, &:focus
+          color: #fff
+
+.order-products__list-item-cost
+  font:
+    weight: bold
+    size: $font-size-larger

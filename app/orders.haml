@@ -21,7 +21,7 @@
               .clearfix
     .app-main-content
       .container-fluid
-        .col-md-10.col-md-offset-1
+        .col-lg-10.col-lg-offset-1
           .orders-list
             .pull-right
               %h1 Field&Rag
@@ -31,74 +31,42 @@
               %form.pull-right
                 %input.form-control.orders-list__search-input{type: 'search', placeholder: 'Найти название, номер, город'}
               .clearfix
+              - order_states = {new: {slug: 'new', title: 'Новый'}, delivery: {slug: 'delivery', title: 'Доставка'}, cancelled: {slug: 'cancelled', title: 'Отменён'}, paused: {slug: 'paused', title: 'Пауза'}}
               %table.table.orders-list__table
                 %thead.orders-list__table-header
-                  - table_columns = ['Статус', 'Номер', 'Что в заказе', 'Город', 'Когда', 'Стоимость']
+                  - table_columns = [{slug: 'status', title: 'Статус'}, {slug: 'number', title: 'Номер'}, {slug: 'content', title: 'Что в заказе'}, {slug: 'city', title: 'Город'}, {slug: 'time', title: 'Когда'}, {slug: 'total', title: 'Стоимость'}]
                   - for col of table_columns
                     - col = table_columns[col]
-                    %td.orders-list__table-header-cell= col
-                %tr.orders-list__table-row{role: 'orders-list__table-row'}
-                  %td.orders-list__table-status.orders-list__table-status-new
-                    Новый
-                  %td.orders-list__table-number
-                    0001
-                  %td
-                    Стол компьтерный Rage
-                  %td.orders-list__table-location
-                    Москва
-                  %td.orders-list__table-time
-                    Два часа назад
-                  %td
-                    %span.order-status-bullet.order-status-bullet-new
-                    15 800 руб.
-
-                %tr.orders-list__table-row{role: 'orders-list__table-row'}
-                  %td.orders-list__table-status.orders-list__table-status-delivery
-                    Доставка
-                  %td.orders-list__table-number
-                    0002
-                  %td
-                    Велосипед Linus, сумка пояс...
-                  %td.orders-list__table-location
-                    Москва
-                  %td.orders-list__table-time
-                    27 января 22:15
-                  %td
-                    %span.order-status-bullet.order-status-bullet-delivery
-                    15 800 руб.
-
-                %tr.orders-list__table-row{role: 'orders-list__table-row'}
-                  %td.orders-list__table-status.orders-list__table-status-cancelled
-                    Отменён
-                  %td.orders-list__table-number
-                    0003
-                  %td
-                    Стол компьтерный Rage
-                  %td.orders-list__table-location
-                    Москва
-                  %td.orders-list__table-time
-                    Два часа назад
-                  %td
-                    %span.order-status-bullet.order-status-bullet-cancelled
-                    15 800 руб.
-
-                %tr.orders-list__table-row{role: 'orders-list__table-row'}
-                  %td.orders-list__table-status.orders-list__table-status-paused
-                    Пауза
-                  %td.orders-list__table-number
-                    0004
-                  %td
-                    Стол компьтерный Rage
-                  %td.orders-list__table-location
-                    Москва
-                  %td.orders-list__table-time
-                    Два часа назад
-                  %td
-                    %span.order-status-bullet.order-status-bullet-paused
-                    15 800 руб.
-
+                    %td.orders-list__table-header-cell{class: "orders-list__table-header-cell-#{col.slug}"}= col.title
+                - for order of order_states
+                  - order = order_states[order]
+                  %tr.orders-list__table-row
+                    %td.orders-list__table-status{class: "orders-list__table-status-#{order.slug}"}
+                      .dropdown{role: 'order-status-dropdown'}
+                        %a.orders-list__table-status-btn{class: "orders-list__modal-btn-#{order.slug}", href: '#', 'data-toggle': 'dropdown'}
+                          = order.title
+                          &nbsp;
+                          %i.fa.fa-angle-down
+                        %ul.dropdown-menu.orders-list__status-menu
+                          - for o of order_states
+                            - o = order_states[o]
+                            %li
+                              %a.orders-list__modal-btn{class: "orders-list__modal-btn-#{o.slug}"}
+                                = "#{o.title}"
+                    %td.orders-list__table-number{role: 'orders-list__table-modal-btn'}
+                      0001
+                    %td{role: 'orders-list__table-modal-btn'}
+                      Стол компьтерный Rage
+                    %td.orders-list__table-location{role: 'orders-list__table-modal-btn'}
+                      Москва
+                    %td.orders-list__table-time{role: 'orders-list__table-modal-btn'}
+                      Два часа назад
+                    %td{role: 'orders-list__table-modal-btn'}
+                      %nobr
+                        %span.order-status-bullet{class: "order-status-bullet-#{order.slug}"}
+                        15 800 руб.
     
-    .modal.fade{"aria-hidden" => "true", "aria-labelledby" => "mySmallModalLabel", :role => "order-modal", :tabindex => "-1"}
+    .modal.orders-modal.fade{"aria-hidden" => "true", "aria-labelledby" => "mySmallModalLabel", :role => "order-modal", :tabindex => "-1"}
       .modal-dialog
         .modal-content{role: 'modal-content'}
           .modal-header
@@ -110,16 +78,12 @@
                   Новый
                   &nbsp;
                   %i.fa.fa-angle-down
-                %ul.dropdown-menu.orders-list__modal-dropdown-menu
-                  %li
-                    %a.orders-list__modal-btn.orders-list__modal-btn-delivery
-                      Доставка
-                  %li
-                    %a.orders-list__modal-btn.orders-list__modal-btn-cancelled
-                      Отменён
-                  %li
-                    %a.orders-list__modal-btn.orders-list__modal-btn-paused
-                      Пауза
+                %ul.dropdown-menu.orders-list__dropdown-menu
+                  - for order of order_states
+                    - order = order_states[order]
+                    %li
+                      %a.orders-list__modal-btn{class: "orders-list__modal-btn-#{order.slug}"}
+                        = "#{order.title}"
             .clearfix
             -#%button.close{"data-dismiss" => "modal", :type => "button"}
               %span{"aria-hidden" => "true"} ×

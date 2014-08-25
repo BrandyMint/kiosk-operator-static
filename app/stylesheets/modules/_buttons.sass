@@ -16,20 +16,15 @@
     background-color: $blue-dark
     border-color: $blue-dark
 
-.btn-primary
-  background-color: $blue
-  border-color: $blue
-  &:hover
-    background-color: $blue-dark
-    border-color: $blue-dark
-
-.btn-gray-dark
-  background-color: $gray-dark
-  border-color: $gray-dark
-  +link-colors(#fff, #fff)
-  &:hover
-    background-color: darken($gray-dark, 15%)
-    border-color: darken($gray-dark, 15%)
+//@each $color in (green $green), (red $red), (blue $blue), (orange $orange), text-light $text-color-light, text-lighter $text-color-lighter, text-brand $brand-color
+@each $color in (green $green), (red $red), (blue $blue), (orange $orange), gray $gray, gray-light $gray-light, gray-dark $gray-dark, gray-darker $gray-darker
+  .btn-#{nth($color,1)}
+    background-color: nth($color,2)
+    border-color: nth($color,2)
+    +link-colors(#fff, #fff)
+    &:hover
+      background-color: darken(nth($color,2), 15%)
+      border-color: darken(nth($color,2), 15%)
 
 .btn-lg
   padding: 12px 16px

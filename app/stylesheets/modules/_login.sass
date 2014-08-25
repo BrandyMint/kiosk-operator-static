@@ -1,4 +1,4 @@
-$login-form-width: 420px
+$login-form-max-width: 420px
 $login-logo-width: 195px
 $login-logo-height: 37px
 
@@ -20,6 +20,9 @@ $login-logo-height: 37px
   +center-block-content
 
 
+.login__navbar-logo-block
+  text-align: center
+
 .login__navbar-logo
   display: inline-block
   width: $login-logo-width
@@ -31,11 +34,18 @@ $login-logo-height: 37px
     repeat: no-repeat
     size: 100% auto
     image: url('../images/logo.svg')
+  +breakpoint('phone-landscape')
+    width: $login-logo-width/2
+    height: $login-logo-width/2
 
 
 .login__form
-  background: #fff
-  width: $login-form-width
+  //background: #fff
+  width: 100%
+  @media screen and (min-width: $screen-sm)
+    min-width: $screen-xs - $grid-gutter-width*2
+  @media screen and (min-width: $screen-md)
+    width: $login-form-max-width
   margin:
     top: $block-padding*0.75
     bottom: $block-padding*2
@@ -49,6 +59,7 @@ $login-logo-height: 37px
   font-size: $font-size-h2
   @extend %font-medium
   border-bottom: 1px solid $line-color
+  background-color: $input-background-inactive
 
 //.login__form-actions
   padding: $block-padding 0
@@ -89,6 +100,6 @@ input
   @extend .btn-block
   border-radius: 0
   @extend %plain-input-base
-  @extend .btn-gray-dark
+  @extend .btn-gray-darker
 
 

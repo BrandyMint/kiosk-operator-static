@@ -54,32 +54,20 @@
 // Shorthand for media queries
 
 = breakpoint($point)
+  @if $point == phone
+    @media (max-width: $screen-xs-max)
+      @content
+  @if $point == phone-landscape
+    @media (max-width: $screen-xs-max)
+      @content
   @if $point == tablet
-    @media (max-width: $tablet-width)
+    @media (max-width: $screen-md-max)
       @content
   @if $point == desktop
-    @media (min-width: $desktop-width-min)
+    @media (min-width: $screen-md-min)
       @content
 
 // shorthand for collapsed (narrow) sidebars
-
-=right-sidebar--collapsed
-  .right-sidebar--collapsed &
-    @content
-
-=left-sidebar--collapsed
-  .left-sidebar--collapsed &
-    @content
-
-=right-sidebar--collapsed-tablet
-  +breakpoint(tablet)
-    .right-sidebar--collapsed &
-      @content
-
-=left-sidebar--collapsed-tablet
-  +breakpoint(tablet)
-    .left-sidebar--collapsed &
-      @content
 
 // for expanded sidebars
 

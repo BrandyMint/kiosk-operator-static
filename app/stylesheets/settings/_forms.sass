@@ -38,7 +38,9 @@
 %plain-input__input
   @extend %plain-input-style
   @extend %plain-input-base
-  &, &:hover, &:focus
+  background-color: $input-background-inactive
+  +transition(background 0.2s ease)
+  &:hover, &:focus
     background-color: #fff
   &:focus
     border-bottom-color: $brand-color

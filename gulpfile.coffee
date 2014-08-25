@@ -10,6 +10,7 @@ path = require("path")
 sass = require('gulp-sass')
 #haml = require('gulp-hamlc')
 haml = require('gulp-haml-coffee')
+flatten = require('gulp-flatten')
 
 $ = require("gulp-load-plugins")()
 sourcemaps = require("gulp-sourcemaps")
@@ -88,15 +89,16 @@ gulp.task "jade", ->
 
 
 gulp.task "fonts", ->
-  $.bowerFiles()
-    .pipe($.filter("**/*.{eot,svg,ttf,woff}"))
-    .pipe($.flatten())
+  gulp
+    .src("app/**/*.{eot,svg,ttf,woff}")
+    .pipe(flatten())
     .pipe(gulp.dest("dist/fonts"))
-    .pipe $.size()
+    .pipe $.connect.reload()
+
 
 gulp.task "assets", ->
   gulp
-    .src("app/{api,stylesheets,includes}/**/*.{less,sass,css,json,html,haml,js}")
+    .src("app/{api,stylesheets,includes.fonts}/**/*.{less,sass,css,json,html,haml,js,eot,svg,ttf,woff}")
     .pipe gulp.dest("dist/")
 
 # HTML
@@ -156,6 +158,7 @@ gulp.task "build", [
   "haml"
   "bundle"
   "images"
+  "fonts"
 ]
 
 # Default task
@@ -188,6 +191,7 @@ gulp.task "json", ->
 # Watch
 gulp.task "watch", [
   "images"
+  "fonts"
   "assets"
   "html"
   "haml"

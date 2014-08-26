@@ -116,7 +116,7 @@ gulp.task "haml", ->
     .src("app/**/*.haml")
     .pipe(include(
       prefix: "@@"
-      basepath: "app/"
+      basepath: "@file"
     ))
     .pipe(haml())
     .pipe(gulp.dest("dist"))

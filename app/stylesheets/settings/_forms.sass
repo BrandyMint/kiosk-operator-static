@@ -166,8 +166,9 @@ input[type="radio"]
   padding: $block-padding
   cursor: pointer
   &, &:hover, &:focus
-    border: 1px solid $line-color
-    border-radius: $border-radius-base
+    border-bottom: 1px solid $line-color
+    //border-radius: $border-radius-base
+    border-radius: 0
     background:
       position: right center
       repeat: no-repeat
@@ -176,6 +177,8 @@ input[type="radio"]
   &:focus
     outline: none
 
+%plain-select__select--single
+  border: 1px solid $line-color
 
 input[type="search"]
   border-radius: 30px

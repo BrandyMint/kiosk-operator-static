@@ -18,6 +18,7 @@ $login-logo-height: 37px
 .login__block
   display: inline-block
   +center-block-content
+  margin-top: $login-logo-height
 
 
 .login__navbar-logo-block
@@ -101,5 +102,22 @@ input
   border-radius: 0
   @extend %plain-input-base
   @extend .btn-gray-darker
+
+
+.login__form-select-block
+  position: relative
+
+.login__form-select
+  @extend %plain-select__select
+  display: block
+
+.login__form-select--single
+  @extend %plain-select__select--single
+  display: block
+
+
+.login__form-select-block
+  @extend %plain-input__block
+  margin-bottom: 1em
 
 

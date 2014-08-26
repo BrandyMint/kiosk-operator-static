@@ -8,9 +8,9 @@ gulp = require("gulp")
 
 path = require("path")
 sass = require('gulp-sass')
-#haml = require('gulp-hamlc')
 haml = require('gulp-haml-coffee')
 flatten = require('gulp-flatten')
+include = require('gulp-file-include')
 
 $ = require("gulp-load-plugins")()
 sourcemaps = require("gulp-sourcemaps")
@@ -114,6 +114,10 @@ gulp.task "html", ->
 gulp.task "haml", ->
   gulp
     .src("app/**/*.haml")
+    .pipe(include(
+      prefix: "@@"
+      basepath: "app/"
+    ))
     .pipe(haml())
     .pipe(gulp.dest("dist"))
     .pipe($.connect.reload())

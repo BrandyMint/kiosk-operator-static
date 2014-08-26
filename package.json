@@ -50,7 +50,8 @@
     "gulp-hamlc": "git+ssh://git@github.com:smithclay/gulp-hamlc.git",
     "haml-coffee": "^1.14.1",
     "gulp-haml-coffee": "git+ssh://git@github.com:saschagehlich/gulp-haml-coffee.git",
-    "gulp-flatten": "0.0.2"
+    "gulp-flatten": "0.0.2",
+    "gulp-file-include": "^0.4.2"
   },
   "engines": {
     "node": ">=0.10.0"

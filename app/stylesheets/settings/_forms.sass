@@ -39,11 +39,25 @@
   @extend %plain-input-style
   @extend %plain-input-base
   background-color: $input-background-inactive
-  +transition(background 0.2s ease)
+  +transition(background 0.2s ease, border 0.2s ease)
   &:hover, &:focus
     background-color: #fff
   &:focus
     border-bottom-color: $brand-color
+
+%plain-input__input--error,
+.plain-input__input--error
+  @extend %plain-input__input
+  background-color: lighten($red, 30%)
+  border-bottom-color: lighten($red, 15%)
+  +placeholder($red)
+  &:hover
+    background-color: #fff
+    border-bottom-color: lighten($red, 20%)
+  &:focus
+    background-color: #fff
+    border-bottom-color: $brand-color
+
 
 %plain-input__input--full,
 .plain-input__input--full,

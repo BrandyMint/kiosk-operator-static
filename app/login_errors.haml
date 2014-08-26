@@ -7,15 +7,15 @@
     .navbar-transparent
       .container
         .login__navbar-logo-block
-          .login__navbar-logo
+          %a.login__navbar-logo{href: 'index.html'}
     .login__content.login__content--fullscreen
       .login__block
         .alert.alert-danger
-          Неправильный номер телефона или пин-код
           %a.close &times;
+          Неправильный номер телефона или пин-код
         %form.login__form{action: 'orders.html'}
           .login__form-header Авторизация
-          %input.login__form-input{:placeholder => "Номер телефона", :required => "", :type => "tel"}
+          %input.login__form-input.login__form-input--error{:placeholder => "Номер телефона", :required => "", :type => "tel"}
           %input.login__form-input{:placeholder => "Пин-код", :required => "", :type => "password"}
           .login__form-actions
             %button.login__form-submit-btn Войти

@@ -6,7 +6,7 @@
     .navbar-transparent
       .container
         .login__navbar-logo-block
-          .login__navbar-logo
+          %a.login__navbar-logo{href: 'index.html'}
     .login__content.login__content--fullscreen
       .login__block
         .alert.alert-danger
@@ -16,7 +16,7 @@
         %form.login__form{action: 'signup_pin.html'}
           .login__form-header Создание магазина
           %input.login__form-input{:placeholder => "Введите название магазина", :required => "", :type => "text"}
-          %input.login__form-input{:placeholder => "Номер телефона", :required => "", :type => "tel"}
+          %input.login__form-input.login__form-input--error{:placeholder => "Номер телефона", :required => "", :type => "tel"}
           .login__form-actions
             %button.login__form-submit-btn Продолжить
 

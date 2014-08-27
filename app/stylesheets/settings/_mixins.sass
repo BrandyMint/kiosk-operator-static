@@ -21,14 +21,14 @@
     min-height: $height-xs
 
 
-// grayscale      ex: filter: grayscale(100%);
-// sepia          ex: filter: sepia(100%);
-// saturate       ex: filter: saturate(0%);
-// hue-rotate     ex: filter: hue-rotate(45deg);
-// invert         ex: filter: invert(100%);
-// brightness     ex: filter: brightness(15%);
-// contrast       ex: filter: contrast(200%);
-// blur           ex: filter: blur(2px);
+// grayscale      ex: filter: grayscale(100%)
+// sepia          ex: filter: sepia(100%)
+// saturate       ex: filter: saturate(0%)
+// hue-rotate     ex: filter: hue-rotate(45deg)
+// invert         ex: filter: invert(100%)
+// brightness     ex: filter: brightness(15%)
+// contrast       ex: filter: contrast(200%)
+// blur           ex: filter: blur(2px)
 
 =filter( $var )
   -webkit-filter: $var
@@ -67,28 +67,6 @@
     @media (min-width: $screen-md-min)
       @content
 
-// shorthand for collapsed (narrow) sidebars
-
-// for expanded sidebars
-
-=right-sidebar--expanded
-  .right-sidebar--expanded &
-    @content
-
-=left-sidebar--expanded
-  .left-sidebar--expanded &
-    @content
-
-=right-sidebar--expanded-tablet
-  +breakpoint(tablet)
-    .right-sidebar--expanded &
-      @content
-=left-sidebar--expanded-tablet
-  +breakpoint(tablet)
-    .left-sidebar--expanded &
-      @content
-
-
 =center-block-container
   text-align: center
   &:before
@@ -101,3 +79,47 @@
 =center-block-content
   display: inline-block
   vertical-align: middle
+
+@function arrow-direction($direction)
+  @if $direction == bottom
+    @return (top left)
+  @if $direction == top
+    @return (bottom left)
+
+=arrow($direction: bottom, $arrow-size: $grid-gutter-width, $arrow-color: #fff, $arrow-border-color: $gray-lighter)
+  position: relative
+  //background: $arrow-color
+  //border: 1px solid $arrow-color
+  &:after, &:before
+    #{nth(arrow-direction($direction),1)}: 100%
+    #{nth(arrow-direction($direction),2)}: 50%
+    border: solid transparent
+    content: " "
+    height: 0
+    width: 0
+    position: absolute
+    pointer-events: none
+  &:after
+    @if $arrow-color == transparent
+      border-color: transparent
+    @else
+      border-color: rgba($arrow-color, 0)
+    border-#{nth(arrow-direction($direction), 1)}-color: $arrow-color
+    border-width: $arrow-size
+    margin-#{nth(arrow-direction($direction), 2)}: - $arrow-size
+  &:before
+    @if $arrow-border-color == transparent
+      border-color: transparent
+    @else
+      border-color: rgba($arrow-border-color, 0)
+    border-#{nth(arrow-direction($direction), 1)}-color: $arrow-border-color
+    border-width: $arrow-size + 1px
+    margin-#{nth(arrow-direction($direction), 2)}: - $arrow-size - 1px
+
+=arrow-position-left($left: 50%)
+  &:after, &:before
+    left: $left
+
+=arrow-position-top($top: 50%)
+  &:after, &:before
+    top: $top

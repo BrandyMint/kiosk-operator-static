@@ -10,15 +10,16 @@
           %a.login__navbar-logo{href: 'index.html'}
     .login__content.login__content--fullscreen
       .login__block
-        .alert.alert-danger
-          %a.close &times;
-          Неправильный номер телефона или пин-код
-        %form.login__form{action: 'orders.html'}
+        .alert.alert-danger Обнаружены ошибки, пожалуйста, взгляните на них
+        %form#new_operator_login_form.simple_form.login__form{:action => "orders.html"}
           .login__form-header Авторизация
-          %input.login__form-input.login__form-input--error{:placeholder => "Номер телефона", :required => "", :type => "tel"}
-          %input.login__form-input{:placeholder => "Пин-код", :required => "", :type => "password"}
+          .form-group.tel.required.operator_login_form_phone.has-error
+            %input#operator_login_form_phone.string.tel.required.form-control.form-control{:name => "operator_login_form[phone]", :placeholder => "ргн", :type => "tel", :value => "sdsd"}
+            %span.help-block.has-error Неверный формат телефона
+          .form-group.string.required.operator_login_form_pin_code
+            %input#operator_login_form_pin_code.string.required.form-control{:name => "operator_login_form[pin_code]", :placeholder => "ргн", :type => "text", :value => "sdsdsd"}
           .login__form-actions
-            %button.login__form-submit-btn Войти
+            %input.btn.login__form-submit-btn{:name => "commit", :type => "submit", :value => "Войти"}
         .row
           .col-sm-6
             %p.color-text-light
@@ -28,7 +29,7 @@
                 %strong Создать магазин
           .col-sm-6
             %p.color-text-light
-              Забыли пин-код?
+              Забыли пароль?
               %a{href: 'reset_password.html'}
                 %strong Восстановить
 

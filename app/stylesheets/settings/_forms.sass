@@ -1,3 +1,5 @@
+$plain-input-height: $block-padding*3
+
 %plain-input__block,
 .plain-input__block
   color: $text-color-lighter
@@ -29,7 +31,7 @@
       border-#{$s}: 1px solid $line-color
 
 %plain-input-base
-  height: $block-padding*3
+  height: $plain-input-height
   font-size: $font-size-large
   line-height: $block-padding
   @extend %block-padding
@@ -48,20 +50,14 @@
 %plain-input__input--error,
 .plain-input__input--error
   @extend %plain-input__input
-  background-color: lighten($red, 30%)
-  border-bottom-color: lighten($red, 15%)
   +placeholder($red)
-  &:hover
-    background-color: #fff
-    border-bottom-color: lighten($red, 20%)
+  color: $red
   &:focus
-    background-color: #fff
-    border-bottom-color: $brand-color
+    color: $text-color
 
 
 %plain-input__input--full,
-.plain-input__input--full,
-input.plain-input__input--full
+.plain-input__input--full
   @extend %plain-input__input
   width: 100%
 
@@ -76,9 +72,10 @@ input.plain-input__input--full
   @extend %plain-input__input
   @extend %plain-input-style--single
 
-.plain-input__input,
-input.plain-input__input
+.plain-input__input
   @extend %plain-input__input
+  &.plain-input__input--error
+    @extend %plain-input__input--error
 
 .plain-input__input
   &.input-group-addon

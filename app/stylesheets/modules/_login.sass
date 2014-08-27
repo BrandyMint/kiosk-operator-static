@@ -83,20 +83,20 @@ a
   &.login__form-input-icon--right
     +link-colors($text-color-lighter, $text-color-light)
 
-input
-  &.login__form-input,
-  &.login__form-input--single
-    @extend %plain-input__input--full
-    display: block
-    .login__form-group &
-      padding:
-        left: $block-padding*2 + 10px
-    color: $text-color
-  &.login__form-input--single
-    @extend %plain-input__input--single
+.login__form-input,
+.login__form-input--single
+  @extend %plain-input__input--full
+  display: block
+  .login__form-group &
+    padding:
+      left: $block-padding*2 + 10px
+  color: $text-color
 
-  &.login__form-input--error
-    @extend .plain-input__input--error
+.login__form-input--error
+  @extend .plain-input__input--error
+
+.login__form-input--single
+  @extend %plain-input__input--single
 
 .login__form-submit-btn
   @extend .btn

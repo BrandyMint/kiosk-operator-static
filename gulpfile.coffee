@@ -66,7 +66,7 @@ gulp.task "scripts", ->
 options.sass =
   errLogToConsole: true
   sourceComments: 'normal'
-  includePaths: ['app/stylesheets/']
+  includePaths: ['app/stylesheets/', 'app/bower_components/', 'app/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap']
 
 gulp.task "sass", ->
   gulp

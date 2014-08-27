@@ -14,12 +14,12 @@
         %form#new_operator_login_form.simple_form.login__form{:action => "orders.html"}
           .login__form-header Авторизация
           .form-group.tel.required.operator_login_form_phone.has-error
-            %input#operator_login_form_phone.string.tel.required.form-control.form-control{:name => "operator_login_form[phone]", :placeholder => "ргн", :type => "tel", :value => "sdsd"}
+            %input#operator_login_form_phone.string.tel.required.form-control.form-control{:placeholder => "ргн", :type => "tel", :value => "sdsd"}
             %span.help-block.has-error Неверный формат телефона
           .form-group.string.required.operator_login_form_pin_code
-            %input#operator_login_form_pin_code.string.required.form-control{:name => "operator_login_form[pin_code]", :placeholder => "ргн", :type => "text", :value => "sdsdsd"}
+            %input#operator_login_form_pin_code.string.required.form-control{:placeholder => "ргн", :type => "text", :value => "sdsdsd"}
           .login__form-actions
-            %input.btn.login__form-submit-btn{:name => "commit", :type => "submit", :value => "Войти"}
+            %input.btn.login__form-submit-btn{:type => "submit", :value => "Войти"}
         .row
           .col-sm-6
             %p.color-text-light

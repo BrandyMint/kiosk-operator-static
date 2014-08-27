@@ -41,9 +41,6 @@ gulp.task "scripts", ->
         'jquery-waypoints':
           path: 'app/bower_components/jquery-waypoints/waypoints.js'
           exports: null
-        'eventEmitter':
-          path: 'app/bower_components/eventEmitter/EventEmitter.js'
-          exports: null
         'bootstrap':
           path: 'app/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js'
           exports: 'bootstrap'

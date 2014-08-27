@@ -2,21 +2,14 @@
   "name": "kiosk-static",
   "version": "0.0.1",
   "dependencies": {
-    "jquery": "~2.1.0",
-    "underscore": "~1.6",
-    "mousetrap": "~1.4.6",
-    "modernizr": "~2.8.2",
-    "jquery-waypoints": "~2.0.5",
-    "momentjs": "~2.7.0",
-    "react_ujs": "https://raw.githubusercontent.com/reactjs/react-rails/master/lib/assets/javascripts/react_ujs.js",
-    "backbone": "~1.1.2",
-    "eventEmitter": "~4.2.7",
-    "undo": "https://github.com/jzaefferer/undo/archive/master.zip",
-    "jquery-autosize": "~1.18.9",
     "compass-mixins": "~1.0.1",
     "bootstrap-sass-official": "~3.2.0",
-    "font-awesome": "~4.1.0",
-    "jquery.role": "git://github.com/kossnocorp/role#~1.3.1"
+    "font-awesome": "~4.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jquery": "latest",
+    "modernizr": "~2.8.2",
+    "momentjs": "~2.7.0",
+    "jquery.role": "git://github.com/kossnocorp/role#~1.3.1"
+  }
 }

@@ -3,7 +3,7 @@ $login-logo-width: 195px
 $login-logo-height: 37px
 
 .login__content
-  background: $yellow
+  background: lightgray
   +center-block-container
 
 .login__content--fullscreen
@@ -67,6 +67,11 @@ $login-logo-height: 37px
 
 .login__form-group
   @extend %plain-input__block
+
+.login__form-group--icon-right
+  @extend .login__form-group
+  input
+    padding-left: $block-padding
 
 .login__form-input-icon,
 .login__form-input-icon--left

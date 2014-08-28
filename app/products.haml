@@ -1,0 +1,67 @@
+!!! 5
+%html
+  %head
+    @@include('./shared/_head.haml')
+  %body
+    %script{src: 'scripts/bundle.js'}
+
+    .app-left-sidebar
+      %ul.left-sidebar__nav
+        - links = [{slug: 'info', icon: 'fa fa-info-circle', title: 'Что делать?'}, {slug: 'products', icon: 'fa fa-th-large', title: 'Товары', href: 'products.html'}, {slug: 'orders', icon: 'fa fa-shopping-cart', title: 'Заказы', href: 'orders.html'}, {slug: 'catalog', icon: 'fa fa-folder-open', title: 'Витрина'}]
+        - for l of links
+          - l = links[l]
+          - if l.slug == 'products'
+            - li_class = 'active'
+          - else
+            - li_class = ''
+          %li{class: "#{li_class}"}
+            %a.left-sidebar__nav-link{href: "#{l.href}"}
+              %i.left-sidebar__nav-link-icon{class: "#{l.icon} nav-link-icon-#{l.slug}"}
+              .left-sidebar__nav-link-title= l.title
+              .clearfix
+    .app-main-content
+      .container-fluid
+        .col-lg-10.col-lg-offset-1
+          .orders-list
+            .pull-right
+              %h1 Field&Rag
+            .clearfix
+            .orders-list__list
+              %h1.orders-list__title.pull-left Товары
+              %form.pull-right
+                %input.form-control.orders-list__search-input{type: 'search', placeholder: 'Найти название, номер, артикул'}
+              .clearfix
+              %hr
+              %form.form-inline
+                .form-group
+                  %span.text-muted Категория
+                  &nbsp;
+                  %select.form-control
+                    %option{selected: 'selected'}  Все товары
+                    - for i in [1..5]
+                      %option= "Категория #{i}"
+                  &nbsp;
+                  &nbsp;
+                  %span.text-muted
+                    Чтобы создать категорию, выберите её при создании товара
+              %hr
+              .products__list
+                .row
+                  .col-md-4.col-sm-6
+                    .products__list-item-new{role: 'jump', 'data-href' => 'products_new.html'}
+                      %img.products__list-item-image{ src: "images/product-add.svg" }
+                      %span.products__list-item-new-label
+                        Добавить
+                  - for i in [1..5]
+                    .col-md-4.col-sm-6
+                      .products__list-item
+                        - if i == 1
+                          .products__list-item-notification
+                        .products__list-item-image-block
+                          %img.products__list-item-image{ src: "images/product-square.png" }
+                        .products__list-item-title
+                          Мыльница с якорем
+                        .products__list-item-price
+                          900.-
+
+

@@ -7,10 +7,14 @@
 
     .app-left-sidebar
       %ul.left-sidebar__nav
-        - links = [{slug: 'info', icon: 'fa fa-info-circle', title: 'Что делать?'}, {slug: 'orders', icon: 'fa fa-th-large', title: 'Товары', href: '#'}, {slug: 'orders', icon: 'fa fa-shopping-cart', title: 'Заказы'}, {slug: 'catalog', icon: 'fa fa-folder-open', title: 'Каталог'}]
+        - links = [{slug: 'info', icon: 'fa fa-info-circle', title: 'Что делать?'}, {slug: 'products', icon: 'fa fa-th-large', title: 'Товары', href: 'products.html'}, {slug: 'orders', icon: 'fa fa-shopping-cart', title: 'Заказы', href: 'orders.html'}, {slug: 'catalog', icon: 'fa fa-folder-open', title: 'Витрина'}]
         - for l of links
           - l = links[l]
-          %li
+          - if l.slug == 'orders'
+            - li_class = 'active'
+          - else
+            - li_class = ''
+          %li{class: "#{li_class}"}
             %a.left-sidebar__nav-link{href: "#{l.href}"}
               %i.left-sidebar__nav-link-icon{class: "#{l.icon} nav-link-icon-#{l.slug}"}
               .left-sidebar__nav-link-title= l.title

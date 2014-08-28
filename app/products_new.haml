@@ -1,0 +1,69 @@
+!!! 5
+%html
+  %head
+    @@include('./shared/_head.haml')
+  %body
+    %script{src: 'scripts/bundle.js'}
+
+    .app-left-sidebar
+      %ul.left-sidebar__nav
+        - links = [{slug: 'info', icon: 'fa fa-info-circle', title: 'Что делать?'}, {slug: 'products', icon: 'fa fa-th-large', title: 'Товары', href: 'products.html'}, {slug: 'orders', icon: 'fa fa-shopping-cart', title: 'Заказы', href: 'orders.html'}, {slug: 'catalog', icon: 'fa fa-folder-open', title: 'Витрина'}]
+        - for l of links
+          - l = links[l]
+          - if l.slug == 'products'
+            - li_class = 'active'
+          - else
+            - li_class = ''
+          %li{class: "#{li_class}"}
+            %a.left-sidebar__nav-link{href: "#{l.href}"}
+              %i.left-sidebar__nav-link-icon{class: "#{l.icon} nav-link-icon-#{l.slug}"}
+              .left-sidebar__nav-link-title= l.title
+              .clearfix
+    .app-main-content
+      .container-fluid
+        .col-lg-10.col-lg-offset-1
+          .orders-list
+            .pull-left
+              %h1.products-new__title Добавить товар
+            .pull-right
+              %h1 Field&Rag
+            .clearfix
+            %hr
+
+            %form.simple_form.products__new-form
+              .row
+                .col-md-8
+                  .form-group
+                    %input.form-control{type: "text", placeholder: 'Название товара'}
+                  .form-group.text
+                    %textarea.form-control{:placeholder => "Описание", :required => "required", :role => "autosize"}
+                  .row
+                    .col-sm-6.col-md-3
+                      .form-group
+                        %input.form-control{type: "text", placeholder: 'Цена'}
+                    .col-sm-6
+                      .form-group.login__form-group--icon-right
+                        %input.form-control{:placeholder => "Категории", :required => "", :type => "text"}
+                        %i.login__form-input-icon--right= "+"
+                  .row
+                    .col-sm-6.col-md-3
+                      .form-group
+                        %input.form-control{type: "text", placeholder: 'Количество'}
+                    .col-sm-6.col-md-4
+                      .form-group
+                        %input.form-control{type: "text", placeholder: 'Артикул'}
+                    .col-sm-6.col-md-5
+                      .form-group
+                        -#input.btn.form-control{type: "text", placeholder: 'Добавить размеры и цвета'}
+                        .btn.form-control
+                          Добавить размеры и цвета
+                  .products__new-form-actions
+                    %button.products__new-form-submit-btn{"data-disable-with" => "Сохраняем...", :type => "submit"}
+                      Сохранить
+                .col-md-4
+                  .products__list-item-new
+                    %img.products__list-item-image{ src: "images/product-add.svg" }
+                    %span.products__list-item-new-label.text-muted
+                      Выберите или перетащите
+                      %br
+                      фотографии

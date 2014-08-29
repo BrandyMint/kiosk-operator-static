@@ -7,7 +7,7 @@
 
     .app-left-sidebar
       %ul.left-sidebar__nav
-        - links = [{slug: 'info', icon: 'fa fa-info-circle', title: 'Что делать?'}, {slug: 'products', icon: 'fa fa-th-large', title: 'Товары', href: 'products.html'}, {slug: 'orders', icon: 'fa fa-shopping-cart', title: 'Заказы', href: 'orders.html'}, {slug: 'catalog', icon: 'fa fa-folder-open', title: 'Витрина'}]
+        - links = [{slug: 'info', icon: 'fa fa-info-circle', title: 'Что делать?'}, {slug: 'products', icon: 'fa fa-th-large', title: 'Товары', href: 'products.html'}, {slug: 'orders', icon: 'fa fa-shopping-cart', title: 'Заказы', href: 'orders.html'}, {slug: 'catalog', icon: 'fa fa-folder-open', title: 'Витрина'}, {slug: 'settings', icon: 'fa fa-cog', title: 'Настройка'}, {slug: 'shops', icon: 'fa fa-briefcase', title: 'Мои магазины'}, {slug: 'user', icon: 'fa fa-user', title: 'Олег С.'}]
         - for l of links
           - l = links[l]
           - if l.slug == 'orders'

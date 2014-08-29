@@ -1,4 +1,4 @@
-$products-list-item-image-height: 300px
+$products-list-item-image-width: 318px
 $products-list-item-height: 380px
 
 %products__list-item
@@ -6,22 +6,25 @@ $products-list-item-height: 380px
     top: $grid-gutter-width/2
     bottom: $grid-gutter-width/2
   cursor: pointer
-  +transition(color 0.2s ease, background 0.2s ease)
+  +transition(color 0.2s ease)
   +antialiased
 
 .products__list-item-new
   @extend %products__list-item
   position: relative
-  &:hover
-    background: $gray-lightest
   .products__list-item-image
     border: 1px solid $gray-lighter
+    +transition(background 0.2s ease)
+    &:hover
+      background: $gray-lightest
 
 .products__list-item-new-label
   position: absolute
   top: 50%
   margin-top: 42px
-  width: 100%
+  left: 0
+  width: $products-list-item-image-width
+  max-width: 100%
   text-align: center
   +breakpoint('phone-landscape')
     display: none
@@ -35,8 +38,6 @@ $products-list-item-height: 380px
 .products__list-item-image
   max-width: 100%
 
-//.products__list-item-image-block
-  height: $products-list-item-image-height
 
 .products__list-item-title
   font-size: 1.2em
@@ -83,3 +84,8 @@ $products-list-item-height: 380px
   &:hover, &:focus
     border-bottom-color: $yellow
     color: $link-hover-color
+
+.products__new-form-select
+  @extend .login__form-select--no-icon
+  padding-left: 0
+

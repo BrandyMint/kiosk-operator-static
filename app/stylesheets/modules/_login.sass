@@ -82,6 +82,15 @@ $login-logo-height: 37px
   left: auto
   right: $block-padding
 
+.login__form-input-btn--right
+  @extend %plain-input__icon
+  top: 0
+  left: auto
+  right: 0
+  padding: $block-padding
+  +antialiased
+
+
 a
   &.login__form-input-icon,
   &.login__form-input-icon--left,
@@ -118,6 +127,11 @@ a
 .login__form-select
   @extend %plain-select__select
   display: block
+
+.login__form-select--no-icon
+  @extend .login__form-select
+  &, &:hover, &:focus
+    background-image: none
 
 .login__form-select--single
   @extend %plain-select__select--single

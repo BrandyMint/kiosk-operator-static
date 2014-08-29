@@ -64,11 +64,32 @@
                     .col-sm-6.col-md-4
                       .form-group
                         %input.form-control{type: "text", placeholder: 'Артикул'}
+                    %div{role: 'products__new-form-variants-place'}
+                      %h3.col-sm-12{role: 'products__new-form-variants-title'} Варианты товара
+
                     .col-sm-6.col-md-5
                       .form-group
                         -#input.btn.form-control{type: "text", placeholder: 'Добавить размеры и цвета'}
-                        .btn.form-control
+                        .btn.form-control{role: 'products__new-form-variants-add'}
                           Добавить размеры и цвета
+                  .hide
+                    .row{role: 'products__new-form-variants-item'}
+                      .col-md-12
+                      .col-sm-2
+                        .form-group
+                          %input.form-control{type: "text", placeholder: 'Размер'}
+                      .col-sm-3
+                        .form-group
+                          %input.form-control{type: "text", placeholder: 'Цвет'}
+                      .col-sm-3
+                        .form-group
+                          %input.form-control{type: "text", placeholder: 'Количество'}
+                      .col-sm-3
+                        .form-group
+                          %input.form-control{type: "text", placeholder: 'Артикул'}
+                      .col-sm-1
+                        .form-group
+                          %a.btn.form-control &times;
                 .col-md-4
                   .products__list-item-new
                     %img.products__list-item-image{ src: "images/product-add.svg" }

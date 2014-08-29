@@ -40,6 +40,22 @@ $ ->
     categoriesSelectDefault.prop('selected','selected')
     categoriesAddBtn.show()
 
+  productVariantsAdd = $('@products__new-form-variants-add')
+  productVariantsTitle = $('@products__new-form-variants-title')
+  productVariantsItem = $('@products__new-form-variants-item')
+  productVariantsPlace = $('@products__new-form-variants-place')
+
+  productVariantsTitle.hide()
+  productVariantsPlace.hide()
+
+  productVariantsAdd.on 'click', (e) ->
+    e.preventDefault()
+    productVariantsTitle.show()
+    productVariantsPlace.show()
+    html = productVariantsItem.html()
+    productVariantsPlace.append(html)
+
+
   $('@jump').on 'click', (e) ->
     href = $(this).data('href')
     if href != ''

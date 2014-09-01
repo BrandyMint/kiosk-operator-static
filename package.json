@@ -1,10 +1,10 @@
 {
-  "name": "tastyapp",
-  "version": "0.0.1",
-  "description": "js application for taaasty.ru",
+  "name": "kiosc",
+  "version": "0.1.0",
+  "description": "js application for kormilica.info",
   "repository": {
     "type": "git",
-    "url": "git@github.com:BrandyMint/mmm-tasty-static.git"
+    "url": "git@github.com:BrandyMint/kiosk-static.git"
   },
   "dependencies": {
     "blueimp-file-upload": "~9.5.8",

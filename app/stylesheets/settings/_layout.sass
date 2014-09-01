@@ -31,6 +31,7 @@ body
 
 .app-left-sidebar,
 .app-main-content,
+.app-header-navbar
   @extend %app-fixed-block
 
 
@@ -43,7 +44,20 @@ body
 
 .app-main-content
   width: auto
+  top: $header-navbar-height
   left: $left-sidebar-width
   right: 0
+  padding-top: 0
   overflow:
     y: auto
+
+.app-header-navbar
+  +box-sizing(border-box)
+  position: fixed
+  top: 0
+  right: 0
+  z-index: $header-navbar-z-index
+  left: $left-sidebar-width
+  height: $header-navbar-height
+  @extend %block-padding
+

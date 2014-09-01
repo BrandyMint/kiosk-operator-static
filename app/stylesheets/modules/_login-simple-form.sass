@@ -1,7 +1,3 @@
-.form-group
-  select.form-control
-    @extend .login__form-select
-
 .login__form
   .alert
     margin: 0
@@ -16,6 +12,8 @@
       +arrow(top, 7px, $red, transparent)
       &:after, &:before
         top: $plain-input-height - 2*7px
+    select.form-control
+      @extend .login__form-select
 
   .help-block
     margin: 0

@@ -41,11 +41,7 @@
                     .col-sm-6.col-md-3
                       .form-group
                         %input.form-control{type: "text", placeholder: 'Цена'}
-                    -#.col-sm-6
-                      .form-group.login__form-group--icon-right
-                        %input.form-control{:placeholder => "Категории", :required => "", :type => "text"}
-                        %a.login__form-input-btn--right{href: '#', role: 'products__new-form-add-category-btn'}= "+"
-                    .col-sm-6.category
+                    .col-sm-6
                       %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "options":["Молоко", "Брилианты", "Категория 2"]}')
 
                   .row

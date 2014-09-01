@@ -1,5 +1,5 @@
 require './libs'
-require './static'
+require './shared/app'
 
 require './react/components/super_select'
 require './react/application'

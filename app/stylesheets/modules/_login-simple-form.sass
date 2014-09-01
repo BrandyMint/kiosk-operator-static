@@ -1,3 +1,7 @@
+.form-group
+  select.form-control
+    @extend .login__form-select
+
 .login__form
   .alert
     margin: 0
@@ -13,7 +17,6 @@
       &:after, &:before
         top: $plain-input-height - 2*7px
 
-
   .help-block
     margin: 0
     padding:
@@ -22,3 +25,5 @@
     &.has-error
       @extend .alert-danger
       +antialiased
+
+

@@ -1,6 +1,7 @@
 .products__new-form
   @extend .form-inline
   .form-group
+    width: 100%
     margin:
       bottom: $grid-gutter-width/2
     &.text
@@ -13,7 +14,12 @@
     input.form-control,
     .btn.form-control
       display: inline-block
+      width: 100%
+    .btn.form-control
+      border: none
     textarea.form-control
+      display: block
+      width: 100%
       height: auto
       margin:
         top: $grid-gutter-width

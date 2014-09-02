@@ -62,7 +62,8 @@ window.SuperSelect = React.createClass
     substrRegex = new RegExp q, 'i'
 
     $.each @props.options, (i, str) ->
-      matches.push name: str if substrRegex.test str
+                             # Не матчим, выводим все
+      matches.push name: str #if substrRegex.test str
 
     cb matches
 

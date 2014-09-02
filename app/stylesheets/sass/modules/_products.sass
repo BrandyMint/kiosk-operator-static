@@ -1,5 +1,6 @@
 $products-list-item-image-width: 318px
 $products-list-item-height: 380px
+$products-form-images-list-padding: 12px
 
 %products__list-item
   margin:
@@ -12,16 +13,25 @@ $products-list-item-height: 380px
 .products__list-item-new
   @extend %products__list-item
   position: relative
-  .products__list-item-image
-    border: 1px solid $gray-lighter
-    +transition(background 0.2s ease)
-    &:hover
-      background: $gray-lightest
+  color: #777777
+
+.products__list-item-new-image
+  @extend .products__list-item-image
+  border: 1px solid $gray-lighter
+  padding: 7px
+  +transition(background 0.2s ease)
+  background: #f4f4f4
+  border-radius: 4px
+  &:hover
+    background: $gray-lightest
+  &.active
+    border: 8px solid $blue
+    padding: 0
 
 .products__list-item-new-label
   position: absolute
   top: 50%
-  margin-top: 42px
+  margin-top: 1em
   left: 0
   width: $products-list-item-image-width
   max-width: 100%
@@ -83,3 +93,43 @@ $products-list-item-height: 380px
   @extend .login__form-select--no-icon
   padding-left: 0
 
+.products__new-form-image-large
+  @extend .products__list-item-new
+  margin-bottom: $products-form-images-list-padding/2
+
+.products__new-form-images-list
+  margin:
+    left: - $products-form-images-list-padding/2
+    right: - $products-form-images-list-padding/2
+
+.products__new-form-image-thumb-block
+  @extend .col-xs-4
+  padding: $products-form-images-list-padding/2
+  cursor: pointer
+  &:hover
+    .products__new-form-image-thumb-remove
+      display: block
+
+.products__new-form-image-thumb
+  position: relative
+  max-width: 100%
+  border: 1px solid $gray-lighter
+
+.products__new-form-image-thumb-remove
+  display: none
+  position: absolute
+  top: 50%
+  left: 50%
+  width: 48px
+  height: 48px
+  margin:
+    left: - (48px/2)
+    top: - (48px/2)
+  border-radius: 100%
+  background-color: #fff
+  background-color: rgba(#fff, 0.9)
+  background:
+    repeat: no-repeat
+    position: center
+    image: url('#{$images-path}/product-thumb-remove.svg')
+  cursor: pointer

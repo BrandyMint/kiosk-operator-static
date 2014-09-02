@@ -49,14 +49,14 @@
                   .row
                     .col-sm-6.col-md-3
                       .form-group
-                        %input.form-control{type: "text", placeholder: 'Количество'}
-                    .col-sm-6.col-md-4
+                        %input.form-control{type: "text", placeholder: 'Количество', role: 'products__new-form-quantity'}
+                    .col-sm-6.col-md-3
                       .form-group
-                        %input.form-control{type: "text", placeholder: 'Артикул'}
+                        %input.form-control{type: "text", placeholder: 'Артикул', role: 'products__new-form-articul'}
                     %div{role: 'products__new-form-variants-place'}
                       %h3.col-sm-12{role: 'products__new-form-variants-title'} Варианты товара
 
-                    .col-sm-6.col-md-5
+                    .col-sm-6.col-md-6
                       .form-group
                         -#input.btn.form-control{type: "text", placeholder: 'Добавить размеры и цвета'}
                         .btn.form-control{role: 'products__new-form-variants-add'}
@@ -80,12 +80,17 @@
                         .form-group
                           %a.btn.form-control &times;
                 .col-md-4
-                  .products__list-item-new
-                    %img.products__list-item-image{ src: "images/product-add.svg" }
+                  .products__new-form-image-large
+                    %img.products__list-item-new-image{ src: "images/product-add.svg", role: 'products__new-form-image-add' }
                     %span.products__list-item-new-label.text-muted
                       Выберите или перетащите
                       %br
                       фотографии
+                  .products__new-form-images-list
+                    - for i in [1..3]
+                      .products__new-form-image-thumb-block
+                        %img.products__new-form-image-thumb{src: 'images/product-square.png'}
+                        .products__new-form-image-thumb-remove
               .products__new-form-actions
                 %button.products__new-form-submit-btn{"data-disable-with" => "Сохраняем...", :type => "submit"}
                   Сохранить

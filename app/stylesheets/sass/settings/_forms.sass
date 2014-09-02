@@ -1,18 +1,30 @@
-$plain-input-height: $block-padding*3
+//$plain-input-height: $block-padding*3
+$plain-input-height: 49px
+$plain-input-padding: $block-padding
+$plain-input-font-size: 19px
+$plain-input-line-height: 38px
+$plain-input-placeholder-color: #cacaca
+$plain-input-text-color: #000
 
 %plain-input__block,
 .plain-input__block
   color: $text-color-lighter
   position: relative
 
+%plain-input-padding
+  padding: 
+    left: $plain-input-padding
+    right: $plain-input-padding
 
 %plain-input__icon,
 .plain-input__icon
   position: absolute
-  left: $block-padding
-  top: $block-padding
+  left: $plain-input-padding
+  top: $plain-input-padding
 
 %plain-input-style
+  +placeholder($plain-input-placeholder-color)
+  color: $plain-input-text-color
   &, &:focus, &:hover
     border:
       top: none
@@ -24,6 +36,7 @@ $plain-input-height: $block-padding*3
     background: none
     outline: none
 
+
 %plain-input-style--single
   @extend %plain-input-style
   &, &:hover, &:focus
@@ -32,9 +45,9 @@ $plain-input-height: $block-padding*3
 
 %plain-input-base
   height: $plain-input-height
-  font-size: $font-size-large
-  line-height: $block-padding
-  @extend %block-padding
+  font-size: $plain-input-font-size
+  line-height: $plain-input-line-height
+  @extend %plain-input-padding
   @extend %font-light
 
 %plain-input__input
@@ -85,15 +98,15 @@ $plain-input-height: $block-padding*3
       top: 0
       bottom: 0
     &:first-child
-      padding-left: $block-padding
+      padding-left: $plain-input-padding
 
 
 input
-  &[value=""]
+  //&[value=""]
     // libsass doesn't understand pseudoselectors
     //::-webkit-input-placeholder
     color: $text-color
-  +placeholder($text-color-lighter)
+  +placeholder($plain-input-placeholder-color)
 
 input[type="checkbox"]
   display: none
@@ -133,7 +146,7 @@ input[type="radio"]
   font:
     weight: normal
     size: $font-size-larger
-  padding: $block-padding/2 0
+  padding: $plain-input-padding/2 0
   margin: 0
   input[type="radio"]
     & + span
@@ -174,7 +187,7 @@ input[type="radio"]
   +appearance(none)
   line-height: 1
   //padding: 0.7em 3em 0.7em 1em
-  padding: $block-padding
+  padding: $plain-input-padding
   cursor: pointer
   &, &:hover, &:focus
     border-bottom: 1px solid $line-color

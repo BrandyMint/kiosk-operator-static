@@ -7,17 +7,25 @@ $ ->
   productVariantsTitle = $('@products__new-form-variants-title')
   productVariantsItem = $('@products__new-form-variants-item')
   productVariantsPlace = $('@products__new-form-variants-place')
+  productFormQuantity = $('@products__new-form-quantity')
+  productFormArticul = $('@products__new-form-articul')
+  productFormImageAdd = $('@products__new-form-image-add')
 
   productVariantsTitle.hide()
   productVariantsPlace.hide()
 
   productVariantsAdd.on 'click', (e) ->
     e.preventDefault()
+    productFormArticul.hide()
+    productFormQuantity.hide()
     productVariantsTitle.show()
     productVariantsPlace.show()
     html = productVariantsItem.html()
     productVariantsPlace.append(html)
 
+  productFormImageAdd.on 'click', (e) ->
+    e.preventDefault()
+    $(@).toggleClass 'active'
 
   $('@jump').on 'click', (e) ->
     href = $(this).data('href')

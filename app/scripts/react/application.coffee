@@ -7,6 +7,7 @@ window.ReactApp =
   start: ->
     console.log 'ReactApp start'
 
-    $(document).on 'page:change', ReactUjs.mountReactComponents
+    # ReactUjs доступен только в брендиминтовском репозитории react-rails
+    #$(document).on 'page:change', ReactUjs.mountReactComponents
 
 $ -> ReactApp.start()

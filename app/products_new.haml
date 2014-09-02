@@ -19,17 +19,19 @@
               %i.left-sidebar__nav-link-icon{class: "#{l.icon} nav-link-icon-#{l.slug}"}
               .left-sidebar__nav-link-title= l.title
               .clearfix
+    .app-header-navbar
+      .container-fluid
+        .col-lg-10.col-lg-offset-1
+          %h1.header-navbar__title.pull-left Добавить товар
+          %h1.header-navbar__brand.pull-right Field&Rag
+          -#%form.pull-right
+            %input.form-control.orders-list__search-input{type: 'search', placeholder: 'Найти название, номер, артикул'}
+          .clearfix
+
     .app-main-content
       .container-fluid
         .col-lg-10.col-lg-offset-1
           .orders-list
-            .pull-left
-              %h1.products-new__title Добавить товар
-            .pull-right
-              %h1 Field&Rag
-            .clearfix
-            %hr
-
             %form.simple_form.products__new-form
               .row
                 .col-md-8

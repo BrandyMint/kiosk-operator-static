@@ -1,0 +1,24 @@
+//
+  wrapper: '<span class="twitter-typeahead"></span>',
+  dropdown: '<span class="tt-dropdown-menu"></span>',
+  dataset: '<div class="tt-dataset-%CLASS%"></div>',
+  suggestions: '<span class="tt-suggestions"></span>',
+  suggestion: '<div class="tt-suggestion"></div>'
+
+.twitter-typeahead
+  display: block !important
+
+.tt-dropdown-menu
+  @extend .dropdown-menu
+  border-radius: 0
+  padding: 0
+
+.tt-suggestion
+  display: block
+  height: $block-padding*2
+  font-size: $font-size-large
+  line-height: $block-padding
+  padding: $block-padding/2
+  cursor: pointer
+  &:hover
+    background: $gray-lightest

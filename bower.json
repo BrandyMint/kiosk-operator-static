@@ -6,7 +6,8 @@
     "bootstrap-sass-official": "~3.2.0",
     "react_ujs": "https://raw.githubusercontent.com/reactjs/react-rails/master/lib/assets/javascripts/react_ujs.js",
     "eventEmitter": "~4.2.7",
-    "font-awesome": "~4.1.0"
+    "font-awesome": "~4.1.0",
+    "typeahead.js": "~0.10.5"
   },
   "devDependencies": {
     "jquery": "latest",

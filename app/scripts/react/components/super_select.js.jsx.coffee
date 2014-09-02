@@ -8,7 +8,7 @@ window.SuperSelect = React.createClass
     placeholder: React.PropTypes.string
 
   getInitialState: ->
-    state:           @props.value
+    value:           @props.value
 
   getDefaultProps: ->
     placeholder: 'Новая категория'

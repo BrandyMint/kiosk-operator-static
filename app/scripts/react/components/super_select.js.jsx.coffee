@@ -25,10 +25,15 @@ window.SuperSelect = React.createClass
       name:       'categories',
       displayKey: 'name'
       source:     @substringMatcher
+
+  componentWillUnmount: ->
+    @$input().typeahead('destroy')
       
   render: ->
     closeButton = @closeButton() if @showCloseButton()
     placeholder = @props.placeholder unless @state.inFocus
+
+    console.log 'render value', @state.value
 
     `<div className='form-group login__form-group--icon-right' >
         <input ref='input' 
@@ -46,10 +51,10 @@ window.SuperSelect = React.createClass
 
   onFocus: ->
     @setState inFocus: true
+    @$input().typeahead 'open'
 
   onBlur: ->
     @setState inFocus: false
-
 
   substringMatcher: (q, cb) ->
     matches = []
@@ -61,8 +66,10 @@ window.SuperSelect = React.createClass
 
     cb matches
 
+  $input: -> $ @refs.input.getDOMNode()
+
   change: (e)->
-    @setState value: $( @refs.input.getDOMNode() ).val()
+    @setState value: @$input().val()
     return e
 
   showCloseButton: ->
@@ -70,4 +77,6 @@ window.SuperSelect = React.createClass
 
   closeButton: -> `<a className='login__form-input-btn--right' onClick={this.clear}>&times;</a>`
 
-  clear: -> @setState value: ''
+  clear: ->
+    @setState value: ''
+    @$input().typeahead 'val', ''

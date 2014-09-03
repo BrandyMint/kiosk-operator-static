@@ -17,7 +17,8 @@
       width: 100%
     .btn.form-control
       border: none
-    textarea.form-control
+    textarea.form-control,
+    .medium-editor.form-control
       display: block
       width: 100%
       height: auto
@@ -29,9 +30,15 @@
         border: 1px solid $line-color
       &:focus
         border: 1px solid $yellow
+    .medium-editor-placeholder
+      &:after
+        font-style: normal
+        padding-left: $grid-gutter-width/2
+        color: $plain-input-placeholder-color
     select.form-control
       @extend .login__form-select
-
+    .form-control.file
+      line-height: 1em
     &.has-error
       .form-control
         @extend %plain-input__input--error
@@ -43,9 +50,7 @@
 
   .help-block
     margin: 0
-    padding:
-      top: 0.5em
-      bottom: 0.5em
+    padding: 0.5em
     &.has-error
       @extend .alert-danger
       +antialiased

@@ -1,0 +1,24 @@
+ul.pagination
+  display: block
+  margin:
+    top: $grid-gutter-width*2
+    bottom: $grid-gutter-width*2
+  li
+    a
+      border: none
+      border-radius: 0px
+      margin: 0
+      padding: $grid-gutter-width/2 $grid-gutter-width/1.2
+      font:
+        size: $plain-input-font-size
+        weight: normal
+      +link-colors($gray, $link-color-hover)
+
+  li.last, li.first
+    display: none
+  li.active
+    a, a:hover
+      color: $text-color
+      border-radius: 0px
+      background-color: $yellow
+      border: none

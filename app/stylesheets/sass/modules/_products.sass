@@ -17,6 +17,7 @@ $products-form-images-list-padding: 12px
 
 .products__list-item-new-image
   @extend .products__list-item-image
+  width: 100%
   border: 1px solid $gray-lighter
   padding: 7px
   +transition(background 0.2s ease)
@@ -46,8 +47,14 @@ $products-form-images-list-padding: 12px
     color: $link-hover-color
 
 .products__list-item-image
-  max-width: 100%
+  //max-width: 100%
+  background:
+    repeat: no-repeat
+    position: center
+    size: cover
 
+.products__list-item-image-empty
+  width: 100%
 
 .products__list-item-title
   font-size: 1.2em

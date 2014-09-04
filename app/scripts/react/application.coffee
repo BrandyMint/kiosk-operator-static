@@ -1,6 +1,7 @@
 #= require react
 #= require react-mixin-manager
 #= require react_ujs
+#= require_tree ./mixins
 #= require_tree ./components
 
 window.ReactApp =

@@ -80,17 +80,7 @@
                         .form-group
                           %a.btn.form-control &times;
                 .col-md-4
-                  .products__new-form-image-large
-                    %img.products__list-item-new-image{ src: "images/product-add.svg", role: 'products__new-form-image-add' }
-                    %span.products__list-item-new-label.text-muted
-                      Выберите или перетащите
-                      %br
-                      фотографии
-                  .products__new-form-images-list
-                    - for i in [1..3]
-                      .products__new-form-image-thumb-block
-                        %img.products__new-form-image-thumb{src: 'images/product-square.png'}
-                        .products__new-form-image-thumb-remove
+                  %div( data-react-class="ImagesForm" data-react-props='{"fieldName": "images[]"}')
               .products__new-form-actions
                 %button.products__new-form-submit-btn{"data-disable-with" => "Сохраняем...", :type => "submit"}
                   Сохранить

@@ -1,9 +1,12 @@
 jQuery = require 'jquery'
 window.jQuery = jQuery
-require 'jquery/dist/jquery'
+#require 'jquery/dist/jquery'
 require 'bootstrap-sass-official/assets/javascripts/bootstrap.js'
 require 'jquery.role/lib/role.js'
 
+window._ = require 'lodash'
+require 'blueimp-file-upload/js/vendor/jquery.ui.widget.js'
+require 'blueimp-file-upload/js/jquery.fileupload.js'
 #require 'blueimp-file-upload/js/jquery.fileupload'
 #window.EventEmitter = require 'eventEmitter'
 

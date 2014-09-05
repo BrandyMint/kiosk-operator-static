@@ -1,10 +1,9 @@
-ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i
-MAX_FILE_SIZE    = 10*1000*1000
+ACCEPT_FILE_TYPES   = /(\.|\/)(gif|jpe?g|png)$/i
+MAX_FILE_SIZE       = 10*1000*1000
 MAX_NUMBER_OF_FILES = 6
 
 window.ImagesFormMixin =
-  prepareForm: ->
-
+  componentDidMount: ->
     $form = $(@getDOMNode()).closest 'form'
 
     @fileUploader = null
@@ -23,7 +22,7 @@ window.ImagesFormMixin =
       #fileInput:         fileInput
       start: =>
         #@incrementActivities()
-        @setState isInserting: false, imageUrl: null
+        @setState isInserting: false
       stop: =>
         #@decrementActivities()
         @setState uploadingProgress: 0
@@ -41,6 +40,7 @@ window.ImagesFormMixin =
       formData: (form)       => @serializeArray @data()
 
   serializeArray: (data) ->
+    debugger
     return _.keys(data).map (key) ->  name: key,  value: data[key]
 
   addFileToForm: (e, data) ->
@@ -56,9 +56,8 @@ window.ImagesFormMixin =
       image.src = window.URL.createObjectURL file
       image
 
+    #@getChangeCallback 'images', images
 
-    @getChangeCallback 'images', images
-
-    @setState images: images, isInserting: false, imageUrl: null
+    @setState images: images, isInserting: false
 
 

@@ -127,8 +127,8 @@ gulp.task "images", ->
   #interlaced: true
   #})))
   gulp
-    .src("app/images/**/*")
-    .pipe(gulp.dest("dist/images"))
+    .src("app/assets/**/*")
+    .pipe(gulp.dest("dist/assets"))
     .pipe($.size())
     .pipe $.connect.reload()
 

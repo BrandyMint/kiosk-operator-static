@@ -1,7 +1,7 @@
 ###* @jsx React.DOM ###
 #
 window.ImagesForm = React.createClass
-  #mixins: [Dragging, ImagesFormMixin]
+  mixins: [Dragging, ImagesFormMixin]
 
   propTypes:
     fieldName:      React.PropTypes.string.isRequired
@@ -15,7 +15,7 @@ window.ImagesForm = React.createClass
     images:
       [
         {id: 1, src: 'http://www.porjati.ru/uploads/posts/2011-06/thumbs/1308810576_7b31296a39f5.jpg'},
-        {id: 2, src: 'images/product-square.png?1'},
+        {id: 2, src: 'assets/product-square.png?1'},
         {id: 3, src: 'http://doseng.org/uploads/posts/2011-10/1319603877_demotivatory_27.jpg'},
         {id: 4, src: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQR0K-_szbWUnBVD6P1wrBXthB7rdCrrAZRl-L00iRtZG_Z3ajs'}
       ]
@@ -28,7 +28,6 @@ window.ImagesForm = React.createClass
     # и потом не привязывается и input не ловит файлы/
       
   render: ->
-
     `<div className='images_form'>
        <div className='products__new-form-image-large'>
          {this.image()}
@@ -50,12 +49,8 @@ window.ImagesForm = React.createClass
     else
       `<img className='products__list-item-new-image' src='/assets/product-add.svg' />`
 
-
   removeImage: (image) ->
     @setState images: _.reject @state.images, (i)-> i==image
     $.ajax
       url:    Routes.products_image_delete_path image.id
       method: 'delete'
-    
-
-

@@ -29,33 +29,27 @@ window.ImagesForm = React.createClass
       
   render: ->
 
-    if @state.images.length>0
-      content = `
-        <div className='products__new-form-image-large'>
-          <img className='products__list-item-new-image' src={this.state.images[0].src} />
-          <input id="image" className="form-upload__input products__new-form-image-input" accept="image/*" type="file" multiple={true} ref="input"/>
-          <div className='products__list-item-new-label text-muted'>
-            <span className="form-upload__text">Выберите</span>
-            <br />
-            <span>фотографии</span>
-          </div>
-        </div>`
-    else
-      content = `
-       <div className='products__new-form-image-large'>
-          <img className='products__list-item-new-image' src='/assets/product-add.svg' />
-          <input id="image" className="form-upload__input products__new-form-image-input" accept="image/*" type="file" multiple={true} ref="input"/>
-          <div className='products__list-item-new-label text-muted'>
-            <span className="form-upload__text">Выберите</span>
-            <br />
-            <span>фотографии</span>
-          </div>
-          </div>`
-
     `<div className='images_form'>
-      {content}
+       <div className='products__new-form-image-large'>
+         {this.image()}
+          <input id="image" name={this.props.fieldName} 
+                 className="form-upload__input products__new-form-image-input" 
+                 accept="image/*" type="file" multiple={true} ref="input"/>
+          <div className='products__list-item-new-label text-muted'>
+            <span className="form-upload__text">Выберите</span>
+            <br />
+            <span>фотографии</span>
+          </div>
+          </div>
        <ImagesForm_Thumbs images={this.state.images} onRemove={this.removeImage}/>
     </div>`
+
+  image: ->
+    if @state.images.length>0
+      `<img className='products__list-item-new-image' src={this.state.images[0].src} />`
+    else
+      `<img className='products__list-item-new-image' src='/assets/product-add.svg' />`
+
 
   removeImage: (image) ->
     @setState images: _.reject @state.images, (i)-> i==image

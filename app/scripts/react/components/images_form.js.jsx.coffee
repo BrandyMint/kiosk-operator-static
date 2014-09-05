@@ -1,7 +1,7 @@
 ###* @jsx React.DOM ###
 #
 window.ImagesForm = React.createClass
-  mixins: [Dragging, ImagesFormMixin]
+  mixins: [ImagesFormMixin]
 
   propTypes:
     fieldName:      React.PropTypes.string.isRequired
@@ -20,13 +20,6 @@ window.ImagesForm = React.createClass
         {id: 4, src: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQR0K-_szbWUnBVD6P1wrBXthB7rdCrrAZRl-L00iRtZG_Z3ajs'}
       ]
 
-  componentDidMount: ->
-    #@prepareForm()
-
-  componentWillUnmount: ->
-    # Похоже fileupload криво дестроится
-    # и потом не привязывается и input не ловит файлы/
-      
   render: ->
     `<div className='images_form'>
        <div className='products__new-form-image-large'>

@@ -59,5 +59,3 @@ window.ImagesFormMixin =
     #@getChangeCallback 'images', images
 
     @setState images: images, isInserting: false
-
-

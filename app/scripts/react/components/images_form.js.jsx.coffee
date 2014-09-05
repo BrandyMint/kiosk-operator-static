@@ -31,24 +31,25 @@ window.ImagesForm = React.createClass
 
     if @state.images.length>0
       content = `
-       <div className='products__new-form-image-large'>
+        <div className='products__new-form-image-large'>
           <img className='products__list-item-new-image' src={this.state.images[0].src} />
-          <span className='products__list-item-new-label text-muted'>
-             <span className="form-upload__text">Выберите</span>
-             <input id="image" className="form-upload__input" accept="image/*" type="file" multiple={true} ref="input"/>
+          <input id="image" className="form-upload__input products__new-form-image-input" accept="image/*" type="file" multiple={true} ref="input"/>
+          <div className='products__list-item-new-label text-muted'>
+            <span className="form-upload__text">Выберите</span>
             <br />
             <span>фотографии</span>
-          </span></div>`
+          </div>
+        </div>`
     else
       content = `
        <div className='products__new-form-image-large'>
-          <img className='products__list-item-new-image' src='images/product-add.svg' />
-          <span className='products__list-item-new-label text-muted'>
-             <span className="form-upload__text">Выберите</span>
-             <input id="image" className="form-upload__input" accept="image/*" type="file" multiple={true} ref="input"/>
+          <img className='products__list-item-new-image' src='/assets/product-add.svg' />
+          <input id="image" className="form-upload__input products__new-form-image-input" accept="image/*" type="file" multiple={true} ref="input"/>
+          <div className='products__list-item-new-label text-muted'>
+            <span className="form-upload__text">Выберите</span>
             <br />
             <span>фотографии</span>
-          </span>
+          </div>
           </div>`
 
     `<div className='images_form'>

@@ -34,8 +34,8 @@ $products-form-images-list-padding: 12px
   top: 50%
   margin-top: 1em
   left: 0
-  width: $products-list-item-image-width
-  max-width: 100%
+  //width: $products-list-item-image-width
+  width: 100%
   text-align: center
   +breakpoint('phone-landscape')
     display: none
@@ -103,6 +103,18 @@ $products-form-images-list-padding: 12px
 .products__new-form-image-large
   @extend .products__list-item-new
   margin-bottom: $products-form-images-list-padding/2
+  +transition(background 0.2s ease)
+  &:hover
+    .products__list-item-new-image
+      background: darken($gray-lightest, 10%)
+
+.products__new-form-image-input
+  width: 100%
+  height: 100%
+  position: absolute
+  top: 0
+  opacity: 0
+  cursor: pointer
 
 .products__new-form-images-list
   margin:

@@ -4,8 +4,9 @@ window.ImagesForm = React.createClass
   mixins: [ImagesFormMixin]
 
   propTypes:
-    fieldName:      React.PropTypes.string.isRequired
-    images:         React.PropTypes.array
+    imagesDeletePath: React.PropTypes.string.isRequired
+    fieldName:        React.PropTypes.string.isRequired
+    images:           React.PropTypes.array
 
   getInitialState: ->
     images:    @props.images
@@ -45,5 +46,5 @@ window.ImagesForm = React.createClass
   removeImage: (image) ->
     @setState images: _.reject @state.images, (i)-> i==image
     $.ajax
-      url:    Routes.products_image_delete_path image.id
+      url:    @props.imageDeletePath + '?id=' + image.id
       method: 'delete'

@@ -22,14 +22,34 @@
     border-color: nth($color,2)
     @if nth($color,2) == $yellow
       +link-colors($text-color, $text-color)
-      &:hover, &:focus
+      &:hover, &:focus, &.active, &.active:hover
         background-color: lighten(nth($color,2), 15%)
         border-color: lighten(nth($color,2), 15%)
     @else
       +link-colors(#fff, #fff)
-      &:hover, &:focus
+      &:hover, &:focus, &.active, &.active:hover
         background-color: darken(nth($color,2), 15%)
         border-color: darken(nth($color,2), 15%)
+
+@each $color in blue $blue, yellow $yellow, red $red, green $green, gray $gray, gray-light $gray-light, gray-dark $gray-dark, gray-darker $gray-darker
+  .btn-outline-#{nth($color,1)}
+    background-color: transparent
+    border-color: nth($color,2)
+    +antialiased
+    @if nth($color,2) == $yellow
+      +link-colors($text-color, $text-color)
+      &:hover, &:focus, &.active, &.active:hover
+        background-color: lighten(nth($color,2), 15%)
+        border-color: lighten(nth($color,2), 15%)
+    @else
+      +link-colors(darken(nth($color,2),15%), #fff)
+      &:hover, &:focus, &.active, &.active:hover
+        background-color: darken(nth($color,2), 15%)
+        border-color: darken(nth($color,2), 15%)
+    &.active, &.active:hover
+      +box-shadow(none)
+      color: #fff
+
 
 .btn-lg
   padding: 12px 16px

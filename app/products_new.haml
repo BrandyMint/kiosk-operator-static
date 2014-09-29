@@ -36,6 +36,12 @@
               .row
                 .col-md-8
                   .form-group
+                    .toggle__block
+                      %input.toggle__block-checkbox{type: 'checkbox'}
+                      .toggle__block-switch
+                      .toggle__block-track
+                .col-md-8
+                  .form-group
                     %input.form-control{type: "text", placeholder: 'Название товара'}
                   .form-group.text
                     %textarea.form-control{:placeholder => "Описание", :required => "required", :role => "autosize"}

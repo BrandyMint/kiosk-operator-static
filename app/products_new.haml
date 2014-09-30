@@ -36,6 +36,21 @@
               .row
                 .col-md-8
                   .form-group
+                    %label.toggle__block{role: 'product-toggle'}
+                      .toggle__block-label-checked.pull-left
+                        Товар на сайте
+                      .toggle__block-box.pull-left
+                        %input.toggle__block-checkbox{type: 'checkbox'}
+                        .toggle__block-switch
+                        .toggle__block-track
+
+                      .toggle__block-label-unchecked.pull-left
+                        Скрыть товар
+                      .clearfix
+                  .alert.alert-danger
+                    Невозможно опубликовать товар. Проверьте поля, выделенные красным
+                .col-md-8
+                  .form-group
                     %input.form-control{type: "text", placeholder: 'Название товара'}
                   .form-group.text
                     %textarea.form-control{:placeholder => "Описание", :required => "required", :role => "autosize"}

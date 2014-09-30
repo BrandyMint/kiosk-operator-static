@@ -1,11 +1,24 @@
+$toggle-width: 75px
+$toggle-height: 28px
+$toggle-switch-radius: 18px
+
+%toggle-transition
+  transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860)
+
 .toggle__block
+  display: block
+  font-weight: normal
+  cursor: pointer
+
+.toggle__block-box
   position: relative
-  width: 60px
-  height: 40px
-  border-radius: 100px
-  background-color: #ddd
-  overflow: hidden
-  box-shadow: inset 0 0 2px 1px rgba(0,0,0,.05)
+  width: $toggle-width
+  height: $toggle-height
+  border-radius: $toggle-height
+  background-color: lighten($gray-lighter, 5%)
+  //overflow: hidden
+  margin: 0 5px
+
 
 input[type="checkbox"]
   &.toggle__block-checkbox
@@ -23,28 +36,29 @@ input[type="checkbox"]
   z-index: 6
 
   &:checked ~ .toggle__block-track 
-    box-shadow: inset 0 0 0 20px #4bd863
+    box-shadow: inset 0 0 0 $toggle-height $gray-lighter
 
   &:checked ~ .toggle__block-switch 
-    right: 2px
-    left: 22px
-    transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860)
-    transition-property: left, right
+    right: ($toggle-height - $toggle-switch-radius*2) / 2
+    left: ($toggle-height - $toggle-switch-radius*2) / 2
+    @extend %toggle-transition
+    transition-property: left, right, background
     transition-delay: .05s, 0s
+    background-color: $green
 
 .toggle__block-switch
   position: absolute
-  left: 2px
-  top: 2px
+  top: ($toggle-height - $toggle-switch-radius*2) / 2
+  left: $toggle-width - $toggle-switch-radius*2 + 2px
   bottom: 2px
-  right: 22px
-  background-color: #fff
-  border-radius: 36px
+  background-color: $red
+  width: $toggle-switch-radius*2
+  height: $toggle-switch-radius*2
+  border-radius: $toggle-switch-radius*2
   z-index: 1
   transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860)
   transition-property: left, right
   transition-delay: 0s, .05s
-  box-shadow: 0 1px 2px rgba(0,0,0,.2)
 
 .toggle__block-track 
   position: absolute
@@ -52,7 +66,35 @@ input[type="checkbox"]
   top: 0
   right: 0
   bottom: 0
-  transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860)
-  box-shadow: inset 0 0 0 2px rgba(0,0,0,.05)
+  @extend %toggle-transition
+  box-shadow: inset 0 0 0 0px $gray-lighter
   border-radius: 40px
+
+
+.toggle__block-label-checked,
+.toggle__block-label-unchecked
+  display: inline-block
+  font-size: $font-size-smaller
+  padding: 1px 5px
+  margin: 5px ($toggle-height - 4px)/2
+  border-radius: 4px
+  color: $gray-light
+  @extend %toggle-transition
+  transition-property: background, color
+  transition-delay: .05s, 0s
+  &:first-child
+    margin-left: 0
+
+
+.toggle__block-label-unchecked
+  background-color: $red
+  color: #fff
+
+.toggle__block.checked
+  .toggle__block-label-checked
+    background-color: $green
+    color: #fff
+  .toggle__block-label-unchecked
+    color: $gray-light
+    background: none
 

@@ -47,35 +47,41 @@
                       .toggle__block-label-unchecked.pull-left
                         Скрыть товар
                       .clearfix
-                  .alert.alert-danger
+                  .form-alert.form-alert-danger
                     Невозможно опубликовать товар. Проверьте поля, выделенные красным
                 .col-md-8
                   .form-group
-                    %input.form-control{type: "text", placeholder: 'Название товара'}
-                  .form-group.text
-                    %textarea.form-control{:placeholder => "Описание", :required => "required", :role => "autosize"}
+                    %label Название товара
+                    %input.form-control{type: "text", placeholder: 'Например, велосипед городской'}
                   .row
-                    .col-sm-6.col-md-3
+                    .col-sm-6
                       .form-group
+                        %label Бренд
+                        %input.form-control{type: "text", placeholder: 'Бренд'}
+                    .col-sm-6
+                      .form-group
+                        %label Цена
                         %input.form-control{type: "text", placeholder: 'Цена'}
                     .col-sm-6
-                      %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}')
+                      .form-group
+                        %label Категория
+                        %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}')
+                    .col-sm-6
+                      .form-group
+                        %label Подкатегория
+                        %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}')
+                  %label Варианты товара
+                  .form-block-group
+                    .form-group
+                      %a.btn.btn-default.active Размер
+                      %a.btn.btn-default Количество
+                      %a.btn.btn-default Артикул
+                    .row{role: 'products__new-form-variants-place'}
 
-                  .row
-                    .col-sm-6.col-md-3
-                      .form-group
-                        %input.form-control{type: "text", placeholder: 'Количество', role: 'products__new-form-quantity'}
-                    .col-sm-6.col-md-3
-                      .form-group
-                        %input.form-control{type: "text", placeholder: 'Артикул', role: 'products__new-form-articul'}
-                    %div{role: 'products__new-form-variants-place'}
-                      %h3.col-sm-12{role: 'products__new-form-variants-title'} Варианты товара
-
-                    .col-sm-6.col-md-6
-                      .form-group
-                        -#input.btn.form-control{type: "text", placeholder: 'Добавить размеры и цвета'}
-                        .btn.form-control{role: 'products__new-form-variants-add'}
-                          Добавить размеры и цвета
+                    .form-group
+                      -#input.btn.form-control{type: "text", placeholder: 'Добавить размеры и цвета'}
+                      .btn.btn-default{role: 'products__new-form-variants-add'}
+                        Добавить ещё
                   .hide
                     .row{role: 'products__new-form-variants-item'}
                       .col-md-12
@@ -93,8 +99,12 @@
                           %input.form-control{type: "text", placeholder: 'Артикул'}
                       .col-sm-1
                         .form-group
-                          %a.btn.form-control &times;
+                          %a.products__new-form-remove-variant-btn
+                  .form-group.text
+                    %textarea.form-control{:placeholder => "Описание", :required => "required", :role => "autosize"}
+
                 .col-md-4
+                  %label
                   %div( data-react-class="ImagesForm" data-react-props='{"imageDeletePath": "/products/image", "fieldName": "images[]"}')
               .products__new-form-actions
                 %button.products__new-form-submit-btn{"data-disable-with" => "Сохраняем...", :type => "submit"}

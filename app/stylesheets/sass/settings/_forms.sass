@@ -43,6 +43,14 @@ $plain-input-text-color: #000
     @each $s in top, left, right
       border-#{$s}: 1px solid $line-color
 
+%plain-input-style--outline
+  @extend %plain-input-style
+  border: 1px solid $line-color
+  border-radius: $border-radius-base
+  &:hover, &:focus
+    border: 1px solid $brand-color
+
+
 %plain-input-base
   height: $plain-input-height
   font-size: $plain-input-font-size
@@ -84,6 +92,10 @@ $plain-input-text-color: #000
 %plain-input__input--single
   @extend %plain-input__input
   @extend %plain-input-style--single
+
+%plain-input__input--outline
+  @extend %plain-input__input
+  @extend %plain-input-style--outline
 
 .plain-input__input
   @extend %plain-input__input
@@ -206,3 +218,16 @@ input[type="radio"]
 
 input[type="search"]
   border-radius: 30px
+
+%plain-input__label
+  color: $blue
+  margin-bottom: 0.7em
+  font:
+    size: $font-size-small
+    weight: normal
+
+.form-block-group
+  padding: $block-padding
+  border: 1px solid $line-color
+  background-color: #fff
+  border-radius: $border-radius-base

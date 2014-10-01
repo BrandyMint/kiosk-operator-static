@@ -152,3 +152,17 @@ $products-form-images-list-padding: 12px
     position: center
     image: url('#{$images-path}/product-thumb-remove.svg')
   cursor: pointer
+
+.products__new-form-remove-variant-btn
+  display: inline-block
+  width: 34px
+  height: $plain-input-height
+  +opacity(0.32)
+  background:
+    repeat: no-repeat
+    position: center
+    image: url('#{$images-path}/products-form-icon-remove.svg')
+  +transition(opacity 0.2s ease)
+  &:hover
+    +opacity(1)
+

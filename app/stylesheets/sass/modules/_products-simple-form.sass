@@ -1,16 +1,18 @@
 .products__new-form
   @extend .form-inline
+  label
+    @extend %plain-input__label
   .form-group
     width: 100%
     margin:
-      bottom: $grid-gutter-width/2
+      bottom: $grid-gutter-width
     &.text
       display: block
       margin-right: 0
     .form-control,
     select.form-control
       @extend .plain-input__input
-      padding-left: 0
+      @extend %plain-input__input--outline
       text-align: left
     input.form-control,
     .btn.form-control

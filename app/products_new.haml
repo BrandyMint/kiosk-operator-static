@@ -73,40 +73,70 @@
                   %label Варианты товара
                   .form-block-group
                     .form-group
-                      %a.btn.btn-default.active Размер
-                      %a.btn.btn-default Количество
-                      %a.btn.btn-default Артикул
+                      %a.products__new-form-variant-type-btn.active Размер
+                      %a.products__new-form-variant-type-btn Цвет
+                      %input.products__new-form-custom-variant-input{type: "text", placeholder: 'Другое'}
+
+                    .row{role: 'products__new-form-variants-item'}
+                      .col-md-12
+                      .col-md-10
+                        .row.row-block-padding
+                          .col-sm-4
+                            .form-group
+                              %label Размер
+                              %input.form-control{type: "text", placeholder: ''}
+                          .col-sm-4
+                            .form-group
+                              %label Количество
+                              %input.form-control{type: "text", placeholder: ''}
+                          .col-sm-4
+                            .form-group
+                              %label Артикул
+                              %input.form-control{type: "text", placeholder: ''}
+                      .col-sm-2
+                        .form-group
+                          %a.products__new-form-remove-variant-btn.pull-right
+                          .clearfix
                     .row{role: 'products__new-form-variants-place'}
 
                     .form-group
                       -#input.btn.form-control{type: "text", placeholder: 'Добавить размеры и цвета'}
-                      .btn.btn-default{role: 'products__new-form-variants-add'}
+                      .btn-add-fields{role: 'products__new-form-variants-add'}
                         Добавить ещё
-                  .hide
-                    .row{role: 'products__new-form-variants-item'}
-                      .col-md-12
-                      .col-sm-2
-                        .form-group
-                          %input.form-control{type: "text", placeholder: 'Размер'}
-                      .col-sm-3
-                        .form-group
-                          %input.form-control{type: "text", placeholder: 'Цвет'}
-                      .col-sm-3
-                        .form-group
-                          %input.form-control{type: "text", placeholder: 'Количество'}
-                      .col-sm-3
-                        .form-group
-                          %input.form-control{type: "text", placeholder: 'Артикул'}
-                      .col-sm-1
-                        .form-group
-                          %a.products__new-form-remove-variant-btn
+
                   .form-group.text
+                    %label
+                      Описание
                     %textarea.form-control{:placeholder => "Описание", :required => "required", :role => "autosize"}
 
+                  .form-group
+                    %label{role: 'products__new-form-params-title'} Характеристики
+                    .row.hide{role: 'products__new-form-params-item'}
+                      .col-md-10
+                        .row
+                          .col-sm-6
+                            .form-group-sm
+                              %input.form-control{type: "text", placeholder: 'Название'}
+                          .col-sm-6
+                            .row-gutter-dash.text-muted
+                              &mdash;
+                            .form-group-sm
+                              %input.form-control{type: "text", placeholder: 'Значение'}
+                      .col-sm-2
+                        .form-group-sm
+                          %a.products__new-form-remove-params-btn.pull-right
+                          .clearfix
+                    .row{role: 'products__new-form-params-place'}
+                    .btn.btn-add-fields{role: 'products__new-form-params-add'}
+                      Добавить характеристики
                 .col-md-4
                   %label
                   %div( data-react-class="ImagesForm" data-react-props='{"imageDeletePath": "/products/image", "fieldName": "images[]"}')
-              .products__new-form-actions
-                %button.products__new-form-submit-btn{"data-disable-with" => "Сохраняем...", :type => "submit"}
-                  Сохранить
+              .row
+                .col-md-8
+                  .products__new-form-actions
+                    %button.products__new-form-submit-btn.pull-left{"data-disable-with" => "Сохраняем...", :type => "submit"}
+                      Сохранить
+                    %button.products__new-form-remove-btn.pull-right
+                      Удалить товар навсегда
 

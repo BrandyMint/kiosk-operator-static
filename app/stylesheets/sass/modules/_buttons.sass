@@ -110,3 +110,30 @@
 
 .btn-gray
   +button-variant(#fff, $gray-light, $gray-light)
+
+.btn-default
+  display: inline-block
+  &, &:hover, &:focus, &.active
+    +box-shadow(none)
+    background-color: #fff
+    border-color: $line-color
+    outline: none
+  &:hover
+    border-color: $blue
+  &.active
+    border-color: $blue
+    +box-shadow(0 0 0 -3px $blue)
+
+.btn-default-light
+  @extend .btn-default
+  color: $gray-light
+  +antialiased
+  +opacity(1)
+
+.btn-add-fields
+  @extend .btn
+  @extend .btn-default-light
+  border-radius: 33px
+  line-height: 1em
+  height: auto
+  padding: 8px 15px

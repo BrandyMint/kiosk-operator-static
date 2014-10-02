@@ -8,7 +8,8 @@
       bottom: $grid-gutter-width
     &.text
       display: block
-      margin-right: 0
+      margin:
+        right: 0
     .form-control,
     select.form-control
       @extend .plain-input__input
@@ -26,7 +27,6 @@
       width: 100%
       height: auto
       margin:
-        top: $grid-gutter-width
         bottom: $grid-gutter-width/2
       padding-left: $grid-gutter-width/2
       &, &:hover
@@ -49,7 +49,9 @@
       +arrow(top, 7px, $red, transparent)
       &:after, &:before
         top: $plain-input-height - 2*7px
-
+  .form-group-sm
+    margin:
+      bottom: $grid-gutter-width/2
 
   .help-block
     margin: 0

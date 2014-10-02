@@ -47,56 +47,94 @@
                       .toggle__block-label-unchecked.pull-left
                         Скрыть товар
                       .clearfix
-                  .alert.alert-danger
+                  .form-alert.form-alert-danger
                     Невозможно опубликовать товар. Проверьте поля, выделенные красным
-                .col-md-8
                   .form-group
-                    %input.form-control{type: "text", placeholder: 'Название товара'}
-                  .form-group.text
-                    %textarea.form-control{:placeholder => "Описание", :required => "required", :role => "autosize"}
+                    %label Название товара
+                    %input.form-control{type: "text", placeholder: 'Например, велосипед городской'}
                   .row
-                    .col-sm-6.col-md-3
+                    .col-sm-6
                       .form-group
+                        %label Бренд
+                        %input.form-control{type: "text", placeholder: 'Бренд'}
+                    .col-sm-6
+                      .form-group
+                        %label Цена
                         %input.form-control{type: "text", placeholder: 'Цена'}
                     .col-sm-6
-                      %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}')
+                      .form-group
+                        %label Категория
+                        %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}')
+                    .col-sm-6
+                      .form-group
+                        %label Подкатегория
+                        %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}')
+                  %label Варианты товара
+                  .form-block-group
+                    .form-group
+                      %a.products__new-form-variant-type-btn.active Размер
+                      %a.products__new-form-variant-type-btn Цвет
+                      %input.products__new-form-custom-variant-input{type: "text", placeholder: 'Другое'}
 
-                  .row
-                    .col-sm-6.col-md-3
-                      .form-group
-                        %input.form-control{type: "text", placeholder: 'Количество', role: 'products__new-form-quantity'}
-                    .col-sm-6.col-md-3
-                      .form-group
-                        %input.form-control{type: "text", placeholder: 'Артикул', role: 'products__new-form-articul'}
-                    %div{role: 'products__new-form-variants-place'}
-                      %h3.col-sm-12{role: 'products__new-form-variants-title'} Варианты товара
-
-                    .col-sm-6.col-md-6
-                      .form-group
-                        -#input.btn.form-control{type: "text", placeholder: 'Добавить размеры и цвета'}
-                        .btn.form-control{role: 'products__new-form-variants-add'}
-                          Добавить размеры и цвета
-                  .hide
                     .row{role: 'products__new-form-variants-item'}
                       .col-md-12
+                      .col-md-10
+                        .row.row-block-padding
+                          .col-sm-4
+                            .form-group
+                              %label Размер
+                              %input.form-control{type: "text", placeholder: ''}
+                          .col-sm-4
+                            .form-group
+                              %label Количество
+                              %input.form-control{type: "text", placeholder: ''}
+                          .col-sm-4
+                            .form-group
+                              %label Артикул
+                              %input.form-control{type: "text", placeholder: ''}
                       .col-sm-2
                         .form-group
-                          %input.form-control{type: "text", placeholder: 'Размер'}
-                      .col-sm-3
-                        .form-group
-                          %input.form-control{type: "text", placeholder: 'Цвет'}
-                      .col-sm-3
-                        .form-group
-                          %input.form-control{type: "text", placeholder: 'Количество'}
-                      .col-sm-3
-                        .form-group
-                          %input.form-control{type: "text", placeholder: 'Артикул'}
-                      .col-sm-1
-                        .form-group
-                          %a.btn.form-control &times;
+                          %a.products__new-form-remove-variant-btn.pull-right
+                          .clearfix
+                    .row{role: 'products__new-form-variants-place'}
+
+                    .form-group
+                      -#input.btn.form-control{type: "text", placeholder: 'Добавить размеры и цвета'}
+                      .btn-add-fields{role: 'products__new-form-variants-add'}
+                        Добавить ещё
+
+                  .form-group.text
+                    %label
+                      Описание
+                    %textarea.form-control{:placeholder => "Описание", :required => "required", :role => "autosize"}
+
+                  .form-group
+                    %label{role: 'products__new-form-params-title'} Характеристики
+                    .row.hide{role: 'products__new-form-params-item'}
+                      .col-md-10
+                        .row
+                          .col-sm-6
+                            .form-group-sm
+                              %input.form-control{type: "text", placeholder: 'Название'}
+                          .col-sm-6
+                            .row-gutter-dash.text-muted
+                              &mdash;
+                            .form-group-sm
+                              %input.form-control{type: "text", placeholder: 'Значение'}
+                      .col-sm-2
+                        .form-group-sm
+                          %a.products__new-form-remove-params-btn.pull-right
+                          .clearfix
+                    .row{role: 'products__new-form-params-place'}
+                    .btn.btn-add-fields{role: 'products__new-form-params-add'}
+                      Добавить характеристики
                 .col-md-4
                   %div( data-react-class="ImagesForm" data-react-props='{"imageDeletePath": "/products/image", "fieldName": "images[]"}')
-              .products__new-form-actions
-                %button.products__new-form-submit-btn{"data-disable-with" => "Сохраняем...", :type => "submit"}
-                  Сохранить
+              .row
+                .col-md-8
+                  .products__new-form-actions
+                    %button.products__new-form-submit-btn.pull-left{"data-disable-with" => "Сохраняем...", :type => "submit"}
+                      Сохранить
+                    %button.products__new-form-remove-btn.pull-right
+                      Удалить товар навсегда
 

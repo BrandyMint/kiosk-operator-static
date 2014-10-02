@@ -7,6 +7,12 @@ $ ->
   productVariantsTitle = $('@products__new-form-variants-title')
   productVariantsItem = $('@products__new-form-variants-item')
   productVariantsPlace = $('@products__new-form-variants-place')
+
+  productParamsAdd = $('@products__new-form-params-add')
+  productParamsTitle = $('@products__new-form-params-title')
+  productParamsItem = $('@products__new-form-params-item')
+  productParamsPlace = $('@products__new-form-params-place')
+
   productFormQuantity = $('@products__new-form-quantity')
   productFormArticul = $('@products__new-form-articul')
   productFormImageAdd = $('@products__new-form-image-add')
@@ -22,6 +28,18 @@ $ ->
     productVariantsPlace.show()
     html = productVariantsItem.html()
     productVariantsPlace.append(html)
+
+  productParamsTitle.hide()
+  productParamsPlace.hide()
+
+  productParamsAdd.on 'click', (e) ->
+    e.preventDefault()
+    productParamsTitle.show()
+    productParamsPlace.show()
+    html = productParamsItem.html()
+    productParamsPlace.append(html)
+
+
 
   productFormImageAdd.on 'click', (e) ->
     e.preventDefault()

@@ -79,12 +79,23 @@ $products-form-images-list-padding: 12px
 
 .products__new-form-submit-btn
   @extend .btn
-  @extend .btn-block
-  @extend .btn-yellow
+  @extend .btn-green
   font-size: $font-size-h2
   padding: 1em
+  min-width: 180px
   height: auto
   margin-top: $grid-gutter-width*2
+  +antialiased
+
+.products__new-form-remove-btn
+  @extend .products__new-form-submit-btn
+  background: none
+  border: 1px solid $line-color
+  color: $red-dark
+  &:hover, &:focus
+    background-color: $red
+    border-color: $red
+    color: #fff
 
 .products__new-form-add-categories-btn
   @extend .btn
@@ -152,3 +163,37 @@ $products-form-images-list-padding: 12px
     position: center
     image: url('#{$images-path}/product-thumb-remove.svg')
   cursor: pointer
+
+.products__new-form-remove-params-btn
+  display: inline-block
+  width: 34px
+  height: $plain-input-height
+  +opacity(0.32)
+  background:
+    repeat: no-repeat
+    position: center
+    image: url('#{$images-path}/products-form-icon-remove.svg')
+  +transition(opacity 0.2s ease)
+  &:hover
+    +opacity(1)
+
+.products__new-form-remove-variant-btn
+  @extend .products__new-form-remove-params-btn
+  margin-top: $font-size-small*2
+
+.products__new-form-variant-type-btn
+  @extend .btn
+  @extend .btn-default-light
+  @extend .btn-lg
+  margin-right: $block-padding - 6px
+
+.products__new-form-custom-variant-input
+  @extend .products__new-form-variant-type-btn
+  display: inline-block
+  width: auto
+  text-align: left
+  color: $gray-light
+  +placeholder
+    color: $gray-light
+
+

@@ -48,6 +48,7 @@ body
   left: $left-sidebar-width
   right: 0
   bottom: 0
+  padding-top: $grid-gutter-width
   overflow:
     y: auto
 
@@ -75,4 +76,20 @@ body
     top: $grid-gutter-width/2
     bottom: $grid-gutter-width/2
 
+.row-gutter-dash
+  position: absolute
+  top: 1em
+  margin-left: - $grid-gutter-width
+  width: $grid-gutter-width
+  text-align: center
 
+.row
+  &.row-block-padding
+    margin-left: - $block-padding/2
+    & > [class*="col-"]
+      padding:
+        left: $block-padding/2
+        right: $block-padding/2
+    .row-gutter-dash
+      margin-left: - $block-padding
+      width: $block-padding

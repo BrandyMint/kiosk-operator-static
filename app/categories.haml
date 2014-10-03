@@ -1,0 +1,200 @@
+!!! 5
+%html
+  %head
+    @@include('./shared/_head.haml')
+  %body
+    %script{src: 'scripts/bundle.js'}
+
+    .app-left-sidebar
+      %ul.left-sidebar__nav
+        - links = [{slug: 'info', icon: 'fa fa-info-circle', title: 'Что делать?'}, {slug: 'products', icon: 'fa fa-th-large', title: 'Товары', href: 'products.html'}, {slug: 'orders', icon: 'fa fa-shopping-cart', title: 'Заказы', href: 'orders.html'}, {slug: 'catalog', icon: 'fa fa-folder-open', title: 'Витрина'}, {slug: 'settings', icon: 'fa fa-cog', title: 'Настройка'}, {slug: 'shops', icon: 'fa fa-briefcase', title: 'Мои магазины'}, {slug: 'user', icon: 'fa fa-user', title: 'Олег С.'}]
+        - for l of links
+          - l = links[l]
+          - if l.slug == 'products'
+            - li_class = 'active'
+          - else
+            - li_class = ''
+          %li{class: "#{li_class}"}
+            %a.left-sidebar__nav-link{href: "#{l.href}"}
+              %i.left-sidebar__nav-link-icon{class: "#{l.icon} nav-link-icon-#{l.slug}"}
+              .left-sidebar__nav-link-title= l.title
+              .clearfix
+    .app-main-content
+      .container-fluid
+        .col-lg-10.col-lg-offset-1
+          .row
+            .col-md-6
+              %a.btn.btn-default{:href => "/operator/categories/new"}
+                Новая категория
+              %br/
+              %br/
+              .operator-categories
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/318"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span под шеей
+                    \&nbsp;
+                    %span.operator-categories__item-counter 0
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/318/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/317"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span asdfasd
+                    \&nbsp;
+                    %span.operator-categories__item-counter 0
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/317/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/316"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span ZZZZZ
+                    \&nbsp;
+                    %span.operator-categories__item-counter 0
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/316/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/315"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span 12321
+                    \&nbsp;
+                    %span.operator-categories__item-counter 0
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/315/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/314"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span asdfadsf
+                    \&nbsp;
+                    %span.operator-categories__item-counter 0
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/314/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/313"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span Браслет-нить
+                    \&nbsp;
+                    %span.operator-categories__item-counter 144
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/313/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/305"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span На шею
+                    \&nbsp;
+                    %span.operator-categories__item-counter 34
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/305/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/301"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span Кольцо
+                    \&nbsp;
+                    %span.operator-categories__item-counter 152
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/301/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/294"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span Серьги
+                    \&nbsp;
+                    %span.operator-categories__item-counter 110
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/294/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/292"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span Браслет
+                    \&nbsp;
+                    %span.operator-categories__item-counter 28
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/292/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/290"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span Украшение на тело
+                    \&nbsp;
+                    %span.operator-categories__item-counter 14
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/290/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+                .hoverable-container.operator-categories__item
+                  %a.operator-categories__item-title{:href => "/operator/categories/288"}
+                    %i.fa.fa-bars
+                    \&nbsp;
+                    %span Украшения на тело
+                    \&nbsp;
+                    %span.operator-categories__item-counter 14
+                    %span.pull-right
+                      %i.fa.fa-angle-right.text-muted
+                  %a.hoverable.operator-categories__item-delete.pull-right{:href => "#"}
+                    %i.fa.fa-times
+                  %a.hoverable.operator-categories__item-edit.pull-right{:href => "/operator/categories/288/edit"}
+                    %i.fa.fa-pencil
+                  %span.clearfix
+            .col-md-6

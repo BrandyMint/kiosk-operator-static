@@ -6,6 +6,7 @@ require './react/mixins/images_form_mixin'
 
 require './react/components/images_form_thumbs'
 require './react/components/operator_categories_item'
+require './react/components/operator_categories_list'
 
 require './react/components/super_select'
 require './react/components/images_form'

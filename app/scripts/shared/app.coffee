@@ -8,6 +8,40 @@ $ ->
   productVariantsItem = $('@products__new-form-variants-item')
   productVariantsPlace = $('@products__new-form-variants-place')
 
+  productVariantsAddBlock = $('@products__new-form-variants-add-block')
+  productVariantsAddBlockBtn = $('@products__new-form-variants-add-block-btn')
+  productVariantsBlock = $('@products__new-form-variants-block')
+  productVariantTypeBtn = $('@products__new-form-variant-type-btn')
+  productVariantTypeInput = $('@products__new-form-variant-type-input')
+  productVariantTypeLabel = $('@products__new-form-variant-type-label')
+
+  productVariantsBlock.hide()
+  productVariantsAddBlockBtn.on 'click', (e) ->
+    e.preventDefault()
+    productVariantsAddBlock.hide()
+    productVariantsBlock.show()
+
+  productVariantTypeBtn.on 'click', (e) ->
+    e.preventDefault()
+    productVariantTypeBtn.removeClass 'active'
+    $(@).addClass 'active'
+    type = $(@).text()
+    productVariantTypeLabel.text(type)
+
+  productVariantTypeInput.on 'focus', () ->
+    prevBtn = productVariantTypeBtn.filter('.active')
+    productVariantTypeBtn.removeClass 'active'
+    $(@).on 'blur', () ->
+      unless $(@).val().length > 0
+        prevBtn.addClass 'active'
+        productVariantTypeLabel.text(prevBtn.text())
+
+
+  productVariantTypeInput.on 'keypress', () ->
+    if $(@).val().length > 0
+      type = $(@).val()
+      productVariantTypeLabel.text(type)
+
   productParamsAdd = $('@products__new-form-params-add')
   productParamsTitle = $('@products__new-form-params-title')
   productParamsItem = $('@products__new-form-params-item')

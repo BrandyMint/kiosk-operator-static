@@ -18,6 +18,7 @@ window.ImagesForm_Thumbs = React.createClass
       images.push `<div key={image.src} className='products__new-form-image-thumb-block'>
          <img className='products__new-form-image-thumb' src={image.src} />
          <div className='products__new-form-image-thumb-remove' onClick={onClick} ref='remove'></div>
+         <div className='products__new-form-image-thumb-update' onClick={onClick} ref='update'></div>
        </div>`
 
     return `<div className='products__new-form-images-list'>{images}</div>`

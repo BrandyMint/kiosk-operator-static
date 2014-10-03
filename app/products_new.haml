@@ -60,7 +60,7 @@
                     .col-sm-6
                       .form-group
                         %label Цена
-                        %input.form-control{type: "text", placeholder: 'Цена'}
+                        %input.form-control{type: "text", placeholder: '20 000'}
                     .col-sm-6
                       .form-group
                         %label Категория
@@ -69,39 +69,47 @@
                       .form-group
                         %label Подкатегория
                         %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}')
-                  %label Варианты товара
-                  .form-block-group
-                    .form-group
-                      %a.products__new-form-variant-type-btn.active Размер
-                      %a.products__new-form-variant-type-btn Цвет
-                      %input.products__new-form-custom-variant-input{type: "text", placeholder: 'Другое'}
+                  .form-group{role: 'products__new-form-variants-add-block'}
+                    .btn.btn-add-fields{role: 'products__new-form-variants-add-block-btn'}
+                      Добавить варианты (размеры, цвета)
+                  %div{role: 'products__new-form-variants-block'}
+                    %label Варианты товара
+                    .form-block-group
+                      .form-group
+                        %a.products__new-form-variant-type-btn.active{role: 'products__new-form-variant-type-btn'} Размер
+                        %a.products__new-form-variant-type-btn{role: 'products__new-form-variant-type-btn'} Цвет
+                        %input.products__new-form-custom-variant-input{type: "text", placeholder: 'Другое', role: 'products__new-form-variant-type-input'}
 
-                    .row{role: 'products__new-form-variants-item'}
-                      .col-md-12
-                      .col-md-10
-                        .row.row-block-padding
-                          .col-sm-4
-                            .form-group
-                              %label Размер
-                              %input.form-control{type: "text", placeholder: ''}
-                          .col-sm-4
-                            .form-group
+                      .row{role: 'products__new-form-variants-item'}
+                        .col-md-12
+                        .col-md-10
+                          .row.row-block-padding
+                            .col-sm-4
+                              %label{role: 'products__new-form-variant-type-label'} Размер
+                            .col-sm-4
                               %label Количество
-                              %input.form-control{type: "text", placeholder: ''}
-                          .col-sm-4
-                            .form-group
+                            .col-sm-4
                               %label Артикул
-                              %input.form-control{type: "text", placeholder: ''}
-                      .col-sm-2
-                        .form-group
-                          %a.products__new-form-remove-variant-btn.pull-right
-                          .clearfix
-                    .row{role: 'products__new-form-variants-place'}
+                          .row.row-block-padding
+                            .col-sm-4
+                              .form-group
+                                %input.form-control{type: "text", placeholder: 'Например, XL'}
+                            .col-sm-4
+                              .form-group
+                                %input.form-control{type: "text", placeholder: 'Например, 5'}
+                            .col-sm-4
+                              .form-group
+                                %input.form-control{type: "text", placeholder: 'Например, M001-11-00'}
+                        .col-sm-2
+                          .form-group
+                            %a.products__new-form-remove-variant-btn.pull-right
+                            .clearfix
+                      .row{role: 'products__new-form-variants-place'}
 
-                    .form-group
-                      -#input.btn.form-control{type: "text", placeholder: 'Добавить размеры и цвета'}
-                      .btn-add-fields{role: 'products__new-form-variants-add'}
-                        Добавить ещё
+                      .form-group
+                        -#input.btn.form-control{type: "text", placeholder: 'Добавить размеры и цвета'}
+                        .btn-add-fields{role: 'products__new-form-variants-add'}
+                          Добавить ещё
 
                   .form-group.text
                     %label
@@ -115,12 +123,12 @@
                         .row
                           .col-sm-6
                             .form-group-sm
-                              %input.form-control{type: "text", placeholder: 'Название'}
+                              %input.form-control{type: "text", placeholder: 'Например, вес'}
                           .col-sm-6
                             .row-gutter-dash.text-muted
                               &mdash;
                             .form-group-sm
-                              %input.form-control{type: "text", placeholder: 'Значение'}
+                              %input.form-control{type: "text", placeholder: '11 грамм'}
                       .col-sm-2
                         .form-group-sm
                           %a.products__new-form-remove-params-btn.pull-right

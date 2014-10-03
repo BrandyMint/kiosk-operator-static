@@ -12,6 +12,7 @@
   @extend .dropdown-menu
   border-radius: 0
   padding: 0
+  +box-shadow(none)
 
 .tt-suggestion
   display: block
@@ -20,5 +21,8 @@
   line-height: $block-padding
   padding: $block-padding/2
   cursor: pointer
+  border-top: 1px solid $line-color
+  &:first-child
+    border-top: none
   &:hover
     background: $gray-lightest

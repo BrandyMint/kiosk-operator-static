@@ -19,10 +19,9 @@ $products-form-images-list-padding: 12px
   @extend .products__list-item-image
   width: 100%
   border: 1px solid $gray-lighter
-  padding: 7px
   +transition(background 0.2s ease)
   background: #f4f4f4
-  border-radius: 4px
+  //border-radius: 4px
   &:hover
     background: $gray-lightest
   &.active
@@ -136,33 +135,56 @@ $products-form-images-list-padding: 12px
   @extend .col-xs-4
   padding: $products-form-images-list-padding/2
   cursor: pointer
+  &:after
+    content: ' '
+    position: absolute
+    z-index: 1
+    @each $s in top, left, right, bottom
+      #{$s}: $products-form-images-list-padding/2
+    background: none
+    +transition(background 0.2s ease)
   &:hover
+    &:after
+      background-color: rgba($gray-light, 0.4)
     .products__new-form-image-thumb-remove
       display: block
+    .products__new-form-image-thumb
+      +opacity(0.6)
 
 .products__new-form-image-thumb
+  display: block
   position: relative
   max-width: 100%
   border: 1px solid $gray-lighter
+  +transition(opacity 0.2s ease)
 
 .products__new-form-image-thumb-remove
   display: none
   position: absolute
+  z-index: 2
   top: 50%
-  left: 50%
-  width: 48px
-  height: 48px
+  left: 30%
+  width: 34px
+  height: 34px
   margin:
-    left: - (48px/2)
-    top: - (48px/2)
+    left: - (34px/2)
+    top: - (34px/2)
   border-radius: 100%
-  background-color: #fff
-  background-color: rgba(#fff, 0.9)
+  background-color: darken($gray-dark, 7%)
   background:
     repeat: no-repeat
     position: center
-    image: url('#{$images-path}/product-thumb-remove.svg')
+    image: url('#{$images-path}/product-thumb-cancel-white.svg')
   cursor: pointer
+  +transition(background 0.2s ease)
+  &:hover
+    background-color: $blue
+
+.products__new-form-image-thumb-update
+  @extend .products__new-form-image-thumb-remove
+  left: 70%
+  background:
+    image: url('#{$images-path}/product-thumb-refresh-white.svg')
 
 .products__new-form-remove-params-btn
   display: inline-block
@@ -193,7 +215,12 @@ $products-form-images-list-padding: 12px
   width: auto
   text-align: left
   color: $gray-light
+  line-height: 0.85em
   +placeholder
     color: $gray-light
+  &:focus
+    border-color: $blue
+    +box-shadow(inset 0 0 0 2px $blue)
+
 
 

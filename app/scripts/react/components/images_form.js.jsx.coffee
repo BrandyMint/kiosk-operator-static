@@ -15,10 +15,9 @@ window.ImagesForm = React.createClass
     savingUrl: '/..' #Routes.api.update_entry_url @props.entry
     images:
       [
-        {id: 1, src: 'http://www.porjati.ru/uploads/posts/2011-06/thumbs/1308810576_7b31296a39f5.jpg'},
-        {id: 2, src: 'assets/product-square.png?1'},
-        {id: 3, src: 'http://doseng.org/uploads/posts/2011-10/1319603877_demotivatory_27.jpg'},
-        {id: 4, src: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQR0K-_szbWUnBVD6P1wrBXthB7rdCrrAZRl-L00iRtZG_Z3ajs'}
+        {id: 1, src: 'assets/product-1-square.png?1'},
+        {id: 2, src: 'assets/product-2-square.png?1'},
+        {id: 3, src: 'assets/product-3-square.png?1'}
       ]
 
   render: ->

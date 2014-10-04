@@ -8,7 +8,7 @@ window.OperatorCategories_Item = React.createClass
   render: ->
     `<div className="hoverable-container operator-categories__item">
 
-      <a className="operator-categories__item-title" href="#todo" onClick={this.itemClick}>
+      <a className="operator-categories__item-title" onClick={this.itemClick}>
         <i className="fa fa-bars"></i>
         &nbsp;&nbsp;&nbsp;
         <span>{this.props.category.value}</span>
@@ -31,5 +31,7 @@ window.OperatorCategories_Item = React.createClass
 
     </div>`
 
-  itemClick: ->
+  itemClick: (e) ->
+    e.preventDefault
     @props.onItemClick @props.category
+    false

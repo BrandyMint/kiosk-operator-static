@@ -7,9 +7,8 @@ window.OperatorCategories_List = React.createClass
     categories: React.PropTypes.array.isRequired
 
   render: ->
-    # http://stackoverflow.com/questions/20913288/react-js-how-to-pass-properties-object-to-child-component
     categoryNodes = @props.categories.map (cat) ->
-      window.OperatorCategories_Item cat
+      `<OperatorCategories_Item key={cat.id} category={cat} />`
 
     `<div className="operator-categories">
       {categoryNodes}

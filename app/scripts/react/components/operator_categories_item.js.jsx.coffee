@@ -2,8 +2,7 @@
 
 window.OperatorCategories_Item = React.createClass
   propTypes:
-    value: React.PropTypes.string.isRequired
-    count: React.PropTypes.number.isRequired
+    category: React.PropTypes.object.isRequired
 
   render: ->
     `<div className="hoverable-container operator-categories__item">
@@ -11,9 +10,9 @@ window.OperatorCategories_Item = React.createClass
       <a className="operator-categories__item-title" href="#todo">
         <i className="fa fa-bars"></i>
         &nbsp;&nbsp;&nbsp;
-        <span>{this.props.value}</span>
+        <span>{this.props.category.value}</span>
         &nbsp;&nbsp;&nbsp;
-        <span className="operator-categories__item-counter">{this.props.count}</span>
+        <span className="operator-categories__item-counter">{this.props.category.count}</span>
         <span className="pull-right">
           <i className="fa fa-angle-right text-muted"></i>
         </span>

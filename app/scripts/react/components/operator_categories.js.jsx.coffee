@@ -2,13 +2,15 @@
 
 require './operator_categories_newcat'
 require './operator_categories_list'
+require './operator_categories_subcats'
 
 window.OperatorCategories = React.createClass
   propTypes:
-    categories: React.PropTypes.array.isRequired
+    categories:       React.PropTypes.array.isRequired
 
   getInitialState: ->
-    categories: @props.categories
+    categories:       @props.categories
+    selectedCategory: null
 
   getDefaultProps: ->
     categories:
@@ -22,7 +24,12 @@ window.OperatorCategories = React.createClass
 
   render: ->
     `<div>
-      <OperatorCategories_NewCat />
-      <br />
-      <OperatorCategories_List categories={this.state.categories} />
+      <div className="col-md-6">
+        <OperatorCategories_NewCat />
+        <br />
+        <OperatorCategories_List categories={this.state.categories} />
+      </div>
+      <div className="col-md-6">
+        {this.state.selectedCategory ? <OperatorCategories_Subcategories /> : null}
+      </div>
     </div>`

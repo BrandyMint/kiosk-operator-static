@@ -1,5 +1,6 @@
 ###* @jsx React.DOM ###
 
+require './operator_categories_newcat'
 require './operator_categories_list'
 
 window.OperatorCategories = React.createClass
@@ -21,7 +22,7 @@ window.OperatorCategories = React.createClass
 
   render: ->
     `<div>
-      <a className="btn btn-default" href="#todo">Новая категория</a>
+      <OperatorCategories_NewCat />
       <br /><br />
       <OperatorCategories_List categories={this.state.categories} />
     </div>`

@@ -27,9 +27,14 @@ window.OperatorCategories = React.createClass
       <div className="col-md-6">
         <OperatorCategories_NewCat />
         <br />
-        <OperatorCategories_List categories={this.state.categories} />
+        <OperatorCategories_List categories={this.state.categories} onListItemClick={this.handleCategoryItemClick} />
       </div>
       <div className="col-md-6">
-        {this.state.selectedCategory ? <OperatorCategories_Subcategories /> : null}
+        {this.state.selectedCategory ?
+          <OperatorCategories_Subcategories selectedCategory={this.state.selectedCategory} />
+          : null}
       </div>
     </div>`
+
+  handleCategoryItemClick: (cat) ->
+    @setState selectedCategory: cat

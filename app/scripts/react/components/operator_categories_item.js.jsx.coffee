@@ -2,12 +2,13 @@
 
 window.OperatorCategories_Item = React.createClass
   propTypes:
-    category: React.PropTypes.object.isRequired
+    category:     React.PropTypes.object.isRequired
+    onItemClick:  React.PropTypes.func.isRequired
 
   render: ->
     `<div className="hoverable-container operator-categories__item">
 
-      <a className="operator-categories__item-title" href="#todo">
+      <a className="operator-categories__item-title" href="#todo" onClick={this.itemClick}>
         <i className="fa fa-bars"></i>
         &nbsp;&nbsp;&nbsp;
         <span>{this.props.category.value}</span>
@@ -29,3 +30,6 @@ window.OperatorCategories_Item = React.createClass
       <span className="clearfix"></span>
 
     </div>`
+
+  itemClick: ->
+    @props.onItemClick @props.category

@@ -23,6 +23,6 @@ window.OperatorCategories = React.createClass
   render: ->
     `<div>
       <OperatorCategories_NewCat />
-      <br /><br />
+      <br />
       <OperatorCategories_List categories={this.state.categories} />
     </div>`

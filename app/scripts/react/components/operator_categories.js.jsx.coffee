@@ -1,9 +1,5 @@
 ###* @jsx React.DOM ###
 
-require './operator_categories_newcat'
-require './operator_categories_list'
-require './operator_categories_subcats'
-
 window.OperatorCategories = React.createClass
   propTypes:
     categories:       React.PropTypes.array.isRequired

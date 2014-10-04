@@ -1,7 +1,5 @@
 ###* @jsx React.DOM ###
 
-require './operator_categories_item'
-
 window.OperatorCategories_List = React.createClass
   propTypes:
     categories:  React.PropTypes.array.isRequired

@@ -17,7 +17,9 @@
   +opacity(0.7)
 
 .operator-categories__item-edit,
-.operator-categories__item-delete
+.operator-categories__item-delete,
+.operator-categories__item-cancel-edit,
+.operator-categories__item-confirm-edit
   display: inline-block
   padding: 0 10px
 
@@ -27,3 +29,20 @@
 .operator-categories__item-delete
   margin-right: 10px
 
+.operator-categories__item-input
+  border: 1px
+  padding-left: 1px
+  width: 60%
+
+.operator-categories-transition-enter
+  background-color: $yellow
+
+.operator-categories-transition-enter-active
+  +transition(background-color 2.0s ease-in)
+
+.operator-categories-transition-leave
+  +opacity(1)
+  +transition(opacity 0.2s ease)
+
+.operator-categories-transition-leave.operator-categories-transition-leave-active
+  +opacity(0.01)

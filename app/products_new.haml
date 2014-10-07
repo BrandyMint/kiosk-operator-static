@@ -79,9 +79,7 @@
                         %a.products__new-form-variant-type-btn.active{role: 'products__new-form-variant-type-btn'} Размер
                         %a.products__new-form-variant-type-btn{role: 'products__new-form-variant-type-btn'} Цвет
                         %input.products__new-form-custom-variant-input{type: "text", placeholder: 'Другое', role: 'products__new-form-variant-type-input'}
-
-                      .row{role: 'products__new-form-variants-item'}
-                        .col-md-12
+                      .row
                         .col-md-10
                           .row.row-block-padding
                             .col-sm-4
@@ -90,20 +88,21 @@
                               %label Количество
                             .col-sm-4
                               %label Артикул
+
+                      .row{role: 'products__new-form-variants-item'}
+                        .col-md-12
+                        .col-md-10
                           .row.row-block-padding
                             .col-sm-4
-                              .form-group
-                                %input.form-control{type: "text", placeholder: 'Например, XL'}
+                              %input.form-control{type: "text", placeholder: 'Например, XL'}
                             .col-sm-4
-                              .form-group
-                                %input.form-control{type: "text", placeholder: 'Например, 5'}
+                              %input.form-control{type: "text", placeholder: 'Например, 5'}
                             .col-sm-4
-                              .form-group
-                                %input.form-control{type: "text", placeholder: 'Например, M001-11-00'}
+                              %input.form-control{type: "text", placeholder: 'Например, M001-11-00'}
+                          %br
                         .col-sm-2
-                          .form-group
-                            %a.products__new-form-remove-variant-btn.pull-right
-                            .clearfix
+                          %a.products__new-form-remove-variant-btn.pull-right
+                          .clearfix
                       .row{role: 'products__new-form-variants-place'}
 
                       .form-group

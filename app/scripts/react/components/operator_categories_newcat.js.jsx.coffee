@@ -2,6 +2,7 @@
 
 window.OperatorCategories_NewCat = React.createClass
   propTypes:
+    parentCategoryId: React.PropTypes.number
     onCategoryCreate: React.PropTypes.func.isRequired
 
   getInitialState: ->
@@ -12,36 +13,43 @@ window.OperatorCategories_NewCat = React.createClass
       @_refreshAndFocusInput()
 
   render: ->
+    text = if @props.parentCategoryId
+      caption: "Добавить подкатегории"
+      placeholder: "Наименование подкатегории"
+    else
+      caption: "Добавить новые категории"
+      placeholder: "Наименование категории"
+
     displayTemplate =
       `<div>
         <a className="btn btn-default"
            onClick={ this.handleCreateStart }>
-          Добавить новые категории
+          { text.caption }
         </a>
       </div>`
 
     createTemplate =
       `<div>
-        <h3>Добавить категорию</h3>
-        <form accept-charset="UTF-8"
-              className="simple_form new_category">
+        <h3>{ text.caption }</h3>
+        <form accept-charset= "UTF-8"
+              className=      "simple_form new_category">
           <div className="form-group string required category_name">
-            <input ref="input"
-                   type="text"
-                   placeholder="Наименование категории"
-                   className="string required form-control"
-                   onKeyDown={ this.handleInputKeyDown }
-                   defaultValue="" />
+            <input ref=          "input"
+                   type=         "text"
+                   placeholder=  { text.placeholder }
+                   className=    "string required form-control"
+                   onKeyDown=    { this.handleInputKeyDown }
+                   defaultValue= "" />
           </div>
           <p>
-            <input className="btn btn-primary"
-                   type="submit"
-                   onClick={ this.handleCreateConfirm }
-                   value="Добавить" />
-            <input className="btn btn-default"
-                   type="button"
-                   onClick={ this.handleCreateCancel }
-                   value="Завершить" />
+            <input className= "btn btn-primary"
+                   type=      "submit"
+                   onClick=   { this.handleCreateConfirm }
+                   value=     "Добавить" />
+            <input className= "btn btn-default"
+                   type=      "button"
+                   onClick=   { this.handleCreateCancel }
+                   value=     "Завершить" />
           </p>
         </form>
         <hr />
@@ -81,7 +89,7 @@ window.OperatorCategories_NewCat = React.createClass
       inputNode.selectionStart = inputNode.selectionEnd = inputNode.value.length
 
   _confirmCreate: ->
-    @props.onCategoryCreate @refs.input.getDOMNode().value
+    @props.onCategoryCreate @props.parentCategoryId, @refs.input.getDOMNode().value
     @_refreshAndFocusInput()
 
   _cancelCreate: ->

@@ -2,59 +2,85 @@
 
 window.OperatorCategories = React.createClass
   propTypes:
-    categories:       React.PropTypes.array.isRequired
-
+    categories:          React.PropTypes.array
+    mockMode:            React.PropTypes.bool
+ 
   getInitialState: ->
-    categories:       @props.categories
-    selectedCategory: null
+    categories:          []
+    selectedCategory:    null
+    selectedSubcategory: null
 
   getDefaultProps: ->
-    categories:
-      [
-        {
-          id: 100
-          name: "Украшение на тело"
-          full_name: "Украшение на тело"
-          parent_id: null
-          updated_at: "2014-09-28T23:42:13.261+04:00"
-          position: 24
-          count: 123
-        }
-        {
-          id: 102
-          name: "Браслет"
-          full_name: "Браслет"
-          parent_id: null
-          updated_at: "2014-09-28T23:42:14.937+04:00"
-          position: 22
-          count: 321
-        }
-      ]
+    categories:          null
+    mockMode:            false
+
+  componentDidMount: ->
+    if !@props.categories
+      OperatorCategories_API.mockMode = @props.mockMode
+      that = @
+      OperatorCategories_API.getCategories (err, categories) ->
+        if that.isMounted()
+          if err
+            console.error 'OperatorCategories: get error', err
+          else
+            that.setState(categories: categories)
 
   render: ->
-    subcategories = @_getSubcategories()
+    subcategoriesPane = @_getSubcategoriesPane()
+    goodsCountPane = @_getGoodsCountPane()
 
     return `<div>
               <div className= "col-md-6 user-select-none">
-                <OperatorCategories_NewCat onCategoryCreate={ this.handleCategoryCreate } />
+                <OperatorCategories_NewCat parentCategoryId={ null }
+                                           onCategoryCreate={ this.handleCategoryCreate } />
                 <br />
                 <OperatorCategories_List categories=       { this.state.categories }
+                                         parentCategoryId= { null }
                                          onListItemClick=  { this.handleCategoryItemClick }
                                          onCategoryDelete= { this.handleCategoryDelete }
                                          onCategoryUpdate= { this.handleCategoryUpdate }
                                          onCategoryReorder={ this.handleCategoryReorder } />
               </div>
-              <div className="col-md-6">
-                { subcategories }
+              <div className="col-md-6 user-select-none">
+                { subcategoriesPane }
+                <br />
+                { goodsCountPane }
               </div>
             </div>`
 
-  _getSubcategories: ->
+  _getSubcategoriesPane: ->
     if @state.selectedCategory
-      `<OperatorCategories_Subcategories selectedCategory={ this.state.selectedCategory } />`
+      `<div>
+        <OperatorCategories_NewCat parentCategoryId={ this.state.selectedCategory.id }
+                                   onCategoryCreate={ this.handleCategoryCreate } />
+        <br />
+        <OperatorCategories_List categories=       { this.state.categories }
+                                 parentCategoryId= { this.state.selectedCategory.id }
+                                 onListItemClick=  { this.handleSubcategoryItemClick }
+                                 onCategoryDelete= { this.handleCategoryDelete }
+                                 onCategoryUpdate= { this.handleCategoryUpdate }
+                                 onCategoryReorder={ this.handleCategoryReorder } />
+      </div>`
+
+  _getGoodsCountPane: ->
+    if @state.selectedCategory or @state.selectedSubcategory
+      catForCount = if @state.selectedSubcategory
+        @state.selectedSubcategory
+      else @state.selectedCategory
+      productsUrl = Routes.products_by_category_url(catForCount.id)
+      return `<ul className="nav nav-pills nav-stacked">
+                <li>
+                  <a href={ productsUrl }>
+                    <i>Товары (<span>{ catForCount.count }</span>)</i>
+                  </a>
+                </li>
+              </ul>`
 
   handleCategoryItemClick: (cat) ->
     @setState(selectedCategory: cat)
+
+  handleSubcategoryItemClick: (cat) ->
+    @setState(selectedSubcategory: cat)
 
   handleCategoryDelete: (cat) ->
     # На случай удаления "выбранной" категории
@@ -67,41 +93,61 @@ window.OperatorCategories = React.createClass
       categories: _.reject @state.categories, (i) -> i.id == cat.id
       selectedCategory: selectedUpdate
     }
-    # todo: http delete
+    OperatorCategories_API.deleteCategory cat.id, (err, response) ->
+      if err
+        # todo: обработка ошибок с фидбэком для пользователя
+        console.error 'Ошибка удаления категории', err
 
   handleCategoryUpdate: (cat) ->
     @setState(categories: _.map @state.categories, (i) -> if i.id == cat.id then cat else i)
-    # todo: http put
+    OperatorCategories_API.updateCategory cat, (err, response) ->
+      if err
+        # todo: обработка ошибок с фидбэком для пользователя
+        console.error 'Ошибка обновления категории', err
 
-  handleCategoryCreate: (name) ->
-    @setState(categories: @state.categories.concat([@_getNewCategory(name)]))
-    # todo: http post + update id
+  handleCategoryCreate: (parentId, name) ->
+    newCat = @_getNewCategory(parentId, name)
+    @setState(categories: @state.categories.concat([newCat]))
+    that = @
+    OperatorCategories_API.createCategory newCat, (err, createdCat) ->
+      if err
+        # todo: обработка ошибок с фидбэком для пользователя
+        console.error 'Ошибка обновления порядка категорий', err
+      # Возможно следовало бы заблокировать интерфейс до этого момента
+      @setState {
+        categories: _.map that.state.categories, (i) ->
+          if i.id == newCat.id then createdCat else i
+      }
 
   handleCategoryReorder: (cat, insertIdx) ->
     positionChanges = @_getNewPositions cat, insertIdx
     if positionChanges.length
       @_applyPositions positionChanges
-    # todo: http update
+    OperatorCategories_API.updateCategories positionChanges, (err, response) ->
+      if err
+        # todo: обработка ошибок с фидбэком для пользователя
+        console.error 'Ошибка обновления порядка категорий', err
 
-  _getNewCategory: (name) ->
+  _getNewCategory: (parentId, name) ->
     # Стратегию генерации временного id нужно скорректировать по api
     tmpId = 100000 + Math.floor(Math.random() * 100000)
-    # todo: фильтровать по произвольному parent_id
-    if (@state.categories.length)
-      lastPosition = (_.max _.filter(@state.categories, (i) -> i.parent_id == null), (j) -> j.position).position
+    curList = _.filter @state.categories, (i) -> i.parent_id == parentId
+    if curList.length
+      lastPosition = (_.max curList, (i) -> i.position).position
     else
       lastPosition = 0
+
     return {
       "id":            tmpId
       "name":          name
-      "parent_id":     null
+      "parent_id":     parentId
       "count":         0
       "position":      lastPosition + 1
       "has_children?": false
     }
 
   _applyPositions: (changes) ->
-    reorderedCategories = @state.categories.slice(0)
+    reorderedCategories = @state.categories.slice(0) # Clone
     for category in reorderedCategories
       for change in changes
         if category.id == change.id
@@ -110,7 +156,7 @@ window.OperatorCategories = React.createClass
 
   _getNewPositions: (cat, insertIdx) ->
     # Хитрые разборки с целью несколько минимизировать объём обновлений
-    # Оптимальный алгоритм уж делать не стал - так, только минимальная оптимизация
+    # Оптимальный алгоритм уж делать не стал - только минимальная оптимизация
     # в частных случаях
 
     oldPositions =

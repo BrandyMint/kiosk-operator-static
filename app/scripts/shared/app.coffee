@@ -3,6 +3,8 @@ $ ->
   $('@orders-list__table-modal-btn').on 'click', () =>
     @orderModal.modal('show')
 
+  $('@autosize').autosize()
+
   productVariantsAdd = $('@products__new-form-variants-add')
   productVariantsTitle = $('@products__new-form-variants-title')
   productVariantsItem = $('@products__new-form-variants-item')

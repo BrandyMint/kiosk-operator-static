@@ -9,7 +9,8 @@
     "font-awesome": "~4.1.0",
     "typeahead.js": "~0.10.5",
     "blueimp-file-upload": "~9.7.1",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "jquery-autosize": "~1.18.13"
   },
   "devDependencies": {
     "jquery": "latest",

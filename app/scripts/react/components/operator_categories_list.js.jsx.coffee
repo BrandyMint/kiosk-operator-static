@@ -1,31 +1,28 @@
 ###* @jsx React.DOM ###
 
-ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
-
 window.OperatorCategories_List = React.createClass
   propTypes:
     categories:          React.PropTypes.array.isRequired
+    parentCategoryId:    React.PropTypes.number
     onListItemClick:     React.PropTypes.func.isRequired
     onCategoryDelete:    React.PropTypes.func.isRequired
     onCategoryUpdate:    React.PropTypes.func.isRequired
-
     onCategoryReorder:   React.PropTypes.func
-    onCategoryCreate:    React.PropTypes.func # На случай таскания между уровнями иерархии
 
   getInitialState: ->
-    # Пока берём только категории высшего уровня (корневые)
     needDropZone:    false
     dropTargetIndex: null
     beDragTarget:    false
-    substPosition:   null
 
   render: ->
+    that = @
     categoriesToShow =
-      _.filter(@props.categories, (i) -> i.parent_id == null)
+      _.filter(@props.categories, (i) -> i.parent_id == that.props.parentCategoryId)
         .sort((a, b) -> a.position > b.position)
 
+    # ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
+
     # Подготовка списка категорий при необходимости со вставленной в него дроп-зоной
-    that = @
     categoryNodes = []
     categoriesToShow.map (cat, i) ->
       if that.state.needDropZone and that.state.dropTargetIndex == i

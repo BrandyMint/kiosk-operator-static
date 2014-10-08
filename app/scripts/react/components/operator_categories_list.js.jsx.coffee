@@ -4,31 +4,78 @@ ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
 
 window.OperatorCategories_List = React.createClass
   propTypes:
-    categories:       React.PropTypes.array.isRequired
-    onListItemClick:  React.PropTypes.func.isRequired
-    onCategoryDelete: React.PropTypes.func.isRequired
-    onCategoryUpdate: React.PropTypes.func.isRequired
+    categories:          React.PropTypes.array.isRequired
+    onListItemClick:     React.PropTypes.func.isRequired
+    onCategoryDelete:    React.PropTypes.func.isRequired
+    onCategoryUpdate:    React.PropTypes.func.isRequired
+
+    onCategoryReorder:   React.PropTypes.func
+    onCategoryCreate:    React.PropTypes.func # На случай таскания между уровнями иерархии
 
   getInitialState: ->
     # Пока берём только категории высшего уровня (корневые)
-    categoryList: _.filter(@props.categories, (i) -> i.parent_id == null)
+    needDropZone:    false
+    dropTargetIndex: null
+    beDragTarget:    false
+    substPosition:   null
 
   render: ->
+    categoriesToShow =
+      _.filter(@props.categories, (i) -> i.parent_id == null)
+        .sort((a, b) -> a.position > b.position)
+
+    # Подготовка списка категорий при необходимости со вставленной в него дроп-зоной
     that = @
-    categoryNodes = @state.categoryList.map (cat) ->
-      `<OperatorCategories_Item key=              { cat.id }
-                                category=         { cat }
-                                onItemClick=      { that.props.onListItemClick }
-                                onCategoryDelete= { that.props.onCategoryDelete }
-                                onCategoryUpdate= { that.props.onCategoryUpdate } />`
+    categoryNodes = []
+    categoriesToShow.map (cat, i) ->
+      if that.state.needDropZone and that.state.dropTargetIndex == i
+        categoryNodes.push(
+          `<OperatorCategories_Item key=               { 99999 }
+                                    isDropZone=        { true }
+                                    onLeaveDropZone=   { that.handleLeaveDropZone } />`)
+      categoryNodes.push(
+          `<OperatorCategories_Item key=               { cat.id }
+                                    idx=               { i }
+                                    category=          { cat }
+                                    onItemClick=       { that.props.onListItemClick }
+                                    onCategoryDelete=  { that.props.onCategoryDelete }
+                                    onCategoryUpdate=  { that.props.onCategoryUpdate }
+                                    onDragStart=       { that.handleDragStart }
+                                    onDragEnd=         { that.handleDragEnd }
+                                    onDragOver=        { that.handleDragOver }
+                                    beDragTarget=      { that.state.beDragTarget } />`)
+    if that.state.needDropZone and that.state.dropTargetIndex == categoriesToShow.length
+      categoryNodes.push(
+        `<OperatorCategories_Item key=               { 99999 }
+                                  isDropZone=        { true }
+                                  onLeaveDropZone=   { that.handleLeaveDropZone } />`)
 
     return `<div className="operator-categories">
               {/*
-                Похоже, здесь срабатывает какой-то баг, типа этого
-                https://github.com/facebook/react/issues/2104
-                не получается толком задать параметры анимации (в _categories.sass)
+                Не удалось заставить анимацию нормально ужится с drag&drop.
+                Требуется доработка.
               */}
-              <ReactCSSTransitionGroup transitionName="operator-categories-transition">
+              {/*<ReactCSSTransitionGroup transitionName="operator-categories-transition">*/}
                 { categoryNodes }
-              </ReactCSSTransitionGroup>
+              {/*</ReactCSSTransitionGroup>*/}
             </div>`
+
+  handleDragStart: ->
+    @setState(beDragTarget: true)
+
+  handleDragEnd: (cat) ->
+    @setState {
+      needDropZone: false
+      beDragTarget: false
+    }
+    @props.onCategoryReorder cat, @state.dropTargetIndex
+
+  handleDragOver: (idx, isUpper) ->
+    dzIdx = idx + (if isUpper then 0 else 1)
+    @setState {
+      needDropZone:    true
+      dropTargetIndex: dzIdx
+    }
+
+  handleLeaveDropZone: ->
+    @setState(needDropZone: false)

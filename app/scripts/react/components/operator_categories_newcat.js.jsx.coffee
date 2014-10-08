@@ -8,8 +8,8 @@ window.OperatorCategories_NewCat = React.createClass
     creating: false
 
   componentDidUpdate : ->
-    if (@state.creating)
-      @refreshAndFocusInput()
+    if @state.creating
+      @_refreshAndFocusInput()
 
   render: ->
     displayTemplate =
@@ -58,39 +58,31 @@ window.OperatorCategories_NewCat = React.createClass
 
   handleCreateConfirm: (e) ->
     e.preventDefault()
-    @confirmCreate()
+    @_confirmCreate()
 
   handleCreateCancel: (e) ->
     e.preventDefault()
-    @cancelCreate()
+    @_cancelCreate()
 
   handleInputKeyDown: (e) ->
     switch e.key
       when "Enter"
         e.preventDefault()
-        @confirmCreate()
+        @_confirmCreate()
       when "Escape"
         e.preventDefault()
-        @cancelCreate()
+        @_cancelCreate()
 
-  refreshAndFocusInput: ->
+  _refreshAndFocusInput: ->
     if @state.creating
       inputNode = @refs.input.getDOMNode()
       inputNode.value = ""
       inputNode.focus()
       inputNode.selectionStart = inputNode.selectionEnd = inputNode.value.length
 
-  confirmCreate: ->
-    # Стратегию генерации временного id нужно скорректировать по api
-    tmpId = 99999 + Math.floor(Math.random() * 100000)
-    @props.onCategoryCreate {
-      "id": tmpId
-      "name": @refs.input.getDOMNode().value
-      "parent_id": null
-      "count": 0
-      "has_children?": false
-    }
-    @refreshAndFocusInput()
+  _confirmCreate: ->
+    @props.onCategoryCreate @refs.input.getDOMNode().value
+    @_refreshAndFocusInput()
 
-  cancelCreate: ->
+  _cancelCreate: ->
     @setState(creating: false)

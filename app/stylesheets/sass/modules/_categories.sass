@@ -4,7 +4,7 @@
     left: -10px
     right: -10px
   cursor: pointer
-  +transition(color 0.2s ease, background 0.2s ease)
+  +transition(color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease)
   &:hover
     background-color: $gray-lightest
     color: $link-color-hover
@@ -14,7 +14,8 @@
 
 .operator-categories__item-counter
   font-size: $font-size-smaller
-  +opacity(0.7)
+  //+opacity(0.7) - просвечивает через таскаемый элемент. Надо что-то иначе сделать.
+  color: $gray-light
 
 .operator-categories__item-edit,
 .operator-categories__item-delete,
@@ -46,3 +47,22 @@
 
 .operator-categories-transition-leave.operator-categories-transition-leave-active
   +opacity(0.01)
+
+.operator-categories__item-dropzone
+  border-width: 3px
+  border-color: $gray
+  border-style: dashed
+  padding: 8px
+  margin:
+    left: -10px
+    right: -10px
+  cursor: pointer
+  +transition(color 0.2s ease, background 0.2s ease)
+
+.operator-categories-drag-handle
+  cursor: ns-resize
+
+.operator-categories-dragging
+  pointer-events: none
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .8)
+  background-color: $gray-lightest

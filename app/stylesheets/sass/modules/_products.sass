@@ -158,6 +158,11 @@ $products-form-images-list-padding: 12px
   border: 1px solid $gray-lighter
   +transition(opacity 0.2s ease)
 
+.products__new-form-image-thumb-empty
+  @extend .products__new-form-image-thumb
+  padding-bottom: 97%
+
+
 .products__new-form-image-thumb-remove
   display: none
   position: absolute
@@ -185,6 +190,15 @@ $products-form-images-list-padding: 12px
   left: 70%
   background:
     image: url('#{$images-path}/product-thumb-refresh-white.svg')
+
+.products__new-form-image-thumb-add
+  @extend .products__new-form-image-thumb-remove
+  left: 50%
+  display: block
+  background:
+    image: url('#{$images-path}/product-thumb-plus-white.svg')
+
+
 
 .products__new-form-remove-params-btn
   display: inline-block

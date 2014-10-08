@@ -137,6 +137,18 @@
                       Добавить характеристики
                 .col-md-4
                   %div( data-react-class="ImagesForm" data-react-props='{"imageDeletePath": "/products/image", "fieldName": "images[]"}')
+                  .clearfix
+
+                  -# only in static:
+                  %hr
+                  .text-muted
+                    пример кнопки добавления фотографии:
+                  .products__new-form-images-list
+                    .products__new-form-image-thumb-block
+                      .products__new-form-image-thumb-empty
+                      .products__new-form-image-thumb-add
+                  -# end
+
               .row
                 .col-md-8
                   .products__new-form-actions

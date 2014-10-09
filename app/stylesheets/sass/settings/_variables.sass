@@ -3,23 +3,24 @@ $gray-dark:              lighten(#000, 30%)
 $gray:                   lighten(#000, 40%)
 $gray-light:             lighten(#000, 60%)
 $gray-lighter:           lighten(#000, 85%)
-$gray-lightest:          lighten(#000, 90%)
+$gray-lightest:          lighten(#000, 98%)
 
 //$blue: #009BFF
 $blue: #0BAFFC
 $blue-dark: darken($blue, 20%)
 $red: #f6584f
 $red-dark: #CB1F35
-$green: #7ED321
+$green: #57CB6A //#16cc47
 $green-dark: #57CB6A
-$orange: #ffae00
-$yellow: #FFD400
+$orange: #ff4500
+$yellow: #ffd600
 $purple: rgb(158, 0, 93)
+$white: #fff
 
 $brand-color: $yellow
 $brand-color-light: lighten($yellow, 10%)
 $brand-color-dark: darken($yellow, 10%)
-$line-color: $gray-lightest
+$line-color: $gray-lighter
 
 $text-color: $gray-darker
 $text-color-dark: $gray-darker
@@ -36,7 +37,7 @@ $input-border-radius: 2px
 $border-radius-large: $border-radius-base
 $border-radius-large: $border-radius-base
 
-$body-background: #F4F4F4
+$body-background: #fff
 $footer-background: $gray-darker
 $article-background: darken(#fff, 7%)
 $muted-block-background: lighten($line-color, 5%)
@@ -53,16 +54,20 @@ $navbar-background-color: #fff
 
 $block-padding: 20px
 
+// Z-index List
+$zindex-popup: 1000
+
+// Navbar
 $navbar-height:                    72px
-$navbar-margin-bottom:             $line-height-computed 
-$navbar-border-radius:             $border-radius-base 
-$navbar-padding-horizontal:        floor(($grid-gutter-width / 2)) 
-$navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2) 
-$navbar-collapse-max-height:       340px 
+$navbar-margin-bottom:             $line-height-computed
+$navbar-border-radius:             $border-radius-base
+$navbar-padding-horizontal:        floor(($grid-gutter-width / 2))
+$navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2)
+$navbar-collapse-max-height:       340px
 
 $navbar-default-color:             $text-color
 $navbar-default-bg:                #fff
-$navbar-default-border:            darken($navbar-default-bg, 6.5%) 
+$navbar-default-border:            darken($navbar-default-bg, 6.5%)
 
 // Navbar links
 $navbar-default-link-color:                $link-color
@@ -81,4 +86,37 @@ $input-background-inactive: rgba(#fff, 0.85)
 $left-sidebar-z-index: 300
 $header-navbar-z-index: 400
 
+// Order Status Bullet
+$order-status-bullet-size: 10px
 
+// Order Status Label
+$order-status-label-border-radius: $border-radius-base
+
+$order-status-label-font-size: $font-size-small
+
+$order-status-label-color: $white
+
+// Tooltip
+$tooltip-bg: rgba(red($gray-darker), green($gray-darker), blue($gray-darker), .95)
+
+$tooltip-arrow-color: $tooltip-bg
+
+$tooltip-opacity: 1
+
+// Popup Products
+$popup-products-bg: rgba(red($gray-darker), green($gray-darker), blue($gray-darker), .95)
+
+$popup-products-arrow-width: 10px !default
+
+$popup-products-arrow-color: $popup-products-bg !default
+
+// Breadcrumb
+$breadcrumb-padding-vertical: 0
+$breadcrumb-padding-horizontal: 0
+
+$breadcrumb-bg: #fff
+
+$breadcrumb-font-size: $font-size-small
+
+$breadcrumb-color: $gray-darker
+$breadcrumb-active-color: $gray-darker

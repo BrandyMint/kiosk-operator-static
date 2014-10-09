@@ -25,6 +25,7 @@
 @import "utilities/responsive";
 
 @import "settings/forms";
+@import "settings/tooltip";
 
 @import "modules/buttons";
 @import "modules/toggle";
@@ -37,6 +38,9 @@
 @import "modules/orders";
 @import "modules/products";
 @import "modules/products-simple-form";
+@import "modules/popup-products";
 @import "modules/categories";
 @import "modules/typeahead";
 @import "modules/pagination";
+@import "modules/breadcrumbs";
+@import "modules/tables";

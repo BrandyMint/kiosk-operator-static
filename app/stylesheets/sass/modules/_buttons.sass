@@ -137,3 +137,20 @@
   line-height: 1em
   height: auto
   padding: 8px 15px
+
+.btn-remove-circle
+  display: inline-block
+  width: 34px
+  height: 34px
+  border-radius: 100%
+  background-color: darken($gray-dark, 7%)
+  background:
+    repeat: no-repeat
+    position: center
+    image: url('#{$images-path}/product-thumb-cancel-white.svg')
+  cursor: pointer
+  +opacity(.4)
+  +transition(background 0.2s ease, opacity .2s ease)
+  &:hover
+    background-color: $blue
+    +opacity(1)

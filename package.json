@@ -52,7 +52,8 @@
     "haml-coffee": "^1.14.1",
     "gulp-haml-coffee": "saschagehlich/gulp-haml-coffee",
     "gulp-flatten": "0.0.2",
-    "gulp-file-include": "^0.4.2"
+    "gulp-file-include": "^0.4.2",
+    "serve-static": "^1.6.4"
   },
   "engines": {
     "node": ">=0.10.0"

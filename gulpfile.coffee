@@ -67,7 +67,7 @@ options.sass =
 
 gulp.task "sass", ->
   gulp
-    .src("./app/stylesheets/app.sass")
+    .src("./app/stylesheets/app.scss")
     .pipe(sass(options.sass))
     .pipe(gulp.dest("dist/stylesheets"))
     .pipe($.connect.reload())

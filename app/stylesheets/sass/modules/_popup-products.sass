@@ -4,32 +4,32 @@
   color: $white
   z-index: $zindex-popup
   &.top
-    margin-top: -10px;
+    margin-top: -10px
     padding: $popup-products-arrow-width 0
   &.bottom
-    margin-top: 10px;
+    margin-top: 10px
     padding: $popup-products-arrow-width 0
 
 .popup-products
   .popup-products__inner:before
     content: ""
-    width: 0;
-    height: 0;
-    position: absolute;
-    border-color: transparent;
-    border-style: solid;
+    width: 0
+    height: 0
+    position: absolute
+    border-color: transparent
+    border-style: solid
   &.top .popup-products__inner:before
-    bottom: 0;
-    left: 50%;
-    margin-left: -$popup-products-arrow-width;
-    border-width: $popup-products-arrow-width $popup-products-arrow-width 0;
-    border-top-color: $popup-products-arrow-color;
+    bottom: 0
+    left: 50%
+    margin-left: -$popup-products-arrow-width
+    border-width: $popup-products-arrow-width $popup-products-arrow-width 0
+    border-top-color: $popup-products-arrow-color
   &.bottom .popup-products__inner:before
-    top: 0;
-    left: 50%;
-    margin-left: -$popup-products-arrow-width;
-    border-width: 0 $popup-products-arrow-width $popup-products-arrow-width;
-    border-bottom-color: $popup-products-arrow-color;
+    top: 0
+    left: 50%
+    margin-left: -$popup-products-arrow-width
+    border-width: 0 $popup-products-arrow-width $popup-products-arrow-width
+    border-bottom-color: $popup-products-arrow-color
 
 .popup-products__inner
   padding: 24px 30px

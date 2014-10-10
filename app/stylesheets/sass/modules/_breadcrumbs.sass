@@ -2,13 +2,14 @@
   margin-bottom: 4px
   font-size: $breadcrumb-font-size
   border-radius: 0
-  > li
+  & > li
     &:after
-      content: "#{$breadcrumb-separator}\00a0" // Unicode space added since inline-block means non-collapsing white-space
+      // Unicode space added since inline-block means non-collapsing white-space
+      content: "#{$breadcrumb-separator}\00a0"
       padding: 0 2px
       color: $breadcrumb-color
-    + li:before
+    & + li:before
       content: ""
       padding: 0
-  > .active
+  & > .active
     display: block

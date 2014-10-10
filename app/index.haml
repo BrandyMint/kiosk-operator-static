@@ -11,10 +11,10 @@
       .login__block
         -#.alert.alert-danger
         .login__form
-          - pages = ['signup.html', 'signup_errors.html', 'signup_pin.html', 'login.html', 'login_errors.html', 'reset_password.html', 'orders.html', 'products.html', 'products_new.html', 'categories.html']
+          - pages = [{url: 'signup.html', title: 'Регистрация'}, {url: 'signup_errors.html', title: 'Регистрация (ошибки)'}, {url: 'signup_pin.html', title: 'Регистраци (подтверждение пин-кода)'}, {url: 'login.html', title: 'Авторизация'}, {url: 'login_errors.html', title: 'Авторизация (ошибки)'}, {url: 'reset_password.html', title: 'Восстановить пин-код'}, {url: 'orders.html', title: 'Заказы (старый дизайн)'}, {url: 'orders_list.html', title: 'Заказы'}, {url: 'order.html', title: 'Страница заказа'}, {url: 'products.html', title: 'Страница товаров'}, {url: 'products_new.html', title: 'Добавление нового товара'}, {url: 'categories.html', title: 'Категории товаров'}]
           - for page of pages
             - page = pages[page]
             %h3
-              %a{href: "#{page}"}
-                = page
+              %a{href: "#{page.url}"}
+                = page.title
 

@@ -24,9 +24,9 @@ window.OperatorCategoriesActions =
       data: data
     }
 
-  reorderCategories: (category, insertIdx) ->
+  reorderCategories: (srcId, insertIdx) ->
     OperatorCategoriesDispatcher.handleViewAction {
       type: 'reorderCategories'
-      category: category
+      srcId: srcId
       insertIdx: insertIdx
     }

@@ -4,7 +4,7 @@
 
 window.OperatorCategories_CreateForm = React.createClass
   propTypes:
-    parentCategoryId: React.PropTypes.number
+    parentCategory:   React.PropTypes.object
     caption:          React.PropTypes.string
     placeholder:      React.PropTypes.string
     onCreateEnd:      React.PropTypes.func
@@ -63,9 +63,10 @@ window.OperatorCategories_CreateForm = React.createClass
     inputNode.selectionStart = inputNode.selectionEnd = inputNode.value.length
 
   _confirmCreate: ->
+    parent_id = if @props.parentCategory then @props.parentCategory.id else null
     OperatorCategoriesActions.createCategory {
       name:      @refs.input.getDOMNode().value
-      parent_id: @props.parentCategoryId 
+      parent_id:    parent_id
     }
     @_refreshAndFocusInput()
 

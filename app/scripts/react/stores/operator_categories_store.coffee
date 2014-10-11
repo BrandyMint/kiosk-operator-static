@@ -6,6 +6,9 @@ _categories = []
 
 service = new OperatorCategoriesService()
 
+_pushCategories = (categories) ->
+  _categories = categories
+
 _deleteCategory = (category) ->
   _categories = _.reject _categories, (i) -> i.id == category.id
   service.deleteCategory category.id, (err, response) ->
@@ -41,6 +44,11 @@ _createCategory = (data) ->
     if err
       console.error err # todo
 
+_getSortedCategoriesByParent = (parentCat) ->
+  parent_id = if parentCat then parentCat.id else null
+  _.filter _categories, (i) -> i.parent_id == parent_id
+    .sort((a, b) -> a.position - b.position)
+
 _applyPositions = (changes) ->
   reorderedCategories = _categories.slice(0) # Clone
   for category in reorderedCategories
@@ -53,17 +61,13 @@ _getNewPositions = (cat, insertIdx) ->
   # Хитрые разборки с целью несколько минимизировать объём обновлений
   # Оптимальный алгоритм уж делать не стал - только минимальная оптимизация
   # в частных случаях
-
-  oldPositions =
-    _.filter _categories, (i) -> i.parent_id == cat.parent_id
-      .sort((a, b) -> a.position - b.position)
-
+  oldPositions = _getSortedCategoriesByParent _getCategoryById cat.parent_id
   originalIdx = _.findIndex oldPositions, (i) -> i.id == cat.id
 
   # Нужно ли менять позицию вообще
-  if insertIdx == originalIdx or insertIdx == originalIdx + 1
-    return []
+  if insertIdx == originalIdx then return []
 
+  oldPositions = _.reject oldPositions, (i) -> i.id == cat.id
   leftCat = oldPositions[insertIdx - 1] unless insertIdx < 1
   rightCat = oldPositions[insertIdx] unless insertIdx > oldPositions.length - 1
 
@@ -97,7 +101,6 @@ _getNewPositions = (cat, insertIdx) ->
     name:     cat.name
   }]
   oldTail = oldPositions[insertIdx..]
-  oldTail = _.reject oldTail, (i) -> i.id == cat.id
 
   for catToShift in oldTail
     minPosition = slicePosition + 1
@@ -114,7 +117,11 @@ _getNewPositions = (cat, insertIdx) ->
 
   return newPositions
 
-_reorderCategories = (category, insertIdx) ->
+_getCategoryById = (id) ->
+  _.find _categories, (i) -> i.id == id
+
+_reorderCategories = (categoryId, insertIdx) ->
+  category = _getCategoryById categoryId
   positionChanges = _getNewPositions category, insertIdx
   if positionChanges.length
     _applyPositions positionChanges
@@ -132,14 +139,15 @@ window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
   removeChangeListener: (callback) ->
     @off CHANGE_EVENT, callback
 
-  pushCategories: (categories) ->
-    _categories = categories
-
   getAllCategories: ->
+    window.ccc = _categories
     _categories
 
   getCategoryById: (id) ->
-    _.find _categories, (i) -> i.id == id
+    _getCategoryById id
+
+  getSortedCategoriesByParent: (parentCat) ->
+    _getSortedCategoriesByParent parentCat
 }
 
 OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (payload) ->
@@ -147,26 +155,26 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (p
 
   switch action.type
     when 'receiveAll'
-      OperatorCategoriesStore.pushCategories(action.categories)
+      _pushCategories action.categories
       OperatorCategoriesStore.emitChange()
 
     when 'deleteCategory'
-      _deleteCategory(action.category)
+      _deleteCategory action.category
       OperatorCategoriesStore.emitChange()
 
     when 'updateCategory'
-      _updateCategory(action.category)
+      _updateCategory action.category
       OperatorCategoriesStore.emitChange()
 
     when 'createCategory'
-      _createCategory(action.data)
+      _createCategory action.data
       OperatorCategoriesStore.emitChange()
 
     when 'reorderCategories'
-      _reorderCategories(action.category, action.insertIdx)
+      _reorderCategories action.srcId, action.insertIdx
       OperatorCategoriesStore.emitChange()
 
     when 'categoryCreated'
       _categories = _.map _categories, (i) ->
         if i.id == action.tmpId then action.category else i
-       OperatorCategoriesStore.emitChange()
+      OperatorCategoriesStore.emitChange()

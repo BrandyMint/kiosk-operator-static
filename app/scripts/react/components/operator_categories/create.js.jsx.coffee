@@ -4,13 +4,13 @@
 
 window.OperatorCategories_Create = React.createClass
   propTypes:
-    parentCategoryId: React.PropTypes.number
+    parentCategory: React.PropTypes.object
 
   getInitialState: ->
     creating: false
 
   render: ->
-    text = if @props.parentCategoryId
+    text = if @props.parentCategory
       caption: "Добавить подкатегории"
       placeholder: "Наименование подкатегории"
     else
@@ -25,7 +25,7 @@ window.OperatorCategories_Create = React.createClass
 
     createTemplate =
       `<OperatorCategories_CreateForm
-         parentCategoryId= { this.props.parentCategoryId }
+         parentCategory=   { this.props.parentCategory }
          caption=          { text.caption }
          placeholder=      { text.placeholder }
          onCreateEnd=      { this._backToButton }

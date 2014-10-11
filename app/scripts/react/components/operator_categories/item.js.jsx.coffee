@@ -2,15 +2,24 @@
 
 ###*global React ###
 
+cx = React.addons.classSet
+
 window.OperatorCategories_Item = React.createClass
   propTypes:
     category:         React.PropTypes.object
+    isActive:         React.PropTypes.bool
 
   getInitialState: ->
     status:   'view'
 
   render: ->
-    return `<div className=    "hoverable-container operator-categories__item"
+    classes = cx {
+      'hoverable-container':       true
+      'operator-categories__item': true
+      'active':                    @props.isActive
+    }
+
+    return `<div className=    { classes }
                  data-objectid={ this.props.category.id }>
               <i className=    "fa fa-bars operator-categories-drag-handle" />
               { this._getItemNode() }

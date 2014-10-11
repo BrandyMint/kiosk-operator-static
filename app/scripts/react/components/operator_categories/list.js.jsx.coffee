@@ -1,84 +1,67 @@
 ###* @jsx React.DOM ###
 
-###*global React, OperatorCategoriesStore, OperatorCategoriesSelectedStore, OperatorCategoriesActions ###
+###*global $, React, OperatorCategoriesStore, OperatorCategoriesSelectedStore, OperatorCategoriesActions ###
 
 #ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
 
+DRAG_DELAY  = 100 # мс
+DRAG_REVERT = 100 # мс
+
 window.OperatorCategories_List = React.createClass
   propTypes:
-    categoryLevel:       React.PropTypes.number
+    parentCategory: React.PropTypes.object
 
   getInitialState: ->
-    parentCategory = OperatorCategoriesSelectedStore.getSelectedCategoryForLevel @props.categoryLevel
-    return {
-      needDropZone:    false
-      dropTargetIndex: null
-      beDragTarget:    false
-      parentCategoryId: if parentCategory then parentCategory.id else null
-      categories: OperatorCategoriesStore.getAllCategories()
-    }
+    parentCategory:   @props.parentCategory
+    categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent @props.parentCategory
 
   componentDidMount: ->
     OperatorCategoriesStore.addChangeListener @_onChange
-    OperatorCategoriesSelectedStore.addChangeListener @_onChange
+
+    $(@refs.list.getDOMNode()).sortable {
+      placeholder: 'operator-categories__item-dropzone'
+      forcePlaceholderSize: true
+      revert: DRAG_REVERT
+      delay: DRAG_DELAY
+      stop: @handleDrop
+    }
+
+  componentWillReceiveProps: (newProps) ->
+    @setState
+      parentCategory:   newProps.parentCategory
+      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent newProps.parentCategory
 
   componentWillUnmount: ->
     OperatorCategoriesStore.removeChangeListener @_onChange
-    OperatorCategoriesSelectedStore.removeChangeListener @_onChange
 
   render: ->
     that = @
-
-    categoriesToShow =
-      _.filter(@state.categories, (i) -> i.parent_id == that.state.parentCategoryId)
-        .sort((a, b) -> a.position - b.position)
-
-    # Подготовка списка категорий при необходимости со вставленной в него дроп-зоной
-    categoryNodes = []
-    categoriesToShow.map (cat, i) ->
-      if that.state.needDropZone and that.state.dropTargetIndex == i
-        categoryNodes.push(
-          `<OperatorCategories_ItemDropzone key={ "dz" } />`)
-      categoryNodes.push(
-          `<OperatorCategories_Item key=               { cat.id }
-                                    idx=               { i }
-                                    category=          { cat }
-                                    onDragStart=       { that.handleDragStart }
-                                    onDragEnd=         { that.handleDragEnd }
-                                    onDragOver=        { that.handleDragOver }
-                                    beDragTarget=      { that.state.beDragTarget } />`)
-    if that.state.needDropZone and that.state.dropTargetIndex == categoriesToShow.length
-      categoryNodes.push(
-        `<OperatorCategories_ItemDropzone key={ "dz" } />`)
+    categoryNodes = @state.categoriesToShow.map (cat) ->
+      `<OperatorCategories_Item key=               { cat.id }
+                                category=          { cat }
+                                onDragStart=       { that.handleDragStart }
+                                onDragEnd=         { that.handleDragEnd }
+                                onDragOver=        { that.handleDragOver }
+                                beDragTarget=      { that.state.beDragTarget } />`
 
     return `<div>
-              <OperatorCategories_Create parentCategoryId={ this.state.parentCategoryId } />
+              <OperatorCategories_Create parentCategory={ this.state.parentCategory } />
               <br />
-              <div className="operator-categories">
+              <div className= "operator-categories"
+                   ref=       "list">
                 { categoryNodes }
               </div>
             </div>`
 
   _onChange: ->
-    parentCategory = OperatorCategoriesSelectedStore.getSelectedCategoryForLevel @props.categoryLevel
-    @setState {
-      parentCategoryId: if parentCategory then parentCategory.id else null
-      categories: OperatorCategoriesStore.getAllCategories()
-    }
+    @setState
+      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent @state.parentCategory
 
-  handleDragStart: ->
-    @setState(beDragTarget: true)
-
-  handleDragEnd: (cat) ->
-    @setState {
-      needDropZone: false
-      beDragTarget: false
-    }
-    OperatorCategoriesActions.reorderCategories cat, @state.dropTargetIndex
-
-  handleDragOver: (idx, isUpper) ->
-    dzIdx = idx + (if isUpper then 0 else 1)
-    @setState {
-      needDropZone:    true
-      dropTargetIndex: dzIdx
-    }
+  handleDrop: (evt, ui) ->
+    # Считываем нужные параметры перед завершением drag&drop, затем отменяем его.
+    # Если не отменить, ui.sortable сам меняет порядок элементов в DOM,
+    # что вступает в конфликт с рендерингом React, и всё ломается.
+    srcId = parseInt ui.item.attr('data-objectid')
+    insertIdx = ui.item.index()
+    $(@refs.list.getDOMNode()).sortable 'cancel'
+    OperatorCategoriesActions.reorderCategories srcId, insertIdx

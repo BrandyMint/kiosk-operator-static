@@ -11,6 +11,8 @@
     .operator-categories__item-title,
       &, &:hover
         color: $link-color-hover
+  &.ui-sortable-helper
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .8)
 
 .operator-categories__item-counter
   font-size: $font-size-smaller
@@ -61,8 +63,3 @@
 
 .operator-categories-drag-handle
   cursor: ns-resize
-
-.operator-categories-dragging
-  pointer-events: none
-  box-shadow: 0 2px 5px rgba(0, 0, 0, .8)
-  background-color: $gray-lightest

@@ -1,31 +1,26 @@
 ###* @jsx React.DOM ###
 
-###*global React, OperatorCategoriesStore, OperatorCategoriesSelectedStore, OperatorCategoriesActions ###
+###*global React, OperatorCategoriesSelectedStore,
+  OperatorCategoriesServerActions, OperatorCategoriesStore###
 
 window.OperatorCategories = React.createClass
   propTypes:
-    categories:          React.PropTypes.array
+    categories:     React.PropTypes.array
  
   getInitialState: ->
-    categories:          []
-    selectedCategory:    null
-    selectedSubcategory: null
+    rightParentCat: null
 
   getDefaultProps: ->
-    categories:          null
-    mockMode:            false
+    categories:     null
 
   componentDidMount: ->
+    # Если категории пришли в props, имитируем загрузку с сервера
     if (@props.categories)
-      @setState(categories: @props.categories)
-    else
-      that = @
-      OperatorCategoriesStore.addChangeListener @_onChange
+      OperatorCategoriesServerActions.categoriesLoaded @props.categories
 
     OperatorCategoriesSelectedStore.addChangeListener @_onChange
 
   componentWillUnmount: ->
-    OperatorCategoriesStore.removeChangeListener @_onChange
     OperatorCategoriesSelectedStore.removeChangeListener @_onChange
 
   render: ->
@@ -33,7 +28,7 @@ window.OperatorCategories = React.createClass
 
     return `<div>
               <div className= "col-md-6 user-select-none">
-                <OperatorCategories_List categoryLevel={ 0 } />
+                <OperatorCategories_List parentCategory={ null } />
               </div>
               <div className="col-md-6 user-select-none">
                 { subcategoriesPane }
@@ -43,23 +38,14 @@ window.OperatorCategories = React.createClass
             </div>`
 
   _getSubcategoriesPane: ->
-    if @state.selectedCategory
-      `<OperatorCategories_List categoryLevel={ 1 } />`
+    if @state.rightParentCat
+      `<OperatorCategories_List parentCategory={ this.state.rightParentCat } />`
 
   _onChange: ->
-    selCat = OperatorCategoriesSelectedStore.getSelectedCategory()
-    if selCat and selCat.parentId
-      selSubCat = selCat
-      selCat = _.find @state.categories, (i) -> i.id == selCat.parentId
+    selectedCat = OperatorCategoriesSelectedStore.getSelectedCategory()
+    if selectedCat and selectedCat.parent_id
+      rightParentCat = OperatorCategoriesStore.getCategoryById selectedCat.parent_id
+    else
+      rightParentCat = selectedCat
 
-    @setState {
-      categories: OperatorCategoriesStore.getAllCategories()
-      selectedCategory: selCat,
-      selectedSubcategory: selSubCat
-    }
-
-  handleCategoryCreate: (parentId, name) ->
-    OperatorCategoriesActions.createCategory {
-      name: name
-      parentId: parentId
-    }
+    @setState(rightParentCat: rightParentCat)

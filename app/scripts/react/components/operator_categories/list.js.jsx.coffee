@@ -17,6 +17,7 @@ window.OperatorCategories_List = React.createClass
 
   componentDidMount: ->
     OperatorCategoriesStore.addChangeListener @_onChange
+    OperatorCategoriesSelectedStore.addChangeListener @_onChange
 
     $(@refs.list.getDOMNode()).sortable {
       placeholder: 'operator-categories__item-dropzone'
@@ -33,12 +34,14 @@ window.OperatorCategories_List = React.createClass
 
   componentWillUnmount: ->
     OperatorCategoriesStore.removeChangeListener @_onChange
+    OperatorCategoriesSelectedStore.removeChangeListener @_onChange
 
   render: ->
     that = @
     categoryNodes = @state.categoriesToShow.map (cat) ->
       `<OperatorCategories_Item key=               { cat.id }
                                 category=          { cat }
+                                isActive=          { that._isCategoryActive(cat) }
                                 onDragStart=       { that.handleDragStart }
                                 onDragEnd=         { that.handleDragEnd }
                                 onDragOver=        { that.handleDragOver }
@@ -56,6 +59,13 @@ window.OperatorCategories_List = React.createClass
   _onChange: ->
     @setState
       categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent @state.parentCategory
+
+  _isCategoryActive: (cat) ->
+    selectedCat = OperatorCategoriesSelectedStore.getSelectedCategory()
+    if selectedCat and not (@state.parentCategory and @state.parentCategory.id == selectedCat.id)
+      (cat.id == selectedCat.id) or (cat.id == selectedCat.parent_id)
+    else
+      false
 
   handleDrop: (evt, ui) ->
     # Считываем нужные параметры перед завершением drag&drop, затем отменяем его.

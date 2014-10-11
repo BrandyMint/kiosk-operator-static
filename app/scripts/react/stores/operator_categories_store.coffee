@@ -16,30 +16,8 @@ _updateCategory = (category) ->
   service.updateCategory category, (err, response) ->
     if err then console.error err # todo
 
-_getNewCategory = (data) ->
-  tmpId = 100000000 + Math.floor(Math.random() * 100000000)
-  curList = _.filter _categories, (i) -> i.parent_id == data.parent_id
-  if curList.length
-    lastCat = _.max curList, (i) -> i.position
-    lastPosition = lastCat.position
-  else
-    lastPosition = -1
-
-  return {
-    "id":             tmpId
-    "name":           data.name
-    "parent_id":      data.parent_id
-    "products_count": 0
-    "position":       lastPosition + 1
-    "has_children?":  false
-  }
-
-_createCategory = (data) ->
-  newCat = _getNewCategory(data)
-  _categories = _categories.concat([newCat])
-  service.createCategory newCat, (err, createdCat) ->
-    if err
-      console.error err # todo
+addCategory = (category) ->
+  _categories = _categories.push category
 
 _applyPositions = (changes) ->
   reorderedCategories = _categories.slice(0) # Clone
@@ -158,8 +136,8 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (p
       _updateCategory(action.category)
       OperatorCategoriesStore.emitChange()
 
-    when 'createCategory'
-      _createCategory(action.data)
+    when 'addCategory'
+      addCategory(action.category)
       OperatorCategoriesStore.emitChange()
 
     when 'reorderCategories'

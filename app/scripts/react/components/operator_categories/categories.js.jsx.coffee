@@ -57,9 +57,3 @@ window.OperatorCategories = React.createClass
       selectedCategory: selCat,
       selectedSubcategory: selSubCat
     }
-
-  handleCategoryCreate: (parentId, name) ->
-    OperatorCategoriesActions.createCategory {
-      name: name
-      parentId: parentId
-    }

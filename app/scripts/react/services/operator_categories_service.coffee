@@ -26,23 +26,26 @@ class window.OperatorCategoriesService
         callback null, that.mockData
       , @mockLatency
 
-  createCategory: (data, callback) ->
-    dataForServer = _.pick data, ['name', 'position', 'parent_id']
+  createCategory: ({name, parnet_id, success, error}) ->
+    data =
+      name: name
+      parent_id: parent_id
     if !@mockMode
       $.ajax
         dataType: 'json'
         url:      Routes.operator_categories_url
-        data:     dataForServer
+        data:     data
         method:   'post'
         error: (xhr, status, err) ->
-          callback err || status
-        success: (response) ->
-          OperatorCategoriesServerActions.categoryCreated data.id, response
-          if callback then callback null, response
+          error err || status
+        success: (category) ->
+          OperatorCategoriesServerActions.categoryCreated category
+          success category
     else
       setTimeout ->
-        OperatorCategoriesServerActions.categoryCreated data.id, data
-        if callback then callback null, data
+        data.id = Math.floor(Math.random() * 100000000)
+        OperatorCategoriesServerActions.categoryCreated data
+        success data
       , @mockLatency
 
   # Пока непонятно, зачем этот маршрут в API, так как getCategories даёт

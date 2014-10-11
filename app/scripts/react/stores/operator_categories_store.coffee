@@ -140,7 +140,6 @@ window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
     @off CHANGE_EVENT, callback
 
   getAllCategories: ->
-    window.ccc = _categories
     _categories
 
   getCategoryById: (id) ->

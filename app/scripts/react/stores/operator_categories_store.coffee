@@ -4,7 +4,7 @@ CHANGE_EVENT = 'change'
 
 _categories = []
 
-service = new OperatorCategoriesService()
+service = OperatorCategoriesService
 
 _pushCategories = (categories) ->
   _categories = categories
@@ -19,30 +19,20 @@ _updateCategory = (category) ->
   service.updateCategory category, (err, response) ->
     if err then console.error err # todo
 
-_getNewCategory = (data) ->
-  tmpId = 100000000 + Math.floor(Math.random() * 100000000)
-  curList = _.filter _categories, (i) -> i.parent_id == data.parent_id
+_addCategory = (category) ->
+  _categories.push category
+
+_positionCategory = (category) ->
+  curList = _.filter _categories, (i) -> i.parent_id == category.parent_id
   if curList.length
     lastCat = _.max curList, (i) -> i.position
     lastPosition = lastCat.position
   else
     lastPosition = -1
 
-  return {
-    "id":             tmpId
-    "name":           data.name
-    "parent_id":      data.parent_id
-    "products_count": 0
+  return _.extend category, {
     "position":       lastPosition + 1
-    "has_children?":  false
   }
-
-_createCategory = (data) ->
-  newCat = _getNewCategory(data)
-  _categories = _categories.concat([newCat])
-  service.createCategory newCat, (err, createdCat) ->
-    if err
-      console.error err # todo
 
 _getSortedCategoriesByParent = (parentCat) ->
   parent_id = if parentCat then parentCat.id else null
@@ -147,6 +137,9 @@ window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
 
   getSortedCategoriesByParent: (parentCat) ->
     _getSortedCategoriesByParent parentCat
+
+  positionCategory: (category) ->
+    _positionCategory category
 }
 
 OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (payload) ->
@@ -165,8 +158,8 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (p
       _updateCategory action.category
       OperatorCategoriesStore.emitChange()
 
-    when 'createCategory'
-      _createCategory action.data
+    when 'addCategory'
+      _addCategory action.category
       OperatorCategoriesStore.emitChange()
 
     when 'reorderCategories'

@@ -2,43 +2,25 @@
 
 ###*global React, OperatorCategoriesActions ###
 
+STATE_BUTTON = 'button'
+STATE_INPUT  = 'input'
+
 window.OperatorCategories_Create = React.createClass
   propTypes:
     parentCategory: React.PropTypes.object
 
   getInitialState: ->
-    creating: false
+    currentState: STATE_BUTTON
 
   render: ->
-    text = if @props.parentCategory
-      caption: "Добавить подкатегории"
-      placeholder: "Наименование подкатегории"
-    else
-      caption: "Добавить новые категории"
-      placeholder: "Наименование категории"
+    switch @state.currentState
+      when STATE_BUTTON
+        `<OperatorCategories_CreateButton onClick = { this.handleStart } />`
+      when STATE_INPUT
+        `<OperatorCategories_CreateForm  onFinish = { this.handleFinish } 
+          parentCategoryId={ this.props.parentCategoryId } />`
+      else
+        console.error? "Unknown state: #{@state.currentState}"
 
-    displayTemplate =
-      `<OperatorCategories_CreateButton
-         caption=        { text.caption }
-         onCreateStart = { this.handleCreateStart }
-       />`
-
-    createTemplate =
-      `<OperatorCategories_CreateForm
-         parentCategory=   { this.props.parentCategory }
-         caption=          { text.caption }
-         placeholder=      { text.placeholder }
-         onCreateEnd=      { this._backToButton }
-       />`
-
-    return if @state.creating
-      createTemplate
-    else
-      displayTemplate
-
-  _backToButton: ->
-    @setState(creating: false)
-
-  handleCreateStart: (e) ->
-    e.preventDefault()
-    @setState(creating: true)
+  handleStart:  -> @setState(currentState: STATE_INPUT)
+  handleFinish: -> @setState(currentState: STATE_BUTTON)

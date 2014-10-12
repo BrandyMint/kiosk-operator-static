@@ -4,13 +4,9 @@
 
 window.OperatorCategories_CreateButton = React.createClass
   propTypes:
-    caption:       React.PropTypes.string
-    onCreateStart: React.PropTypes.func
+    onClick: React.PropTypes.func.isRequired
 
   render: ->
     `<div>
-      <a className="btn btn-default"
-         onClick={ this.props.onCreateStart }>
-        { this.props.caption }
-      </a>
+      <a className="btn btn-default" onClick={ this.props.onClick }>Создать категорию</a>
     </div>`

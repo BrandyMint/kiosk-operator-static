@@ -2,47 +2,45 @@
 
 # На основе http://api.kormilica.info/#!/operator
 
-class window.OperatorCategoriesService
-  constructor: ->
-    @getCategories (err, data) ->
-      if !err
-        OperatorCategoriesServerActions.categoriesLoaded data
-      else
-        console.error 'Не удалось загрузить категории', err
-
+window.OperatorCategoriesService =
   getCategories: (callback) ->
     if !@mockMode
       $.ajax
         dataType: 'json'
-        url:      Routes.operator_categories_url
+        url:      Routes.operator_categories_url()
         method:   'get'
         error: (xhr, status, err) ->
-          callback err || status
+          if callback then callback err || status
         success: (data) ->
-          callback null, data
+          OperatorCategoriesServerActions.categoriesLoaded data
+          if callback then callback null, data
     else
       that = @
       setTimeout ->
-        callback null, that.mockData
+        OperatorCategoriesServerActions.categoriesLoaded that.mockData
+        if callback then callback null, that.mockData
       , @mockLatency
 
-  createCategory: (data, callback) ->
-    dataForServer = _.pick data, ['name', 'position', 'parent_id']
+  createCategory: ({name, parent_id, success, error}) ->
+    data = OperatorCategoriesStore.positionCategory
+      name: name
+      parent_id: parent_id
     if !@mockMode
       $.ajax
         dataType: 'json'
-        url:      Routes.operator_categories_url
-        data:     dataForServer
+        url:      Routes.operator_categories_url()
+        data:     data
         method:   'post'
         error: (xhr, status, err) ->
-          callback err || status
-        success: (response) ->
-          OperatorCategoriesServerActions.categoryCreated data.id, response
-          if callback then callback null, response
+          error err || status
+        success: (category) ->
+          OperatorCategoriesServerActions.categoryCreated category
+          success category
     else
       setTimeout ->
-        OperatorCategoriesServerActions.categoryCreated data.id, data
-        if callback then callback null, data
+        data.id = Math.floor(Math.random() * 100000000)
+        OperatorCategoriesServerActions.categoryCreated data
+        success data
       , @mockLatency
 
   # Пока непонятно, зачем этот маршрут в API, так как getCategories даёт

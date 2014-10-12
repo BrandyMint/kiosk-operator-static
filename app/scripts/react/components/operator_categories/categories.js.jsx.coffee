@@ -17,6 +17,8 @@ window.OperatorCategories = React.createClass
     # Если категории пришли в props, имитируем загрузку с сервера
     if (@props.categories)
       OperatorCategoriesServerActions.categoriesLoaded @props.categories
+    else
+      OperatorCategoriesService.getCategories()
 
     OperatorCategoriesSelectedStore.addChangeListener @_onChange
 

@@ -3,14 +3,21 @@
 window.OperatorCategoriesServerActions =
 
   categoriesLoaded: (categoriesData) ->
-    OperatorCategoriesDispatcher.handleServerAction {
+    OperatorCategoriesDispatcher.handleServerAction
       type: 'receiveAll'
       categories: categoriesData
-    }
 
-  categoryCreated: (tmpId, category) ->
-    OperatorCategoriesDispatcher.handleServerAction {
-      type: 'categoryCreated'
-      tmpId: tmpId
+  categoryCreated: (category) ->
+    OperatorCategoriesDispatcher.handleServerAction
+      type: 'addCategory'
       category: category
-    }
+
+  categoryUpdated: (category) ->
+    OperatorCategoriesDispatcher.handleServerAction
+      type: 'updateCategory'
+      category: category
+
+  categoryDeleted: (category) ->
+    OperatorCategoriesDispatcher.handleServerAction
+      type: 'deleteCategory'
+      category: category

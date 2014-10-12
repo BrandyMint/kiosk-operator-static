@@ -12,3 +12,12 @@ window.ReactApp =
     #$(document).on 'page:change', ReactUjs.mountReactComponents
 
 $ -> ReactApp.start()
+
+
+# TODO Вынести в отдельный файл
+window.AppHelpers =
+
+  # Ставит фокус на input и выделяет содержимое
+  reselectAndFocus: (el) ->
+    el.focus()
+    el.selectionStart = el.selectionEnd = el.value.length

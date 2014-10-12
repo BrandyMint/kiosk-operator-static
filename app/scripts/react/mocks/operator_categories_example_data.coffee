@@ -1,7 +1,7 @@
 ###*global OperatorCategoriesService ###
 
 # Monkey-patch the service to setup mock data
-class window.OperatorCategoriesService extends OperatorCategoriesService
+window.OperatorCategoriesService = _.extend window.OperatorCategoriesService, {
   mockMode: true
   mockData:
     [
@@ -585,3 +585,4 @@ class window.OperatorCategoriesService extends OperatorCategoriesService
         "products_count": 26
       }
     ]
+}

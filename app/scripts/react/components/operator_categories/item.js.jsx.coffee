@@ -6,8 +6,8 @@ cx = React.addons.classSet
 
 window.OperatorCategories_Item = React.createClass
   propTypes:
-    category:         React.PropTypes.object
-    isActive:         React.PropTypes.bool
+    category:         React.PropTypes.object.isRequired
+    isActive:         React.PropTypes.bool.isRequired
 
   getInitialState: ->
     status:   'view'
@@ -36,13 +36,13 @@ window.OperatorCategories_Item = React.createClass
       when 'edit'
         `<OperatorCategories_ItemEdit
            category=           { this.props.category }
-           onEditEnd=          { this._backToView }
+           onFinish=           { this._backToView }
            onDeleteStart =     { this.handleDeleteStart }
          />`
       when 'delete'
         `<OperatorCategories_ItemDelete
            category=           { this.props.category }
-           onDeleteEnd=        { this._backToView }
+           onFinish=           { this._backToView }
          />`
 
   _backToView: ->

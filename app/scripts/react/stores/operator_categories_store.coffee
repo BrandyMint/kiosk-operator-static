@@ -1,48 +1,32 @@
-###*global _, EventEmitter, OperatorCategoriesService, OperatorCategoriesDispatcher ###
+###*global _, EventEmitter, OperatorCategoriesDispatcher ###
 
 CHANGE_EVENT = 'change'
 
 _categories = []
-
-service = new OperatorCategoriesService()
 
 _pushCategories = (categories) ->
   _categories = categories
 
 _deleteCategory = (category) ->
   _categories = _.reject _categories, (i) -> i.id == category.id
-  service.deleteCategory category.id, (err, response) ->
-    if err then console.error err # todo
 
 _updateCategory = (category) ->
   _categories = _.map _categories, (i) -> if i.id == category.id then category else i
-  service.updateCategory category, (err, response) ->
-    if err then console.error err # todo
 
-_getNewCategory = (data) ->
-  tmpId = 100000000 + Math.floor(Math.random() * 100000000)
-  curList = _.filter _categories, (i) -> i.parent_id == data.parent_id
+_addCategory = (category) ->
+  _categories.push category
+
+_positionCategory = (category) ->
+  curList = _.filter _categories, (i) -> i.parent_id == category.parent_id
   if curList.length
     lastCat = _.max curList, (i) -> i.position
     lastPosition = lastCat.position
   else
     lastPosition = -1
 
-  return {
-    "id":             tmpId
-    "name":           data.name
-    "parent_id":      data.parent_id
-    "products_count": 0
+  return _.extend category, {
     "position":       lastPosition + 1
-    "has_children?":  false
   }
-
-_createCategory = (data) ->
-  newCat = _getNewCategory(data)
-  _categories = _categories.concat([newCat])
-  service.createCategory newCat, (err, createdCat) ->
-    if err
-      console.error err # todo
 
 _getSortedCategoriesByParent = (parentCat) ->
   parent_id = if parentCat then parentCat.id else null
@@ -120,15 +104,6 @@ _getNewPositions = (cat, insertIdx) ->
 _getCategoryById = (id) ->
   _.find _categories, (i) -> i.id == id
 
-_reorderCategories = (categoryId, insertIdx) ->
-  category = _getCategoryById categoryId
-  positionChanges = _getNewPositions category, insertIdx
-  if positionChanges.length
-    _applyPositions positionChanges
-  service.updateCategories positionChanges, (err, response) ->
-    if err
-      console.error err # todo
-
 window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
   emitChange: ->
     @emit CHANGE_EVENT
@@ -147,6 +122,13 @@ window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
 
   getSortedCategoriesByParent: (parentCat) ->
     _getSortedCategoriesByParent parentCat
+
+  positionCategory: (category) ->
+    _positionCategory category
+
+  getReorderedPositions: (categoryId, insertIdx) ->
+    category = _getCategoryById categoryId
+    _getNewPositions category, insertIdx
 }
 
 OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (payload) ->
@@ -165,12 +147,12 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (p
       _updateCategory action.category
       OperatorCategoriesStore.emitChange()
 
-    when 'createCategory'
-      _createCategory action.data
+    when 'addCategory'
+      _addCategory action.category
       OperatorCategoriesStore.emitChange()
 
     when 'reorderCategories'
-      _reorderCategories action.srcId, action.insertIdx
+      _applyPositions action.newOrder
       OperatorCategoriesStore.emitChange()
 
     when 'categoryCreated'

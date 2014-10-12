@@ -11,3 +11,13 @@ window.OperatorCategoriesServerActions =
     OperatorCategoriesDispatcher.handleServerAction
       type: 'addCategory'
       category: category
+
+  categoryUpdated: (category) ->
+    OperatorCategoriesDispatcher.handleServerAction
+      type: 'updateCategory'
+      category: category
+
+  categoryDeleted: (category) ->
+    OperatorCategoriesDispatcher.handleServerAction
+      type: 'deleteCategory'
+      category: category

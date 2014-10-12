@@ -1,23 +1,17 @@
-###*global _, EventEmitter, OperatorCategoriesService, OperatorCategoriesDispatcher ###
+###*global _, EventEmitter, OperatorCategoriesDispatcher ###
 
 CHANGE_EVENT = 'change'
 
 _categories = []
-
-service = OperatorCategoriesService
 
 _pushCategories = (categories) ->
   _categories = categories
 
 _deleteCategory = (category) ->
   _categories = _.reject _categories, (i) -> i.id == category.id
-  service.deleteCategory category.id, (err, response) ->
-    if err then console.error err # todo
 
 _updateCategory = (category) ->
   _categories = _.map _categories, (i) -> if i.id == category.id then category else i
-  service.updateCategory category, (err, response) ->
-    if err then console.error err # todo
 
 _addCategory = (category) ->
   _categories.push category
@@ -110,15 +104,6 @@ _getNewPositions = (cat, insertIdx) ->
 _getCategoryById = (id) ->
   _.find _categories, (i) -> i.id == id
 
-_reorderCategories = (categoryId, insertIdx) ->
-  category = _getCategoryById categoryId
-  positionChanges = _getNewPositions category, insertIdx
-  if positionChanges.length
-    _applyPositions positionChanges
-  service.updateCategories positionChanges, (err, response) ->
-    if err
-      console.error err # todo
-
 window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
   emitChange: ->
     @emit CHANGE_EVENT
@@ -140,6 +125,10 @@ window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
 
   positionCategory: (category) ->
     _positionCategory category
+
+  getReorderedPositions: (categoryId, insertIdx) ->
+    category = _getCategoryById categoryId
+    _getNewPositions category, insertIdx
 }
 
 OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (payload) ->
@@ -163,7 +152,7 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (p
       OperatorCategoriesStore.emitChange()
 
     when 'reorderCategories'
-      _reorderCategories action.srcId, action.insertIdx
+      _applyPositions action.newOrder
       OperatorCategoriesStore.emitChange()
 
     when 'categoryCreated'

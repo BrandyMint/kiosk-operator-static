@@ -41,11 +41,7 @@ window.OperatorCategories_List = React.createClass
     categoryNodes = @state.categoriesToShow.map (cat) ->
       `<OperatorCategories_Item key=               { cat.id }
                                 category=          { cat }
-                                isActive=          { that._isCategoryActive(cat) }
-                                onDragStart=       { that.handleDragStart }
-                                onDragEnd=         { that.handleDragEnd }
-                                onDragOver=        { that.handleDragOver }
-                                beDragTarget=      { that.state.beDragTarget } />`
+                                isActive=          { that._isCategoryActive(cat) } />`
 
     return `<div>
               <OperatorCategories_Create parentCategory={ this.state.parentCategory } />
@@ -74,4 +70,4 @@ window.OperatorCategories_List = React.createClass
     srcId = parseInt ui.item.attr('data-objectid')
     insertIdx = ui.item.index()
     $(@refs.list.getDOMNode()).sortable 'cancel'
-    OperatorCategoriesActions.reorderCategories srcId, insertIdx
+    OperatorCategoriesService.reorderCategories srcId, insertIdx

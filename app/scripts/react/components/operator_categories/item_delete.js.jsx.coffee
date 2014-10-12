@@ -2,20 +2,40 @@
 
 ###*global React, OperatorCategoriesActions ###
 
+STATE_INPUT    = 'input'
+STATE_DELETING = 'deleting'
+STATE_ERROR    = 'error'
+
 DELETE_TIMEOUT = 5 * 1000 # (мс) Через сколько самозакрывается форма подтверждения удаления 
 
 window.OperatorCategories_ItemDelete = React.createClass
   propTypes:
-    category:         React.PropTypes.object
-    onDeleteEnd:      React.PropTypes.func
+    category:         React.PropTypes.object.isRequired
+    onFinish:         React.PropTypes.func.isRequired
 
   getInitialState: ->
-    delTimeOutHandle: setTimeout @props.onDeleteEnd, DELETE_TIMEOUT
+    currentState:     STATE_INPUT
+    delTimeOutHandle: setTimeout @props.onFinish, DELETE_TIMEOUT
 
   componentWillUnmount: ->
     clearTimeout @state.delTimeOutHandle
 
   render: ->
+    switch @state.currentState
+      when STATE_INPUT
+        @_inputForm()
+      when STATE_DELETING
+        `<span>
+          &nbsp;&nbsp;&nbsp;
+          <i>Удаление категории...</i>
+        </span>`
+      when STATE_ERROR
+        `<span>
+          &nbsp;&nbsp;&nbsp;
+          <i>Ошибка удаления категории.</i>
+        </span>`
+
+  _inputForm: ->
     `<span>
 
       <span className="operator-categories__item-title">
@@ -28,7 +48,7 @@ window.OperatorCategories_ItemDelete = React.createClass
       </span>
 
       <input type="button"
-             onClick={ this.props.onDeleteEnd }
+             onClick={ this.props.onFinish }
              className="pull-right btn btn-default btn-xs operator-categories__item-cancel-edit"
              value="Отменить" />
       <input type="button"
@@ -49,4 +69,12 @@ window.OperatorCategories_ItemDelete = React.createClass
 
   handleDelete: (e) ->
     e.preventDefault()
-    OperatorCategoriesActions.deleteCategory @props.category
+    clearTimeout @state.delTimeOutHandle
+    @setState(currentState: STATE_DELETING)
+    OperatorCategoriesService.deleteCategory
+      category: @props.category
+      success:  ->
+      error:    @handleError
+
+  handleError: (e) ->
+    @setState(currentState: STATE_ERROR)

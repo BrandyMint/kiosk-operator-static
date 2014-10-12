@@ -1,7 +1,6 @@
 ###* @jsx React.DOM ###
 
-###*global React, OperatorCategoriesSelectedStore,
-  OperatorCategoriesServerActions, OperatorCategoriesStore###
+###*global React, OperatorCategoriesServerActions, OperatorCategoriesStore###
 
 STATE_LOADING = 'loading'
 STATE_READY   = 'ready'
@@ -11,8 +10,8 @@ window.OperatorCategories = React.createClass
     categories:     React.PropTypes.array
 
   getInitialState: ->
-    rightParentCat: null
-    currentState:   if @props.categories then STATE_READY else STATE_LOADING
+    selectedCategory: null
+    currentState:     if @props.categories then STATE_READY else STATE_LOADING
 
   getDefaultProps: ->
     categories:     null
@@ -25,11 +24,9 @@ window.OperatorCategories = React.createClass
       OperatorCategoriesService.getCategories()
 
     OperatorCategoriesStore.addChangeListener @_onChange
-    OperatorCategoriesSelectedStore.addChangeListener @_onChange
 
   componentWillUnmount: ->
     OperatorCategoriesStore.removeChangeListener @_onChange
-    OperatorCategoriesSelectedStore.removeChangeListener @_onChange
 
   render: ->
     switch @state.currentState
@@ -43,26 +40,39 @@ window.OperatorCategories = React.createClass
 
     return `<div>
               <div className= "col-md-6 user-select-none">
-                <OperatorCategories_List parentCategory={ null } />
+                <OperatorCategories_List parentCategory={ null }
+                                         selectedCategory={ this.state.selectedCategory }
+                                         onSelectCategory={ this.handleCategorySelection } />
               </div>
               <div className="col-md-6 user-select-none">
                 { subcategoriesPane }
                 <br />
-                <OperatorCategories_GoodsLink />
+                <OperatorCategories_GoodsLink selectedCategory={ this.state.selectedCategory } />
               </div>
             </div>`
 
   _getSubcategoriesPane: ->
-    if @state.rightParentCat
-      `<OperatorCategories_List parentCategory={ this.state.rightParentCat } />`
-
-  _onChange: ->
-    selectedCat = OperatorCategoriesSelectedStore.getSelectedCategory()
+    selectedCat = @state.selectedCategory
     if selectedCat and selectedCat.parent_id
       rightParentCat = OperatorCategoriesStore.getCategoryById selectedCat.parent_id
     else
       rightParentCat = selectedCat
+    if rightParentCat
+      `<OperatorCategories_List parentCategory={ rightParentCat }
+                                selectedCategory={ this.state.selectedCategory }
+                                onSelectCategory={ this.handleCategorySelection } />`
+
+  _onChange: ->
+    if OperatorCategoriesStore.hasCategory @state.selectedCategory
+      selectedCategory = @state.selectedCategory
+    else if @state.selectedCategory and @state.selectedCategory.parent_id
+      selectedCategory = OperatorCategoriesStore.getCategoryById @state.selectedCategory.parent_id
+    else
+      selectedCategory = null
 
     @setState
-      currentState:   STATE_READY
-      rightParentCat: rightParentCat
+      currentState: STATE_READY
+      selectedCategory: selectedCategory
+
+  handleCategorySelection: (category) ->
+    @setState(selectedCategory: category)

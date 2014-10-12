@@ -8,6 +8,7 @@ window.OperatorCategories_Item = React.createClass
   propTypes:
     category:         React.PropTypes.object.isRequired
     isActive:         React.PropTypes.bool.isRequired
+    onSelectCategory: React.PropTypes.func.isRequired
 
   getInitialState: ->
     status:   'view'
@@ -32,6 +33,7 @@ window.OperatorCategories_Item = React.createClass
            category=           { this.props.category }
            onDeleteStart=      { this.handleDeleteStart }
            onEditStart=        { this.handleEditStart }
+           onSelectCategory=   { this.props.onSelectCategory }
          />`
       when 'edit'
         `<OperatorCategories_ItemEdit

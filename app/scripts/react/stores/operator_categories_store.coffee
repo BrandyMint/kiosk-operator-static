@@ -129,6 +129,12 @@ window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
   getReorderedPositions: (categoryId, insertIdx) ->
     category = _getCategoryById categoryId
     _getNewPositions category, insertIdx
+
+  hasCategory: (category) ->
+    if category
+      !!_.find _categories, (i) -> i.id == category.id
+    else
+      false
 }
 
 OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (payload) ->

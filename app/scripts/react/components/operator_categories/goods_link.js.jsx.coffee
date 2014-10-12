@@ -2,25 +2,14 @@
 
 ###*global React, OperatorCategoriesSelectedStore, Routes ###
 
-getStateFromStore = ->
-  return {
-    selectedCategory: OperatorCategoriesSelectedStore.getSelectedCategory()
-  }
-
 window.OperatorCategories_GoodsLink = React.createClass
-  getInitialState: ->
-    getStateFromStore()
-
-  componentDidMount: ->
-    OperatorCategoriesSelectedStore.addChangeListener @_onChange
-
-  componentWillUnmount: ->
-    OperatorCategoriesSelectedStore.removeChangeListener @_onChange
+  propTypes:
+    selectedCategory: React.PropTypes.object
 
   render: ->
-    if @state.selectedCategory
-      productsUrl = Routes.products_by_category_url @state.selectedCategory.id
-      count = @state.selectedCategory.products_count
+    if @props.selectedCategory
+      productsUrl = Routes.products_by_category_url @props.selectedCategory.id
+      count = @props.selectedCategory.products_count
       return `<ul className="nav nav-pills nav-stacked">
                 <li>
                   <a href={ productsUrl }>
@@ -30,6 +19,3 @@ window.OperatorCategories_GoodsLink = React.createClass
               </ul>`
     else
       null
-
-  _onChange: ->
-    @setState getStateFromStore()

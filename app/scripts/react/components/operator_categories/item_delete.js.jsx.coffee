@@ -71,6 +71,7 @@ window.OperatorCategories_ItemDelete = React.createClass
     e.preventDefault()
     clearTimeout @state.delTimeOutHandle
     @setState(currentState: STATE_DELETING)
+    that = @
     OperatorCategoriesService.deleteCategory
       category: @props.category
       success:  ->

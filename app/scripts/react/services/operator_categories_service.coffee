@@ -100,8 +100,8 @@ window.OperatorCategoriesService =
           success()
     else
       setTimeout ->
-        OperatorCategoriesServerActions.categoryDeleted category
         success()
+        OperatorCategoriesServerActions.categoryDeleted category
       , @mockLatency
 
   reorderCategories: (categoryId, insertIdx) ->

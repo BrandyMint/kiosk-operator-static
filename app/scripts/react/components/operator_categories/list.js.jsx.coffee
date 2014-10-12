@@ -1,6 +1,6 @@
 ###* @jsx React.DOM ###
 
-###*global $, React, OperatorCategoriesStore, OperatorCategoriesSelectedStore, OperatorCategoriesActions ###
+###*global $, React, OperatorCategoriesStore, OperatorCategoriesActions ###
 
 #ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
 
@@ -9,7 +9,9 @@ DRAG_REVERT = 100 # мс
 
 window.OperatorCategories_List = React.createClass
   propTypes:
-    parentCategory: React.PropTypes.object
+    parentCategory:   React.PropTypes.object
+    selectedCategory: React.PropTypes.object
+    onSelectCategory: React.PropTypes.func.isRequired
 
   getInitialState: ->
     parentCategory:   @props.parentCategory
@@ -17,7 +19,6 @@ window.OperatorCategories_List = React.createClass
 
   componentDidMount: ->
     OperatorCategoriesStore.addChangeListener @_onChange
-    OperatorCategoriesSelectedStore.addChangeListener @_onChange
 
     $(@refs.list.getDOMNode()).sortable {
       placeholder: 'operator-categories__item-dropzone'
@@ -34,14 +35,14 @@ window.OperatorCategories_List = React.createClass
 
   componentWillUnmount: ->
     OperatorCategoriesStore.removeChangeListener @_onChange
-    OperatorCategoriesSelectedStore.removeChangeListener @_onChange
 
   render: ->
     that = @
     categoryNodes = @state.categoriesToShow.map (cat) ->
       `<OperatorCategories_Item key=               { cat.id }
                                 category=          { cat }
-                                isActive=          { that._isCategoryActive(cat) } />`
+                                isActive=          { that._isCategoryActive(cat) }
+                                onSelectCategory=  { that.props.onSelectCategory } />`
 
     return `<div>
               <OperatorCategories_Create parentCategory={ this.state.parentCategory } />
@@ -57,7 +58,7 @@ window.OperatorCategories_List = React.createClass
       categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent @state.parentCategory
 
   _isCategoryActive: (cat) ->
-    selectedCat = OperatorCategoriesSelectedStore.getSelectedCategory()
+    selectedCat = @props.selectedCategory
     if selectedCat and not (@state.parentCategory and @state.parentCategory.id == selectedCat.id)
       (cat.id == selectedCat.id) or (cat.id == selectedCat.parent_id)
     else

@@ -4,9 +4,10 @@
 
 window.OperatorCategories_ItemView = React.createClass
   propTypes:
-    category:           React.PropTypes.object
-    onDeleteStart:      React.PropTypes.func
-    onEditStart:        React.PropTypes.func
+    category:           React.PropTypes.object.isRequired
+    onDeleteStart:      React.PropTypes.func.isRequired
+    onEditStart:        React.PropTypes.func.isRequired
+    onSelectCategory:   React.PropTypes.func.isRequired
 
   render: ->
     `<span>
@@ -42,4 +43,4 @@ window.OperatorCategories_ItemView = React.createClass
 
   handleItemClick: (e) ->
     e.preventDefault()
-    OperatorCategoriesActions.categorySelected @props.category
+    @props.onSelectCategory @props.category

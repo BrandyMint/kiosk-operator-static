@@ -98,6 +98,11 @@
   vertical-align: middle;
 }
 
+// New name
+@mixin inline-valign-middle {
+  @include center-block-content
+}
+
 @function arrow-direction($direction) {
   @if $direction == bottom {
     @return top left;

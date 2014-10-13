@@ -18,7 +18,7 @@ window.OperatorCategories_Create = React.createClass
         `<OperatorCategories_CreateButton onClick = { this.handleStart } />`
       when STATE_INPUT
         `<OperatorCategories_CreateForm  onFinish = { this.handleFinish } 
-          parentCategoryId={ this.props.parentCategoryId } />`
+          parentCategory={ this.props.parentCategory } />`
       else
         console.error? "Unknown state: #{@state.currentState}"
 

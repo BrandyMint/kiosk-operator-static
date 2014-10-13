@@ -46,6 +46,9 @@ input[type="checkbox"]
     transition-delay: .05s, 0s
     background-color: $green
 
+  &:disabled ~ .toggle__block-switch
+    background-color: $red
+
 .toggle__block-switch
   position: absolute
   top: ($toggle-height - $toggle-switch-radius*2) / 2
@@ -98,3 +101,8 @@ input[type="checkbox"]
     color: $gray-light
     background: none
 
+.toggle__block.disabled
+  cursor: default
+  .toggle__block-label-unchecked
+    background: $red
+    color: #fff

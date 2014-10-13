@@ -64,7 +64,8 @@
                           - product = order.products[product]
                           -# Если товаров много, выводим только несколько
                           - if counter_products <= number_visible_products
-                            != product.title + '<br />'
+                            %a{:href => "#product", :title => '#{product.title}'}= product.title
+                            %br
                         - if order.products.length > number_visible_products
                           %a{:class => 'orders-list__more-products', :href => "#todo"}
                             - more_products = order.products.length - number_visible_products
@@ -160,7 +161,7 @@
                   %img{:src => popup_product.cover.src, :alt => popup_product.title}
                 .popup-products__item-desc
                   %h4.popup-products__item-title
-                    = popup_product.title
+                    %a{:href => "#product", :title => '#{popup_product.title}'}= popup_product.title
                   %p.popup-products__item-details
                     - if popup_product.size != '-'
                       != 'Размер: ' + popup_product.size + '<br />'

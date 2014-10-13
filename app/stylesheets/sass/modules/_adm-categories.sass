@@ -1,0 +1,156 @@
+$adm-categories-item-vertical-padding: 20px
+$adm-categories-item-horizontal-padding: 16px
+
+$adm-categories-item-font-size: $font-size-base
+
+$adm-categories-item-active-bg: $blue
+
+$zindex-adm-categories-item-active: 10
+
+// Categories
+.app-main-content
+  .adm-categories-container
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+
+.adm-categories
+
+.adm-categories-grid
+  @extend .row
+  margin:
+    right: 0
+    left: 0
+  overflow: hidden
+
+.adm-categories-grid-col
+  @extend .col-md-2
+  margin-left: -1px
+  padding:
+    right: 0
+    left: 0
+
+  &.__wide
+    @extend .col-md-6
+    padding:
+      right: 0
+      left: 0
+
+.adm-categories-pane
+  margin-bottom: -99999px
+  padding-bottom: 99999px
+  border-left: 1px solid $gray-lighter
+
+.adm-categories-list
+  position: relative
+
+.adm-categories-actions
+  padding: $adm-categories-item-horizontal-padding
+
+.adm-categories-content
+  padding: 28px
+
+// Category
+.adm-categories-item
+  margin-left: -1px
+  padding: $adm-categories-item-vertical-padding $adm-categories-item-horizontal-padding
+  position: relative
+  background-color: transparent
+  font-size: $adm-categories-item-font-size
+  +transition(background-color .3s ease, color .3s ease)
+  &:hover
+    cursor: pointer
+    .adm-btn-edit-category
+      visibility: visible
+  &.__active
+    background-color: $adm-categories-item-active-bg
+    color: #fff
+    z-index: $zindex-adm-categories-item-active
+    .adm-categories-item-counter
+      color: #fff
+  &.__edit
+    cursor: default
+  .adm-btn-edit-category
+    margin-top: -16px
+    position: absolute
+    top: 50%
+    right: -16px
+    visibility: hidden
+    z-index: 20
+
+.adm-categories-item-name
+  @include inline-valign-middle
+  @include text-overflow
+  max-width: 84%
+  margin-right: 4px
+
+.adm-categories-item-counter
+  @include inline-valign-middle
+  color: #d0d0d0
+  +transition(color .4s ease)
+
+.adm-categories-item-field
+  width: 95%
+  padding: 0
+  margin: 0
+  border: none
+  background-color: transparent
+  &:focus
+    outline: none
+
+.adm-categories-item-remove
+  width: 16px
+  height: 16px
+  margin-top: -8px
+  padding: 3px
+  position: absolute
+  display: block
+  top: 50%
+  right: 6px
+  border: none
+  background-color: #fff
+  background:
+    repeat: no-repeat
+    position: center
+    image: url('#{$images-path}/product-thumb-cancel.svg')
+  background-size: 10px 10px
+  cursor: pointer
+  opacity: .6
+  +transition(opacity .3s ease)
+  &:hover
+    opacity: 1
+
+// Table with goods
+.adm-categories-goods
+  @extend .table
+  @extend .table-striped
+  td
+    &:last-of-type
+      padding-right: 0
+  thead
+    td
+      padding: 12px 20px 12px 0
+      font-size: $font-size-base
+      color: #d0d0d0
+  tbody
+    td
+      padding: 5px 20px 5px 0
+      border-bottom: 1px solid #e9e9e9
+      &:first-child
+        border-bottom: none
+  .label
+    display: block
+
+.adm-categories-goods-cover
+  width: 50px
+  padding-right: 16px
+
+.adm-categories-goods-content
+
+.adm-categories-goods-price
+  width: 100px
+
+.adm-categories-goods-status
+  width: 140px

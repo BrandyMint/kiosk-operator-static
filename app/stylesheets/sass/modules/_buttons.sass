@@ -140,6 +140,7 @@
   padding: 8px 15px
 
 .btn-remove-circle
+  @extend .btn
   display: inline-block
   width: 34px
   height: 34px
@@ -155,3 +156,68 @@
   &:hover
     background-color: $blue
     +opacity(1)
+
+// Button - Add Category
+.adm-btn-add-category
+  @extend .btn-link
+  +link-colors($blue)
+  padding: 0
+  border: none
+  &:active,
+  &:focus
+    text-decoration: none
+    outline: 0
+
+.adm-btn-add-category-icon
+  @include inline-valign-middle
+  width: 24px
+  height: 24px
+  margin-right: 5px
+  background-color: $blue
+  text-align: center
+  border-radius: 50%
+  &:before
+    content: ""
+    width: 15px
+    height: 15px
+    margin-top: 4px
+    display: inline-block
+    background:
+      repeat: no-repeat
+      position: center
+      image: url('#{$images-path}/product-thumb-plus-white.svg')
+
+// Button - Add Goods
+.adm-btn-add-goods
+  @extend .adm-btn-add-category
+  font-size: 16px
+
+.adm-btn-add-goods-icon
+  @extend .adm-btn-add-category-icon
+  width: 34px
+  height: 34px
+  &:before
+    width: 28px
+    height: 28px
+    margin-top: 3px
+
+// Button - Edit Category
+.adm-btn-edit-category
+  @include inline-valign-middle
+  width: 32px
+  height: 32px
+  border: none
+  background-color: #fff
+  background:
+    repeat: no-repeat
+    position: center
+    image: url('#{$images-path}/pencil@3x.png')
+  background-size: 16px 16px
+  cursor: pointer
+  border-radius: 50%
+  +transition(background-color .3s ease)
+  +box-shadow(0 0 0 1px #eee)
+  span
+    font: 0/0 a
+  &:hover
+    background-color: #eee

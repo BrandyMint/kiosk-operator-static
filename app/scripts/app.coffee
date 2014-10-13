@@ -23,6 +23,10 @@ require './react/components/operator_categories/create'
 require './react/components/operator_categories/goods_link'
 require './react/components/operator_categories/categories'
 
+require './react/services/products_service'
+require './react/mocks/products_service_mock'
+require './react/components/product_status_toggle'
+
 require './react/components/super_select'
 require './react/components/images_form'
 require './react/application'

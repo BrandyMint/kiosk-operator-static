@@ -19,7 +19,7 @@
               - l = links[l]
               - li_class = ''
               - if l.slug == 'orders'
-                - li_class = '__active'
+                - li_class = 'selected'
               %li.adm-sidebar-nav-item{class: "#{li_class}"}
                 %a.adm-sidebar-nav-link{href: "#{l.href}"}
                   %i{class: "#{l.icon}"}>

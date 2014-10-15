@@ -19,7 +19,7 @@
               - l = links[l]
               - li_class = ''
               - if l.slug == 'categories'
-                - li_class = '__active'
+                - li_class = 'selected'
               %li.adm-sidebar-nav-item{class: "#{li_class}"}
                 %a.adm-sidebar-nav-link{href: "#{l.href}"}
                   %i{class: "#{l.icon}"}>
@@ -44,7 +44,7 @@
               .adm-categories-grid
                 .adm-categories-grid-col
                   .adm-categories-list
-                    .adm-categories-item{:class => '__active'}
+                    .adm-categories-item{:class => 'selected'}
                       %span.adm-categories-item-name Все товары
                       %span.adm-categories-item-counter 353
                       %button.adm-btn-edit-category{:title => "Редактировать"}
@@ -91,7 +91,7 @@
                       %button.adm-btn-edit-category{:title => "Редактировать"}
                         %span
                           Редактировать
-                    .adm-categories-item{:class => '__active'}
+                    .adm-categories-item{:class => 'selected'}
                       %span.adm-categories-item-name Складные
                       %span.adm-categories-item-counter 10
                       %button.adm-btn-edit-category{:title => "Редактировать"}

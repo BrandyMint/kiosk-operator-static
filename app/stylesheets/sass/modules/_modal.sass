@@ -1,6 +1,31 @@
-.modal-header
-  padding: $grid-gutter-width/2
+// Old version
+.orders-modal
+  .modal-header
+    padding: $grid-gutter-width/2
+    border: none
+    font:
+      weight: bold
+      size: $font-size-large
+
+// New
+.modal-content
   border: none
-  font:
-    weight: bold
-    size: $font-size-large
+  border-radius: 4px
+  +box-shadow(none)
+
+.modal-header-title
+  margin: 0
+  font-size: 28px
+
+.modal-order
+  .modal-dialog
+    margin-bottom: 100px
+  .modal-header
+    padding:
+      top: $grid-gutter-width/2
+      bottom: $grid-gutter-width/2
+
+@media (min-width: $screen-md-min)
+  .modal-order
+    .modal-dialog
+      width: 804px

@@ -81,8 +81,18 @@
                         - if order_status == 'new' || order_status == 'cancelled'
                           %span.order-status-bullet{class: "order-status-bullet-#{order.status.slug}", data: {toggle: 'tooltip', placement: 'bottom'}, title: order.status.tooltip}
                         %span.nobr<= order.total + ' руб.'
-                      %td.orders-list__table-status{role: 'orders-list__table-modal-btn'}
-                        %span.order-status-label{:class => "order-status-label-#{order.status.slug}"}<= order.status.title
+                      %td.orders-list__table-status
+                        -# %span.order-status-label{:class => "order-status-label-#{order.status.slug}"}<= order.status.title
+                        .dropdown
+                          %a.order-status-label{class: "order-status-label-new", href: '#', data: {toggle: 'dropdown'}}
+                            На доставке
+                            %i.fa.fa-angle-down
+                          %ul.dropdown-menu.orders-list__dropdown-menu
+                            - for order of order_states
+                              - order = order_states[order]
+                              %li
+                                %a.orders-list__modal-btn{class: "orders-list__modal-btn-#{order.slug}"}
+                                  = "#{order.title}"
           / end Orders List
     / end App Main Content
 

@@ -1,9 +1,16 @@
 .label
   @include inline-valign-middle
+  @extend %font-regular
   padding: .385em .923em
-  font-weight: 400
   font-size: $font-size-small
   line-height: $line-height-base
-  color: #fff !important
+  color: $label-color !important
   border-radius: $border-radius-base
   text-decoration: none !important
+  cursor: default
+
+a.label
+  cursor: pointer
+
+.label-waiting
+  @include label-variant($label-waiting-bg)

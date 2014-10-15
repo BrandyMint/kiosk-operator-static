@@ -1,0 +1,256 @@
+-# "!!! 5" - на клиенте не генерирует <!DOCTYPE html>
+-# Поэтому в вёрстке делаем так:
+<!DOCTYPE html>
+%html
+  %head
+    @@include('./shared/_head.haml')
+  %body.adm-body
+    %script{src: 'scripts/bundle.js'}
+
+    / Layout
+    .adm-layout
+      / Layout Sidebar
+      .adm-layout-sidebar
+        / Sidebar Nav
+        %nav.adm-sidebar-nav
+          %ul.adm-sidebar-nav-list
+            - links = [{slug: 'shop', icon: 'adm-sidebar-nav-icon adm-icon-panel', title: 'Магазин Wannabe', href: '#todo'}, {slug: 'info', icon: 'adm-sidebar-nav-icon adm-icon-question-mark', title: 'Что делать?', href: '#todo'}, {slug: 'products', icon: 'adm-sidebar-nav-icon adm-icon-layers', title: 'Товары', href: 'products.html'}, {slug: 'categories', icon: 'adm-sidebar-nav-icon adm-icon-folder', title: 'Категории', href: 'adm-categories.html'}, {slug: 'orders', icon: 'adm-sidebar-nav-icon adm-icon-basket', title: 'Заказы', href: 'adm-orders-list.html'}, {slug: 'settings', icon: 'adm-sidebar-nav-icon adm-icon-cogwheel', title: 'Настройки', href: '#todo'}]
+            - for l of links
+              - l = links[l]
+              - li_class = ''
+              - if l.slug == 'orders'
+                - li_class = '__active'
+              %li.adm-sidebar-nav-item{class: "#{li_class}"}
+                %a.adm-sidebar-nav-link{href: "#{l.href}"}
+                  %i{class: "#{l.icon}"}>
+                  = l.title
+              - if l.slug == 'shop'
+                %li.adm-sidebar-nav-sep
+        / end Sidebar Nav
+      / end Layout Sidebar
+
+      - order_states = {new: {slug: 'new', title: 'Новый'}, delivery: {slug: 'delivery', title: 'Доставка'}, cancelled: {slug: 'cancelled', title: 'Отменён'}, paused: {slug: 'paused', title: 'Пауза'}}
+
+      / Layout Main
+      .adm-layout-main
+        .adm-layout-main-inner
+          / Section Header
+          %header.adm-section-header
+            %h1.adm-section-header-title Заказы
+          / end Section Header
+
+          / Orders
+          - orders = [{number: '0001', cover: {src: 'assets/product-60x60-3.jpg', alt: ''}, products: [{title: 'Стол компьютерный Rage'}, {title: 'Стул круглый'}, {title: 'Табурет'}, {title: 'Табурет'}, {title: 'Табурет'}, {title: 'Табурет'}], location: 'Москва', time: 'Два часа назад', total: '15 800', status: {slug: 'delivery', title: 'Доставка', tooltip: 'Скоро прибудет курьер'}}, {number: '0002', cover: {src: 'assets/product-60x60-3.jpg', alt: ''}, products: [{title: 'Велосипед Linus'}], location: 'Москва', time: 'Два часа назад', total: '15 800', status: {slug: 'new', title: 'Новый', tooltip: 'Оплачено'}}, {number: '0001', cover: {src: 'assets/product-60x60-3.jpg', alt: ''}, products: [{title: 'Стол компьютерный Rage'}], location: 'Москва', time: 'Два часа назад', total: '15 800', status: {slug: 'cancelled', title: 'Отменён', tooltip: 'Отказ клиента'}}, {number: '0004', cover: {src: 'assets/product-60x60-3.jpg', alt: ''}, products: [{title: 'Табурет'}], location: 'Москва', time: 'Два часа назад', total: '15 800', status: {slug: 'paused', title: 'Пауза', tooltip: 'На паузе'}}]
+          .adm-orders
+            %table.adm-orders-table
+              %tbody
+                - for order of orders
+                  - order = orders[order]
+                  %tr.adm-orders-table-row
+                    %td.adm-orders-table-cell.__cover{data: {title: "Товары"}, role: 'orders-list__table-modal-btn'}
+                      %img{:src => "#{order.cover.src}", :alt => "#{order.cover.src}"}
+                    %td.adm-orders-table-cell.__desc{role: 'orders-list__table-modal-btn'}>
+                      - counter_products = 0
+                      - for product of order.products
+                        - product = order.products[product]
+                        - counter_products++
+                        - if order.products.length == counter_products
+                          = product.title
+                        - else
+                          = product.title + ', '
+                    %td.adm-orders-table-cell.__number{data: {title: "Номер заказа"}, role: 'orders-list__table-modal-btn'}>= order.number
+                    %td.adm-orders-table-cell.__location{data: {title: "Место доставки"}, role: 'orders-list__table-modal-btn'}>= order.location
+                    %td.adm-orders-table-cell.__time{data: {title: "Время доставки"}, role: 'orders-list__table-modal-btn'}>= order.time
+                    %td.adm-orders-table-cell.__total{data: {title: "Сумма"}, role: 'orders-list__table-modal-btn'}>
+                      %span.nobr<= order.total + ' руб.'
+                    %td.adm-orders-table-cell.__payment{data: {title: "Состояние по оплате"}}
+                      %span.label.label-default>
+                        Не оплачен
+                    %td.adm-orders-table-cell.__status{data: {title: "Состояние доставки"}}
+                      -# %span.order-status-label{:class => "order-status-label-#{order.status.slug}"}<= order.status.title
+                      .dropdown.inline-dropdown
+                        - order_current_status = ''
+                        - if order.status.slug == 'new'
+                          - order_current_status = 'success'
+                        - if order.status.slug == 'delivery'
+                          - order_current_status = 'info'
+                        - if order.status.slug == 'cancelled'
+                          - order_current_status = 'warning'
+                        - if order.status.slug == 'paused'
+                          - order_current_status = 'waiting'
+                        %span.label{class: "label-#{order_current_status}"}
+                          = order.status.title
+                          -#%i.fa.fa-angle-down
+                        %ul.adm-dropdown-menu-status
+                          - for order of order_states
+                            - order = order_states[order]
+                            %li.adm-dropdown-menu-status-item
+                              %a.adm-dropdown-menu-status-btn{class: "__#{order.slug}"}
+                                = "#{order.title}"
+          / end Orders
+      / end Layout Main
+    / end Layout
+
+    / Modal Order
+    .modal.modal-order.fade{"aria-hidden" => "true", "aria-labelledby" => "mySmallModalLabel", :role => "order-modal", :tabindex => "-1"}
+      .modal-dialog
+        .modal-content{role: 'modal-content'}
+          .modal-body
+            / Order
+            .adm-order
+              %form.adm-form-default{:action => "?"}
+                / Order Header
+                %header.adm-order-header
+                  .row
+                    .col-md-4
+                      %h1.adm-order-header-title Заказ 0023
+                    .col-md-8
+                      .adm-order-status-info
+                        %span.adm-order-status-info-time> Заказ создан &mdash; 11:04, 25 сентября
+                        %span.label.label-success> Оплачен
+                        .dropdown.inline-dropdown
+                          %a.label.label-success{href: '#', data: {toggle: 'dropdown'}}
+                            На доставке
+                            %i.fa.fa-angle-down
+                          %ul.adm-dropdown-menu-status
+                            - for order of order_states
+                              - order = order_states[order]
+                              %li.adm-dropdown-menu-status-item
+                                %a.adm-dropdown-menu-status-btn{class: "__#{order.slug}"}
+                                  = "#{order.title}"
+                / end Order Header
+                / Order Body
+                %section.adm-order-body
+                  %ol.adm-order-sections
+                    %li.adm-order-section
+                      .adm-order-section-header
+                        .adm-order-section-number 1
+                        %h2.adm-order-section-title Покупатель
+                      .form-group
+                        .row
+                          .col-sm-5
+                            .form-group
+                              %label
+                                Имя
+                              %p
+                                Евгений
+                          .col-sm-5
+                            .form-group
+                              %label
+                                Емейл
+                              %p
+                                genue.luben@gmail.com
+                          .col-sm-5
+                            .form-group
+                              %label
+                                Телефон
+                              %p
+                                = '+7 (905) 716-14-51'
+                    %li.adm-order-section
+                      .adm-order-section-header
+                        .adm-order-section-number 2
+                        %h2.adm-order-section-title Доставка
+                        /
+                          .adm-btn-edit-order-section{title: 'Редактировать'}
+                            %span
+                              Редактировать
+                      .form-group
+                        .row
+                          .col-sm-5
+                            .form-group
+                              %label
+                                Город
+                              %p
+                                Санкт-Петербург
+                          .col-sm-5
+                            .form-group
+                              %label
+                                Адрес
+                              %p
+                                ул. Академика Янгеля, дом 5, корпус 25, квартира 12, домофон 356
+                        .row
+                          .col-sm-5
+                            .form-group
+                              %label
+                                Доставка
+                              %p
+                                Курьером
+                          .col-sm-5
+                            .form-group
+                              %label
+                                Комментарий к заказу
+                              %p
+                                Доставка послезавтра!
+                    %li.adm-order-section
+                      .adm-order-section-header
+                        .adm-order-section-number 3
+                        %h2.adm-order-section-title Оплата
+                      .form-group
+                        .row
+                          .col-sm-5
+                            .form-group
+                              %label
+                                Способ оплаты
+                              %p
+                                Банковские карты
+                    %li.adm-order-section
+                      .adm-order-section-header
+                        .adm-order-section-number 4
+                        %h2.adm-order-section-title Состав заказа
+                      .row
+                        .col-md-11
+                          %table.adm-order-goods-table
+                            %tbody
+                              %tr.adm-order-goods-table-row
+                                %td.adm-order-goods-table-cell.__cover{data: {title: "Товар"}}
+                                  %a{:href => "#product", :title => 'Мыльница с якорем'}
+                                    %img{:src => "assets/product-60x60-1.jpg", :alt => ""}
+                                %td.adm-order-goods-table-cell.__desc
+                                  %h4
+                                    %a{:href => "#product", :title => 'Мыльница с якорем'} Мыльница с якорем
+                                  %p
+                                    Размер: 16
+                                    %br
+                                    Артикул: 5643454
+                                %td.adm-order-goods-table-cell.__quantity{data: {title: "Количество"}}
+                                  %span.nobr Количество: 2
+                                %td.adm-order-goods-table-cell.__total{data: {title: "Сумма"}}
+                                  %span.nobr 12 000 руб.
+                            %tfoot
+                              %tr.adm-order-goods-table-row
+                                %td.adm-order-goods-table-cell{colspan: 3} &nbsp;
+                                %td.adm-order-goods-table-cell{colspan: 2}
+                                  %p
+                                    != 'Итого <br />'
+                                    12 000 руб.
+                / end Order Body
+                / Order Footer
+                %footer.adm-order-footer
+                  %button.adm-btn-remove-order.pull-right
+                    Удалить товар навсегда
+                / end Order Footer
+            / end Order
+    / end Modal Order
+
+    / Popup Products
+    - popup_products = [{cover: {src: 'assets/product-60x60-1.jpg'}, title: 'Мыльница с якорем', size: '16', article: '56456456', quantity: '1', price: '12 000'}, {cover: {src: 'assets/product-60x60-2.jpg'}, title: 'Мыльница с якорем', size: '-', article: '56456456', quantity: '1', price: '4 000'}]
+    - if popup_products.length > 0
+      .popup-products{class: 'bottom', style: 'top: 160px; left: 356px; display: none;'}
+        .popup-products__inner
+          %ul.popup-products__list
+            - for popup_product of popup_products
+              - popup_product = popup_products[popup_product]
+              %li.popup-products__item
+                .popup-products__item-price
+                  = popup_product.price + ' руб.'
+                .popup-products__item-pic
+                  %img{:src => popup_product.cover.src, :alt => popup_product.title}
+                .popup-products__item-desc
+                  %h4.popup-products__item-title
+                    %a{:href => "#product", :title => '#{popup_product.title}'}= popup_product.title
+                  %p.popup-products__item-details
+                    - if popup_product.size != '-'
+                      != 'Размер: ' + popup_product.size + '<br />'
+                    != 'Артикул: ' + popup_product.article + '<br />'
+                    = 'Количество: ' + popup_product.quantity
+    / end Popup Products

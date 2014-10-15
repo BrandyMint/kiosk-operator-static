@@ -1,5 +1,5 @@
-$adm-categories-item-vertical-padding: 20px
-$adm-categories-item-horizontal-padding: 16px
+$adm-categories-item-vertical-padding: 14px
+$adm-categories-item-horizontal-padding: 15px
 
 $adm-categories-item-font-size: $font-size-base
 
@@ -16,32 +16,42 @@ $zindex-adm-categories-item-active: 10
     bottom: 0
     left: 0
 
+.adm-layout-main
+  .adm-categories-container
+    margin: 0 -30px -20px
+    position: relative
+    border-top: 1px solid $line-color
+
 .adm-categories
+  margin-top: -1px
+  position: relative
 
 .adm-categories-grid
-  @extend .row
-  margin:
-    right: 0
-    left: 0
+  @include clearfix
   overflow: hidden
 
 .adm-categories-grid-col
-  @extend .col-md-2
-  margin-left: -1px
+  width: 20%
+  min-height: 460px
   padding:
     right: 0
     left: 0
-
+  float: left
   &.__wide
-    @extend .col-md-6
-    padding:
-      right: 0
-      left: 0
-
-.adm-categories-pane
-  margin-bottom: -99999px
-  padding-bottom: 99999px
-  border-left: 1px solid $gray-lighter
+    width: auto
+    float: none
+    overflow: hidden
+  &:before
+    content: ""
+    width: 1px
+    position: absolute
+    display: block
+    top: 0
+    bottom: 0
+    background-color: $line-color
+  &:first-child
+    &:before
+      display: none
 
 .adm-categories-list
   position: relative
@@ -54,11 +64,12 @@ $zindex-adm-categories-item-active: 10
 
 // Category
 .adm-categories-item
-  margin-left: -1px
+  margin-right: -1px
   padding: $adm-categories-item-vertical-padding $adm-categories-item-horizontal-padding
   position: relative
   background-color: transparent
   font-size: $adm-categories-item-font-size
+  white-space: nowrap
   +transition(background-color .3s ease, color .3s ease)
   &:hover
     cursor: pointer
@@ -83,7 +94,7 @@ $zindex-adm-categories-item-active: 10
 .adm-categories-item-name
   @include inline-valign-middle
   @include text-overflow
-  max-width: 84%
+  max-width: 75%
   margin-right: 4px
 
 .adm-categories-item-counter
@@ -92,7 +103,7 @@ $zindex-adm-categories-item-active: 10
   +transition(color .4s ease)
 
 .adm-categories-item-field
-  width: 95%
+  width: 92%
   padding: 0
   margin: 0
   border: none
@@ -101,9 +112,9 @@ $zindex-adm-categories-item-active: 10
     outline: none
 
 .adm-categories-item-remove
-  width: 16px
-  height: 16px
-  margin-top: -8px
+  width: 22px
+  height: 22px
+  margin-top: -11px
   padding: 3px
   position: absolute
   display: block
@@ -114,8 +125,8 @@ $zindex-adm-categories-item-active: 10
   background:
     repeat: no-repeat
     position: center
-    image: url('#{$images-path}/product-thumb-cancel.svg')
-  background-size: 10px 10px
+    image: url('#{$images-path}/adm-icon-trash-gray.png')
+  background-size: 16px 16px
   cursor: pointer
   opacity: .6
   +transition(opacity .3s ease)
@@ -154,3 +165,27 @@ $zindex-adm-categories-item-active: 10
 
 .adm-categories-goods-status
   width: 140px
+
+
+@media screen and (max-width: $screen-sm-max)
+  .adm-categories-grid-col
+    width: auto
+    min-height: 0
+    float: none
+    border-top: 1px solid $line-color
+    &:first-child
+      border-top: none
+    &:before
+      display: none
+
+  .adm-categories-item
+    .adm-btn-edit-category
+      right: 10px
+
+  // Responsive Table of Orders
+  .adm-categories-goods
+    @include responsive-table
+    tbody tr
+      &:first-child
+        border-top: none
+

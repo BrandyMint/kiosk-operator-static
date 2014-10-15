@@ -1,0 +1,61 @@
+$adm-layout-width: 1062px
+
+$adm-layout-sidebar-width: 220px
+
+.adm-body
+  background-color: #31383f
+
+.adm-layout
+  width: 90%
+  margin: 20px auto
+  @include clearfix
+
+.adm-layout-sidebar
+  padding-bottom: 20px
+
+.adm-layout-main
+  min-height: 500px
+  background-color: #fff
+  border-radius: 4px
+
+.adm-layout-main-inner
+  padding: ($grid-gutter-width - 10) $grid-gutter-width
+
+.adm-section-header
+  margin-bottom: 20px
+
+.adm-section-header-title
+  margin: 0
+  font-size: 28px
+
+@media (min-width: $screen-sm-min)
+  .adm-layout
+    width: 740px
+
+  .adm-layout-sidebar
+    width: 220px
+    position: fixed
+    float: left
+
+  .adm-layout-main
+    margin-left: 220px
+
+@media (min-width: $screen-md-min)
+  .adm-layout
+    width: 980px
+
+  .adm-layout-sidebar
+    width: 245px
+
+  .adm-layout-main
+    margin-left: 245px
+
+@media (min-width: $screen-lg-min)
+  .adm-layout
+    width: 1062px
+
+  .adm-layout-sidebar
+    width: 220px
+
+  .adm-layout-main
+    margin-left: 220px

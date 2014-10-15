@@ -1,0 +1,35 @@
+%adm-dropdown-menu-status-btn
+  @extend .btn
+  // Error! No such extention
+  //@extend .btn-large
+  display: block
+  border-radius: 0
+  +antialiased
+  &, &:hover, &:focus
+    color: #fff
+
+.inline-dropdown
+  @include inline-valign-middle
+
+.adm-dropdown-menu-status
+
+@each $c in new $green, delivery $blue-dark, cancelled $orange, paused $yellow
+  .adm-dropdown-menu-status-btn.__#{nth($c,1)}
+    &,
+    .adm-dropdown-menu-status > li > &,
+      background-color: nth($c,2)
+      &:hover, &:focus
+        background-color: darken(nth($c,2), 20%)
+
+.adm-dropdown-menu-status-btn
+  @extend %adm-dropdown-menu-status-btn
+  padding: $grid-gutter-width/2
+
+.adm-dropdown-menu-status
+  @extend .dropdown-menu
+  padding: 0
+  margin:
+    top: $grid-gutter-width/2 - 1px
+  & > li
+    padding: 0
+    margin: 0

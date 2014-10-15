@@ -1,4 +1,5 @@
-.products__new-form
+.products__new-form,
+.adm-form-default
   @extend .form-inline
   label
     @extend %plain-input__label
@@ -62,3 +63,9 @@
     &.has-error
       @extend .alert-danger
       +antialiased
+
+.adm-form-default
+  label
+    margin-bottom: .4em
+  .form-group
+    margin-bottom: 20px

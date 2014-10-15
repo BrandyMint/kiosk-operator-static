@@ -1,177 +1,179 @@
-!!! 5
+-# "!!! 5" - на клиенте не генерирует <!DOCTYPE html>
+-# Поэтому в вёрстке делаем так:
+<!DOCTYPE html>
 %html
   %head
     @@include('./shared/_head.haml')
-  %body
+  %body.adm-body
     %script{src: 'scripts/bundle.js'}
 
-    / App Left Sidebar
-    .app-left-sidebar
-      %ul.left-sidebar__nav
-        - links = [{slug: 'info', icon: 'fa fa-info-circle', title: 'Что делать?'}, {slug: 'products', icon: 'fa fa-th-large', title: 'Товары', href: 'products.html'}, {slug: 'orders', icon: 'fa fa-shopping-cart', title: 'Заказы', href: 'orders_list.html'}, {slug: 'catalog', icon: 'fa fa-folder-open', title: 'Витрина'}, {slug: 'settings', icon: 'fa fa-cog', title: 'Настройка'}, {slug: 'shops', icon: 'fa fa-briefcase', title: 'Мои магазины'}, {slug: 'user', icon: 'fa fa-user', title: 'Олег С.'}]
-        - for l of links
-          - l = links[l]
-          - if l.slug == 'products'
-            - li_class = 'active'
-          - else
-            - li_class = ''
-          %li{class: "#{li_class}"}
-            %a.left-sidebar__nav-link{:href => "#{l.href}"}
-              %i.left-sidebar__nav-link-icon{:class => "#{l.icon} nav-link-icon-#{l.slug}"}
-              .left-sidebar__nav-link-title= l.title
-              .clearfix
-    / end App Left Sidebar
+    / Layout
+    .adm-layout
+      / Layout Sidebar
+      .adm-layout-sidebar
+        / Sidebar Nav
+        %nav.adm-sidebar-nav
+          %ul.adm-sidebar-nav-list
+            - links = [{slug: 'shop', icon: 'adm-sidebar-nav-icon adm-icon-panel', title: 'Магазин Wannabe', href: '#todo'}, {slug: 'info', icon: 'adm-sidebar-nav-icon adm-icon-question-mark', title: 'Что делать?', href: '#todo'}, {slug: 'products', icon: 'adm-sidebar-nav-icon adm-icon-layers', title: 'Товары', href: 'products.html'}, {slug: 'categories', icon: 'adm-sidebar-nav-icon adm-icon-folder', title: 'Категории', href: 'adm-categories.html'}, {slug: 'orders', icon: 'adm-sidebar-nav-icon adm-icon-basket', title: 'Заказы', href: 'adm-orders-list.html'}, {slug: 'settings', icon: 'adm-sidebar-nav-icon adm-icon-cogwheel', title: 'Настройки', href: '#todo'}]
+            - for l of links
+              - l = links[l]
+              - li_class = ''
+              - if l.slug == 'categories'
+                - li_class = '__active'
+              %li.adm-sidebar-nav-item{class: "#{li_class}"}
+                %a.adm-sidebar-nav-link{href: "#{l.href}"}
+                  %i{class: "#{l.icon}"}>
+                  = l.title
+              - if l.slug == 'shop'
+                %li.adm-sidebar-nav-sep
+        / end Sidebar Nav
+      / end Layout Sidebar
 
-    / App Header Navbar
-    .app-header-navbar
-      .container-fluid
-        .col-lg-10.col-lg-offset-1
-          %h1.header-navbar__title.pull-left Категории
-          %h1.header-navbar__brand.pull-right Field&amp;Rag
-          %form.pull-right
-            %input.form-control.orders-list__search-input{:type => 'search', :placeholder => 'Найти название, номер, город'}
-          .clearfix
-    / end App Header Navbar
+      - order_states = {new: {slug: 'new', title: 'Новый'}, delivery: {slug: 'delivery', title: 'Доставка'}, cancelled: {slug: 'cancelled', title: 'Отменён'}, paused: {slug: 'paused', title: 'Пауза'}}
 
-    / App Main Content
-    .app-main-content
-      / Adm Categories
-      .adm-categories-container
-        .adm-categories
-          .adm-categories-grid
-            .adm-categories-grid-col
-              .adm-categories-pane
-                .adm-categories-list
-                  .adm-categories-item{:class => '__active'}
-                    %span.adm-categories-item-name Все товары
-                    %span.adm-categories-item-counter 353
-                    %button.adm-btn-edit-category{:title => "Редактировать"}
-                      %span
-                        Редактировать
-                  .adm-categories-item
-                    %span.adm-categories-item-name Велосипеды
-                    %span.adm-categories-item-counter 45
-                    %button.adm-btn-edit-category{:title => "Редактировать"}
-                      %span
-                        Редактировать
-                  .adm-categories-item
-                    %span.adm-categories-item-name Компоненты
-                    %span.adm-categories-item-counter 5
-                    %button.adm-btn-edit-category{:title => "Редактировать"}
-                      %span
-                        Редактировать
-                  .adm-categories-item{:class => "__edit"}
-                    %input.adm-categories-item-field{:type => "text", :value => "Велозапчасти"}
-                    %span.adm-categories-item-remove
-                  .adm-categories-item
-                    %span.adm-categories-item-name Распродажа
-                    %span.adm-categories-item-counter 21
-                    %button.adm-btn-edit-category{:title => "Редактировать"}
-                      %span
-                        Редактировать
-                  .adm-categories-item{:class => "__edit"}
-                    %input.adm-categories-item-field{:type => "text", :placeholder => "Новая категория"}
-                .adm-categories-actions
-                  %button.adm-btn-add-category
-                    %i.adm-btn-add-category-icon
-                    Добавить
-            .adm-categories-grid-col
-              .adm-categories-pane
-                .adm-categories-list
-                  .adm-categories-item
-                    %span.adm-categories-item-name Все товары
-                    %span.adm-categories-item-counter
-                    %button.adm-btn-edit-category{:title => "Редактировать"}
-                      %span
-                        Редактировать
-                  .adm-categories-item
-                    %span.adm-categories-item-name Городские
-                    %span.adm-categories-item-counter 5
-                    %button.adm-btn-edit-category{:title => "Редактировать"}
-                      %span
-                        Редактировать
-                  .adm-categories-item{:class => '__active'}
-                    %span.adm-categories-item-name Складные
-                    %span.adm-categories-item-counter 10
-                    %button.adm-btn-edit-category{:title => "Редактировать"}
-                      %span
-                        Редактировать
-                  .adm-categories-item
-                    %span.adm-categories-item-name Триатлон
-                    %span.adm-categories-item-counter 54
-                    %button.adm-btn-edit-category{:title => "Редактировать"}
-                      %span
-                        Редактировать
-                .adm-categories-actions
-                  %button.adm-btn-add-category
-                    %i.adm-btn-add-category-icon
-                    Добавить
-            .adm-categories-grid-col.__wide
-              .adm-categories-pane
-                .adm-categories-content
-                  %table.adm-categories-goods
-                    %thead
-                      %tr
-                        %td{:colspan => 2} Товар
-                        %td.adm-categories-goods-price Цена
-                        %td.adm-categories-goods-status Статус
-                    %tbody
-                      %tr
-                        %td.adm-categories-goods-cover
-                          %a{:href => "#product", :title => "Мыльница с якорем"}
-                            %img{:src => "assets/product-50x50-1.jpg", :alt => "Мыльница с якорем"}
-                        %td.adm-categories-goods-content
-                          %a{:href => "#product", :title => "Мыльница с якорем"} Мыльница с якорем
-                        %td.adm-categories-goods-price
-                          %span.nobr 18 000 руб
-                        %td.adm-categories-goods-status
-                          %span.label.label-success
-                            Опубликован
-                      %tr
-                        %td.adm-categories-goods-cover
-                          %a{:href => "#product", :title => "Табуретка"}
-                            %img{:src => "assets/product-50x50-2.jpg", :alt => "Табуретка"}
-                        %td.adm-categories-goods-content
-                          %a{:href => "#product", :title => "Табуретка"} Табуретка
-                        %td.adm-categories-goods-price
-                          %span.nobr 3 999 руб
-                        %td.adm-categories-goods-status
-                          %span.label.label-success
-                            Опубликован
-                      %tr
-                        %td.adm-categories-goods-cover
-                          %a{:href => "#product", :title => "Табуретка"}
-                            %img{:src => "assets/product-50x50-2.jpg", :alt => "Табуретка"}
-                        %td.adm-categories-goods-content
-                          %a{:href => "#product", :title => "Табуретка"} Табуретка
-                        %td.adm-categories-goods-price
-                          %span.nobr 5 999 руб
-                        %td.adm-categories-goods-status
-                          %span.label.label-warning
-                            Закончился
-                  %button.adm-btn-add-goods
-                    %i.adm-btn-add-goods-icon
-                    Добавить новый товар
-      / end Adm Categories
-    / end App Main Content
+      / Layout Main
+      .adm-layout-main
+        .adm-layout-main-inner
+          / Section Header
+          %header.adm-section-header
+            %h1.adm-section-header-title Категории
+          / end Section Header
+          / Categories
+          .adm-categories-container
+            .adm-categories
+              .adm-categories-grid
+                .adm-categories-grid-col
+                  .adm-categories-list
+                    .adm-categories-item{:class => '__active'}
+                      %span.adm-categories-item-name Все товары
+                      %span.adm-categories-item-counter 353
+                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                        %span
+                          Редактировать
+                    .adm-categories-item
+                      %span.adm-categories-item-name Велосипеды
+                      %span.adm-categories-item-counter 45
+                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                        %span
+                          Редактировать
+                    .adm-categories-item
+                      %span.adm-categories-item-name Компоненты
+                      %span.adm-categories-item-counter 5
+                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                        %span
+                          Редактировать
+                    .adm-categories-item{:class => "__edit"}
+                      %input.adm-categories-item-field{:type => "text", :value => "Велозапчасти"}
+                      %span.adm-categories-item-remove
+                    .adm-categories-item
+                      %span.adm-categories-item-name Распродажа
+                      %span.adm-categories-item-counter 21
+                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                        %span
+                          Редактировать
+                    .adm-categories-item{:class => "__edit"}
+                      %input.adm-categories-item-field{:type => "text", :placeholder => "Новая категория"}
+                  .adm-categories-actions
+                    %button.adm-btn-add-category
+                      %i.adm-btn-add-category-icon
+                      Добавить
+                .adm-categories-grid-col
+                  .adm-categories-list
+                    .adm-categories-item
+                      %span.adm-categories-item-name Все товары
+                      %span.adm-categories-item-counter
+                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                        %span
+                          Редактировать
+                    .adm-categories-item
+                      %span.adm-categories-item-name Городские
+                      %span.adm-categories-item-counter 5
+                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                        %span
+                          Редактировать
+                    .adm-categories-item{:class => '__active'}
+                      %span.adm-categories-item-name Складные
+                      %span.adm-categories-item-counter 10
+                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                        %span
+                          Редактировать
+                    .adm-categories-item
+                      %span.adm-categories-item-name Триатлон
+                      %span.adm-categories-item-counter 54
+                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                        %span
+                          Редактировать
+                  .adm-categories-actions
+                    %button.adm-btn-add-category
+                      %i.adm-btn-add-category-icon
+                      Добавить
+                .adm-categories-grid-col.__wide
+                  .adm-categories-content
+                    %table.adm-categories-goods
+                      %thead
+                        %tr
+                          %td{:colspan => 2} Товар
+                          %td.adm-categories-goods-price Цена
+                          %td.adm-categories-goods-status Статус
+                      %tbody
+                        %tr
+                          %td.adm-categories-goods-cover{data: {title: "Товар"}}
+                            %a{:href => "#product", :title => "Мыльница с якорем"}
+                              %img{:src => "assets/product-50x50-1.jpg", :alt => "Мыльница с якорем"}
+                          %td.adm-categories-goods-content
+                            %a{:href => "#product", :title => "Мыльница с якорем"} Мыльница с якорем
+                          %td.adm-categories-goods-price{data: {title: "Сумма"}}
+                            %span.nobr 18 000 руб
+                          %td.adm-categories-goods-status{data: {title: "Статус"}}
+                            %span.label.label-success
+                              Опубликован
+                        %tr
+                          %td.adm-categories-goods-cover{data: {title: "Товар"}}
+                            %a{:href => "#product", :title => "Табуретка"}
+                              %img{:src => "assets/product-50x50-2.jpg", :alt => "Табуретка"}
+                          %td.adm-categories-goods-content
+                            %a{:href => "#product", :title => "Табуретка"} Табуретка
+                          %td.adm-categories-goods-price{data: {title: "Сумма"}}
+                            %span.nobr 3 999 руб
+                          %td.adm-categories-goods-status{data: {title: "Статус"}}
+                            %span.label.label-success
+                              Опубликован
+                        %tr
+                          %td.adm-categories-goods-cover{data: {title: "Товар"}}
+                            %a{:href => "#product", :title => "Табуретка"}
+                              %img{:src => "assets/product-50x50-2.jpg", :alt => "Табуретка"}
+                          %td.adm-categories-goods-content
+                            %a{:href => "#product", :title => "Табуретка"} Табуретка
+                          %td.adm-categories-goods-price{data: {title: "Сумма"}}
+                            %span.nobr 5 999 руб
+                          %td.adm-categories-goods-status{data: {title: "Статус"}}
+                            %span.label.label-warning
+                              Закончился
+                    %button.adm-btn-add-goods
+                      %i.adm-btn-add-goods-icon
+                      Добавить новый товар
+          / end Categories
+      / end Layout Main
+    / end Layout
 
     -# В дальнейшем можно поэкспериментировать, чтобы разделители растягивались по высоте без js
-    :javascript
-      $(function(){
-        var resizeCategories = function(){
-          var $cols = $(".adm-categories-grid-col"),
-            $container = $(".adm-categories-container"),
-            $categories = $(".adm-categories");
+    /
+      :javascript
+        $(function(){
+          var resizeCategories = function(){
+            var $cols = $(".adm-categories-grid-col"),
+              $container = $(".adm-categories-container"),
+              $categories = $(".adm-categories");
 
-          $cols.css("height", "auto");
+            $cols.css("height", "auto");
 
-          var heightContainer = $container.height(),
-            heightBlock = $categories.height();
+            var heightContainer = $container.height(),
+              heightBlock = $categories.height();
 
-          $cols.css("height", (heightContainer > heightBlock) ? heightContainer : "auto")
-        };
+            $cols.css("height", (heightContainer > heightBlock) ? heightContainer : "auto")
+          };
 
-        resizeCategories();
+          resizeCategories();
 
-        $(window).resize(resizeCategories);
-      });
+          $(window).resize(resizeCategories);
+        });

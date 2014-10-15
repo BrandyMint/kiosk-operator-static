@@ -1,17 +1,16 @@
-$gray-darker:            lighten(#000, 17%)
-$gray-dark:              lighten(#000, 30%)
-$gray:                   lighten(#000, 40%)
-$gray-light:             lighten(#000, 60%)
-$gray-lighter:           lighten(#000, 85%)
-$gray-lightest:          lighten(#000, 98%)
+$gray-darker:            lighten(#000, 17%) // #2b2b2b
+$gray-dark:              lighten(#000, 30%) // #4d4d4d
+$gray:                   lighten(#000, 40%) // #666
+$gray-light:             lighten(#000, 60%) // #999
+$gray-lighter:           #c3c3c3
+$gray-lightest:          lighten(#000, 91%) // #e8e8e8
 
-//$blue: #009BFF
-$blue: #0BAFFC
+$blue: #00b9ff
 $blue-dark: darken($blue, 20%)
 $red: #f6584f
 $red-dark: #CB1F35
-$green: #57CB6A
-$green-dark: #57CB6A
+$green: #57cb6a
+$green-dark: darken($green, 20%)
 $orange: #ff4500
 $yellow: #ffd600
 $purple: rgb(158, 0, 93)
@@ -20,20 +19,21 @@ $white: #fff
 $brand-color: $yellow
 $brand-color-light: lighten($yellow, 10%)
 $brand-color-dark: darken($yellow, 10%)
-$line-color: $gray-lighter
+$line-color: $gray-lightest
 
+$brand-default: #d8d8d8
 $brand-success: $green
 $brand-warning: $orange
+$brand-waiting: $yellow
 
-$label-success-bg: $brand-success
-$label-warning-bg: $brand-warning
-
-$text-color: $gray-darker
+$text-color: #0f0f0f
 $text-color-dark: $gray-darker
 $text-color-light: lighten($text-color, 10%)
 $text-color-lighter: lighten($text-color, 20%)
 
-$link-color: $gray-dark
+$headings-color: $text-color
+
+$link-color: $text-color
 $link-color-hover: $blue
 $link-hover-color: $link-color-hover
 $link-color-hover-light: lighten($link-color-hover, 30%)
@@ -85,7 +85,7 @@ $navbar-default-link-active-bg:            transparent
 $header-navbar-background: #fff
 $header-navbar-height: 78px
 
-$hr-border: $gray-lighter
+$hr-border: $gray-lightest
 
 $input-background-inactive: rgba(#fff, 0.85)
 
@@ -126,3 +126,24 @@ $breadcrumb-font-size: $font-size-small
 
 $breadcrumb-color: $gray-darker
 $breadcrumb-active-color: $gray-darker
+
+// Modal
+$modal-inner-padding: 30px
+
+$modal-title-padding: $modal-inner-padding
+
+$modal-backdrop-bg: #31383f
+
+$modal-backdrop-opacity: .8
+
+$modal-header-border-color: $gray-lightest
+
+// Label
+$label-default-bg: $brand-default
+$label-success-bg: $brand-success
+$label-warning-bg: $brand-warning
+$label-waiting-bg: $brand-waiting
+
+
+// Типографика
+// h1 - 28px

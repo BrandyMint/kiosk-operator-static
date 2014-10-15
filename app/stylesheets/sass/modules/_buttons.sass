@@ -201,8 +201,7 @@
     height: 28px
     margin-top: 3px
 
-// Button - Edit Category
-.adm-btn-edit-category
+%adm-btn-edit-circle
   @include inline-valign-middle
   width: 32px
   height: 32px
@@ -221,3 +220,23 @@
     font: 0/0 a
   &:hover
     background-color: #eee
+
+// Button - Edit Category
+.adm-btn-edit-category
+  @extend %adm-btn-edit-circle
+
+// Button - Edit Order Section
+.adm-btn-edit-order-section
+  @extend %adm-btn-edit-circle
+
+// Button - Remove Order
+.adm-btn-remove-order
+  @extend .btn
+  @extend .btn-red
+  height: auto
+  font-size: 17px
+  &:hover,
+  &:focus
+    background-color: lighten($red, 4%)
+    border-color: lighten($red, 4%)
+    color: #fff

@@ -1,0 +1,49 @@
+$left-sidebar-padding: 10px
+$left-sidebar-padding-top: 40px
+
+
+.adm-sidebar-nav
+  color: #fff
+
+.adm-sidebar-nav-list
+  @include list-style-none
+
+.adm-sidebar-nav-item
+  @include text-overflow
+  margin-bottom: -1px
+  font-size: 16px
+  &.__active
+    .adm-sidebar-nav-link
+      background-color: #525d68
+
+.adm-sidebar-nav-link
+  @include text-overflow
+  padding: 20px
+  display: block
+  color: inherit
+  +transition(background-color .3s ease, color .3s ease)
+  &:hover
+    background-color: #4d5257
+    color: inherit
+
+.adm-sidebar-nav-sep
+  margin: 0 20px -1px
+  height: 1px
+  background-color: #4d5257
+  font-size: 0
+  line-height: 0
+  font-family: a
+
+.adm-sidebar-nav-icon
+  width: 32px
+  height: 32px
+  margin-right: 14px
+  top: -2px
+
+@media screen and (max-width: $screen-sm-max)
+  .adm-sidebar-nav-item
+    font-size: 14px
+
+  .adm-sidebar-nav-icon
+    width: 28px
+    height: 28px

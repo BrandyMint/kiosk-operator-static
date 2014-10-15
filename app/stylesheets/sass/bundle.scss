@@ -1,32 +1,95 @@
 @charset "UTF-8";
 
+/*
+ * Подключаем только те компоненты, миксины и утилиты,
+ * которые используются на проекте, остальное - убираем
+ */
+
+/* === Bootstrap === */
+// Core variables and mixins
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap/variables";
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap/mixins";
+
+/* === Kiosk === */
+// Main Settings
 @import "settings/design";
 @import "settings/variables";
 @import "settings/mixins";
 @import "settings/fonts";
-@import "bootstrap-sass-official/assets/stylesheets/bootstrap";
 
+/* === Bootstrap === */
+// Reset and dependencies
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/normalize";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/print";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/glyphicons";
+
+// Core CSS
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/scaffolding";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/type";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/code";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/grid";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/tables";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/forms";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/buttons";
+
+// Components
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/component-animations";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/dropdowns";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/button-groups";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/input-groups";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/navs";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/navbar";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/breadcrumbs";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/pagination";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/pager";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/labels";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/badges";
+//@import "bootstrap-sass-official/assets/stylesheets/bootstrap/jumbotron";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/thumbnails";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/alerts";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/progress-bars";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/media";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/list-group";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/panels";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/responsive-embed";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/wells";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/close";
+
+// Components w/ JavaScript
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/modals";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/tooltip";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/popovers";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/carousel";
+
+// Utility classes
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/utilities";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap/responsive-utilities";
+
+/* === Compass, FontAwesome === */
 @import "compass-mixins/lib/compass/typography/links/link-colors";
 @import "font-awesome/scss/font-awesome";
 
+/* === Kiosk === */
 @import "settings/typography";
 
 @import "settings/layout";
+
+@import "settings/adm-layout";
 
 // turns off responsive layouts:
 // @import settings/layout-width
 
 @import "settings/links";
 @import "settings/icons";
-
-@import "utilities/utils";
-@import "utilities/responsive";
-
 @import "settings/forms";
 @import "settings/tooltip";
 @import "settings/labels";
+
+// TODO: Переделать на fonticons
+@import "settings/adm-icons";
+
+@import "utilities/utils";
+@import "utilities/responsive";
 
 @import "modules/buttons";
 @import "modules/toggle";
@@ -46,4 +109,9 @@
 @import "modules/breadcrumbs";
 @import "modules/tables";
 
+// Новая вёрстка
+@import "modules/adm-sidebar-nav";
+@import "modules/adm-dropdown";
 @import "modules/adm-categories";
+@import "modules/adm-orders";
+@import "modules/adm-order";

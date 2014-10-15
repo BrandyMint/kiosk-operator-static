@@ -41,12 +41,20 @@
   & > thead > tr
     & > td
       padding: 10px
+      &:first-of-type
+        padding-left: 0
+      &:last-of-type
+        padding-right: 0
   & > tbody > tr
     & > td
       padding: 25px 10px
       border:
         top: none
         bottom: 1px solid $line-color
+      &:first-of-type
+        padding-left: 0
+      &:last-of-type
+        padding-right: 0
   .order-status-bullet
     margin:
       top: .45em
@@ -75,7 +83,7 @@
 
 .orders-list__table-status,
 .orders-list__table-header-cell-status
-  text-align: center
+  text-align: right
 
 .orders-list__table-status-btn
   display: block
@@ -97,11 +105,12 @@
   font-weight: 400
   font-size: $font-size-small
   color: $order-status-label-color !important
+  white-space: nowrap
   vertical-align: middle
   border-radius: $order-status-label-border-radius
   text-decoration: none !important
 
-@each $c in new $green-dark, delivery $blue-dark, cancelled $orange, paused $yellow
+@each $c in new $green, delivery $blue-dark, cancelled $orange, paused $yellow
   .orders-list__table > tbody > tr > td
     &.orders-list__table-status-#{nth($c,1)}
       background-color: nth($c,2)
@@ -123,9 +132,6 @@
 .orders-list__table-row
   cursor: pointer
   +transition(background 0.2s ease)
-  &:hover
-    > td
-      background-color: lighten($gray-lighter, 13%)
 
 .orders-list__more-products
   margin-top: 3px

@@ -1,0 +1,67 @@
+.adm-orders
+
+.adm-orders-table
+  @extend .table
+  @extend .table-striped
+  font-size: $font-size-base
+  line-height: $line-height-base
+  .order-status-bullet
+    margin:
+      top: .45em
+      right: -100%
+    position: relative
+    float: left
+    left: -1em
+  .inline-dropdown
+    margin-left: 8px
+
+.adm-orders-table-cell
+  padding: 6px 10px
+  border:
+    top: 1px solid $line-color
+  &:first-of-type
+    padding-left: 0
+  &:last-of-type
+    padding-right: 0
+
+.adm-orders-table-row
+  cursor: pointer
+
+.adm-orders-table-cell.__desc
+  @include text-overflow
+  max-width: 166px
+
+.adm-orders-table-cell.__number,
+.adm-orders-table-cell.__location,
+.adm-orders-table-cell.__time
+  color: $gray-lighter
+
+.adm-orders-table-cell.__time
+  @extend .hidden-md
+
+.adm-orders-table-cell.__payment
+  padding:
+    right: 0
+
+.adm-orders-table-cell.__status
+  white-space: nowrap
+
+// Responsive Table of Orders
+@media screen and (max-width: $screen-sm-max)
+  .adm-orders-table
+    @include responsive-table
+
+  .adm-orders-table-cell.__desc,
+  .adm-orders-table-cell.__status
+    white-space: normal
+
+  .adm-orders-table-cell.__desc
+    max-width: 100%
+
+  .adm-orders-table-cell.__status
+    .label,
+    .inline-dropdown
+      //margin-bottom: 8px
+      //display: block
+    .inline-dropdown
+      margin-left: 0

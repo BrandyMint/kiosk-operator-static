@@ -1,0 +1,167 @@
+// Order
+.adm-order
+  position: relative
+  .modal &
+    margin: -$modal-inner-padding
+  .adm-layout-main &
+    margin: -20px -30px
+
+.adm-order-header
+  padding: 20px $modal-inner-padding
+  border-bottom: 1px solid $line-color
+
+.adm-order-header-title
+  margin: 0
+  font-size: 28px
+
+.adm-order-body
+  padding: $modal-inner-padding
+
+.adm-order-footer
+  padding: $modal-inner-padding
+  padding-top: 0
+  @extend .clearfix
+  .modal &
+    padding:
+      top: $grid-gutter-width/2
+      right: 0
+      bottom: 0
+      left: 0
+    position: absolute
+    top: 100%
+    left: 0
+
+// Order Status Info
+.adm-order-status-info
+  & > .adm-order-status-info-time,
+  & > .label,
+  & > .dropdown
+    margin-right: 8px
+
+.adm-order-status-info
+  .adm-order-header &,
+  .modal-header &
+    margin-top: 5px
+    text-align: right
+    & > .adm-order-status-info-time,
+    & > .label,
+    & > .dropdown
+      margin-right: 0
+      margin-left: 8px
+
+.adm-order-status-info-time
+  color: $gray-light
+
+@media (max-width: $screen-md-max)
+  .adm-order-status-info
+    .adm-order-header &,
+    .modal-header &
+      margin-top: 5px
+      text-align: left
+      & > .adm-order-status-info-time,
+      & > .label,
+      & > .dropdown
+        margin-left: 0
+        margin-right: 8px
+
+// Order Sections
+.adm-order-sections
+  @include list-style-none
+
+.adm-order-section
+  margin-bottom: 14px
+  padding:
+    top: 36px
+    left: 45px
+  position: relative
+  border-top: 1px solid $line-color
+  &:first-child
+    padding-top: 0
+    border-top: none
+
+.adm-order-section-header
+  margin-bottom: 16px
+  .adm-btn-edit-order-section
+    position: absolute
+    margin-left: -32px
+
+.adm-order-section-number
+  @include center-block-content
+  width: 27px
+  height: 27px
+  margin:
+    right: 16px
+  position: absolute
+  left: 0
+  background-color: #31383f
+  font-weight: 100
+  font-size: 16px
+  line-height: 27px
+  color: #fff
+  text-align: center
+  border-radius: $border-radius-base
+
+.adm-order-section-title
+  @include center-block-content
+  margin: 0 44px 0 0
+  display: inline
+  font-size: 20px
+
+.adm-order-goods-table
+  @extend .table
+  @extend .table-striped
+  margin-bottom: 0
+  font-size: $font-size-base
+  line-height: $line-height-base
+  h4
+    margin: 0
+    font-weight: bold
+    font-size: inherit
+    line-height: inherit
+
+.adm-order-goods-table-row
+  &:first-child
+    .adm-order-goods-table-cell
+      border-top: none
+
+.adm-order-goods-table-cell
+  padding: 24px 8px
+  border-top: 1px solid $line-color
+  vertical-align: top
+  &:first-child
+    padding-left: 0
+  &:last-child
+    padding-right: 0
+
+.adm-order-goods-table-cell.__cover
+  width: 60px
+
+// Responsive Table of Order Goods
+@media screen and (max-width: $screen-sm-max)
+  .adm-order-goods-table
+    @include responsive-table
+
+  .adm-order-goods-table-row
+    &:first-child
+      border-top: none
+    tfoot &
+      border-top: 1px solid $line-color !important
+      .adm-order-goods-table-cell:first-child
+        display: none
+
+  .adm-order-goods-table-cell
+    padding:
+      top: 20px
+      bottom: 20px
+      left: 50% !important
+    position: relative
+    border: none !important
+    text-align: left !important
+    &:before
+      position: absolute
+      top: 20px
+      left: 0
+      width: 45%
+      padding-right: 10px
+      white-space: nowrap
+      content: (attr(data-title))

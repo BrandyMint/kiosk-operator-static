@@ -1,3 +1,39 @@
+@mixin responsive-table
+  &,
+  & tbody,
+  & tfoot,
+  & tr,
+  & td
+    display: block
+
+  & thead tr
+    position: absolute
+    top: -9999px
+    left: -9999px
+
+  & tr
+    border-top: 1px solid $line-color
+
+  & tbody td,
+  & tfoot td
+    width: auto
+    padding:
+      top: 20px
+      bottom: 20px
+      left: 50% !important
+    position: relative
+    border: none !important
+    text-align: left !important
+    &:before
+      position: absolute
+      top: 20px
+      left: 0
+      width: 45%
+      padding-right: 10px
+      white-space: nowrap
+      content: (attr(data-title))
+
+// Old
 .table-default
   > tbody
     > tr

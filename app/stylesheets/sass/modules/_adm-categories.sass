@@ -75,6 +75,8 @@ $zindex-adm-categories-item-active: 10
     cursor: pointer
     .adm-btn-edit-category
       visibility: visible
+  &.__muted
+    color: #d0d0d0
   &.selected
     background-color: $adm-categories-item-active-bg
     color: #fff
@@ -103,6 +105,7 @@ $zindex-adm-categories-item-active: 10
   +transition(color .4s ease)
 
 .adm-categories-item-field
+  @include placeholder(#d0d0d0)
   width: 92%
   padding: 0
   margin: 0

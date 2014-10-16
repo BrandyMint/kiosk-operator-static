@@ -133,10 +133,9 @@
                           Редактировать
                     .adm-categories-item{:class => "__edit"}
                       %input.adm-categories-item-field{:type => "text", :placeholder => "Новая категория"}
-                  .adm-categories-actions
-                    %button.adm-btn-add-category
-                      %i.adm-btn-add-category-icon
-                      Добавить
+                    .adm-categories-item{:class => "__muted"}
+                      %span.adm-categories-item-name Без категории
+                      %span.adm-categories-item-counter 21
                 .adm-categories-grid-col
                   .adm-categories-list
                     .adm-categories-item
@@ -163,10 +162,11 @@
                       %button.adm-btn-edit-category{:title => "Редактировать"}
                         %span
                           Редактировать
-                  .adm-categories-actions
-                    %button.adm-btn-add-category
-                      %i.adm-btn-add-category-icon
-                      Добавить
+                    .adm-categories-item{:class => "__edit"}
+                      %input.adm-categories-item-field{:type => "text", :placeholder => "Новая подкатегория"}
+                    .adm-categories-item{:class => "__muted"}
+                      %span.adm-categories-item-name Без подкатегории
+                      %span.adm-categories-item-counter 21
                 .adm-categories-grid-col.__wide
                   .adm-categories-content
                     %table.adm-categories-goods

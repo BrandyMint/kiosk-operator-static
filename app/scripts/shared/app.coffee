@@ -1,13 +1,22 @@
 $ ->
-  console.log 'df: ', @
-  @orderModal = $('@modal-order')
-  context = @
-  $("@modal-order-toggle").on "click", () ->
-    context.orderModal.modal
+  elements =
+    orderModal: $('@modal-order')
+    activatorOrderModal: $('@modal-order-toggle')
+
+  # Модальное окно заказа
+  elements.activatorOrderModal.on 'click', () ->
+    src = $(@).data('href');
+    elements.orderModal.modal
       show: true
-      remote: "modal-order.html"
+      remote: src
     return
 
+  elements.orderModal.on 'hidden.bs.modal', () ->
+    $(@).removeData 'bs.modal'
+    $('.modal-content', @).empty()
+    return
+
+  # Модальное окно редактирования товара
   @editProductModal = $('@modal-edit-product')
   $('@modal-edit-product-toggle').on 'click', () =>
     @editProductModal.modal('show')

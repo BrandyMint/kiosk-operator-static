@@ -46,10 +46,10 @@
               %tbody
                 - for order of orders
                   - order = orders[order]
-                  %tr.adm-orders-table-row
-                    %td.adm-orders-table-cell.__cover{data: {title: "Товары"}, role: 'modal-order-toggle'}
+                  %tr.adm-orders-table-row{data: {href: "modal-order.html"}, role: 'modal-order-toggle'}
+                    %td.adm-orders-table-cell.__cover{data: {title: "Товары"}}
                       %img{:src => "#{order.cover.src}", :alt => "#{order.cover.src}"}
-                    %td.adm-orders-table-cell.__desc{role: 'modal-order-toggle'}>
+                    %td.adm-orders-table-cell.__desc>
                       - counter_products = 0
                       - for product of order.products
                         - product = order.products[product]
@@ -58,10 +58,10 @@
                           = product.title
                         - else
                           = product.title + ', '
-                    %td.adm-orders-table-cell.__number{data: {title: "Номер заказа"}, role: 'modal-order-toggle'}>= order.number
-                    %td.adm-orders-table-cell.__location{data: {title: "Место доставки"}, role: 'modal-order-toggle'}>= order.location
-                    %td.adm-orders-table-cell.__time{data: {title: "Время доставки"}, role: 'modal-order-toggle'}>= order.time
-                    %td.adm-orders-table-cell.__total{data: {title: "Сумма"}, role: 'modal-order-toggle'}>
+                    %td.adm-orders-table-cell.__number{data: {title: "Номер заказа"}}>= order.number
+                    %td.adm-orders-table-cell.__location{data: {title: "Место доставки"}}>= order.location
+                    %td.adm-orders-table-cell.__time{data: {title: "Время доставки"}}>= order.time
+                    %td.adm-orders-table-cell.__total{data: {title: "Сумма"}}>
                       %span.nobr<= order.total + ' руб.'
                     %td.adm-orders-table-cell.__payment{data: {title: "Состояние по оплате"}}
                       %span.label.label-default>

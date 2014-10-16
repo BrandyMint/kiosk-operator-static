@@ -13,3 +13,29 @@ a.label
 
 .label-waiting
   @include label-variant($label-waiting-bg)
+
+// Payment
+.label-payment-new
+  @include label-variant($label-success-bg)
+
+.label-payment-delivery
+  @include label-variant($label-info-bg)
+
+.label-payment-cancelled
+  @include label-variant($label-warning-bg)
+
+.label-payment-paused
+  @include label-variant($label-warning-bg)
+
+.label-payment-done
+  @include label-variant($label-primary-bg)
+
+// Delivery
+.label-delivery-new
+  @include label-variant($label-default-bg)
+
+.label-delivery-payed
+  @include label-variant($label-success-bg)
+
+.label-delivery-cancelled
+  @include label-variant($label-warning-bg)

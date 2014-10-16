@@ -229,8 +229,8 @@
 .adm-btn-edit-order-section
   @extend %adm-btn-edit-circle
 
-// Button - Remove Order
-.adm-btn-remove-order
+// Button - Remove
+%adm-btn-remove
   @extend .btn
   @extend .btn-red
   height: auto
@@ -239,4 +239,23 @@
   &:focus
     background-color: lighten($red, 4%)
     border-color: lighten($red, 4%)
+    color: #fff
+
+// Button - Remove Order
+.adm-btn-remove-order
+  @extend %adm-btn-remove
+
+.adm-btn-remove
+  @extend %adm-btn-remove
+
+// Submit
+.adm-btn-submit
+  @extend .btn
+  @extend .btn-green
+  height: auto
+  font-size: 17px
+  &:hover,
+  &:focus
+    background-color: lighten($green, 4%)
+    border-color: lighten($green, 4%)
     color: #fff

@@ -2,19 +2,34 @@
 %html
   %head
     @@include('./shared/_head.haml')
-  %body
-    .navbar-transparent
-      .container
-        .login__navbar-logo-block
-          %a.login__navbar-logo{href: 'index.html'}
-    .login__content.login__content--fullscreen
-      .login__block
-        -#.alert.alert-danger
-        .login__form
-          - pages = [{url: 'signup.html', title: 'Регистрация'}, {url: 'signup_errors.html', title: 'Регистрация (ошибки)'}, {url: 'signup_pin.html', title: 'Регистраци (подтверждение пин-кода)'}, {url: 'login.html', title: 'Авторизация'}, {url: 'login_errors.html', title: 'Авторизация (ошибки)'}, {url: 'reset_password.html', title: 'Восстановить пин-код'}, {url: 'orders.html', title: 'Заказы (старый дизайн)'}, {url: 'adm-orders-list.html', title: 'Заказы'}, {url: 'adm-order.html', title: 'Страница заказа'}, {url: 'products.html', title: 'Страница товаров'}, {url: 'products_new.html', title: 'Добавление нового товара'}, {url: 'categories.html', title: 'Категории товаров (старое)'}, {url: 'adm-categories.html', title: 'Категории товаров (новое)'}]
-          - for page of pages
-            - page = pages[page]
+  %body{style}
+    .container
+      %a.login__navbar-logo{href: 'index.html'}
+      %hr
+      - pages_new = [{url: 'adm-orders-list.html', title: 'Все заказы'}, {url: 'adm-order.html', title: 'Страница заказа'}, {url: 'adm-edit-product.html', title: 'Редактирование товара'}, {url: 'adm-categories.html', title: 'Категории товаров'}]
+      - pages_old = [{url: 'signup.html', title: 'Регистрация'}, {url: 'signup_errors.html', title: 'Регистрация (ошибки)'}, {url: 'signup_pin.html', title: 'Регистраци (подтверждение пин-кода)'}, {url: 'login.html', title: 'Авторизация'}, {url: 'login_errors.html', title: 'Авторизация (ошибки)'}, {url: 'reset_password.html', title: 'Восстановить пин-код'}, {url: 'orders.html', title: 'Заказы'}, {url: 'products.html', title: 'Страница товаров'}, {url: 'products_new.html', title: 'Добавление нового товара'}, {url: 'categories.html', title: 'Категории товаров'}]
+      %h1 Новое
+      %ol
+        - for page_new of pages_new
+          - page_new = pages_new[page_new]
+          %li
             %h3
-              %a{href: "#{page.url}"}
-                = page.title
+              %a{href: "#{page_new.url}"}
+                = page_new.title
+      %hr
+      %h1 Старое
+      %ol
+        - for page_old of pages_old
+          - page_old = pages_old[page_old]
+          %li
+            %h3
+              %a{href: "#{page_old.url}"}
+                = page_old.title
+      :css
+        hr {
+          margin-bottom: 50px;
+        }
 
+        ol {
+          margin-bottom: 50px;
+        }

@@ -1,7 +1,16 @@
 $ ->
-  @orderModal = $('@order-modal')
-  $('@orders-list__table-modal-btn').on 'click', () =>
-    @orderModal.modal('show')
+  console.log 'df: ', @
+  @orderModal = $('@modal-order')
+  context = @
+  $("@modal-order-toggle").on "click", () ->
+    context.orderModal.modal
+      show: true
+      remote: "modal-order.html"
+    return
+
+  @editProductModal = $('@modal-edit-product')
+  $('@modal-edit-product-toggle').on 'click', () =>
+    @editProductModal.modal('show')
 
   $('@autosize').autosize()
 

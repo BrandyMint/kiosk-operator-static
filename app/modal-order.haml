@@ -1,0 +1,137 @@
+- order_states = {new: {slug: 'new', title: 'Новый'}, delivery: {slug: 'delivery', title: 'Доставка'}, cancelled: {slug: 'cancelled', title: 'Отменён'}, paused: {slug: 'paused', title: 'Пауза'}}
+
+.modal-body
+  / Order
+  .adm-order
+    %form.adm-form-default{:action => "?"}
+      / Order Header
+      %header.adm-order-header
+        .row
+          .col-md-4
+            %h1.adm-order-header-title Заказ 0023
+          .col-md-8
+            .adm-order-status-info
+              %span.adm-order-status-info-time> Заказ создан &mdash; 11:04, 25 сентября
+              %span.label.label-success> Оплачен
+              .dropdown.inline-dropdown
+                %a.label.label-success{href: '#', data: {toggle: 'dropdown'}}
+                  На доставке
+                  %i.fa.fa-angle-down
+                %ul.adm-dropdown-menu-status
+                  - for order of order_states
+                    - order = order_states[order]
+                    %li.adm-dropdown-menu-status-item
+                      %a.adm-dropdown-menu-status-btn{class: "__#{order.slug}"}
+                        = "#{order.title}"
+      / end Order Header
+      / Order Body
+      %section.adm-order-body
+        %ol.adm-order-sections
+          %li.adm-order-section
+            .adm-order-section-header
+              .adm-order-section-number 1
+              %h2.adm-order-section-title Покупатель
+            .form-group
+              .row
+                .col-sm-5
+                  .form-group
+                    %label
+                      Имя
+                    %p
+                      Евгений
+                .col-sm-5
+                  .form-group
+                    %label
+                      Емейл
+                    %p
+                      genue.luben@gmail.com
+                .col-sm-5
+                  .form-group
+                    %label
+                      Телефон
+                    %p
+                      = '+7 (905) 716-14-51'
+          %li.adm-order-section
+            .adm-order-section-header
+              .adm-order-section-number 2
+              %h2.adm-order-section-title Доставка
+              /
+                .adm-btn-edit-order-section{title: 'Редактировать'}
+                  %span
+                    Редактировать
+            .form-group
+              .row
+                .col-sm-5
+                  .form-group
+                    %label
+                      Город
+                    %p
+                      Санкт-Петербург
+                .col-sm-5
+                  .form-group
+                    %label
+                      Адрес
+                    %p
+                      ул. Академика Янгеля, дом 5, корпус 25, квартира 12, домофон 356
+              .row
+                .col-sm-5
+                  .form-group
+                    %label
+                      Доставка
+                    %p
+                      Курьером
+                .col-sm-5
+                  .form-group
+                    %label
+                      Комментарий к заказу
+                    %p
+                      Доставка послезавтра!
+          %li.adm-order-section
+            .adm-order-section-header
+              .adm-order-section-number 3
+              %h2.adm-order-section-title Оплата
+            .form-group
+              .row
+                .col-sm-5
+                  .form-group
+                    %label
+                      Способ оплаты
+                    %p
+                      Банковские карты
+          %li.adm-order-section
+            .adm-order-section-header
+              .adm-order-section-number 4
+              %h2.adm-order-section-title Состав заказа
+            .row
+              .col-md-11
+                %table.adm-order-goods-table
+                  %tbody
+                    %tr.adm-order-goods-table-row
+                      %td.adm-order-goods-table-cell.__cover{data: {title: "Товар"}}
+                        %a{:href => "#product", :title => 'Мыльница с якорем'}
+                          %img{:src => "assets/product-60x60-1.jpg", :alt => ""}
+                      %td.adm-order-goods-table-cell.__desc
+                        %h4
+                          %a{:href => "#product", :title => 'Мыльница с якорем'} Мыльница с якорем
+                        %p
+                          Размер: 16
+                          %br
+                          Артикул: 5643454
+                      %td.adm-order-goods-table-cell.__quantity{data: {title: "Количество"}}
+                        %span.nobr Количество: 2
+                      %td.adm-order-goods-table-cell.__total{data: {title: "Сумма"}}
+                        %span.nobr 12 000 руб.
+                  %tfoot
+                    %tr.adm-order-goods-table-row
+                      %td.adm-order-goods-table-cell{colspan: 3} &nbsp;
+                      %td.adm-order-goods-table-cell{colspan: 2}
+                        %p
+                          != 'Итого <br />'
+                          12 000 руб.
+      / end Order Body
+      / Order Footer
+      %footer.adm-order-footer
+        %button.adm-btn-remove-order.pull-right
+          Удалить товар навсегда
+      / end Order Footer
+  / end Order

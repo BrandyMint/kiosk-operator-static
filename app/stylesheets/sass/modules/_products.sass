@@ -127,12 +127,19 @@ $products-form-images-list-padding: 12px
   cursor: pointer
 
 .products__new-form-images-list
+  @include clearfix
   margin:
     left: - $products-form-images-list-padding/2
     right: - $products-form-images-list-padding/2
 
 .products__new-form-image-thumb-block
   @extend .col-xs-4
+  .products__new-form-images-list.__small &
+    width: 20%
+    .products__new-form-image-thumb-remove
+      left: 35%
+    .products__new-form-image-thumb-update
+      left: 65%
   padding: $products-form-images-list-padding/2
   cursor: pointer
   &:after
@@ -193,7 +200,7 @@ $products-form-images-list-padding: 12px
 
 .products__new-form-image-thumb-add
   @extend .products__new-form-image-thumb-remove
-  left: 50%
+  left: 50% !important
   display: block
   background:
     image: url('#{$images-path}/product-thumb-plus-white.svg')
@@ -215,6 +222,7 @@ $products-form-images-list-padding: 12px
 
 .products__new-form-remove-variant-btn
   @extend .products__new-form-remove-params-btn
+  margin-top: 7px
 
 .products__new-form-variant-type-btn
   @extend .btn
@@ -234,5 +242,59 @@ $products-form-images-list-padding: 12px
     border-color: $blue
     +box-shadow(inset 0 0 0 2px $blue)
 
+label.toggle__block
+  margin: 0
 
+.adm-form-item-header
+  .toggle__block
+    margin-top: 7px
+    float: right
 
+.adm-form-item-footer
+  @include clearfix
+  .modal &
+    width: 100%
+    padding:
+      top: $grid-gutter-width/2
+      right: 0
+      bottom: 0
+      left: 0
+    position: absolute
+    top: 100%
+    left: 0
+  .adm-btn-submit
+    float: left
+  .adm-btn-remove
+    float: right
+
+@media screen and (max-width: $screen-sm-max)
+  .row-block-padding
+    div[class^=col-]
+      margin-bottom: 15px
+
+  .products__new-form-remove-variant-btn
+    margin: -20px auto 25px
+    float: none !important
+    display: block
+
+  .products__new-form
+    .toggle__block
+      margin-top: 20px
+      float: none
+
+  .products__new-form-images-list.__small
+    .products__new-form-image-thumb-block
+      width: 33.3333%
+
+  .products__new-form-variant-type-btn
+    margin-bottom: 10px
+
+  .adm-form-item-footer
+    .modal &
+      position: static
+
+  .adm-btn-submit,
+  .adm-btn-remove
+    width: 100%
+    margin-top: 10px
+    float: none !important

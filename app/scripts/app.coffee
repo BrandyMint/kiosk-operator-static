@@ -1,5 +1,5 @@
 require './libs'
-require './shared/app'
+require './shared/static'
 
 require './react/mixins/dragging'
 require './react/mixins/images_form_mixin'

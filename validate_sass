@@ -1,1 +1,1 @@
-bundle exec sass -E UTF-8 -I app/bower_components app/stylesheets/app.scss /dev/null
+bundle exec sass -E UTF-8 -I app/bower_components app/stylesheets/app.scss > /dev/null 2>&1

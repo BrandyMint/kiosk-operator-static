@@ -8,21 +8,51 @@ $adm-categories-item-active-bg: $blue
 $zindex-adm-categories-item-active: 10
 
 // Categories
-.app-main-content
-  .adm-categories-container
-    position: absolute
-    top: 0
-    right: 0
-    bottom: 0
-    left: 0
-
 .adm-layout-main
   .adm-categories-container
-    margin: 0 -30px -20px
+
     position: relative
-    border-top: 1px solid $line-color
 
 .adm-categories
+  margin: -20px -30px -20px
+  position: relative
+
+.adm-categories-header
+  padding: 20px 30px
+  border-bottom: 1px solid $line-color
+  .adm-categories-search-form
+    margin:
+      top: -2px
+      bottom: -2px
+  .adm-categories-header-title + .adm-dropdown
+    margin:
+      top: 4px
+      left: -30px
+    position: absolute
+
+.adm-categories-header-row
+  @extend .row
+
+.adm-categories-header-col
+  @extend .col-md-8
+  &.__right
+    @extend .col-md-4
+
+.adm-categories-header-title
+  margin: 0 45px 0 0
+  display: inline
+  font-size: 28px
+  vertical-align: middle
+
+.adm-categories-search-field
+  @include placeholder(#d0d0d0)
+  height: 40px
+  padding: 10px 18px
+  border-color: $line-color
+  border-radius: 30px
+  +box-shadow(none)
+
+.adm-categories-body
   margin-top: -1px
   position: relative
 
@@ -194,3 +224,9 @@ $zindex-adm-categories-item-active: 10
       &:first-child
         border-top: none
 
+@media screen and (max-width: $screen-md-max)
+  .adm-categories-header
+    .adm-categories-search-form
+      margin:
+        top: 20px
+        bottom: 0

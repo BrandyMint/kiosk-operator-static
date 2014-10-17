@@ -36,17 +36,7 @@
               .row
                 .col-md-8
                   .form-group
-                    %label.toggle__block{role: 'product-toggle'}
-                      .toggle__block-label-checked.pull-left
-                        Товар на сайте
-                      .toggle__block-box.pull-left
-                        %input.toggle__block-checkbox{type: 'checkbox'}
-                        .toggle__block-switch
-                        .toggle__block-track
-
-                      .toggle__block-label-unchecked.pull-left
-                        Скрыть товар
-                      .clearfix
+                    %div( data-react-class="ProductStatusToggle", data-react-props='{"product_id": 123}' )
                   .form-alert.form-alert-danger
                     Невозможно опубликовать товар. Проверьте поля, выделенные красным
                   .form-group

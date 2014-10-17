@@ -59,6 +59,8 @@ input[type="checkbox"]
   transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860)
   transition-property: left, right
   transition-delay: 0s, .05s
+  .has_errors &
+    background-color: $red
 
 .toggle__block-track 
   position: absolute
@@ -98,3 +100,8 @@ input[type="checkbox"]
     color: $gray-light
     background: none
 
+.toggle__block.has_errors
+  cursor: default
+  .toggle__block-label-unchecked
+    background: $red
+    color: #fff

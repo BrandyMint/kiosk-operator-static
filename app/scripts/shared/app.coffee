@@ -117,3 +117,20 @@ $ ->
     toggleBlock.removeClass 'checked'
     if $(@).is(':checked')
       toggleBlock.addClass 'checked'
+
+
+  # Скрыть/Показать категории
+  categoriesList = $('@categories-list')
+  switcherDisplayCategories = $('@switch-display-categories')
+  switcherTitles =
+    hide: switcherDisplayCategories.data("title-hide")
+    show: switcherDisplayCategories.data("title-show")
+
+  switcherDisplayCategories.on 'click', (e) ->
+    e.preventDefault()
+    if categoriesList.is(':visible')
+      categoriesList.hide()
+      $(@).text(switcherTitles.show)
+    else
+      categoriesList.show()
+      $(@).text(switcherTitles.hide)

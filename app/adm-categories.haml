@@ -14,7 +14,7 @@
         / Sidebar Nav
         %nav.adm-sidebar-nav
           %ul.adm-sidebar-nav-list
-            - links = [{slug: 'shop', icon: 'adm-sidebar-nav-icon adm-icon-panel', title: 'Магазин Wannabe', href: '#todo'}, {slug: 'info', icon: 'adm-sidebar-nav-icon adm-icon-question-mark', title: 'Что делать?', href: '#todo'}, {slug: 'products', icon: 'adm-sidebar-nav-icon adm-icon-layers', title: 'Товары', href: 'products.html'}, {slug: 'categories', icon: 'adm-sidebar-nav-icon adm-icon-folder', title: 'Категории', href: 'adm-categories.html'}, {slug: 'orders', icon: 'adm-sidebar-nav-icon adm-icon-basket', title: 'Заказы', href: 'adm-orders-list.html'}, {slug: 'settings', icon: 'adm-sidebar-nav-icon adm-icon-cogwheel', title: 'Настройки', href: '#todo'}]
+            - links = [{slug: 'shop', icon: 'adm-sidebar-nav-icon adm-icon-panel', title: 'Магазин Wannabe', href: '#todo'}, {slug: 'info', icon: 'adm-sidebar-nav-icon adm-icon-question-mark', title: 'Что делать?', href: '#todo'}, {slug: 'categories', icon: 'adm-sidebar-nav-icon adm-icon-folder', title: 'Категории', href: 'adm-categories.html'}, {slug: 'orders', icon: 'adm-sidebar-nav-icon adm-icon-basket', title: 'Заказы', href: 'adm-orders-list.html'}, {slug: 'settings', icon: 'adm-sidebar-nav-icon adm-icon-cogwheel', title: 'Настройки', href: '#todo'}]
             - for l of links
               - l = links[l]
               - li_class = ''
@@ -34,137 +34,157 @@
       / Layout Main
       .adm-layout-main
         .adm-layout-main-inner
-          / Section Header
-          %header.adm-section-header
-            %h1.adm-section-header-title Категории
-          / end Section Header
           / Categories
-          .adm-categories-container
-            .adm-categories
+          .adm-categories
+            %header.adm-categories-header
+              .adm-categories-header-row
+                .adm-categories-header-col
+                  %h1.adm-categories-header-title Категории
+                  .adm-dropdown
+                    %button.adm-btn-categories-settings{data: {toggle: "dropdown"}}
+                      %i.adm-btn-categories-settings-icon
+                      %span.sr-only Настройки категорий
+                    .adm-dropdown-popup.__right
+                      %ul.adm-dropdown-popup-list
+                        %li.adm-dropdown-popup-item
+                          %a.adm-dropdown-popup-link{href: '#todo', title: 'Скрыть категории', role: 'switch-display-categories', data: {'title-hide': 'Скрыть категории', 'title-show': 'Показать категории'}} Скрыть категории
+                        %li.adm-dropdown-popup-item
+                          %a.adm-dropdown-popup-link{href: '#todo', title: 'Подкатегории включены'} Подкатегории включены
+                        %li.adm-dropdown-popup-item.__active
+                          %a.adm-dropdown-popup-link{href: '#todo', title: 'Настроить выгрузку'} Настроить выгрузку
+                        %li.adm-dropdown-popup-item
+                          %a.adm-dropdown-popup-link{href: '#todo', title: 'Другие настройки товаров'} Другие настройки товаров
+                        %li.adm-dropdown-popup-item
+                          %a.adm-dropdown-popup-link{href: '#todo', title: 'Еще настройки'} Еще настройки
+
+                .adm-categories-header-col.__right
+                  %form.adm-categories-search-form{action: '?'}
+                    %input.adm-categories-search-field.form-control{type: 'text', placeholder: 'Поиск по товарам'}
+            .adm-categories-body
               .adm-categories-grid
-                .adm-categories-grid-col
+                .adm-categories-grid-col{role: 'categories-list'}
                   .adm-categories-list
-                    .adm-categories-item{:class => 'selected'}
+                    .adm-categories-item{class: 'selected'}
                       %span.adm-categories-item-name Все товары
                       %span.adm-categories-item-counter 353
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Велосипеды
                       %span.adm-categories-item-counter 45
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Компоненты
                       %span.adm-categories-item-counter 5
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
-                    .adm-categories-item{:class => "__edit"}
-                      %input.adm-categories-item-field{:type => "text", :value => "Велозапчасти"}
+                    .adm-categories-item{class: '__edit'}
+                      %input.adm-categories-item-field{type: 'text', :value => "Велозапчасти"}
                       %span.adm-categories-item-remove
                     .adm-categories-item
                       %span.adm-categories-item-name Распродажа
                       %span.adm-categories-item-counter 21
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Все товары
                       %span.adm-categories-item-counter 353
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Велосипеды
                       %span.adm-categories-item-counter 45
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Компоненты
                       %span.adm-categories-item-counter 5
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Распродажа
                       %span.adm-categories-item-counter 21
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Велосипеды
                       %span.adm-categories-item-counter 45
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Компоненты
                       %span.adm-categories-item-counter 5
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Распродажа
                       %span.adm-categories-item-counter 21
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Велосипеды
                       %span.adm-categories-item-counter 45
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Компоненты
                       %span.adm-categories-item-counter 5
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Распродажа
                       %span.adm-categories-item-counter 21
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
-                    .adm-categories-item{:class => "__edit"}
-                      %input.adm-categories-item-field{:type => "text", :placeholder => "Новая категория"}
-                    .adm-categories-item{:class => "__muted"}
+                    .adm-categories-item{class: '__edit'}
+                      %input.adm-categories-item-field{type: 'text', placeholder: 'Новая категория'}
+                    .adm-categories-item{class: '__muted'}
                       %span.adm-categories-item-name Без категории
                       %span.adm-categories-item-counter 21
-                .adm-categories-grid-col
+                .adm-categories-grid-col{role: 'categories-list'}
                   .adm-categories-list
                     .adm-categories-item
                       %span.adm-categories-item-name Все товары
                       %span.adm-categories-item-counter
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Городские
                       %span.adm-categories-item-counter 5
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
-                    .adm-categories-item{:class => 'selected'}
+                    .adm-categories-item{class: 'selected'}
                       %span.adm-categories-item-name Складные
                       %span.adm-categories-item-counter 10
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
                     .adm-categories-item
                       %span.adm-categories-item-name Триатлон
                       %span.adm-categories-item-counter 54
-                      %button.adm-btn-edit-category{:title => "Редактировать"}
+                      %button.adm-btn-edit-category{title: 'Редактировать'}
                         %span
                           Редактировать
-                    .adm-categories-item{:class => "__edit"}
-                      %input.adm-categories-item-field{:type => "text", :placeholder => "Новая подкатегория"}
-                    .adm-categories-item{:class => "__muted"}
+                    .adm-categories-item{class: '__edit'}
+                      %input.adm-categories-item-field{type: 'text', :placeholder => "Новая подкатегория"}
+                    .adm-categories-item{class: '__muted'}
                       %span.adm-categories-item-name Без подкатегории
                       %span.adm-categories-item-counter 21
                 .adm-categories-grid-col.__wide
@@ -325,30 +345,30 @@
                     .form-group.text
                       %label
                         Описание
-                      %textarea.form-control{:placeholder => "Описание", :required => "required", :role => "autosize"}
+                      %textarea.form-control{placeholder: 'Описание', required: 'required', role: 'autosize'}
 
                     .form-group
                       %label Характеристики
                       .row
                         .col-sm-6
                           .form-group-sm
-                            %input.form-control{type: "text", placeholder: 'Например, вес'}
+                            %input.form-control{type: 'text', placeholder: 'Например, вес'}
                         .col-sm-6
                           .row-gutter-dash.text-muted
                             &mdash;
                           .form-group-sm
-                            %input.form-control{type: "text", placeholder: '11 грамм'}
+                            %input.form-control{type: 'text', placeholder: '11 грамм'}
                       .row
                         .col-sm-6
                           .form-group-sm
-                            %input.form-control{type: "text", placeholder: 'Например, вес'}
+                            %input.form-control{type: 'text', placeholder: 'Например, вес'}
                         .col-sm-6
                           .row-gutter-dash.text-muted
                             &mdash;
                           .form-group-sm
-                            %input.form-control{type: "text", placeholder: '11 грамм'}
+                            %input.form-control{type: 'text', placeholder: '11 грамм'}
                 %footer.adm-form-item-footer
-                  %button.adm-btn-submit{"data-disable-with" => "Сохраняем...", :type => "submit"}
+                  %button.adm-btn-submit{'data-disable-with' => 'Сохраняем...', :type => 'submit'}
                     Сохранить
                   %button.adm-btn-remove
                     Удалить товар навсегда

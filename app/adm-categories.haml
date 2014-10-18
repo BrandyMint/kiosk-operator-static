@@ -3,31 +3,13 @@
 <!DOCTYPE html>
 %html
   %head
-    @@include('./shared/_head.haml')
+    +include './app/shared/_head.haml'
   %body.adm-body
     %script{src: 'scripts/bundle.js'}
 
     / Layout
     .adm-layout
-      / Layout Sidebar
-      .adm-layout-sidebar
-        / Sidebar Nav
-        %nav.adm-sidebar-nav
-          %ul.adm-sidebar-nav-list
-            - links = [{slug: 'shop', icon: 'adm-sidebar-nav-icon adm-icon-panel', title: 'Магазин Wannabe', href: '#todo'}, {slug: 'info', icon: 'adm-sidebar-nav-icon adm-icon-question-mark', title: 'Что делать?', href: '#todo'}, {slug: 'categories', icon: 'adm-sidebar-nav-icon adm-icon-folder', title: 'Категории', href: 'adm-categories.html'}, {slug: 'orders', icon: 'adm-sidebar-nav-icon adm-icon-basket', title: 'Заказы', href: 'adm-orders-list.html'}, {slug: 'settings', icon: 'adm-sidebar-nav-icon adm-icon-cogwheel', title: 'Настройки', href: '#todo'}]
-            - for l of links
-              - l = links[l]
-              - li_class = ''
-              - if l.slug == 'categories'
-                - li_class = 'selected'
-              %li.adm-sidebar-nav-item{class: "#{li_class}"}
-                %a.adm-sidebar-nav-link{href: "#{l.href}"}
-                  %i{class: "#{l.icon}"}>
-                  = l.title
-              - if l.slug == 'shop'
-                %li.adm-sidebar-nav-sep
-        / end Sidebar Nav
-      / end Layout Sidebar
+      +include './app/shared/_layout_sidebar.haml'
 
       - order_states = {new: {slug: 'new', title: 'Новый'}, delivery: {slug: 'delivery', title: 'Доставка'}, cancelled: {slug: 'cancelled', title: 'Отменён'}, paused: {slug: 'paused', title: 'Пауза'}}
 

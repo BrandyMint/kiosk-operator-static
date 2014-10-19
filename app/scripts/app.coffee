@@ -27,6 +27,9 @@ require './react/services/products_service'
 require './react/mocks/products_service_mock'
 require './react/components/product_status_toggle'
 
+require './react/components/modal'
+require './react/services/modal_service'
+
 require './react/components/super_select'
 require './react/components/images_form'
 require './react/application'

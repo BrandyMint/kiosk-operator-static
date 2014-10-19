@@ -28,7 +28,7 @@
               %tbody
                 - for order of orders
                   - order = orders[order]
-                  %tr.adm-orders-table-row{data: {href: "modal-order.html"}, role: 'modal-order-toggle'}
+                  %tr.adm-orders-table-row{data: {modal-url: "modal-order.html"}, role: 'modal-order-toggle', "show-modal": true}
                     %td.adm-orders-table-cell.__cover{data: {title: "Товары"}}
                       %img{:src => "#{order.cover.src}", :alt => "#{order.cover.src}"}
                     %td.adm-orders-table-cell.__desc>
@@ -72,12 +72,6 @@
           / end Orders
       / end Layout Main
     / end Layout
-
-    / Modal Order
-    .modal.modal-order.fade{"aria-hidden" => "true", "aria-labelledby" => "mySmallModalLabel", :role => "modal-order", :tabindex => "-1"}
-      .modal-dialog.modal-lg
-        .modal-content{role: 'modal-content'}
-    / end Modal Order
 
     / Popup Products
     - popup_products = [{cover: {src: 'assets/product-60x60-1.jpg'}, title: 'Мыльница с якорем', size: '16', article: '56456456', quantity: '1', price: '12 000'}, {cover: {src: 'assets/product-60x60-2.jpg'}, title: 'Мыльница с якорем', size: '-', article: '56456456', quantity: '1', price: '4 000'}]

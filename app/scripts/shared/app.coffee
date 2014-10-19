@@ -1,25 +1,8 @@
 $ ->
-  elements =
-    orderModal: $('@modal-order')
-    activatorOrderModal: $('@modal-order-toggle')
-
-  # Модальное окно заказа
-  elements.activatorOrderModal.on 'click', () ->
-    src = $(@).data('href');
-    elements.orderModal.modal
-      show: true
-      remote: src
-    return
-
-  elements.orderModal.on 'hidden.bs.modal', () ->
-    $(@).removeData 'bs.modal'
-    $('.modal-content', @).empty()
-    return
-
-  # Модальное окно редактирования товара
-  @editProductModal = $('@modal-edit-product')
-  $('@modal-edit-product-toggle').on 'click', () =>
-    @editProductModal.modal('show')
+  # Подключение универсального модального окна
+  $('[show-modal]').on 'click', () ->
+    url = $(@).data 'modalUrl'
+    ModalService.show url
 
   $('@autosize').autosize()
 

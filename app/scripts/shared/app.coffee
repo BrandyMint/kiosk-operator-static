@@ -16,10 +16,9 @@ $ ->
     $('.modal-content', @).empty()
     return
 
-  # Модальное окно редактирования товара
-  @editProductModal = $('@modal-edit-product')
+  # Подключение модального окна редактирования товара
   $('@modal-edit-product-toggle').on 'click', () =>
-    @editProductModal.modal('show')
+    ModalService.show 'modal-edit-product.html'
 
   $('@autosize').autosize()
 

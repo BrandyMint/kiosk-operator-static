@@ -16,10 +16,10 @@ $ ->
     $('.modal-content', @).empty()
     return
 
-  # Модальное окно редактирования товара
-  @editProductModal = $('@modal-edit-product')
-  $('@modal-edit-product-toggle').on 'click', () =>
-    @editProductModal.modal('show')
+  # Подключение модального окна редактирования товара
+  $('@modal-edit-product-toggle').on 'click', () ->
+    url = $(@).data 'url'
+    ModalService.show url
 
   $('@autosize').autosize()
 

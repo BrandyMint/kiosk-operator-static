@@ -21,7 +21,7 @@ window.OperatorCategories_List = React.createClass
     OperatorCategoriesStore.addChangeListener @_onChange
 
     $(@refs.list.getDOMNode()).sortable {
-      placeholder: 'operator-categories__item-dropzone'
+      placeholder: 'adm-categories-item __dropzone'
       forcePlaceholderSize: true
       revert: DRAG_REVERT
       delay: DRAG_DELAY
@@ -44,13 +44,11 @@ window.OperatorCategories_List = React.createClass
                                 isActive=          { that._isCategoryActive(cat) }
                                 onSelectCategory=  { that.props.onSelectCategory } />`
 
-    return `<div>
-              <OperatorCategories_Create parentCategory={ this.state.parentCategory } />
-              <br />
-              <div className= "operator-categories"
-                   ref=       "list">
+    return `<div className="adm-categories-list">
+              <span ref="list">
                 { categoryNodes }
-              </div>
+              </span>
+              <OperatorCategories_CreateForm parentCategory= { this.props.parentCategory } />
             </div>`
 
   _onChange: ->

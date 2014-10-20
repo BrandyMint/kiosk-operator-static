@@ -24,9 +24,13 @@ window.OperatorCategories_ItemEdit = React.createClass
         @_inputForm()
       when STATE_POSTING
         `<span>
-          &nbsp;&nbsp;&nbsp;
-          <i>Обновление категории...</i>
-        </span>`
+           <span className="adm-categories-item-name text-muted">
+             { this.state.newName }
+           </span>
+           <span className="adm-categories-item-name">
+             <i className="fa fa-spinner fa-spin" />
+           </span>
+         </span>`
       when STATE_ERROR
         `<span>
           &nbsp;&nbsp;&nbsp;
@@ -35,37 +39,17 @@ window.OperatorCategories_ItemEdit = React.createClass
 
   _inputForm: ->
     `<span>
-      &nbsp;&nbsp;&nbsp;
-      <input type="text"
-             ref="input"
-             className="operator-categories__item-input"
-             defaultValue={ this.props.category.name }
-             onKeyDown={ this.handleInputKeyDown } />
-
-      <span className="pull-right">
-        <i className="fa fa-angle-right text-muted" />
-      </span>
-
-      <a className="hoverable operator-categories__item-delete pull-right"
-         onClick={ this.props.onDeleteStart }>
-        <i className="fa fa-times" />
-      </a>
-      <a className="hoverable operator-categories__item-cancel-edit pull-right"
-         onClick={ this.handleEditCancel }>
-        <i className="fa fa-times-circle" />
-      </a>
-      <a className="hoverable operator-categories__item-confirm-edit pull-right"
-         onClick={ this.handleEditConfirm }>
-        <i className="fa fa-check" />
-      </a>
-      <span className="clearfix"></span>
+      <input className=    "adm-categories-item-field"
+             type=         "text"
+             ref=          "input"
+             defaultValue= { this.props.category.name }
+             onKeyDown=    { this.handleInputKeyDown }
+             onBlur=       { this.handleInputBlur } />
+      <span className="adm-categories-item-remove"
+            onClick=  { this.handleDeleteClick } />
     </span>`
 
-  handleEditCancel: (e) ->
-    e.preventDefault()
-    @props.onFinish()
-
-  handleEditConfirm: (e) ->
+  handleInputBlur: (e) ->
     e.preventDefault()
     @_confirmEdit()
 
@@ -81,8 +65,19 @@ window.OperatorCategories_ItemEdit = React.createClass
   handleError: ->
     @setState(currentState: STATE_ERROR)
 
+  handleDeleteClick: (e) ->
+    e.preventDefault()
+    if window.confirm 'Удалить категорию "' + @props.category.name + '"?'
+      OperatorCategoriesService.deleteCategory
+        category: @props.category
+        success:  ->
+        error:    @handleError
+
   _confirmEdit: ->
-    @setState(currentState: STATE_POSTING)
+    @setState {
+      currentState: STATE_POSTING
+      newName:      @refs.input.getDOMNode().value
+    }
     updatedCategory = _.clone @props.category
     updatedCategory.name = @refs.input.getDOMNode().value
     OperatorCategoriesService.updateSingleCategory

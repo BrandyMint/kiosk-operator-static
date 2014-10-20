@@ -15,14 +15,13 @@ window.OperatorCategories_Item = React.createClass
 
   render: ->
     classes = cx {
-      'hoverable-container':       true
-      'operator-categories__item': true
-      'active':                    @props.isActive
+      'adm-categories-item': true
+      'selected':            @props.isActive
+      '__edit':              @state.status == 'edit'
     }
 
     return `<div className=    { classes }
                  data-objectid={ this.props.category.id }>
-              <i className=    "fa fa-bars operator-categories-drag-handle" />
               { this._getItemNode() }
             </div>`
 

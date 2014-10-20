@@ -33,21 +33,28 @@ window.OperatorCategories = React.createClass
       when STATE_READY
         @_getCategoriesForm()
       when STATE_LOADING
-        `<div>Загрузка категорий...</div>`
+        `<div className="adm-categories-grid">
+              <div className="adm-categories-grid-col"
+                   role=     "categories-list">
+                <div className="text-center">
+                  <i className="fa fa-spinner fa-3x fa-spin" />
+                </div>
+              </div>
+         </div>`
 
   _getCategoriesForm: ->
     subcategoriesPane = @_getSubcategoriesPane()
 
-    return `<div>
-              <div className= "col-md-6 user-select-none">
-                <OperatorCategories_List parentCategory={ null }
+    return `<div className="adm-categories-grid">
+              <div className="adm-categories-grid-col"
+                   role=     "categories-list">
+                <OperatorCategories_List parentCategory=  { null }
                                          selectedCategory={ this.state.selectedCategory }
                                          onSelectCategory={ this.handleCategorySelection } />
               </div>
-              <div className="col-md-6 user-select-none">
-                { subcategoriesPane }
-                <br />
-                <OperatorCategories_GoodsLink selectedCategory={ this.state.selectedCategory } />
+              { subcategoriesPane }
+              <div className="adm-categories-grid-col __wide">
+                <OperatorCategories_ProductsPane selectedCategory={ this.state.selectedCategory } />
               </div>
             </div>`
 
@@ -58,9 +65,12 @@ window.OperatorCategories = React.createClass
     else
       rightParentCat = selectedCat
     if rightParentCat
-      `<OperatorCategories_List parentCategory={ rightParentCat }
-                                selectedCategory={ this.state.selectedCategory }
-                                onSelectCategory={ this.handleCategorySelection } />`
+      `<div className="adm-categories-grid-col"
+            role=     "categories-list">
+         <OperatorCategories_List parentCategory=  { rightParentCat }
+                                  selectedCategory={ this.state.selectedCategory }
+                                  onSelectCategory={ this.handleCategorySelection } />
+       </div>`
 
   _onChange: ->
     if OperatorCategoriesStore.hasCategory @state.selectedCategory

@@ -9,56 +9,35 @@ STATE_ERROR   = 'error'
 window.OperatorCategories_CreateForm = React.createClass
   propTypes:
     parentCategory:   React.PropTypes.object
-    onFinish:         React.PropTypes.func
 
   getInitialState: ->
     currentState: STATE_INPUT
-
-  componentDidMount : ->
-    AppHelpers.reselectAndFocus @refs.input.getDOMNode()
 
   render: ->
     switch @state.currentState
       when STATE_INPUT
         @_inputTag()
       when STATE_POSTING
-        `<div>Создание категории...</div>`
+        `<div className="adm-categories-item">
+           <span className="adm-categories-item-name text-muted">
+             { this.state.newName }
+           </span>
+           <span className="adm-categories-item-name">
+             <i className="fa fa-spinner fa-spin" />
+           </span>
+         </div>`
       when STATE_ERROR
         `<div>Ошибка создания категории.</div>`
 
   _inputTag: ->
-    `<div>
-      <form accept-charset= "UTF-8"
-            className=      "simple_form new_category">
-        <div className="form-group string required category_name">
-          <input ref=          "input"
-                 type=         "text"
-                 placeholder=  "Название категории"
-                 className=    "string required form-control"
-                 onKeyDown=    { this.handleInputKeyDown }
-                 defaultValue= "" />
-        </div>
-        <p>
-          <input className= "btn btn-primary"
-                 type=      "submit"
-                 onClick=   { this.handleCreate }
-                 value=     "Добавить" />
-          <input className= "btn btn-default"
-                 type=      "button"
-                 onClick=   { this.handleCancel }
-                 value=     "Завершить" />
-        </p>
-      </form>
-      <hr />
+    `<div className="adm-categories-item __edit">
+      <input className=    "adm-categories-item-field"
+             type=         "text"
+             placeholder=  { "Новая категория" }
+             ref=          "input"
+             onKeyDown=    { this.handleInputKeyDown }
+             onBlur=       { this.handleInputBlur } />
     </div>`
-
-  handleCreate: (e) ->
-    e.preventDefault()
-    @_createCategory()
-
-  handleCancel: (e) ->
-    e.preventDefault()
-    @props.onFinish()
 
   handleInputKeyDown: (e) ->
     switch e.key
@@ -67,16 +46,37 @@ window.OperatorCategories_CreateForm = React.createClass
         @_createCategory()
       when "Escape"
         e.preventDefault()
-        @props.onFinish()
+        @_blur()
+
+  handleInputBlur: (e) ->
+    e.preventDefault()
+    @_blur()
 
   _createCategory: ->
-    @setState(currentState: STATE_POSTING)
+    @setState {
+      currentState: STATE_POSTING
+      newName: @refs.input.getDOMNode().value
+    }
     parent_id = if @props.parentCategory then @props.parentCategory.id else null
     OperatorCategoriesService.createCategory
       name:      @refs.input.getDOMNode().value
       parent_id: parent_id
-      success:   @props.onFinish
+      success:   @_refresh
       error:     @handleError
+
+  _refresh: ->
+    that = @
+    @setState { currentState: STATE_INPUT }, ->
+      inputNode = that.refs.input.getDOMNode()
+      inputNode.value = ""
+      AppHelpers.reselectAndFocus inputNode
+
+  _blur: ->
+    that = @
+    @setState { currentState: STATE_INPUT }, ->
+      inputNode = that.refs.input.getDOMNode()
+      inputNode.value = ""
+      $(inputNode).blur()
 
   handleError: ->
     @setState currentState: STATE_ERROR

@@ -9,4 +9,5 @@ window.Routes =
   operator_products_item_url:            (id) -> '/v1/operator/products/' + id + '.json'
   operator_products_item_pub_url:        (id) -> '/v1/operator/products/' + id + '/publication.json'
 
-  products_by_category_url:              (id) -> 'products?category_id=' + id
+  #products_by_category_url:              (id) -> '/operator/products?category_id=' + id
+  products_by_category_url:              (id) -> '_products.html'

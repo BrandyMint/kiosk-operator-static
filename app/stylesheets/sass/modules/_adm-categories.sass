@@ -97,10 +97,10 @@ $zindex-adm-categories-item-active: 10
   margin-right: -1px
   padding: $adm-categories-item-vertical-padding $adm-categories-item-horizontal-padding
   position: relative
-  background-color: transparent
+  background-color: #fff
   font-size: $adm-categories-item-font-size
   white-space: nowrap
-  +transition(background-color .3s ease, color .3s ease)
+  +transition(background-color .3s ease, color .3s ease, box-shadow 0.1s ease)
   &:hover
     cursor: pointer
     .adm-btn-edit-category
@@ -115,6 +115,16 @@ $zindex-adm-categories-item-active: 10
       color: #fff
   &.__edit
     cursor: default
+  &.ui-sortable-helper
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .8)
+    .adm-btn-edit-category
+      visibility: hidden
+  &.__dropzone
+    padding: 10px
+    margin: 3px
+    border-width: 3px
+    border-color: $adm-categories-item-active-bg
+    border-style: dashed
   .adm-btn-edit-category
     margin-top: -16px
     position: absolute

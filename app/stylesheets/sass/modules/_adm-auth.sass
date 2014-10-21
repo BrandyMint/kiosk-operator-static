@@ -1,0 +1,94 @@
+.adm-auth
+  margin: 20px auto
+  text-align: center
+  color: #fff
+  .form-group
+    margin-bottom: 18px
+    &.has-error .control-label
+      color: #ce6c6d
+  .control-label
+    margin-bottom: 10px
+    font-weight: normal
+    font-size: 13px
+  .form-control
+    +placeholder(#a1a1a1)
+    height: 56px
+    padding: 15px 20px 16px
+    border-color: rgba(255, 255, 255, .4)
+    background-color: rgba(255, 255, 255, .02)
+    font-size: 18px
+    color: #fff
+    border-radius: 6px
+    option
+      color: $text-color
+  textarea.form-control
+    height: 132px
+    resize: none
+
+.adm-auth-steps
+  position: absolute
+  width: 140px
+  margin-left: -70px
+  top: 40px
+  left: 50%
+  text-align: center
+
+.adm-auth-back
+  padding: 10px
+  position: absolute
+  left: 10px
+  bottom: 5px
+  color: #fff
+  cursor: pointer
+
+// Когда будет компонент на реакте
+// правило .adm-auth-section
+// можно удалить
+.adm-auth-section
+  display: none
+  .adm-auth.__welcome &.__welcome,
+  .adm-auth.__poll &.__poll,
+  .adm-auth.__auth-first &.__auth-first,
+  .adm-auth.__auth-second &.__auth-second,
+  .adm-auth.__q1 &.__q1,
+  .adm-auth.__q2 &.__q2,
+  .adm-auth.__q3 &.__q3,
+  .adm-auth.__q4 &.__q4,
+  .adm-auth.__q5 &.__q5,
+  .adm-auth.__q6 &.__q6
+    display: block
+
+.adm-auth.__welcome
+  .adm-auth-back
+    display: none
+
+.adm-auth-title
+  @extend %font-light
+  margin: 0 0 38px
+  font-size: 78px
+  line-height: 1
+  color: inherit
+
+.adm-auth-subtitle
+  @extend %font-light
+  margin: 0 0 38px
+  font-size: 50px
+  line-height: 1
+  color: inherit
+
+.adm-auth-actions
+  margin-top: 34px
+
+@media (max-width: $screen-md-max)
+  .adm-auth-title
+    font-size: 60px
+
+@media (max-width: $screen-sm-max)
+  .adm-auth-title,
+  .adm-auth-subtitle
+    font-size: 40px
+
+@media (max-width: $screen-xs-max)
+  .adm-auth-title,
+  .adm-auth-subtitle
+    font-size: 30px

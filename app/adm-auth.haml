@@ -1,0 +1,146 @@
+-# "!!! 5" - на клиенте не генерирует <!DOCTYPE html>
+-# Поэтому в вёрстке делаем так:
+<!DOCTYPE html>
+%html
+  %head
+    +include './app/shared/_head.haml'
+  %body.adm-body.__auth
+    %script{src: 'scripts/bundle.js'}
+
+    / Layout
+    .adm-layout
+      .adm-grid-full
+        .adm-grid-full-middle
+          .container
+            / Auth
+            .adm-auth.__welcome{role: 'auth-box'}
+              .adm-auth-back{role: 'auth-back'} Назад
+              .adm-auth-section{class: '__welcome'}
+                .row
+                  .col-sm-10.col-sm-offset-1
+                    %h1.adm-auth-title != 'Киоск позволяет создать <span class="nobr">интернет-магазин</span> за несколько минут'
+                    %button.adm-btn-auth{data: {step: 'poll'}, role: 'auth-section-toggle'}
+                      Подключиться
+              .adm-auth-section{class: '__poll'}
+                .row
+                  .col-sm-10.col-sm-offset-1
+                    %h1.adm-auth-title != 'Несколько вопросов перед&nbsp;тем, как начать'
+                    %button.adm-btn-auth{data: {step: 'q1'}, role: 'auth-section-toggle'}
+                      Начать
+              .adm-auth-section{class: '__q1'}
+                %form{action: '?'}
+                  .adm-auth-steps 1 из 6 вопросов
+                  .row
+                    .col-sm-10.col-sm-offset-1
+                      %h1.adm-auth-subtitle != 'Как называется ваш магазин?'
+                      .row
+                        .col-sm-6.col-sm-offset-3.col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
+                          .form-group
+                            %input.form-control{id: 'auth-shop-name', type: 'text', placeholder: 'Например, Crate&Barrel'}
+                          .adm-auth-actions
+                            %button.adm-btn-auth{type: 'button', data: {step: 'q2'}, role: 'auth-section-toggle'}
+                              Дальше
+              .adm-auth-section{class: '__q2'}
+                %form{action: '?'}
+                  .adm-auth-steps 2 из 6 вопросов
+                  .row
+                    .col-sm-10.col-sm-offset-1
+                      %h1.adm-auth-subtitle != 'Что вы продаете?'
+                      .row
+                        .col-sm-6.col-sm-offset-3.col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
+                          .form-group
+                            %select.form-control{id: 'auth-type-of-goods', type: 'text'}
+                              %option{value: 'Одежда'} Одежда
+                              %option{value: 'Обувь'} Обувь
+                          .adm-auth-actions
+                            %button.adm-btn-auth{type: 'button', data: {step: 'q3'}, role: 'auth-section-toggle'}
+                              Дальше
+              .adm-auth-section{class: '__q3'}
+                %form{action: '?'}
+                  .adm-auth-steps 3 из 6 вопросов
+                  .row
+                    .col-sm-10.col-sm-offset-1
+                      %h1.adm-auth-subtitle != 'Сколько у вас заказов в день?'
+                      .row
+                        .col-sm-6.col-sm-offset-3.col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
+                          .form-group
+                            %select.form-control{id: 'auth-number-of-orders', type: 'text'}
+                              %option{value: '1-3'} 1-3
+                              %option{value: '3-5'} 3-5
+                          .adm-auth-actions
+                            %button.adm-btn-auth{type: 'button', data: {step: 'q4'}, role: 'auth-section-toggle'}
+                              Дальше
+              .adm-auth-section{class: '__q4'}
+                %form{action: '?'}
+                  .adm-auth-steps 4 из 6 вопросов
+                  .row
+                    .col-sm-10.col-sm-offset-1
+                      %h1.adm-auth-subtitle != 'Оборот в месяц'
+                      .row
+                        .col-sm-6.col-sm-offset-3.col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
+                          .form-group
+                            %select.form-control{id: 'auth-number-of-orders', type: 'text'}
+                              %option{value: 'до 10 тысяч рублей'} до 10 тысяч рублей
+                              %option{value: '10-50 тысяч рублей'} 10-50 тысяч рублей
+                          .adm-auth-actions
+                            %button.adm-btn-auth{type: 'button', data: {step: 'q5'}, role: 'auth-section-toggle'}
+                              Дальше
+              .adm-auth-section{class: '__q5'}
+                %form{action: '?'}
+                  .adm-auth-steps 5 из 6 вопросов
+                  .row
+                    .col-sm-10.col-sm-offset-1
+                      %h1.adm-auth-subtitle != 'Кратко о магазине'
+                      .row
+                        .col-sm-6.col-sm-offset-3.col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
+                          .form-group
+                            %textarea.form-control{placeholder: 'Например, интернет-магазин городских велосипедов'}
+                          .adm-auth-actions
+                            %button.adm-btn-auth{type: 'button', data: {step: 'q6'}, role: 'auth-section-toggle'}
+                              Дальше
+              .adm-auth-section{class: '__q6'}
+                %form{action: '?'}
+                  .adm-auth-steps 6 из 6 вопросов
+                  .row
+                    .col-sm-10.col-sm-offset-1
+                      %h1.adm-auth-subtitle != 'Тип аккаунта'
+                      .row
+                        .col-sm-6.col-sm-offset-3.col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
+                          .form-group
+                            %select.form-control{id: 'auth-account-type', type: 'text'}
+                              %option{value: 'ИП'} ИП
+                              %option{value: 'ООО'} ООО
+                              %option{value: 'физическое лицо'} физическое лицо
+                          .adm-auth-actions
+                            %button.adm-btn-auth{type: 'button', data: {step: 'auth-first'}, role: 'auth-section-toggle'}
+                              Дальше
+              .adm-auth-section{class: '__auth-first'}
+                %form{action: '?'}
+                  %h1.adm-auth-title != 'Авторизация'
+                  .row
+                    .col-sm-6.col-sm-offset-3.col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
+                      .form-group
+                        %label.control-label{for: 'auth-phone-number'}
+                          Номер телефона
+                        %input.form-control{id: 'auth-phone-number', type: 'text', value: '+7'}
+                      .adm-auth-actions
+                        %button.adm-btn-auth{type: 'button', data: {step: 'auth-second'}, role: 'auth-section-toggle'}
+                          Выслать пин-код
+              .adm-auth-section{class: '__auth-second'}
+                %form{action: '?'}
+                  %h1.adm-auth-title != 'Авторизация'
+                  .row
+                    .col-sm-6.col-sm-offset-3.col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
+                      .form-group.has-error
+                        %label.control-label{for: 'auth-phone-number-confirm'}
+                          Номер телефона
+                        %input.form-control{id: 'auth-phone-number-confirm', type: 'text', value: '+7'}
+                      .form-group.has-error
+                        %label.control-label{for: 'auth-pin-code'}
+                          Номер телефона
+                        %input.form-control{id: 'auth-pin-code', type: 'text', placeholder: 'Пин-код'}
+                      .adm-auth-actions
+                        %button.adm-btn-auth
+                          Войти
+          / end Auth
+    / end Layout

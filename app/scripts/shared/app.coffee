@@ -106,8 +106,8 @@ $ ->
   categoriesList = $('@categories-list')
   switcherDisplayCategories = $('@switch-display-categories')
   switcherTitles =
-    hide: switcherDisplayCategories.data("title-hide")
-    show: switcherDisplayCategories.data("title-show")
+    hide: switcherDisplayCategories.data('title-hide')
+    show: switcherDisplayCategories.data('title-show')
 
   switcherDisplayCategories.on 'click', (e) ->
     e.preventDefault()
@@ -117,3 +117,41 @@ $ ->
     else
       categoriesList.show()
       $(@).text(switcherTitles.hide)
+
+  # Демонстрация страницы авторизации
+  authBox = $('@auth-box')
+  authSectionToggle = $('@auth-section-toggle')
+  authBack = $('@auth-back')
+  path = []
+  prevSection = 'welcome'
+
+  clearClasses = ->
+    i = 0
+    classNames = authBox.attr("class").split(/\s+/)
+
+    while i < classNames.length
+      className = classNames[i]
+      authBox.removeClass className  if className.match(/^__\w+/)
+      i++
+
+    return
+
+  authSectionToggle.on 'click', (e) ->
+    e.preventDefault()
+
+    path.push prevSection
+    step = $(@).data('step')
+
+    clearClasses()
+
+    authBox.addClass('__' + step)
+    prevSection = step
+
+  authBack.on 'click', (e) ->
+    step = path.pop()
+
+    prevSection = step
+
+    clearClasses()
+
+    authBox.addClass('__' + step)

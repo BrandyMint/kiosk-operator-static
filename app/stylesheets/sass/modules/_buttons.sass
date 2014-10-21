@@ -280,3 +280,39 @@
     size: cover
     image: url('#{$images-path}/adm-icon-cogwheel-gray.png')
   vertical-align: top
+
+%adm-btn-auth
+  @extend .btn
+  height: 54px
+  padding: 12px 26px 13px
+  font-size: 18px
+  border-radius: 58px
+  height: 58px
+  border-color: transparent
+  background-color: #fff
+  color: $text-color
+  &:hover
+    background-color: darken(#fff, 6%)
+    color: $text-color
+
+.adm-btn-auth
+  @extend %adm-btn-auth
+
+.adm-btn-auth-fill
+  @extend %adm-btn-auth
+  height: 58px
+  border-color: transparent
+  background-color: #fff
+  color: $text-color
+  &:hover
+    background-color: darken(#fff, 6%)
+    color: $text-color
+
+.adm-btn-auth-outline
+  @extend %adm-btn-auth
+  border-color: #fff
+  background-color: transparent
+  color: #fff
+  &:hover
+    background-color: #fff
+    color: $text-color

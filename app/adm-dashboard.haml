@@ -1,0 +1,80 @@
+-# "!!! 5" - на клиенте не генерирует <!DOCTYPE html>
+-# Поэтому в вёрстке делаем так:
+<!DOCTYPE html>
+%html
+  %head
+    +include './app/shared/_head.haml'
+  %body.adm-body
+    %script{src: 'scripts/bundle.js'}
+
+    +include './app/shared/_topbar.haml'
+
+    / Layout
+    .adm-layout
+      +include './app/shared/_layout_sidebar.haml'
+
+      - order_states = {new: {slug: 'new', title: 'Новый'}, delivery: {slug: 'delivery', title: 'Доставка'}, cancelled: {slug: 'cancelled', title: 'Отменён'}, paused: {slug: 'paused', title: 'Пауза'}}
+
+      / Layout Main
+      .adm-layout-main
+        .adm-layout-main-inner
+          / Section Header
+          %header.adm-section-header
+            %h1.adm-section-header-title Дешборд
+          / end Section Header
+          / Dashboard
+          %section.adm-dashboard
+            %ul.adm-dashboard-list
+              %li.adm-dashboard-item.__done>
+                %i.adm-dashboard-item-icon
+                %p
+                  %strong Зарегистрируйтесь
+                  %br и ответьте на несколько вопросов
+              %li.adm-dashboard-item>
+                %a.adm-dashboard-item-link{href: '#todo', title: 'Добавьте товары, вручную или через инструменты импорта'}
+                  %i.adm-dashboard-item-icon
+                  %p
+                    %strong Добавьте товары,
+                    %br вручную или через инструменты импорта
+              %li.adm-dashboard-item>
+                %a.adm-dashboard-item-link{href: '#todo', title: 'Подключите доставку. вручную или через инструменты импорта'}
+                  %i.adm-dashboard-item-icon
+                  %p
+                    %strong Подключите доставку.
+                    %br Мы сделали все возможное, чтобы доставка стала легким делом
+              %li.adm-dashboard-item>
+                %a.adm-dashboard-item-link{href: '#todo', title: 'Опубликуйте ссылку в соцсетях!'}
+                  %i.adm-dashboard-item-icon
+                  %p
+                    Опубликуйте ссылку в соцсетях!
+              %li.adm-dashboard-item>
+                %a.adm-dashboard-item-link{href: '#todo', title: 'Опубликуйте ссылку в соцсетях!'}
+                  %i.adm-dashboard-item-icon
+                  %p
+                    Опубликуйте ссылку в соцсетях!
+          / end Dashboard
+      / end Layout Main
+    / end Layout
+
+    / Popup Products
+    - popup_products = [{cover: {src: 'assets/product-60x60-1.jpg'}, title: 'Мыльница с якорем', size: '16', article: '56456456', quantity: '1', price: '12 000'}, {cover: {src: 'assets/product-60x60-2.jpg'}, title: 'Мыльница с якорем', size: '-', article: '56456456', quantity: '1', price: '4 000'}]
+    - if popup_products.length > 0
+      .popup-products{class: 'bottom', style: 'top: 160px; left: 356px; display: none;'}
+        .popup-products__inner
+          %ul.popup-products__list
+            - for popup_product of popup_products
+              - popup_product = popup_products[popup_product]
+              %li.popup-products__item
+                .popup-products__item-price
+                  = popup_product.price + ' руб.'
+                .popup-products__item-pic
+                  %img{:src => popup_product.cover.src, :alt => popup_product.title}
+                .popup-products__item-desc
+                  %h4.popup-products__item-title
+                    %a{:href => "#product", :title => '#{popup_product.title}'}= popup_product.title
+                  %p.popup-products__item-details
+                    - if popup_product.size != '-'
+                      != 'Размер: ' + popup_product.size + '<br />'
+                    != 'Артикул: ' + popup_product.article + '<br />'
+                    = 'Количество: ' + popup_product.quantity
+    / end Popup Products

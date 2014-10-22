@@ -253,18 +253,19 @@
     border-color: lighten($green, 4%)
     color: #fff
 
-.adm-btn-categories-settings
+.adm-btn-settings
   @extend .btn
   width: 30px
   height: 30px
   padding: 0
   position: relative
-  border: 1px solid $line-color
+  border: 1px solid #636c75
   background: none
+  outline: none !important
   &:hover
-    border-color: darken($line-color, 8%)
+    border-color: #868d94
 
-.adm-btn-categories-settings-icon
+.adm-btn-settings-icon
   width: 22px
   height: 22px
   margin:
@@ -280,6 +281,15 @@
     size: cover
     image: url('#{$images-path}/adm-icon-cogwheel-gray.png')
   vertical-align: top
+
+.adm-btn-categories-settings
+  @extend .adm-btn-settings
+  border-color: $line-color
+  &:hover
+    border-color: darken($line-color, 8%)
+
+.adm-btn-categories-settings-icon
+  @extend .adm-btn-settings-icon
 
 %adm-btn-auth
   @extend .btn

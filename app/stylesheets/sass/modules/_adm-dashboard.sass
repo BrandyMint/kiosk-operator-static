@@ -1,0 +1,55 @@
+.adm-dashboard
+  padding: 44px 0
+  border-top: 1px solid $line-color
+  font-size: 16px
+
+.adm-dashboard-list
+  @include list-style-none
+  @extend .row
+  margin:
+    right: -($grid-gutter-width/2)
+    left: -($grid-gutter-width/2)
+
+.adm-dashboard-item
+  @extend .col-md-4
+  @extend .col-sm-6
+  padding-bottom: 30px
+  display: inline-block
+  float: none
+  vertical-align: top
+  p
+    margin: 0
+  &.__done
+    .adm-dashboard-item-icon
+      background-image: url('#{$images-path}/adm-icon-circle-tick-green.png')
+    p
+      text-decoration: line-through
+
+.adm-dashboard-item-link
+  display: block
+
+.adm-dashboard-item-icon
+  @include adm-icon
+  width: 84px
+  height: 84px
+  margin-bottom: 15px
+  background-image: url('#{$images-path}/adm-icon-circle-tick.png')
+
+@media (max-width: $screen-xs-max)
+  .adm-dashboard
+    padding:
+      top: 0
+      bottom: 0
+    font-size: $font-size-base
+
+  .adm-dashboard-item
+    padding-top: 20px
+    padding-bottom: 20px
+    display: block
+    border-top: 1px solid $line-color
+    &:first-child
+      border-top: none
+
+  .adm-dashboard-item-icon
+    width: 60px
+    height: 60px

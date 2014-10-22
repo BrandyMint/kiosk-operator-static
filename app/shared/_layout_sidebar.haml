@@ -3,7 +3,7 @@
   / Sidebar Nav
   %nav.adm-sidebar-nav
     %ul.adm-sidebar-nav-list
-      - links = [{slug: 'shop', icon: 'adm-sidebar-nav-icon adm-icon-panel', title: 'Магазин Wannabe', href: '#todo'}, {slug: 'info', icon: 'adm-sidebar-nav-icon adm-icon-question-mark', title: 'Что делать?', href: '#todo'}, {slug: 'categories', icon: 'adm-sidebar-nav-icon adm-icon-folder', title: 'Категории', href: 'adm-categories.html'}, {slug: 'orders', icon: 'adm-sidebar-nav-icon adm-icon-basket', title: 'Заказы', href: 'adm-orders-list.html'}, {slug: 'settings', icon: 'adm-sidebar-nav-icon adm-icon-cogwheel', title: 'Настройки', href: '#todo'}]
+      - links = [{slug: 'shop', icon: 'adm-sidebar-nav-icon adm-icon-panel', title: 'Магазин Wannabe', href: '#todo'}, {slug: 'info', icon: 'adm-sidebar-nav-icon adm-icon-question-mark', title: 'Дешборд', href: 'adm-dashboard.html'}, {slug: 'categories', icon: 'adm-sidebar-nav-icon adm-icon-folder', title: 'Категории', href: 'adm-categories.html'}, {slug: 'orders', icon: 'adm-sidebar-nav-icon adm-icon-basket', title: 'Заказы', href: 'adm-orders-list.html'}, {slug: 'settings', icon: 'adm-sidebar-nav-icon adm-icon-cogwheel', title: 'Настройки', href: '#todo'}]
       - for l of links
         - l = links[l]
         - li_class = ''

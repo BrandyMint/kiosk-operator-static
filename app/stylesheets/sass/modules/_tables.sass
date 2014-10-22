@@ -25,12 +25,12 @@
     border: none !important
     text-align: left !important
     &:before
+      @include text-overflow
       position: absolute
       top: 20px
       left: 0
       width: 45%
       padding-right: 10px
-      white-space: nowrap
       content: (attr(data-title))
 
 // Old

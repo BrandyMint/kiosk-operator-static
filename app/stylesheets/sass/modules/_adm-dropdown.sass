@@ -55,6 +55,7 @@
   left: 0
   background-color: $adm-dropdown-popup-bg
   background-clip: padding-box
+  text-align: left
   z-index: $zindex-adm-dropdown-popup
   border-radius: $amd-dropdown-popup-border-radius
   &:before
@@ -75,6 +76,33 @@
       border-top: $adm-dropdown-popup-arrow-size solid transparent
       border-right: $adm-dropdown-popup-arrow-size solid $adm-dropdown-popup-arrow-color
       border-bottom: $adm-dropdown-popup-arrow-size solid transparent
+  // Popup display to the left of dropdown toggle
+  &.__left
+    margin:
+      top: -4px
+      right: 20px
+    top: 0
+    right: 100%
+    left: auto
+    &:before
+      top: 12px
+      left: 100%
+      border-top: $adm-dropdown-popup-arrow-size solid transparent
+      border-left: $adm-dropdown-popup-arrow-size solid $adm-dropdown-popup-arrow-color
+      border-bottom: $adm-dropdown-popup-arrow-size solid transparent
+  &.__top-left
+    margin:
+      top: 20px
+      right: -4px
+    top: 100%
+    right: 0
+    left: auto
+    &:before
+      right: 12px
+      bottom: 100%
+      border-right: $adm-dropdown-popup-arrow-size solid transparent
+      border-bottom: $adm-dropdown-popup-arrow-size solid $adm-dropdown-popup-arrow-color
+      border-left: $adm-dropdown-popup-arrow-size solid transparent
 
 .adm-dropdown-popup-list
   @include list-style-none
@@ -101,21 +129,23 @@
     cursor: default
 
 // TODO: Сделать перенести логику на js и в зависимости от размера экрана
-// переключать класс __top, __right, __bottom, __left (нужно описать классы, кроме __right)
+// переключать класс __top, __right, __bottom, __left, __top-left (нужно описать правкила для некоторых классов)
 @media screen and (max-width: $screen-xs-max)
   .adm-dropdown-popup
-    margin:
-      top: 20px !important
-      left: -($amd-dropdown-popup-width/2) !important
-    top: 100% !important
-    left: 50% !important
-    &:before
-      margin-left: -$adm-dropdown-popup-arrow-size
-      top: auto !important
-      right: auto !important
+    .adm-categories &
+      margin:
+        top: 20px !important
+        right: 0 !important
+        left: -($amd-dropdown-popup-width/2) !important
+      top: 100% !important
       left: 50% !important
-      bottom: 100% !important
-      border-top: none !important
-      border-right: $adm-dropdown-popup-arrow-size solid transparent !important
-      border-bottom: $adm-dropdown-popup-arrow-size solid $adm-dropdown-popup-arrow-color !important
-      border-left: $adm-dropdown-popup-arrow-size solid transparent !important
+      &:before
+        margin-left: -$adm-dropdown-popup-arrow-size
+        top: auto !important
+        right: auto !important
+        left: 50% !important
+        bottom: 100% !important
+        border-top: none !important
+        border-right: $adm-dropdown-popup-arrow-size solid transparent !important
+        border-bottom: $adm-dropdown-popup-arrow-size solid $adm-dropdown-popup-arrow-color !important
+        border-left: $adm-dropdown-popup-arrow-size solid transparent !important

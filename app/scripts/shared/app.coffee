@@ -8,4 +8,5 @@ window.KioskOperatorApp =
       headers:
         "X-Vendor-Key": vendor_key
 
+    window.EB.emit 'start'
 

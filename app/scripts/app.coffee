@@ -1,6 +1,8 @@
 require './libs'
 require './shared/app'
 
+window.EB = new EventEmitter
+
 require './react/mixins/dragging'
 require './react/mixins/images_form_mixin'
 

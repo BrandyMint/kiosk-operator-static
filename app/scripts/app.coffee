@@ -44,4 +44,8 @@ window.ReactUjs = require 'react_ujs'
 
 operator = require './data/operator.json'
 console.log 'Залогинен оператор:', operator
-KioskOperatorApp.start vendor_key: 'test', operator: operator
+
+# Запиши сюда ключ вендора на проверяемом api
+vendor_key = localStorage.getItem('vendor_key') || 'test'
+
+KioskOperatorApp.start vendor_key: vendor_key, operator: operator

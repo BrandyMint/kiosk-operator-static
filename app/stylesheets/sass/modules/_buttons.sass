@@ -293,24 +293,30 @@
 
 %adm-btn-auth
   @extend .btn
-  height: 54px
-  padding: 12px 26px 13px
-  font-size: 18px
-  border-radius: 58px
-  height: 58px
+  height: 50px
+  padding: 10px 24px 11px
   border-color: transparent
   background-color: #fff
+  font-size: 15px
   color: $text-color
+  outline: none !important
+  border-radius: 58px
+  cursor: pointer
   &:hover
     background-color: darken(#fff, 6%)
     color: $text-color
+
+%adm-btn-auth-lg
+  height: 58px
+  padding: 12px 26px 13px
+  font-size: 18px
 
 .adm-btn-auth
   @extend %adm-btn-auth
+  @extend %adm-btn-auth-lg
 
-.adm-btn-auth-fill
+.adm-btn-auth-reg
   @extend %adm-btn-auth
-  height: 58px
   border-color: transparent
   background-color: #fff
   color: $text-color
@@ -318,7 +324,7 @@
     background-color: darken(#fff, 6%)
     color: $text-color
 
-.adm-btn-auth-outline
+.adm-btn-auth-login
   @extend %adm-btn-auth
   border-color: #fff
   background-color: transparent
@@ -326,3 +332,31 @@
   &:hover
     background-color: #fff
     color: $text-color
+
+.adm-btn-auth-back
+  padding: 10px
+  position: absolute
+  left: 10px
+  bottom: 5px
+  border: none
+  background: none
+  color: #fff
+  cursor: pointer
+  outline: none !important
+
+.adm-btn-auth-start
+  width: 76px
+  height: 40px
+  margin-left: -38px
+  position: absolute
+  bottom: 20px
+  left: 50%
+  border: none
+  background:
+    color: transparent
+    repeat: no-repeat
+    position: center
+    size: contain
+    image: url('#{$images-path}/adm-icon-arrow-down-white.png')
+  cursor: pointer
+  outline: none !important

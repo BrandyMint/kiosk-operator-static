@@ -121,7 +121,7 @@ $ ->
   # Демонстрация страницы авторизации
   authBox = $('@auth-box')
   authSectionToggle = $('@auth-section-toggle')
-  authBack = $('@auth-back')
+  authBack = $('@auth-back-btn')
   path = []
   prevSection = 'welcome'
 
@@ -148,6 +148,10 @@ $ ->
     prevSection = step
 
   authBack.on 'click', (e) ->
+    console.log path.length
+    if path.length is 0
+      return false
+
     step = path.pop()
 
     prevSection = step

@@ -42,4 +42,4 @@ window.ReactUjs = require 'react_ujs'
 
 operator = require './data/operator.json'
 console.log 'Залогинен оператор:', operator
-KiostOperatorApp.start vendor_key: 'test', operator: window.operator
+KioskOperatorApp.start vendor_key: 'test', operator: window.operator

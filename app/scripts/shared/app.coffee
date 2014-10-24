@@ -1,4 +1,4 @@
-window.KiostOperatorApp =
+window.KioskOperatorApp =
   start: ({vendor_key, operator}) ->
     $.ajaxSetup
       xhrFields:

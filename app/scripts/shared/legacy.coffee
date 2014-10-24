@@ -4,7 +4,7 @@ $ ->
     url = $(@).data 'modalUrl'
     ModalService.show url
 
-  $('@autosize').autosize()
+  $('[autosize]').autosize()
 
   productVariantsAdd = $('@products__new-form-variants-add')
   productVariantsTitle = $('@products__new-form-variants-title')

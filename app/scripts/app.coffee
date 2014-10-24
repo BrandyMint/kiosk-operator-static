@@ -40,16 +40,6 @@ require './local_routes'
 # Должен запускаться после подгрузки реактовских компонентов
 window.ReactUjs = require 'react_ujs'
 
-
-if true # localStorage.getItem('userLogged') == "true"
-  window.user = require './data/user.json'
-  console.log 'Залогинен пользователь:', window.user.name
-
-  $.ajaxSetup
-    xhrFields:
-      withCredentials: true
-      crossDomain: true
-    headers:
-      "X-User-Token": window.user.api_key.access_token
-else
-  console.log 'Без пользователя'
+operator = require './data/operator.json'
+console.log 'Залогинен оператор:', operator
+KiostOperatorApp.start vendor_key: 'test', operator: window.operator

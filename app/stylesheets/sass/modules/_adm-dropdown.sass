@@ -13,7 +13,7 @@
 
 .adm-dropdown-menu-status
 
-@each $c in new $green, delivery $blue-dark, cancelled $orange, paused $yellow
+@each $c in new $green, delivery $blue-dark, cancelled $orange, paused $yellow, published $green, preparation $blue-dark, error $orange, archive $yellow
   .adm-dropdown-menu-status-btn.__#{nth($c,1)}
     &,
     .adm-dropdown-menu-status > li > &,

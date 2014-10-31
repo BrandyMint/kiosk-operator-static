@@ -24,10 +24,17 @@ $zindex-adm-categories-item-active: 10
 .adm-categories-header
   padding: 20px 30px
   border-bottom: 1px solid $line-color
+  .adm-dropdown
+    margin-right: 10px
   .adm-categories-search-form
+    @include inline-valign-middle
+    float: right
+    width: 50%
     margin:
       top: -2px
       bottom: -2px
+    & + .adm-dropdown
+      margin-top: 5px
   .adm-categories-header-title + .adm-dropdown
     margin:
       top: 4px
@@ -38,9 +45,10 @@ $zindex-adm-categories-item-active: 10
   @extend .row
 
 .adm-categories-header-col
-  @extend .col-md-8
+  @extend .col-md-5
   &.__right
-    @extend .col-md-4
+    @extend .col-md-7
+    text-align: right
 
 .adm-categories-header-title
   margin: 0 45px 0 0
@@ -217,6 +225,10 @@ $zindex-adm-categories-item-active: 10
 
 
 @media screen and (max-width: $screen-sm-max)
+  .adm-categories-header-col
+    &.__right
+      text-align: left
+
   .adm-categories-grid-col
     width: auto
     min-height: 0
@@ -226,6 +238,17 @@ $zindex-adm-categories-item-active: 10
       border-top: none
     &:before
       display: none
+
+  .adm-categories-header
+    .adm-categories-search-form
+      width: 100%
+      margin:
+        top: 20px
+        bottom: 0
+      display: block
+      float: none
+      & + .adm-dropdown
+        margin-top: 20px
 
   .adm-categories-item
     .adm-btn-edit-category
@@ -237,10 +260,3 @@ $zindex-adm-categories-item-active: 10
     tbody tr
       &:first-child
         border-top: none
-
-@media screen and (max-width: $screen-md-max)
-  .adm-categories-header
-    .adm-categories-search-form
-      margin:
-        top: 20px
-        bottom: 0

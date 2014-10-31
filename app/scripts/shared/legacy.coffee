@@ -1,6 +1,6 @@
 $ ->
   # Подключение универсального модального окна
-  $('[show-modal]').on 'click', () ->
+  $('[ks-modal]').on 'click', () ->
     url = $(@).data 'modalUrl'
     ModalService.show url
 

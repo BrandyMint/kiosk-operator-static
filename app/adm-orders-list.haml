@@ -30,7 +30,7 @@
               %tbody
                 - for order of orders
                   - order = orders[order]
-                  %tr.adm-orders-table-row{data: {modal-url: "modal-order.html"}, role: 'modal-order-toggle', "show-modal": true}
+                  %tr.adm-orders-table-row{data: {modal-url: "modal-order.html"}, role: 'modal-order-toggle', "ks-modal": true, tooltip: true, title: order.status.tooltip}
                     %td.adm-orders-table-cell.__cover{data: {title: "Товары"}}
                       %img{:src => "#{order.cover.src}", :alt => "#{order.cover.src}"}
                     %td.adm-orders-table-cell.__desc>

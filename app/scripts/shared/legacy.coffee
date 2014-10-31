@@ -1,13 +1,13 @@
 $ ->
   # Подключение универсального модального окна
-  $('[ks-modal]').on 'click', () ->
-    url = $(@).data 'modalUrl'
-    ModalService.show url
+  bindActivities = ->
+    $('[ks-modal]').on 'click', () -> ModalService.show $(@).data 'modalUrl'
+    $("[tooltip]").tooltip()
+    $('[autosize]').autosize()
 
+  bindActivities()
 
-  $("[tooltip]").tooltip()
-
-  $('[autosize]').autosize()
+  $(document).on 'page:change', bindActivities
 
   productVariantsAdd = $('@products__new-form-variants-add')
   productVariantsTitle = $('@products__new-form-variants-title')

@@ -32,7 +32,7 @@ window.OperatorCategories_ProductsPane = React.createClass
     return `<span>
               { spinner }
               <div className="adm-categories-content"
-                   ref=      "products" />
+                   ref="products" />
             </span>`
 
   _reloadProducts: (category) ->
@@ -44,6 +44,7 @@ window.OperatorCategories_ProductsPane = React.createClass
       that = @
       $(productsNode).load url, ->
         that.setState(state: STATE_LOADED)
+        $(document).trigger 'page:change'
     else
       $(productsNode).empty()
       @setState(state: STATE_LOADED)

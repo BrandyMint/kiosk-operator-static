@@ -6,11 +6,10 @@ window.OperatorCategories_ItemView = React.createClass
   propTypes:
     category:           React.PropTypes.object.isRequired
     onEditStart:        React.PropTypes.func.isRequired
-    onSelectCategory:   React.PropTypes.func.isRequired
 
   render: ->
     `<span>
-      <span onClick={ this.handleItemClick }>
+      <span>
         <span className="adm-categories-item-name">
           { this.props.category.name }
         </span>
@@ -26,7 +25,3 @@ window.OperatorCategories_ItemView = React.createClass
         </span>
       </button>
     </span>`
-
-  handleItemClick: (e) ->
-    e.preventDefault()
-    @props.onSelectCategory @props.category

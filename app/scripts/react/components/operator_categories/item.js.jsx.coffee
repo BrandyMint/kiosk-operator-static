@@ -21,6 +21,7 @@ window.OperatorCategories_Item = React.createClass
     }
 
     return `<div className=    { classes }
+                 onClick=      { this.handleItemClick }
                  data-objectid={ this.props.category.id }>
               { this._getItemNode() }
             </div>`
@@ -32,7 +33,6 @@ window.OperatorCategories_Item = React.createClass
            category=           { this.props.category }
            onDeleteStart=      { this.handleDeleteStart }
            onEditStart=        { this.handleEditStart }
-           onSelectCategory=   { this.props.onSelectCategory }
          />`
       when 'edit'
         `<OperatorCategories_ItemEdit
@@ -50,9 +50,14 @@ window.OperatorCategories_Item = React.createClass
     @setState(status: 'view')
 
   handleEditStart: (e) ->
+    e.stopPropagation()
     e.preventDefault()
     @setState(status: 'edit')
 
   handleDeleteStart: (e) ->
     e.preventDefault()
     @setState(status: 'delete')
+
+  handleItemClick: (e) ->
+    e.preventDefault()
+    @props.onSelectCategory @props.category

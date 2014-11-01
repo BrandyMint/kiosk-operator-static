@@ -61,6 +61,7 @@ window.OperatorCategories_ItemEdit = React.createClass
     @setState(currentState: STATE_ERROR)
 
   handleDeleteClick: (e) ->
+    e.stopPropagation()
     e.preventDefault()
     if window.confirm 'Удалить категорию "' + @props.category.name + '"?'
       OperatorCategoriesService.deleteCategory

@@ -77,17 +77,18 @@ window.OperatorCategories = React.createClass
        </div>`
 
   _onChange: ->
+    rootCategory = @state.rootCategory || OperatorCategoriesStore.getRootCategory()
     if OperatorCategoriesStore.hasCategory @state.selectedCategory
       selectedCategory = @state.selectedCategory
     else if @state.selectedCategory and @state.selectedCategory.parent_id
       selectedCategory = OperatorCategoriesStore.getCategoryById @state.selectedCategory.parent_id
     else
-      selectedCategory = null
+      selectedCategory = rootCategory
 
     @setState
       currentState: STATE_READY
       selectedCategory: selectedCategory
-      rootCategory: OperatorCategoriesStore.getRootCategory()
+      rootCategory: rootCategory
 
   handleCategorySelection: (category) ->
     @setState(selectedCategory: category)

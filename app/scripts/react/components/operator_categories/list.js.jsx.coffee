@@ -2,6 +2,7 @@
 
 ###*global $, React, OperatorCategoriesStore, OperatorCategoriesActions ###
 
+cx = React.addons.classSet
 #ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
 
 DRAG_DELAY  = 100 # мс
@@ -44,11 +45,38 @@ window.OperatorCategories_List = React.createClass
                                 isActive=          { that._isCategoryActive(cat) }
                                 onSelectCategory=  { that.props.onSelectCategory } />`
 
+    totalCountClasses = cx {
+      'adm-categories-item': true
+      'selected'           : @props.selectedCategory?.id == @props.parentCategory.id
+    }
+
     return `<div className="adm-categories-list">
+
+              <div className={ totalCountClasses }
+                   onClick={ this.handleTotalCountClick }>
+                <span className="adm-categories-item-name">
+                  Все товары
+                </span>
+                <span className="adm-categories-item-counter">
+                  { this.props.parentCategory.deep_products_count }
+                </span>
+              </div>
+
               <span ref="list">
                 { categoryNodes }
               </span>
+
               <OperatorCategories_CreateForm parentCategory= { this.props.parentCategory } />
+
+              <div className="adm-categories-item __muted">
+                <span className="adm-categories-item-name">
+                  Без категории
+                </span>
+                <span className="adm-categories-item-counter">
+                  { this.props.parentCategory.products_count }
+                </span>
+              </div>
+
             </div>`
 
   _onChange: ->
@@ -70,3 +98,7 @@ window.OperatorCategories_List = React.createClass
     insertIdx = ui.item.index()
     $(@refs.list.getDOMNode()).sortable 'cancel'
     OperatorCategoriesService.reorderCategories srcId, insertIdx
+
+  handleTotalCountClick: (e) ->
+    e.preventDefault()
+    @props.onSelectCategory @props.parentCategory

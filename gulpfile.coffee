@@ -48,11 +48,6 @@ gulp.task "scripts", ->
           exports: null
           depends:
             'jquery': '$'
-        'jquery-ui':
-          path: 'app/bower_components/jquery-ui/jquery-ui.js'
-          exports: null
-          depends:
-            'jquery': '$'
 
     ))
     .on("error", handleError)

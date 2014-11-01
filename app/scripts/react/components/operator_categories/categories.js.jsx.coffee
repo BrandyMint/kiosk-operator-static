@@ -11,7 +11,8 @@ window.OperatorCategories = React.createClass
 
   getInitialState: ->
     selectedCategory: null
-    currentState:     if @props.categories then STATE_READY else STATE_LOADING
+    currentState:     STATE_LOADING
+    rootCategory:     null
 
   getDefaultProps: ->
     categories:     null
@@ -48,7 +49,7 @@ window.OperatorCategories = React.createClass
     return `<div className="adm-categories-grid">
               <div className="adm-categories-grid-col"
                    role=     "categories-list">
-                <OperatorCategories_List parentCategory=  { null }
+                <OperatorCategories_List parentCategory=  { this.state.rootCategory }
                                          selectedCategory={ this.state.selectedCategory }
                                          onSelectCategory={ this.handleCategorySelection } />
               </div>
@@ -60,10 +61,13 @@ window.OperatorCategories = React.createClass
 
   _getSubcategoriesPane: ->
     selectedCat = @state.selectedCategory
-    if selectedCat and selectedCat.parent_id
-      rightParentCat = OperatorCategoriesStore.getCategoryById selectedCat.parent_id
-    else
-      rightParentCat = selectedCat
+    if selectedCat
+      selectedLevel = OperatorCategoriesStore.getCategoryLevel selectedCat
+      switch selectedLevel
+        when 1
+          rightParentCat = selectedCat
+        when 2
+          rightParentCat = OperatorCategoriesStore.getCategoryById selectedCat.parent_id
     if rightParentCat
       `<div className="adm-categories-grid-col"
             role=     "categories-list">
@@ -83,6 +87,7 @@ window.OperatorCategories = React.createClass
     @setState
       currentState: STATE_READY
       selectedCategory: selectedCategory
+      rootCategory: OperatorCategoriesStore.getRootCategory()
 
   handleCategorySelection: (category) ->
     @setState(selectedCategory: category)

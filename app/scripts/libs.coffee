@@ -3,7 +3,11 @@ window.jQuery = jQuery
 #require 'jquery/dist/jquery'
 require 'bootstrap-sass-official/assets/javascripts/bootstrap.js'
 require 'jquery.role/lib/role.js'
-require 'jquery-ui'
+
+require 'jquery-ui/ui/core.js'
+require 'jquery-ui/ui/widget.js'
+require 'jquery-ui/ui/mouse.js'
+require 'jquery-ui/ui/sortable.js'
 
 window._ = require 'lodash'
 require 'blueimp-file-upload/js/vendor/jquery.ui.widget.js'

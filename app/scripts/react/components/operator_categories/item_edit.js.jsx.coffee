@@ -43,15 +43,10 @@ window.OperatorCategories_ItemEdit = React.createClass
              type=         "text"
              ref=          "input"
              defaultValue= { this.props.category.name }
-             onKeyDown=    { this.handleInputKeyDown }
-             onBlur=       { this.handleInputBlur } />
+             onKeyDown=    { this.handleInputKeyDown } />
       <span className="adm-categories-item-remove"
             onClick=  { this.handleDeleteClick } />
     </span>`
-
-  handleInputBlur: (e) ->
-    e.preventDefault()
-    @_confirmEdit()
 
   handleInputKeyDown: (e) ->
     switch e.key

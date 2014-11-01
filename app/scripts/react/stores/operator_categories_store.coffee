@@ -104,6 +104,12 @@ _getNewPositions = (cat, insertIdx) ->
 _getCategoryById = (id) ->
   _.find _categories, (i) -> i.id == id
 
+_getCategoryLevel = (category) ->
+  if category.parent_id
+    1 + _getCategoryLevel _getCategoryById category.parent_id
+  else
+    0
+
 window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
   emitChange: ->
     @emit CHANGE_EVENT
@@ -135,6 +141,12 @@ window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
       !!_.find _categories, (i) -> i.id == category.id
     else
       false
+
+  getRootCategory: ->
+    _.find _categories, (i) -> i.parent_id == null
+
+  getCategoryLevel: (category) ->
+    _getCategoryLevel category
 }
 
 OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (payload) ->

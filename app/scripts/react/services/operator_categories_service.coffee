@@ -56,6 +56,7 @@ window.OperatorCategoriesService =
       setTimeout ->
         data.id = Math.floor(Math.random() * 100000000)
         data.products_count = 0
+        data.deep_products_count = 0
         OperatorCategoriesServerActions.categoryCreated data
         success data
       , @mockLatency

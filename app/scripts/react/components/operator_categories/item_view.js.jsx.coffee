@@ -14,7 +14,7 @@ window.OperatorCategories_ItemView = React.createClass
           { this.props.category.name }
         </span>
         <span className="adm-categories-item-counter">
-          { this.props.category.products_count }
+          { this.props.category.deep_products_count }
         </span>
       </span>
       <button className="adm-btn-edit-category"

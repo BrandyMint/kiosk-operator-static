@@ -9,5 +9,6 @@ window.Routes =
   operator_products_by_category_url:     (id) -> api_root_url + '/v1/operator/products.json?per_page=1000&category_id=' + id
   operator_products_item_url:            (id) -> api_root_url + '/v1/operator/products/' + id + '.json'
   operator_products_item_pub_url:        (id) -> api_root_url + '/v1/operator/products/' + id + '/publication.json'
+  operator_product_path:                 (id) -> 'modal-edit-product.html'
 
   products_by_category_url:              (id) -> '/operator/products?category_id=' + id

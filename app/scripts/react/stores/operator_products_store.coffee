@@ -13,6 +13,12 @@ _getSortedProductsByCategory = (category) ->
   _.filter _products, (i) -> i.category_id in catIds
     .sort((a, b) -> a.position - b.position)
 
+_updateProduct = (product) ->
+  _products = _.map _products, (i) -> if i.id == product.id then product else i
+
+_getProductById = (id) ->
+  _.find _products, (i) -> i.id == id
+
 window.OperatorProductsStore = _.extend {}, EventEmitter.prototype, {
   emitChange: ->
     @emit CHANGE_EVENT
@@ -25,6 +31,9 @@ window.OperatorProductsStore = _.extend {}, EventEmitter.prototype, {
 
   getSortedProductsByCategory: (category) ->
     _getSortedProductsByCategory category
+
+  getProductById: (id) ->
+    _getProductById id
 }
 
 OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register (payload) ->
@@ -33,4 +42,8 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register (paylo
   switch action.type
     when 'receiveAll'
       _pushProducts action.products
+      OperatorProductsStore.emitChange()
+
+    when 'productUpdated'
+      _updateProduct action.product
       OperatorProductsStore.emitChange()

@@ -21,3 +21,9 @@ window.OperatorCategoriesServerActions =
     OperatorCategoriesDispatcher.handleServerAction
       type: 'deleteCategory'
       category: category
+
+  changeCategoryProductCount: (category, increment) ->
+    OperatorCategoriesDispatcher.handleServerAction
+      type: 'changeCategoryProductCount'
+      category: category
+      increment: increment

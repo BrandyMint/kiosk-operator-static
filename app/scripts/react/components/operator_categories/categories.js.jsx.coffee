@@ -37,6 +37,7 @@ window.OperatorCategories = React.createClass
         `<div className="adm-categories-grid">
               <div className="adm-categories-grid-col"
                    role=     "categories-list">
+                <br />
                 <div className="text-center">
                   <i className="fa fa-spinner fa-3x fa-spin" />
                 </div>

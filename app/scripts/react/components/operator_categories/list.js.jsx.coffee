@@ -22,6 +22,7 @@ window.OperatorCategories_List = React.createClass
     OperatorCategoriesStore.addChangeListener @_onChange
 
     $(@refs.list.getDOMNode()).sortable {
+      scope: 'categoriesReorder'
       placeholder: 'adm-categories-item __dropzone'
       forcePlaceholderSize: true
       revert: DRAG_REVERT

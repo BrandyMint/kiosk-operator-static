@@ -1,4 +1,4 @@
-###*global Routes, OperatorProductsServerActions, Requester, $, window ###
+###*global Routes, OperatorProductsServerActions, Requester, $, window, _, OperatorProductsStore ###
 
 window.ProductsService =
   tryPublish: ({id, success, error}) ->
@@ -53,6 +53,27 @@ window.ProductsService =
       setTimeout ->
         OperatorProductsServerActions.productsLoaded that.mockData.allProductsResponse.products
         if callback then callback null, that.mockData.allProductsResponse.products
+      , @mockLatency
+
+  updateProduct: ({product, success, error}) ->
+    id = product.id
+    if !@mockMode
+      Requester.request
+        dataType: 'json'
+        url:      Routes.operator_products_item_url id
+        data:     data
+        method:   'put'
+        error: (xhr, status, err) ->
+          error err || status
+        success: (response) ->
+          OperatorProductsServerActions.productUpdated product
+          success response
+    else
+      setTimeout ->
+        oldProduct = _.clone OperatorProductsStore.getProductById id
+        updatedProduct = _.assign oldProduct, product
+        OperatorProductsServerActions.productUpdated updatedProduct
+        success updatedProduct
       , @mockLatency
 
   mockMode: false

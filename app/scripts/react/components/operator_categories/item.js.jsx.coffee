@@ -1,10 +1,12 @@
 ###* @jsx React.DOM ###
 
-###*global React ###
+###*global React, window, $, ProductsStore, _ ###
 
 cx = React.addons.classSet
 
 window.OperatorCategories_Item = React.createClass
+  mixins: [CategoryProductDroptarget]
+
   propTypes:
     category:         React.PropTypes.object.isRequired
     isActive:         React.PropTypes.bool.isRequired

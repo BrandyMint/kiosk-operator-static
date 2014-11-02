@@ -1,9 +1,9 @@
-###*global Routes ###
+###*global Routes, OperatorProductsServerActions, Requester, $, window ###
 
 window.ProductsService =
   tryPublish: ({id, success, error}) ->
     if !@mockMode
-      @.ajax
+      $.ajax
         dataType: 'json'
         url:      Routes.operator_products_item_pub_url id
         method:   'post'
@@ -21,7 +21,7 @@ window.ProductsService =
 
   tryUnpublish: ({id, success, error}) ->
     if !@mockMode
-      @.ajax
+      $.ajax
         dataType: 'json'
         url:      Routes.operator_products_item_pub_url id
         method:   'delete'
@@ -35,6 +35,24 @@ window.ProductsService =
       setTimeout ->
         if success
           success that.mockData.unpublishResponse
+      , @mockLatency
+
+  getProducts: (callback) ->
+    if !@mockMode
+      Requester.request
+        dataType: 'json'
+        url:      Routes.operator_products_url()
+        method:   'get'
+        error: (xhr, status, err) ->
+          if callback then callback err || status
+        success: (data) ->
+          OperatorProductsServerActions.productsLoaded data.products
+          if callback then callback null, data.products
+    else
+      that = @
+      setTimeout ->
+        OperatorProductsServerActions.productsLoaded that.mockData.allProductsResponse.products
+        if callback then callback null, that.mockData.allProductsResponse.products
       , @mockLatency
 
   mockMode: false

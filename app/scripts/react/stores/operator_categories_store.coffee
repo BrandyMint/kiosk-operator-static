@@ -110,6 +110,15 @@ _getCategoryLevel = (category) ->
   else
     0
 
+_getDescendands = (category) ->
+  if not category or not category['has_children?']
+    return []
+  else
+    children = _.filter _categories, (i) -> i.parent_id == category.id
+    descendands = []
+    _.each descendands, (i) -> descendands.concat _getDescendands i
+    return children.concat descendands
+
 window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
   emitChange: ->
     @emit CHANGE_EVENT
@@ -147,6 +156,9 @@ window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
 
   getCategoryLevel: (category) ->
     _getCategoryLevel category
+
+  getDescendands: (category) ->
+    _getDescendands category
 }
 
 OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (payload) ->

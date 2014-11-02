@@ -55,7 +55,7 @@ window.OperatorCategories = React.createClass
               </div>
               { subcategoriesPane }
               <div className="adm-categories-grid-col __wide">
-                <OperatorCategories_ProductsPane selectedCategory={ this.state.selectedCategory } />
+                <OperatorProducts category={ this.state.selectedCategory } />
               </div>
             </div>`
 

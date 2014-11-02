@@ -1,7 +1,7 @@
 require './libs'
 require './shared/app'
 require './shared/legacy'
-
+require './shared/requester'
 
 require './react/mixins/dragging'
 require './react/mixins/images_form_mixin'
@@ -22,9 +22,15 @@ require './react/components/operator_categories/create_form'
 require './react/components/operator_categories/products_pane'
 require './react/components/operator_categories/categories'
 
+require './react/actions/operator_products_server_actions'
+require './react/dispatchers/operator_products_dispatcher'
 require './react/services/products_service'
 require './react/mocks/products_service_mock'
+require './react/stores/operator_products_store'
 require './react/components/product_status_toggle'
+require './react/components/operator_products/list_row'
+require './react/components/operator_products/list_body'
+require './react/components/operator_products/products'
 
 require './react/components/modal'
 require './react/services/modal_service'

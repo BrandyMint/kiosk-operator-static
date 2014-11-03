@@ -13,7 +13,7 @@
     .adm-layout
       +include './app/shared/_layout_sidebar.haml'
 
-      - filter_product_states = {new: {slug: 'published', title: 'Опубликованные'}, delivery: {slug: 'unpiblished', title: 'В подготовке'}, cancelled: {slug: 'has_errors', title: 'С ошибками'}, paused: {slug: 'archive', title: 'Архив'}}
+      - filter_product_states = {new: {slug: 'published', title: 'Опубликованные'}, delivery: {slug: 'unpublished', title: 'В подготовке'}, cancelled: {slug: 'has_errors', title: 'С ошибками'}, paused: {slug: 'archive', title: 'Архив'}}
 
       / Layout Main
       .adm-layout-main

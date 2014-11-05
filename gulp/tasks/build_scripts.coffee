@@ -1,0 +1,88 @@
+# /*==========================================
+# =            Build Scripts Task            =
+# ==========================================*/
+
+browserify     = require 'browserify'
+watchify       = require 'watchify'
+gulp           = require 'gulp'
+source         = require 'vinyl-source-stream'
+bundleLogger   = require '../util/bundleLogger'
+handleErrors   = require '../util/handleErrors'
+vendorConfig   = require('../config').vendor
+clientConfig   = require('../config').client
+
+gulp.task 'vendorScripts', ['clean'], ->
+  bundler = browserify({
+    cache: {}, packageCache: {}
+    basedir: vendorConfig.baseDir
+    extensions: vendorConfig.extensions
+  }).require './jquery/dist/jquery',                                   { expose: 'jquery' }
+    .require './jquery-autosize/jquery.autosize',                      { expose: 'jquery.autosize' }
+    .require './jquery.role/lib/jquery.role',                          { expose: 'jquery.role' }
+    .require './blueimp-file-upload/js/jquery.fileupload',             { expose: 'jquery.fileupload' }
+    .require './jquery-ui/ui/core',                                    { expose: 'jquery.ui.core' }
+    .require './jquery-ui/ui/widget',                                  { expose: 'jquery.ui.widget' }
+    .require './jquery-ui/ui/mouse',                                   { expose: 'jquery.ui.mouse' }
+    .require './jquery-ui/ui/sortable',                                { expose: 'jquery.ui.sortable' }
+    .require './lodash/dist/lodash',                                   { expose: 'lodash' }
+    .require './bootstrap-sass-official/assets/javascripts/bootstrap', { expose: 'bootstrapSass' }
+    .require './react/react-with-addons',                              { expose: 'react' }
+    .require './react-mixin-manager/react-mixin-manager',              { expose: 'react-mixin-manager' }
+    .require '../scripts/react/resources/react_ujs',                   { expose: 'reactUjs' }
+    .require './eventEmitter/EventEmitter',                            { expose: 'eventEmitter' }
+    .require './typeahead.js/dist/typeahead.bundle',                   { expose: 'typeahead' }
+
+  bundle = ->
+    bundleLogger.start vendorConfig.outputName
+
+    return bundler
+             .bundle()
+             .on 'error', handleErrors
+             .pipe source(vendorConfig.outputName)
+             .pipe gulp.dest(vendorConfig.dest)
+             .on 'end', ->
+               bundleLogger.end vendorConfig.outputName
+
+  if global.isWatching
+    bundler = watchify bundler
+    bundler.on 'update', bundle
+
+  return bundle()
+
+gulp.task 'clientScripts', ['clean'], ->
+  bundler = browserify({
+    cache: {}, packageCache: {}
+    entries: clientConfig.entries
+    extensions: clientConfig.extensions
+  }).external 'jquery'
+    .external 'jquery.autosize'
+    .external 'jquery.fileupload'
+    .external 'jquery.role'
+    .external 'jquery.ui.core'
+    .external 'jquery.ui.widget'
+    .external 'jquery.ui.mouse'
+    .external 'jquery.ui.sortable'
+    .external 'lodash'
+    .external 'bootstrapSass'
+    .external 'react'
+    .external 'react-mixin-manager'
+    .external 'reactUjs'
+    .external 'eventEmitter'
+    .external 'typeahead'
+
+  bundle = ->
+    bundleLogger.start clientConfig.outputName
+
+    return bundler
+             .bundle()
+             .on 'error', handleErrors
+             .pipe source(clientConfig.outputName)
+             .pipe gulp.dest(clientConfig.dest)
+             .on 'end', ->
+               bundleLogger.end clientConfig.outputName
+
+  if global.isWatching
+    bundler = watchify bundler
+    bundler.on 'update', bundle
+
+  return bundle()

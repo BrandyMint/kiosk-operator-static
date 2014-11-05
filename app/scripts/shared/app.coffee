@@ -1,3 +1,5 @@
+window.ReactUjs = require 'reactUjs'
+
 window.EB = new EventEmitter
 
 window.KioskOperatorApp =
@@ -11,4 +13,4 @@ window.KioskOperatorApp =
         "X-Vendor-Key": vendor_key
 
     window.EB.emit 'start'
-
+    ReactUjs.initialize()

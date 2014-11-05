@@ -45,9 +45,6 @@ window.api_root_url = ''
 require './shared/routes'
 require './local_routes'
 
-# Должен запускаться после подгрузки реактовских компонентов
-window.ReactUjs = require 'react_ujs'
-
 operator = require './data/operator.json'
 console.log 'Залогинен оператор:', operator
 

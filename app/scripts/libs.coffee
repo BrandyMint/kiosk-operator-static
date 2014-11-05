@@ -1,26 +1,21 @@
-jQuery = require 'jquery'
-window.jQuery = jQuery
-#require 'jquery/dist/jquery'
-require 'bootstrap-sass-official/assets/javascripts/bootstrap.js'
-require 'jquery.role/lib/role.js'
+window._                 = require 'lodash'
+window.$ = window.jQuery = require 'jquery'
+window.React             = require 'react'
+window.Dispatcher        = require('flux').Dispatcher
+window.EventEmitter      = require 'eventEmitter'
 
-require 'jquery-ui/ui/core.js'
-require 'jquery-ui/ui/widget.js'
-require 'jquery-ui/ui/mouse.js'
-require 'jquery-ui/ui/sortable.js'
+# jQuery UI components
+require 'jquery.ui.core'
+require 'jquery.ui.widget'
+require 'jquery.ui.mouse'
+require 'jquery.ui.sortable'
 
-window._ = require 'lodash'
-require 'blueimp-file-upload/js/vendor/jquery.ui.widget.js'
-require 'blueimp-file-upload/js/jquery.fileupload.js'
-require 'jquery-autosize/jquery.autosize.js'
-#require 'blueimp-file-upload/js/jquery.fileupload'
-#window.EventEmitter = require 'eventEmitter'
+# jQuery plugins
+require 'jquery.autosize'
+require 'jquery.fileupload'
+require 'jquery.role'
 
-window.React = require 'react/addons'
+# Others
 require('react-mixin-manager')(window.React)
-window.Dispatcher = require('flux').Dispatcher
-window.EventEmitter = require 'eventEmitter'
-
-require('typeahead.js/dist/typeahead.bundle')
-
-#window.Request = require 'superagent'
+require 'bootstrapSass'
+require 'typeahead'

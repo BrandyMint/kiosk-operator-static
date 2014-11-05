@@ -18,6 +18,7 @@ window.ModalComponent = React.createClass
     jqNode.modal 'show'
     that = @
     $(that.refs.content.getDOMNode()).load that.props.url, ->
+      $(document).trigger 'page:change'
       that.setState(state: STATE_LOADED)
       jqNode.on 'hidden.bs.modal', ->
         React.unmountComponentAtNode jqNode[0]

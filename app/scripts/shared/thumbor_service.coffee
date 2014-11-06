@@ -6,6 +6,6 @@ window.ThumborService =
       return url
     else
       if @thumbor_url
-        @thumbor_url + "unsafe/#{style}/" + url
+        @thumbor_url + "/unsafe/#{style}/" + url
       else
         url

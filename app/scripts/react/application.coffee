@@ -4,6 +4,8 @@ require './dispatchers/operator_products_dispatcher'
 require './stores/operator_categories_store'
 require './stores/operator_products_store'
 
+require './resources/categories'
+
 require './services/operator_categories_service'
 require './services/products_service'
 require './services/modal_service'

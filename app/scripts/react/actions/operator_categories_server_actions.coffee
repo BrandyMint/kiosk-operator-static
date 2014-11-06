@@ -7,7 +7,7 @@ window.OperatorCategoriesServerActions =
       type: 'receiveAll'
       categories: categoriesData
 
-  categoryCreated: (category) ->
+  addCategory: (category) ->
     OperatorCategoriesDispatcher.handleServerAction
       type: 'addCategory'
       category: category
@@ -17,13 +17,7 @@ window.OperatorCategoriesServerActions =
       type: 'updateCategory'
       category: category
 
-  categoryDeleted: (category) ->
+  deleteCategory: (category) ->
     OperatorCategoriesDispatcher.handleServerAction
       type: 'deleteCategory'
       category: category
-
-  changeCategoryProductCount: (category, increment) ->
-    OperatorCategoriesDispatcher.handleServerAction
-      type: 'changeCategoryProductCount'
-      category: category
-      increment: increment

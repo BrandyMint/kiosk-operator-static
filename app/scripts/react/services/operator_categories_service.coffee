@@ -34,32 +34,15 @@ window.OperatorCategoriesService =
         error: (xhr, status, err) ->
           error err || status
         success: (category) ->
-          OperatorCategoriesServerActions.categoryCreated category
+          OperatorCategoriesServerActions.addCategory category
           success category
     else
       setTimeout ->
         data.id = Math.floor(Math.random() * 100000000)
         data.products_count = 0
         data.deep_products_count = 0
-        OperatorCategoriesServerActions.categoryCreated data
+        OperatorCategoriesServerActions.addCategory data
         success data
-      , @mockLatency
-
-  # Пока непонятно, зачем этот маршрут в API, так как getCategories даёт
-  # полную информацию по всем категориям
-  getCategory: (id, callback) ->
-    if !@mockMode
-      $.ajax
-        dataType: 'json'
-        url:      Routes.operator_categories_item_url id
-        method:   'get'
-        error: (xhr, status, err) ->
-          callback err || status
-        success: (data) ->
-          callback null, data
-    else
-      setTimeout ->
-        callback null
       , @mockLatency
 
   updateSingleCategory: ({category, success, error}) ->
@@ -76,7 +59,7 @@ window.OperatorCategoriesService =
     if !@mockMode
       $.ajax
         dataType: 'json'
-        url:      Routes.operator_categories_item_url id
+        url:      Routes.operator_category_url id
         data:     data
         method:   'put'
         error: (xhr, status, err) ->
@@ -86,23 +69,6 @@ window.OperatorCategoriesService =
     else
       setTimeout ->
         success category
-      , @mockLatency
-
-  deleteCategory: ({category, success, error}) ->
-    if !@mockMode
-      $.ajax
-        dataType: 'json'
-        url:      Routes.operator_categories_item_url category.id
-        method:   'delete'
-        error: (xhr, status, err) ->
-          error err || status
-        success: (response) ->
-          OperatorCategoriesServerActions.categoryDeleted category
-          success()
-    else
-      setTimeout ->
-        success()
-        OperatorCategoriesServerActions.categoryDeleted category
       , @mockLatency
 
   reorderCategories: (categoryId, insertIdx) ->

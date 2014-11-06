@@ -36,8 +36,9 @@ window.OperatorProducts = React.createClass
 
   pullProducts: (category_id) ->
     @setState currentState: STATE_LOADING
-    ProductsService.pullProductsByCategory
-      category_id: category_id
+    ProductsResource.index
+      data:
+        category_id: category_id
       success: (products) =>
         @setState products: products, currentState: STATE_READY
       error: (error)=>

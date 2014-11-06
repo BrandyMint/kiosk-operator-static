@@ -3,7 +3,7 @@ window.Routes =
 
   # Operator categories (на основе http://api.kormilica.info/#!/operator)
   operator_categories_url:                    -> gon.api_root_url + '/v1/operator/categories.json'
-  operator_categories_item_url:          (id) -> gon.api_root_url + '/v1/operator/categories/' + id + '.json'
+  operator_category_url:                 (id) -> gon.api_root_url + '/v1/operator/categories/' + id + '.json'
 
   operator_products_url:                      -> gon.api_root_url + '/v1/operator/products.json'
   operator_products_by_category_url:          -> gon.api_root_url + '/v1/operator/products.json'

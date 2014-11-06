@@ -1,7 +1,12 @@
+.form-control-fake
+  @extend .form-control
+
+.products__new-form
+  @extend .form-inline
+
 .products__new-form,
 .adm-form-default
-  @extend .form-inline
-  label
+  .control-label
     @extend %plain-input__label
   .form-group
     width: 100%
@@ -12,12 +17,14 @@
       margin:
         right: 0
     .form-control,
-    select.form-control
+    select.form-control,
+    .form-control-fake
       @extend .plain-input__input
       @extend %plain-input__input--outline
       text-align: left
     input.form-control,
-    .btn.form-control
+    .btn.form-control,
+    .form-control-fake
       display: inline-block
       width: 100%
     .btn.form-control
@@ -46,6 +53,13 @@
       @extend .login__form-select
     .form-control.file
       line-height: 1em
+    .form-control-fake
+      +user-select(none)
+      line-height: ($plain-input-line-height - 2)
+      color: $plain-input-placeholder-color
+      cursor: default
+      &:hover
+        border-color: $line-color
     &.has-error
       .form-control
         @extend %plain-input__input--error
@@ -65,7 +79,7 @@
       +antialiased
 
 .adm-form-default
-  label
+  .control-label
     margin-bottom: .4em
   .form-group
     margin-bottom: 20px

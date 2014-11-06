@@ -33,6 +33,7 @@
 
 // Order Status Info
 .adm-order-status-info
+  margin-right: -8px
   & > .adm-order-status-info-time,
   & > .label,
   & > .dropdown
@@ -54,12 +55,16 @@
 .adm-order-status-info-time
   color: $gray-light
 
+@media (max-width: $screen-sm-max)
+  .adm-order-status-info
+    .adm-order-header &,
+    .modal-header &
+      text-align: left
+
 @media (max-width: $screen-md-max)
   .adm-order-status-info
     .adm-order-header &,
     .modal-header &
-      margin-top: 5px
-      text-align: left
       & > .adm-order-status-info-time,
       & > .label,
       & > .dropdown
@@ -110,8 +115,8 @@
   font-size: 20px
 
 .adm-order-goods-table
-  @extend .table
-  @extend .table-striped
+  width: 100%
+  max-width: 100%
   margin-bottom: 0
   font-size: $font-size-base
   line-height: $line-height-base

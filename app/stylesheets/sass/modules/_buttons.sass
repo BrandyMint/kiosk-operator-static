@@ -112,7 +112,7 @@
 .btn-gray
   +button-variant(#fff, $gray-light, $gray-light)
 
-.btn-default
+%btn-default
   display: inline-block
   &, &:hover, &:focus, &.active
     background-color: #fff
@@ -126,7 +126,7 @@
     +box-shadow(inset 0 0 0 3px $blue)
 
 .btn-default-light
-  @extend .btn-default
+  @extend %btn-default
   color: $gray-light
   +antialiased
   +opacity(1)
@@ -226,6 +226,7 @@
 %adm-btn-remove
   @extend .btn
   @extend .btn-red
+  @extend .btn-lg
   height: auto
   font-size: 17px
   &:hover,
@@ -245,6 +246,7 @@
 .adm-btn-submit
   @extend .btn
   @extend .btn-green
+  @extend .btn-lg
   height: auto
   font-size: 17px
   &:hover,

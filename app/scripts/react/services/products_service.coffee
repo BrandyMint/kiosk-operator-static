@@ -75,7 +75,7 @@ window.ProductsService =
       Requester.request
         dataType: 'json'
         url:      Routes.operator_products_item_url id
-        data:     data
+        data:     product
         method:   'put'
         error: (xhr, status, err) ->
           error err || status

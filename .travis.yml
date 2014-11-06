@@ -2,6 +2,7 @@ language: node_js
 node_js:
   - "0.11.14"
 install: 
+  - git status
   - npm install
   - ./node_modules/bower/bin/bower -v
   - ./node_modules/bower/bin/bower install

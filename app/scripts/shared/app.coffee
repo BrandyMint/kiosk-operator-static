@@ -1,6 +1,9 @@
-window.ReactUjs = require 'reactUjs'
-
-window.EB = new EventEmitter
+require './libs'
+require './app'
+require './legacy'
+require './requester'
+require './thumbor_service'
+require './app_helpers'
 
 window.KioskOperatorApp =
   start: ({vendor_key, operator}) ->

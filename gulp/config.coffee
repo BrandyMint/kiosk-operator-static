@@ -7,7 +7,7 @@ module.exports = {
     scripts: {
       baseDir: src
       extensions: ['.coffee', '.js.jsx.coffee']
-      entries: './scripts/app.coffee'
+      entries: './scripts/dist.coffee'
       dest: dist + '/scripts/'
       outputName: 'app.js'
     }

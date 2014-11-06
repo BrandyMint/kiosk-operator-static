@@ -3,6 +3,9 @@ window.$ = window.jQuery = require 'jquery'
 window.React             = require 'react'
 window.Dispatcher        = require('flux').Dispatcher
 window.EventEmitter      = require 'eventEmitter'
+window.ReactUjs = require 'reactUjs'
+window.EB = new EventEmitter
+
 
 # jQuery UI components
 require 'jquery.ui.core'

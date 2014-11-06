@@ -1,166 +1,11 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var operator, vendor_key;
-
-require('./libs');
-
 require('./shared/app');
-
-require('./shared/legacy');
-
-require('./shared/requester');
-
-require('./shared/thumbor_service');
-
-require('./react/mixins/dragging');
-
-require('./react/mixins/images_form_mixin');
-
-require('./react/mixins/product_draggable');
-
-require('./react/mixins/category_product_droptarget');
-
-require('./react/components/images_form_thumbs');
-
-require('./react/actions/operator_categories_actions');
-
-require('./react/actions/operator_categories_server_actions');
-
-require('./react/dispatchers/operator_categories_dispatcher');
-
-require('./react/services/operator_categories_service');
-
-require('./react/mocks/operator_categories_example_data');
-
-require('./react/stores/operator_categories_store');
-
-require('./react/components/operator_categories/item_view');
-
-require('./react/components/operator_categories/item_edit');
-
-require('./react/components/operator_categories/item');
-
-require('./react/components/operator_categories/list');
-
-require('./react/components/operator_categories/create_form');
-
-require('./react/components/operator_categories/products_pane');
-
-require('./react/components/operator_categories/categories');
-
-require('./react/actions/operator_products_server_actions');
-
-require('./react/dispatchers/operator_products_dispatcher');
-
-require('./react/services/products_service');
-
-require('./react/mocks/products_service_mock');
-
-require('./react/stores/operator_products_store');
-
-require('./react/components/product_status_toggle');
-
-require('./react/components/operator_products/list_row_drag_helper');
-
-require('./react/components/operator_products/product_state');
-
-require('./react/components/operator_products/list_row');
-
-require('./react/components/operator_products/list_body');
-
-require('./react/components/operator_products/products');
-
-require('./react/components/modal');
-
-require('./react/services/modal_service');
-
-require('./react/components/super_select');
-
-require('./react/components/images_form');
 
 require('./react/application');
 
-window.root = '';
-
-window.api_root_url = '';
-
-require('./shared/routes');
-
-require('./local_routes');
-
-operator = require('./data/operator.json');
-
-console.log('Залогинен оператор:', operator);
-
-vendor_key = localStorage.getItem('vendor_key') || 'test';
-
-KioskOperatorApp.start({
-  vendor_key: vendor_key,
-  operator: operator
-});
 
 
-
-},{"./data/operator.json":2,"./libs":3,"./local_routes":4,"./react/actions/operator_categories_actions":5,"./react/actions/operator_categories_server_actions":6,"./react/actions/operator_products_server_actions":7,"./react/application":8,"./react/components/images_form":9,"./react/components/images_form_thumbs":10,"./react/components/modal":11,"./react/components/operator_categories/categories":12,"./react/components/operator_categories/create_form":13,"./react/components/operator_categories/item":14,"./react/components/operator_categories/item_edit":15,"./react/components/operator_categories/item_view":16,"./react/components/operator_categories/list":17,"./react/components/operator_categories/products_pane":18,"./react/components/operator_products/list_body":19,"./react/components/operator_products/list_row":20,"./react/components/operator_products/list_row_drag_helper":21,"./react/components/operator_products/product_state":22,"./react/components/operator_products/products":23,"./react/components/product_status_toggle":24,"./react/components/super_select":25,"./react/dispatchers/operator_categories_dispatcher":26,"./react/dispatchers/operator_products_dispatcher":27,"./react/mixins/category_product_droptarget":28,"./react/mixins/dragging":29,"./react/mixins/images_form_mixin":30,"./react/mixins/product_draggable":31,"./react/mocks/operator_categories_example_data":32,"./react/mocks/products_service_mock":33,"./react/services/modal_service":34,"./react/services/operator_categories_service":35,"./react/services/products_service":36,"./react/stores/operator_categories_store":37,"./react/stores/operator_products_store":38,"./shared/app":39,"./shared/legacy":40,"./shared/requester":41,"./shared/routes":42,"./shared/thumbor_service":43}],2:[function(require,module,exports){
-module.exports={
-  "id": 17,
-  "name": "yagr",
-  "authentications": [],
-  "api_key": {
-    "access_token": "3cd8350b5229f08ecc12416c89c2be39",
-    "user_id": 17,
-    "expires_at": "2015-01-10T11:22:34.000+04:00"
-  },
-}
-
-},{}],3:[function(require,module,exports){
-window._ = require('lodash');
-
-window.$ = window.jQuery = require('jquery');
-
-window.React = require('react');
-
-window.Dispatcher = require('flux').Dispatcher;
-
-window.EventEmitter = require('eventEmitter');
-
-require('jquery.ui.core');
-
-require('jquery.ui.widget');
-
-require('jquery.ui.mouse');
-
-require('jquery.ui.draggable');
-
-require('jquery.ui.droppable');
-
-require('jquery.ui.sortable');
-
-require('jquery.autosize');
-
-require('jquery.fileupload');
-
-require('jquery.role');
-
-require('react-mixin-manager')(window.React);
-
-require('bootstrapSass');
-
-require('typeahead');
-
-
-
-},{"bootstrapSass":undefined,"eventEmitter":undefined,"flux":44,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"typeahead":undefined}],4:[function(require,module,exports){
-window.LocalRoutes = {
-  products_by_category_url: function(id) {
-    return '_products.html';
-  }
-};
-
-_.extend(window.Routes, LocalRoutes);
-
-
-
-},{}],5:[function(require,module,exports){
+},{"./react/application":5,"./shared/app":36}],2:[function(require,module,exports){
 window.OperatorCategoriesActions = {
   categorySelected: function(category) {
     return OperatorCategoriesDispatcher.handleViewAction({
@@ -178,7 +23,7 @@ window.OperatorCategoriesActions = {
 
 
 
-},{}],6:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 
 /**global OperatorCategoriesDispatcher */
 window.OperatorCategoriesServerActions = {
@@ -217,7 +62,7 @@ window.OperatorCategoriesServerActions = {
 
 
 
-},{}],7:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 
 /**global OperatorProductsDispatcher, window, OperatorCategoriesStore, OperatorCategoriesDispatcher */
 window.OperatorProductsServerActions = {
@@ -251,17 +96,76 @@ window.OperatorProductsServerActions = {
 
 
 
-},{}],8:[function(require,module,exports){
-window.AppHelpers = {
-  reselectAndFocus: function(el) {
-    el.focus();
-    return el.selectionStart = el.selectionEnd = el.value.length;
-  }
-};
+},{}],5:[function(require,module,exports){
+require('./mixins/dragging');
+
+require('./mixins/images_form_mixin');
+
+require('./mixins/product_draggable');
+
+require('./mixins/category_product_droptarget');
+
+require('./components/images_form_thumbs');
+
+require('./actions/operator_categories_actions');
+
+require('./actions/operator_categories_server_actions');
+
+require('./dispatchers/operator_categories_dispatcher');
+
+require('./services/operator_categories_service');
+
+require('./mocks/operator_categories_example_data');
+
+require('./stores/operator_categories_store');
+
+require('./components/operator_categories/item_view');
+
+require('./components/operator_categories/item_edit');
+
+require('./components/operator_categories/item');
+
+require('./components/operator_categories/list');
+
+require('./components/operator_categories/create_form');
+
+require('./components/operator_categories/products_pane');
+
+require('./components/operator_categories/categories');
+
+require('./actions/operator_products_server_actions');
+
+require('./dispatchers/operator_products_dispatcher');
+
+require('./services/products_service');
+
+require('./mocks/products_service_mock');
+
+require('./stores/operator_products_store');
+
+require('./components/product_status_toggle');
+
+require('./components/operator_products/list_row_drag_helper');
+
+require('./components/operator_products/product_state');
+
+require('./components/operator_products/list_row');
+
+require('./components/operator_products/list_body');
+
+require('./components/operator_products/products');
+
+require('./components/modal');
+
+require('./services/modal_service');
+
+require('./components/super_select');
+
+require('./components/images_form');
 
 
 
-},{}],9:[function(require,module,exports){
+},{"./actions/operator_categories_actions":2,"./actions/operator_categories_server_actions":3,"./actions/operator_products_server_actions":4,"./components/images_form":6,"./components/images_form_thumbs":7,"./components/modal":8,"./components/operator_categories/categories":9,"./components/operator_categories/create_form":10,"./components/operator_categories/item":11,"./components/operator_categories/item_edit":12,"./components/operator_categories/item_view":13,"./components/operator_categories/list":14,"./components/operator_categories/products_pane":15,"./components/operator_products/list_body":16,"./components/operator_products/list_row":17,"./components/operator_products/list_row_drag_helper":18,"./components/operator_products/product_state":19,"./components/operator_products/products":20,"./components/product_status_toggle":21,"./components/super_select":22,"./dispatchers/operator_categories_dispatcher":23,"./dispatchers/operator_products_dispatcher":24,"./mixins/category_product_droptarget":25,"./mixins/dragging":26,"./mixins/images_form_mixin":27,"./mixins/product_draggable":28,"./mocks/operator_categories_example_data":29,"./mocks/products_service_mock":30,"./services/modal_service":31,"./services/operator_categories_service":32,"./services/products_service":33,"./stores/operator_categories_store":34,"./stores/operator_products_store":35}],6:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ImagesForm = React.createClass({displayName: 'ImagesForm',
@@ -331,7 +235,7 @@ window.ImagesForm = React.createClass({displayName: 'ImagesForm',
 
 
 
-},{}],10:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
@@ -364,7 +268,7 @@ window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
 
 
 
-},{}],11:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -422,7 +326,7 @@ window.ModalComponent = React.createClass({displayName: 'ModalComponent',
 
 
 
-},{}],12:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -539,7 +443,7 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
 
 
 
-},{}],13:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -649,7 +553,7 @@ window.OperatorCategories_CreateForm = React.createClass({displayName: 'Operator
 
 
 
-},{}],14:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -730,7 +634,7 @@ window.OperatorCategories_Item = React.createClass({displayName: 'OperatorCatego
 
 
 
-},{}],15:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -832,7 +736,7 @@ window.OperatorCategories_ItemEdit = React.createClass({displayName: 'OperatorCa
 
 
 
-},{}],16:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -865,7 +769,7 @@ window.OperatorCategories_ItemView = React.createClass({displayName: 'OperatorCa
 
 
 
-},{}],17:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -981,7 +885,7 @@ window.OperatorCategories_List = React.createClass({displayName: 'OperatorCatego
 
 
 
-},{}],18:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1049,7 +953,7 @@ window.OperatorCategories_ProductsPane = React.createClass({displayName: 'Operat
 
 
 
-},{}],19:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1084,7 +988,7 @@ window.OperatorProducts_ListBody = React.createClass({displayName: 'OperatorProd
 
 
 
-},{}],20:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1134,7 +1038,7 @@ window.OperatorProducts_Row = React.createClass({displayName: 'OperatorProducts_
 
 
 
-},{}],21:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1167,7 +1071,7 @@ window.OperatorProducts_Row_DragHelper = React.createClass({displayName: 'Operat
 
 
 
-},{}],22:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1200,7 +1104,7 @@ window.ProductState = React.createClass({displayName: 'ProductState',
 
 
 
-},{}],23:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1273,7 +1177,7 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
 
 
 
-},{}],24:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1378,7 +1282,7 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
 
 
 
-},{}],25:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.SuperSelect = React.createClass({displayName: 'SuperSelect',
@@ -1488,7 +1392,7 @@ window.SuperSelect = React.createClass({displayName: 'SuperSelect',
 
 
 
-},{}],26:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 
 /**global _, Dispatcher */
 window.OperatorCategoriesDispatcher = _.extend(new Dispatcher(), {
@@ -1508,7 +1412,7 @@ window.OperatorCategoriesDispatcher = _.extend(new Dispatcher(), {
 
 
 
-},{}],27:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 
 /**global _, Dispatcher, window */
 window.OperatorProductsDispatcher = _.extend(new Dispatcher(), {
@@ -1528,7 +1432,7 @@ window.OperatorProductsDispatcher = _.extend(new Dispatcher(), {
 
 
 
-},{}],28:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 
 /**global window, React */
 window.CategoryProductDroptarget = {
@@ -1567,7 +1471,7 @@ window.CategoryProductDroptarget = {
 
 
 
-},{}],29:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var DRAGOFF_TIMEOUT, DRAG_HOVER_CLASS;
 
 DRAG_HOVER_CLASS = 'state--drag-hover';
@@ -1633,7 +1537,7 @@ window.Dragging = {
 
 
 
-},{}],30:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 var ACCEPT_FILE_TYPES, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
 
 ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
@@ -1735,7 +1639,7 @@ window.ImagesFormMixin = {
 
 
 
-},{}],31:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 
 /**global window, React */
 window.ProductDraggable = {
@@ -1780,7 +1684,7 @@ window.ProductDraggable = {
 
 
 
-},{}],32:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 
 /**global OperatorCategoriesService */
 window.OperatorCategoriesService = _.extend(window.OperatorCategoriesService, {
@@ -2104,7 +2008,7 @@ window.OperatorCategoriesService = _.extend(window.OperatorCategoriesService, {
 
 
 
-},{}],33:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 
 /**global ProductsService, _ */
 window.ProductsService = _.extend(window.ProductsService, {
@@ -9694,7 +9598,7 @@ window.ProductsService = _.extend(window.ProductsService, {
 
 
 
-},{}],34:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 
 /**global window, $, React, ModalComponent */
 window.ModalService = {
@@ -9710,7 +9614,7 @@ window.ModalService = {
 
 
 
-},{}],35:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 
 /**global Routes, OperatorCategoriesServerActions */
 window.OperatorCategoriesService = {
@@ -9884,7 +9788,7 @@ window.OperatorCategoriesService = {
 
 
 
-},{}],36:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 
 /**global Routes, OperatorProductsServerActions, Requester, $, window, _, OperatorProductsStore */
 window.ProductsService = {
@@ -10013,7 +9917,7 @@ window.ProductsService = {
 
 
 
-},{}],37:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 
 /**global _, EventEmitter, OperatorCategoriesDispatcher */
 var CHANGE_EVENT, _addCategory, _applyPositions, _categories, _changeCategoryProductCount, _deleteCategory, _getAncestors, _getCategoryById, _getCategoryLevel, _getDescendands, _getNewPositions, _getSortedCategoriesByParent, _hasChildren, _positionCategory, _pushCategories, _updateCategory;
@@ -10304,7 +10208,7 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(fu
 
 
 
-},{}],38:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 
 /**global _, window, EventEmitter, OperatorProductsDispatcher, OperatorCategoriesStore */
 var CHANGE_EVENT, _getProductById, _getSortedProductsByCategory, _products, _pushProducts, _updateProduct,
@@ -10381,10 +10285,18 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
 
 
 
-},{}],39:[function(require,module,exports){
-window.ReactUjs = require('reactUjs');
+},{}],36:[function(require,module,exports){
+require('./libs');
 
-window.EB = new EventEmitter;
+require('./app');
+
+require('./legacy');
+
+require('./requester');
+
+require('./thumbor_service');
+
+require('./app_helpers');
 
 window.KioskOperatorApp = {
   start: function(_arg) {
@@ -10407,7 +10319,17 @@ window.KioskOperatorApp = {
 
 
 
-},{"reactUjs":undefined}],40:[function(require,module,exports){
+},{"./app":36,"./app_helpers":37,"./legacy":38,"./libs":39,"./requester":40,"./thumbor_service":41}],37:[function(require,module,exports){
+window.AppHelpers = {
+  reselectAndFocus: function(el) {
+    el.focus();
+    return el.selectionStart = el.selectionEnd = el.value.length;
+  }
+};
+
+
+
+},{}],38:[function(require,module,exports){
 $(function() {
   var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productToggle, productToggleSwitch, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
   bindActivities = function() {
@@ -10575,7 +10497,48 @@ $(function() {
 
 
 
-},{}],41:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
+window._ = require('lodash');
+
+window.$ = window.jQuery = require('jquery');
+
+window.React = require('react');
+
+window.Dispatcher = require('flux').Dispatcher;
+
+window.EventEmitter = require('eventEmitter');
+
+window.ReactUjs = require('reactUjs');
+
+window.EB = new EventEmitter;
+
+require('jquery.ui.core');
+
+require('jquery.ui.widget');
+
+require('jquery.ui.mouse');
+
+require('jquery.ui.draggable');
+
+require('jquery.ui.droppable');
+
+require('jquery.ui.sortable');
+
+require('jquery.autosize');
+
+require('jquery.fileupload');
+
+require('jquery.role');
+
+require('react-mixin-manager')(window.React);
+
+require('bootstrapSass');
+
+require('typeahead');
+
+
+
+},{"bootstrapSass":undefined,"eventEmitter":undefined,"flux":42,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],40:[function(require,module,exports){
 var RequesterClass,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -10614,40 +10577,7 @@ window.Requester = new RequesterClass({
 
 
 
-},{}],42:[function(require,module,exports){
-window.Routes = {
-  products_image_delete_path: function(id) {
-    return root_url + '/products/images/' + id;
-  },
-  operator_categories_url: function() {
-    return api_root_url + '/v1/operator/categories.json';
-  },
-  operator_categories_item_url: function(id) {
-    return api_root_url + '/v1/operator/categories/' + id + '.json';
-  },
-  operator_products_url: function() {
-    return api_root_url + '/v1/operator/products.json';
-  },
-  operator_products_by_category_url: function(id) {
-    return api_root_url + '/v1/operator/products.json?per_page=1000&category_id=' + id;
-  },
-  operator_products_item_url: function(id) {
-    return api_root_url + '/v1/operator/products/' + id + '.json';
-  },
-  operator_products_item_pub_url: function(id) {
-    return api_root_url + '/v1/operator/products/' + id + '/publication.json';
-  },
-  operator_product_path: function(id) {
-    return 'modal-edit-product.html';
-  },
-  products_by_category_url: function(id) {
-    return '/operator/products?category_id=' + id;
-  }
-};
-
-
-
-},{}],43:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 window.ThumborService = {
   thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
   image_url: function(url, style) {
@@ -10664,7 +10594,7 @@ window.ThumborService = {
 
 
 
-},{}],44:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -10676,7 +10606,7 @@ window.ThumborService = {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":45}],45:[function(require,module,exports){
+},{"./lib/Dispatcher":43}],43:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -10928,7 +10858,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":46}],46:[function(require,module,exports){
+},{"./invariant":44}],44:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.

@@ -1,13 +1,38 @@
-#= require react
-#= require react-mixin-manager
-#= require react_ujs
-#= require_tree ./mixins
-#= require_tree ./components
+require './mixins/dragging'
+require './mixins/images_form_mixin'
+require './mixins/product_draggable'
+require './mixins/category_product_droptarget'
 
-# TODO Вынести в отдельный файл
-window.AppHelpers =
+require './components/images_form_thumbs'
 
-  # Ставит фокус на input и выделяет содержимое
-  reselectAndFocus: (el) ->
-    el.focus()
-    el.selectionStart = el.selectionEnd = el.value.length
+require './actions/operator_categories_actions'
+require './actions/operator_categories_server_actions'
+require './dispatchers/operator_categories_dispatcher'
+require './services/operator_categories_service'
+require './mocks/operator_categories_example_data'
+require './stores/operator_categories_store'
+require './components/operator_categories/item_view'
+require './components/operator_categories/item_edit'
+require './components/operator_categories/item'
+require './components/operator_categories/list'
+require './components/operator_categories/create_form'
+require './components/operator_categories/products_pane'
+require './components/operator_categories/categories'
+
+require './actions/operator_products_server_actions'
+require './dispatchers/operator_products_dispatcher'
+require './services/products_service'
+require './mocks/products_service_mock'
+require './stores/operator_products_store'
+require './components/product_status_toggle'
+require './components/operator_products/list_row_drag_helper'
+require './components/operator_products/product_state'
+require './components/operator_products/list_row'
+require './components/operator_products/list_body'
+require './components/operator_products/products'
+
+require './components/modal'
+require './services/modal_service'
+
+require './components/super_select'
+require './components/images_form'

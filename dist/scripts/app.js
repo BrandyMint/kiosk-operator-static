@@ -10587,7 +10587,11 @@ window.ThumborService = {
     if (gon.env === 'static-development') {
       return url;
     } else {
-      return this.thumbor_url + ("unsafe/" + style + "/") + url;
+      if (this.thumbor_url) {
+        return this.thumbor_url + ("unsafe/" + style + "/") + url;
+      } else {
+        return url;
+      }
     }
   }
 };

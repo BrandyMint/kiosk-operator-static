@@ -12,7 +12,7 @@ module.exports = {
       outputName: 'app.js'
     }
     styles: {
-      src: src + '/stylesheets/app.scss'
+      src: src + '/stylesheets/dist.scss'
       dest: dist + '/stylesheets'
       outputName: 'app.css'
     }
@@ -49,7 +49,7 @@ module.exports = {
     dest: build
   }
   sass: {
-    src: src + '/stylesheets/app.scss'
+    src: src + '/stylesheets/local.scss'
     dest: build + '/stylesheets'
     outputName: 'app.css'
   }

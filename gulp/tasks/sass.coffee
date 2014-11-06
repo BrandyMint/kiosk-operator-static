@@ -10,7 +10,6 @@ handleErrors = require '../util/handleErrors'
 config       = require('../config').sass
 
 gulp.task 'sass', ->
-
   gulp.src config.src
     .pipe sass(
       errLogToConsole: true

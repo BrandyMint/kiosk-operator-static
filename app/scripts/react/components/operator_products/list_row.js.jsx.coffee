@@ -42,4 +42,4 @@ window.OperatorProducts_Row = React.createClass
 
   handleItemClick: (e) ->
     if not @state.isDragged
-      ModalService.show Routes.operator_product_path @props.product.id
+      ModalService.show Routes.operator_product_url @props.product.id

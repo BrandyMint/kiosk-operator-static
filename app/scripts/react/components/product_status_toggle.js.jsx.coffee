@@ -7,12 +7,12 @@ cx = React.addons.classSet
 STATE_PUBLISHED   = 'published'
 STATE_HAS_ERRORS  = 'has_errors'
 STATE_UNPUBLISHED = 'unpublished'
+STATE_ARCHIVE     = 'archive'
 
 MANUAL_STATE_DEFAULT   = 0
 MANUAL_STATE_PUBLISHED = 1
 MANUAL_STATE_DRAFT     = 2
 MANUAL_STATE_ARCHIVE   = 3
-
 
 window.ProductStatusToggle = React.createClass
 

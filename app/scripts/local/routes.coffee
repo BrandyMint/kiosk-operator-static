@@ -1,3 +1,7 @@
+# И
+root_url = ''
+api_root_url = ''
+
 window.Routes =
   products_image_delete_path:            (id) -> root_url + '/products/images/'+id
 

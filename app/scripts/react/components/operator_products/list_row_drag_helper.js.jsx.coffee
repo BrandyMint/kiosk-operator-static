@@ -7,16 +7,12 @@ window.OperatorProducts_Row_DragHelper = React.createClass
     product: React.PropTypes.object.isRequired
 
   render: ->
-    imageUrl = if @props.product.image?.url
-      ThumborService.image_url @props.product.image.url, '50x50'
-    else
-      "assets/product-50x50-1.jpg"
 
     `<span className="adm-categories-goods-draghelper"><table><tbody><tr>
       <td className  = "adm-categories-goods-cover"
           data-title = "Товар">
         <img
-          src={ imageUrl }
+          src={ this.imageUrl() }
           alt={ this.props.product.title }
         />
       </td>
@@ -28,3 +24,6 @@ window.OperatorProducts_Row_DragHelper = React.createClass
     <i>
       Перетащите товар в категорию
     </i></span>`
+
+
+  imageUrl: -> AppHelpers.productImageUrl @props.product

@@ -9,18 +9,14 @@ window.OperatorProducts_Row = React.createClass
     product: React.PropTypes.object.isRequired
 
   render: ->
-    imageUrl = if @props.product.image?.url
-      ThumborService.image_url @props.product.image.url, '50x50'
-    else
-      "assets/product-50x50-1.jpg"
-
     `<tr onClick      ={ this.handleItemClick }
          data-objectid={ this.props.product.id }>
       <td className  = "adm-categories-goods-cover"
           data-title = "Товар"
           role>
         <img
-          src={ imageUrl }
+          src={ AppHelpers.productImageUrl(this.props.product) }
+          src={ this.imageUrl() }
           alt={ this.props.product.title }
         />
       </td>
@@ -41,6 +37,8 @@ window.OperatorProducts_Row = React.createClass
         <ProductState state={ this.props.product.state } />
       </td>
     </tr>`
+
+  imageUrl: -> AppHelpers.productImageUrl @props.product
 
   handleItemClick: (e) ->
     if not @state.isDragged

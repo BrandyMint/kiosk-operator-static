@@ -8,6 +8,6 @@ gulp.task 'dist', ['clean'], ->
   gulp.start 'scripts', 'styles', 'minifyScripts', 'minifyStyles'
 
 gulp.task 'build', ['clean'], ->
-  gulp.start 'vendorScripts', 'clientScripts', 'html', 'haml', 'sass', 'fonts', 'images'
+  gulp.start 'vendorScripts', 'localScripts', 'html', 'haml', 'sass', 'fonts', 'images'
 
 gulp.task 'server', ['build', 'watch']

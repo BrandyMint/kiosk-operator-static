@@ -9,7 +9,7 @@ source         = require 'vinyl-source-stream'
 bundleLogger   = require '../util/bundleLogger'
 handleErrors   = require '../util/handleErrors'
 vendorConfig   = require('../config').vendor
-clientConfig   = require('../config').client
+localConfig   = require('../config').local
 
 gulp.task 'vendorScripts', ['clean'], ->
   bundler = browserify({
@@ -51,11 +51,11 @@ gulp.task 'vendorScripts', ['clean'], ->
 
   return bundle()
 
-gulp.task 'clientScripts', ['clean'], ->
+gulp.task 'localScripts', ['clean'], ->
   bundler = browserify({
     cache: {}, packageCache: {}
-    entries: clientConfig.entries
-    extensions: clientConfig.extensions
+    entries: localConfig.entries
+    extensions: localConfig.extensions
   }).external 'jquery'
     .external 'jquery.autosize'
     .external 'jquery.fileupload'
@@ -75,15 +75,15 @@ gulp.task 'clientScripts', ['clean'], ->
     .external 'typeahead'
 
   bundle = ->
-    bundleLogger.start clientConfig.outputName
+    bundleLogger.start localConfig.outputName
 
     return bundler
              .bundle()
              .on 'error', handleErrors
-             .pipe source(clientConfig.outputName)
-             .pipe gulp.dest(clientConfig.dest)
+             .pipe source(localConfig.outputName)
+             .pipe gulp.dest(localConfig.dest)
              .on 'end', ->
-               bundleLogger.end clientConfig.outputName
+               bundleLogger.end localConfig.outputName
 
   if global.isWatching
     bundler = watchify bundler

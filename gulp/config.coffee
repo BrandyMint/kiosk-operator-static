@@ -23,10 +23,10 @@ module.exports = {
     outputName: 'vendor.js'
     extensions: ['.coffee']
   }
-  client: {
-    entries: src + '/scripts/app.coffee'
+  local: {
+    entries: src + '/scripts/local.coffee'
     dest: build + '/scripts'
-    outputName: 'client.js'
+    outputName: 'local.js'
     extensions: ['.coffee', '.js.jsx.coffee']
   }
   browserSync: {
@@ -51,7 +51,7 @@ module.exports = {
   sass: {
     src: src + '/stylesheets/local.scss'
     dest: build + '/stylesheets'
-    outputName: 'app.css'
+    outputName: 'local.css'
   }
   images: {
     src: src + '/assets/**/*'

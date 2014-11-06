@@ -1,16 +1,6 @@
-$adm-categories-item-vertical-padding: 14px
-$adm-categories-item-horizontal-padding: 15px
-
-$adm-categories-item-font-size: $font-size-base
-
-$adm-categories-item-active-bg: $blue
-
-$zindex-adm-categories-item-active: 10
-
 // Categories
 .adm-layout-main
   .adm-categories-container
-
     position: relative
 
 .adm-categories-goods-thumb
@@ -199,26 +189,28 @@ $zindex-adm-categories-item-active: 10
 
 // Table with goods
 .adm-categories-goods
-  @extend .table
-  @extend .table-striped
-  td
-    &:last-of-type
-      padding-right: 0
-    &[role]
-      cursor: pointer
-  thead
+  @include flexible-table
+  margin-bottom: 20px
+  tr
     td
-      padding: 12px 20px 12px 0
-      font-size: $font-size-base
-      color: #d0d0d0
+      &:last-of-type
+        padding-right: 0
+      &[role]
+        cursor: pointer
+  thead
+    tr
+      td
+        padding: 12px 20px 12px 0
+        font-size: $font-size-base
+        color: #d0d0d0
   tbody
     tr
       background: #fff
-    td
-      padding: 5px 20px 5px 0
-      border-bottom: 1px solid #e9e9e9
-      &:first-child
-        border-bottom: none
+      td
+        padding: 5px 20px 5px 0
+        border-bottom: 1px solid #e9e9e9
+        &:first-child
+          border-bottom: none
   .label
     display: block
 

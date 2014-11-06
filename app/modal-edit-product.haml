@@ -23,7 +23,7 @@
           .form-alert.form-alert-danger
             Невозможно опубликовать товар. Проверьте поля, выделенные красным
           .form-group
-            %label Фотографии
+            %label.control-label Фотографии
             .products__new-form-images-list.__small
               .products__new-form-image-thumb-block
                 .products__new-form-image-thumb-empty
@@ -37,27 +37,27 @@
                 .products__new-form-image-thumb-remove
                 .products__new-form-image-thumb-update
           .form-group
-            %label Название товара
+            %label.control-label Название товара
             %textarea.form-control.form-control-text-large{placeholder: 'Например, велосипед городской'}
           .row
             .col-sm-6
               .form-group
-                %label Бренд
+                %label.control-label Бренд
                 %input.form-control{type: "text", placeholder: 'Бренд'}
             .col-sm-6
               .form-group
-                %label Цена
+                %label.control-label Цена
                 %input.form-control{type: "text", placeholder: '20 000'}
             .col-sm-6
               .form-group
-                %label Категория
+                %label.control-label Категория
                 %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}')
             .col-sm-6
               .form-group
-                %label Подкатегория
+                %label.control-label Подкатегория
                 %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}')
           .form-group
-            %label Варианты товара
+            %label.control-label Варианты товара
             .form-block-group
               .form-group
                 %a.products__new-form-variant-type-btn.active{role: 'products__new-form-variant-type-btn'} Размер
@@ -67,24 +67,24 @@
                 .col-md-11
                   .row.row-block-padding
                     .col-sm-4.hidden-xs
-                      %label{role: 'products__new-form-variant-type-label'} Размер
+                      %label.control-label{role: 'products__new-form-variant-type-label'} Размер
                     .col-sm-4.hidden-xs
-                      %label Количество
+                      %label.control-label Количество
                     .col-sm-4.hidden-xs
-                      %label Артикул
+                      %label.control-label Артикул
 
               .row{role: 'products__new-form-variants-item'}
                 .col-md-12
                 .col-md-11
                   .row.row-block-padding
                     .col-sm-4
-                      %label.hidden-sm.hidden-md.hidden-lg Размер
+                      %label.control-label.hidden-sm.hidden-md.hidden-lg Размер
                       %input.form-control{type: "text", placeholder: 'Например, XL'}
                     .col-sm-4
-                      %label.hidden-sm.hidden-md.hidden-lg Количество
+                      %label.control-label.hidden-sm.hidden-md.hidden-lg Количество
                       %input.form-control{type: "text", placeholder: 'Например, 5'}
                     .col-sm-4
-                      %label.hidden-sm.hidden-md.hidden-lg Артикул
+                      %label.control-label.hidden-sm.hidden-md.hidden-lg Артикул
                       %input.form-control{type: "text", placeholder: 'Например, M001-11-00'}
                   %br
                 .col-md-1
@@ -98,16 +98,16 @@
                   Добавить ещё
 
           .form-group.text
-            %label
+            %label.control-label
               Описание
             %textarea.form-control{placeholder: 'Описание', required: 'required', role: 'autosize'}
 
           .form-group
-            %label Характеристики
+            %label.control-label Характеристики
             .row
               .col-sm-6
                 .form-group-sm
-                  %input.form-control{type: 'text', placeholder: 'Например, вес'}
+                  %div.form-control Например, веc
               .col-sm-6
                 .row-gutter-dash.text-muted
                   &mdash;

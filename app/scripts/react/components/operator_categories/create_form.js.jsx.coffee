@@ -22,9 +22,7 @@ window.OperatorCategories_CreateForm = React.createClass
            <span className="adm-categories-item-name text-muted">
              { this.state.newName }
            </span>
-           <span className="adm-categories-item-name">
-             <i className="fa fa-spinner fa-spin" />
-           </span>
+           <span className="adm-categories-item-name"> <Spinner /> </span>
          </div>`
       when STATE_ERROR
         `<div>Ошибка создания категории.</div>`

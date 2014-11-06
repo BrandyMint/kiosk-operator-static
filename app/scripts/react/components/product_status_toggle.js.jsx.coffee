@@ -43,8 +43,7 @@ window.ProductStatusToggle = React.createClass
       "has_errors":    hasErrors
     }
 
-    return `<label className={ classes }
-                   role=     "product-toggle">
+    return `<label className={ classes }>
               <div className="toggle__block-label-checked pull-left">
                 Товар на сайте
               </div>

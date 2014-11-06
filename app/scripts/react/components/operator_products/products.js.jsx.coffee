@@ -4,54 +4,52 @@
 
 STATE_LOADING = 'loading'
 STATE_READY   = 'ready'
+STATE_ERROR   = 'error'
 
 window.OperatorProducts = React.createClass
+  mixins: [React.addons.PureRenderMixin]
   propTypes:
-    category:     React.PropTypes.object.isRequired
+    category_id:     React.PropTypes.number.isRequired
 
   getInitialState: ->
     currentState: STATE_LOADING
-    category:     @props.category
+    products:     null
 
-  componentDidMount: ->
-    ProductsService.getProducts()
-    OperatorProductsStore.addChangeListener @_onChange
+  componentDidMount: -> @pullProducts @props.category_id
 
-  componentWillReceiveProps: (nextProps) ->
-    if nextProps.category.id != @props.category.id
-      @setState(category: nextProps.category)
-
-  componentWillUnmount: ->
-    OperatorProductsStore.removeChangeListener @_onChange
+  componentWillReceiveProps: (nextProps) -> @pullProducts nextProps.category_id
 
   render: ->
     switch @state.currentState
       when STATE_READY
-        `<div className = "adm-categories-content"
-              ref       = "products">
-          <table className="adm-categories-goods">
-            <thead>
-              <tr>
-                <td colSpan="2">
-                  Товар
-                </td>
-                <td className="adm-categories-goods-price">
-                  Цена
-                </td>
-                <td className="adm-categories-goods-status">
-                  Статус
-                </td>
-              </tr>
-            </thead>
-            <OperatorProducts_ListBody category={ this.state.category } />
-          </table>
-        </div>`
+        return `<OperatorProducts_ListBody category_id={this.props.category_id} products={this.state.products} />`
       when STATE_LOADING
-        `<div className = "adm-categories-content"
-              ref       = "products">
-          <i className="fa fa-spinner fa-3x fa-spin" />
-        </div>`
+        return `<OperatorProducts_Process />`
+      when STATE_ERROR
+        return `<OperatorProducts_Error message={this.state.errorMessage}/>`
+      else
+        console.error? "Unknown state: #{@state.currentState}"
 
   _onChange: ->
     @setState
       currentState: STATE_READY
+
+  pullProducts: (category_id) ->
+    @setState currentState: STATE_LOADING
+    ProductsService.pullProductsByCategory
+      category_id: category_id
+      success: (products) =>
+        @setState products: products, currentState: STATE_READY
+      error: (error)=>
+        @setState currentState: STATE_ERROR, errorMessage: error
+
+
+window.OperatorProducts_Process = React.createClass
+  render: -> `<div className = "adm-categories-content"> <Spinner className="fa-3x" /> </div>`
+
+
+window.OperatorProducts_Error = React.createClass
+  propTypes:
+    message: React.PropTypes.string.isRequired
+
+  render: -> `<div className = "adm-categories-content"> Ошибка загузки {this.props.message} </div>`

@@ -7,6 +7,7 @@ _products = []
 _pushProducts = (products) ->
   _products = products
 
+
 _getSortedProductsByCategory = (category) ->
   categories = [category].concat OperatorCategoriesStore.getDescendands category
   catIds = _.map categories, (i) -> i.id
@@ -29,6 +30,8 @@ window.OperatorProductsStore = _.extend {}, EventEmitter.prototype, {
   removeChangeListener: (callback) ->
     @off CHANGE_EVENT, callback
 
+  # TODO На удаление:
+  #
   getSortedProductsByCategory: (category) ->
     _getSortedProductsByCategory category
 

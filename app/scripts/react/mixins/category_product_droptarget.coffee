@@ -11,19 +11,21 @@ window.CategoryProductDroptarget =
       tolerance: 'pointer'
       drop: @handleProductDrop
       accept: _.throttle (productNode) ->
-        productId = parseInt productNode.attr 'data-objectid'
-        product = OperatorProductsStore.getProductById productId
-        return product.category_id != that.props.category.id
+        category_id = parseInt productNode.attr 'data-category-id'
+        return category_id != that.props.category.id
     }
 
   handleProductDrop: (e, ui) ->
-    productId = parseInt ui.draggable.attr 'data-objectid'
+    productId = parseInt ui.draggable.attr 'data-product-id'
     productUpdate =
       id: productId
       category_id: @props.category.id
+
     ProductsService.updateProduct
       product: productUpdate
       success: ->
-        #todo?
-      error: ->
+        # TODO Продукт удалился из текущего списка
+      error: (error) ->
+        KioskOperatorApp.error_alert error
+
         #todo?

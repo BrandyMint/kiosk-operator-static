@@ -1,8 +1,9 @@
-require './local/settings'
+require './local/gon'
 
 require './shared/app'
-
 require './react/application'
+
+require './local/routes'
 
 if localStorage.getItem('mockMode')
   require './react/mocks/products_service_mock'

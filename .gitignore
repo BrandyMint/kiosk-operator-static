@@ -15,4 +15,5 @@ www
 .tmp
 *.bak
 .idea
+*tags
 /tags

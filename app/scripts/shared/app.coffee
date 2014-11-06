@@ -1,4 +1,5 @@
 require './libs'
+require './routes'
 require './app'
 require './legacy'
 require './requester'

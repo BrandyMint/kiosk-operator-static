@@ -127,6 +127,8 @@ require('./mixins/category_product_droptarget');
 
 require('./components/images_form_thumbs');
 
+require('./components/spinner');
+
 require('./components/operator_categories/item_view');
 
 require('./components/operator_categories/item_edit');
@@ -136,8 +138,6 @@ require('./components/operator_categories/item');
 require('./components/operator_categories/list');
 
 require('./components/operator_categories/create_form');
-
-require('./components/operator_categories/products_pane');
 
 require('./components/operator_categories/categories');
 
@@ -161,7 +161,7 @@ require('./components/images_form');
 
 
 
-},{"./actions/operator_categories_actions":2,"./actions/operator_categories_server_actions":3,"./actions/operator_products_server_actions":4,"./components/images_form":6,"./components/images_form_thumbs":7,"./components/modal":8,"./components/operator_categories/categories":9,"./components/operator_categories/create_form":10,"./components/operator_categories/item":11,"./components/operator_categories/item_edit":12,"./components/operator_categories/item_view":13,"./components/operator_categories/list":14,"./components/operator_categories/products_pane":15,"./components/operator_products/list_body":16,"./components/operator_products/list_row":17,"./components/operator_products/list_row_drag_helper":18,"./components/operator_products/product_state":19,"./components/operator_products/products":20,"./components/product_status_toggle":21,"./components/super_select":22,"./dispatchers/operator_categories_dispatcher":23,"./dispatchers/operator_products_dispatcher":24,"./mixins/category_product_droptarget":25,"./mixins/dragging":26,"./mixins/images_form_mixin":27,"./mixins/product_draggable":28,"./services/modal_service":29,"./services/operator_categories_service":30,"./services/products_service":31,"./stores/operator_categories_store":32,"./stores/operator_products_store":33}],6:[function(require,module,exports){
+},{"./actions/operator_categories_actions":2,"./actions/operator_categories_server_actions":3,"./actions/operator_products_server_actions":4,"./components/images_form":6,"./components/images_form_thumbs":7,"./components/modal":8,"./components/operator_categories/categories":9,"./components/operator_categories/create_form":10,"./components/operator_categories/item":11,"./components/operator_categories/item_edit":12,"./components/operator_categories/item_view":13,"./components/operator_categories/list":14,"./components/operator_products/list_body":15,"./components/operator_products/list_row":16,"./components/operator_products/list_row_drag_helper":17,"./components/operator_products/product_state":18,"./components/operator_products/products":19,"./components/product_status_toggle":20,"./components/spinner":21,"./components/super_select":22,"./dispatchers/operator_categories_dispatcher":23,"./dispatchers/operator_products_dispatcher":24,"./mixins/category_product_droptarget":25,"./mixins/dragging":26,"./mixins/images_form_mixin":27,"./mixins/product_draggable":28,"./services/modal_service":29,"./services/operator_categories_service":30,"./services/products_service":31,"./stores/operator_categories_store":32,"./stores/operator_products_store":33}],6:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ImagesForm = React.createClass({displayName: 'ImagesForm',
@@ -366,12 +366,9 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
         return this._getCategoriesForm();
       case STATE_LOADING:
         return React.DOM.div({className: "adm-categories-grid"}, 
-              React.DOM.div({className: "adm-categories-grid-col", 
-                   role: "categories-list"}, 
+              React.DOM.div({className: "adm-categories-grid-col"}, 
                 React.DOM.br(null), 
-                React.DOM.div({className: "text-center"}, 
-                  React.DOM.i({className: "fa fa-spinner fa-3x fa-spin"})
-                )
+                Spinner({className: "fa-3x", align: "center"})
               )
          );
     }
@@ -380,15 +377,14 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
     var subcategoriesPane;
     subcategoriesPane = this._getSubcategoriesPane();
     return React.DOM.div({className: "adm-categories-grid"}, 
-              React.DOM.div({className: "adm-categories-grid-col", 
-                   role: "categories-list"}, 
+              React.DOM.div({className: "adm-categories-grid-col"}, 
                 OperatorCategories_List({parentCategory:  this.state.rootCategory, 
                                          selectedCategory:  this.state.selectedCategory, 
                                          onSelectCategory:  this.handleCategorySelection})
               ), 
               subcategoriesPane, 
               React.DOM.div({className: "adm-categories-grid-col __wide"}, 
-                OperatorProducts({category:  this.state.selectedCategory})
+                OperatorProducts({category_id:  this.state.selectedCategory.id})
               )
             );
   },
@@ -406,8 +402,7 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
       }
     }
     if (rightParentCat) {
-      return React.DOM.div({className: "adm-categories-grid-col", 
-            role: "categories-list"}, 
+      return React.DOM.div({className: "adm-categories-grid-col"}, 
          OperatorCategories_List({parentCategory: rightParentCat, 
                                   selectedCategory:  this.state.selectedCategory, 
                                   onSelectCategory:  this.handleCategorySelection})
@@ -470,9 +465,7 @@ window.OperatorCategories_CreateForm = React.createClass({displayName: 'Operator
            React.DOM.span({className: "adm-categories-item-name text-muted"}, 
               this.state.newName
            ), 
-           React.DOM.span({className: "adm-categories-item-name"}, 
-             React.DOM.i({className: "fa fa-spinner fa-spin"})
-           )
+           React.DOM.span({className: "adm-categories-item-name"}, " ", Spinner(null), " ")
          );
       case STATE_ERROR:
         return React.DOM.div(null, "Ошибка создания категории.");
@@ -885,106 +878,41 @@ window.OperatorCategories_List = React.createClass({displayName: 'OperatorCatego
 
 /** @jsx React.DOM */
 
-/**global React, Routes */
-var STATE_LOADED, STATE_LOADING;
-
-STATE_LOADING = 'loading';
-
-STATE_LOADED = 'loaded';
-
-window.OperatorCategories_ProductsPane = React.createClass({displayName: 'OperatorCategories_ProductsPane',
+/**global window, React, OperatorProductsStore, OperatorProducts_Row */
+window.OperatorProducts_ListBody = React.createClass({displayName: 'OperatorProducts_ListBody',
   propTypes: {
-    selectedCategory: React.PropTypes.object
+    category_id: React.PropTypes.number.isRequired,
+    products: React.PropTypes.array.isRequired
   },
-  getInitialState: function() {
-    return {
-      state: STATE_LOADING
-    };
-  },
-  componentDidMount: function() {
-    return this._reloadProducts(this.props.selectedCategory);
-  },
-  componentWillReceiveProps: function(nextProps) {
-    if (nextProps.selectedCategory !== this.props.selectedCategory) {
-      return this._reloadProducts(nextProps.selectedCategory);
-    }
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return nextProps.category_id !== this.props.category_id;
   },
   render: function() {
-    var spinner;
-    spinner = this.state.state === STATE_LOADING ? React.DOM.div({className: "modal-body"}, 
-        React.DOM.div({className: "text-center"}, 
-          React.DOM.i({className: "fa fa-spinner fa-5x fa-spin"})
-        )
-      ) : null;
-    return React.DOM.span(null, 
-              spinner, 
-              React.DOM.div({className: "adm-categories-content", 
-                   ref: "products"})
-            );
-  },
-  _reloadProducts: function(category) {
-    var productsNode, that, url;
-    productsNode = this.refs.products.getDOMNode();
-    $(productsNode).empty();
-    this.setState({
-      state: STATE_LOADING
+    var productRows;
+    productRows = this.props.products.map(function(product) {
+      return OperatorProducts_Row({
+        key:  product.id, 
+        product: product }
+      );
     });
-    if (category) {
-      url = Routes.products_by_category_url(category.id);
-      that = this;
-      return $(productsNode).load(url, function() {
-        that.setState({
-          state: STATE_LOADED
-        });
-        return $(document).trigger('page:change');
-      });
-    } else {
-      $(productsNode).empty();
-      return this.setState({
-        state: STATE_LOADED
-      });
-    }
+    return React.DOM.div({className: "adm-categories-content"}, 
+            React.DOM.table({className: "adm-categories-goods"}, 
+              React.DOM.thead(null, 
+                React.DOM.tr(null, 
+                  React.DOM.td({colSpan: "2"}, "Товар"), 
+                  React.DOM.td({className: "adm-categories-goods-price"}, "Цена"), 
+                  React.DOM.td({className: "adm-categories-goods-status"}, "Статус")
+                )
+              ), 
+              React.DOM.tbody(null, productRows )
+            )
+          );
   }
 });
 
 
 
 },{}],16:[function(require,module,exports){
-
-/** @jsx React.DOM */
-
-/**global window, React, OperatorProductsStore, OperatorProducts_Row */
-window.OperatorProducts_ListBody = React.createClass({displayName: 'OperatorProducts_ListBody',
-  propTypes: {
-    category: React.PropTypes.object.isRequired
-  },
-  getInitialState: function() {
-    return {
-      productsToShow: OperatorProductsStore.getSortedProductsByCategory(this.props.category)
-    };
-  },
-  componentWillReceiveProps: function(nextProps) {
-    return this.setState({
-      productsToShow: OperatorProductsStore.getSortedProductsByCategory(nextProps.category)
-    });
-  },
-  render: function() {
-    var productRows;
-    productRows = this.state.productsToShow.map(function(product) {
-      return OperatorProducts_Row({
-        key:  product.id, 
-        product: product }
-      );
-    });
-    return React.DOM.tbody(null, 
-              productRows 
-            );
-  }
-});
-
-
-
-},{}],17:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -996,30 +924,27 @@ window.OperatorProducts_Row = React.createClass({displayName: 'OperatorProducts_
   },
   render: function() {
     return React.DOM.tr({onClick:  this.handleItemClick, 
-         'data-objectid':  this.props.product.id}, 
+         'data-category-id': this.props.product.category_id, 
+         'data-product-id':  this.props.product.id}, 
       React.DOM.td({className: "adm-categories-goods-cover", 
-          'data-title': "Товар", 
-          role: true}, 
+          'data-title': "Товар"}, 
         React.DOM.img({
           src:  AppHelpers.productImageUrl(this.props.product), 
           src:  this.imageUrl(), 
           alt:  this.props.product.title}
         )
       ), 
-      React.DOM.td({className: "adm-categories-goods-content", 
-          role: true}, 
+      React.DOM.td({className: "adm-categories-goods-content"}, 
          this.props.product.title
       ), 
       React.DOM.td({className: "adm-categories-goods-price", 
-          'data-title': "Сумма", 
-          role: true}, 
+          'data-title': "Сумма"}, 
         React.DOM.span({className: "nobr"}, 
            (this.props.product.price.cents/100).toLocaleString('ru-RU'), " руб"
         )
       ), 
       React.DOM.td({className: "adm-categories-goods-status", 
-          'data-title': "Статус", 
-          role: true}, 
+          'data-title': "Статус"}, 
         ProductState({state:  this.props.product.state})
       )
     );
@@ -1029,14 +954,14 @@ window.OperatorProducts_Row = React.createClass({displayName: 'OperatorProducts_
   },
   handleItemClick: function(e) {
     if (!this.state.isDragged) {
-      return ModalService.show(Routes.operator_product_path(this.props.product.id));
+      return ModalService.show(Routes.edit_operator_product_url(this.props.product.id));
     }
   }
 });
 
 
 
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1070,7 +995,7 @@ window.OperatorProducts_Row_DragHelper = React.createClass({displayName: 'Operat
 
 
 
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1103,85 +1028,102 @@ window.ProductState = React.createClass({displayName: 'ProductState',
 
 
 
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
 /**global React, OperatorProductsServerActions, ProductsService, OperatorProductsStore */
-var STATE_LOADING, STATE_READY;
+var STATE_ERROR, STATE_LOADING, STATE_READY;
 
 STATE_LOADING = 'loading';
 
 STATE_READY = 'ready';
 
+STATE_ERROR = 'error';
+
 window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
+  mixins: [React.addons.PureRenderMixin],
   propTypes: {
-    category: React.PropTypes.object.isRequired
+    category_id: React.PropTypes.number.isRequired
   },
   getInitialState: function() {
     return {
       currentState: STATE_LOADING,
-      category: this.props.category
+      products: null
     };
   },
   componentDidMount: function() {
-    ProductsService.getProducts();
-    return OperatorProductsStore.addChangeListener(this._onChange);
+    return this.pullProducts(this.props.category_id);
   },
   componentWillReceiveProps: function(nextProps) {
-    if (nextProps.category.id !== this.props.category.id) {
-      return this.setState({
-        category: nextProps.category
-      });
-    }
-  },
-  componentWillUnmount: function() {
-    return OperatorProductsStore.removeChangeListener(this._onChange);
+    return this.pullProducts(nextProps.category_id);
   },
   render: function() {
     switch (this.state.currentState) {
       case STATE_READY:
-        return React.DOM.div({className: "adm-categories-content", 
-              ref: "products"}, 
-          React.DOM.table({className: "adm-categories-goods"}, 
-            React.DOM.thead(null, 
-              React.DOM.tr(null, 
-                React.DOM.td({colSpan: "2"}, 
-                  "Товар"
-                ), 
-                React.DOM.td({className: "adm-categories-goods-price"}, 
-                  "Цена"
-                ), 
-                React.DOM.td({className: "adm-categories-goods-status"}, 
-                  "Статус"
-                )
-              )
-            ), 
-            OperatorProducts_ListBody({category:  this.state.category})
-          )
-        );
+        return OperatorProducts_ListBody({category_id: this.props.category_id, products: this.state.products});
       case STATE_LOADING:
-        return React.DOM.div({className: "adm-categories-content", 
-              ref: "products"}, 
-          React.DOM.i({className: "fa fa-spinner fa-3x fa-spin"})
-        );
+        return OperatorProducts_Process(null);
+      case STATE_ERROR:
+        return OperatorProducts_Error({message: this.state.errorMessage});
+      default:
+        return typeof console.error === "function" ? console.error("Unknown state: " + this.state.currentState) : void 0;
     }
   },
   _onChange: function() {
     return this.setState({
       currentState: STATE_READY
     });
+  },
+  pullProducts: function(category_id) {
+    this.setState({
+      currentState: STATE_LOADING
+    });
+    return ProductsService.pullProductsByCategory({
+      category_id: category_id,
+      success: (function(_this) {
+        return function(products) {
+          return _this.setState({
+            products: products,
+            currentState: STATE_READY
+          });
+        };
+      })(this),
+      error: (function(_this) {
+        return function(error) {
+          return _this.setState({
+            currentState: STATE_ERROR,
+            errorMessage: error
+          });
+        };
+      })(this)
+    });
+  }
+});
+
+window.OperatorProducts_Process = React.createClass({displayName: 'OperatorProducts_Process',
+  render: function() {
+    return React.DOM.div({className: "adm-categories-content"}, " ", Spinner({className: "fa-3x"}), " ");
+  }
+});
+
+window.OperatorProducts_Error = React.createClass({displayName: 'OperatorProducts_Error',
+  propTypes: {
+    message: React.PropTypes.string.isRequired
+  },
+  render: function() {
+    return React.DOM.div({className: "adm-categories-content"}, " Ошибка загузки ", this.props.message, " ");
   }
 });
 
 
 
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
 /**global React, ProductsService */
-var MANUAL_STATE_ARCHIVE, MANUAL_STATE_DEFAULT, MANUAL_STATE_DRAFT, MANUAL_STATE_PUBLISHED, STATE_HAS_ERRORS, STATE_PUBLISHED, STATE_UNPUBLISHED, cx;
+var MANUAL_STATE_ARCHIVE, MANUAL_STATE_DEFAULT, MANUAL_STATE_DRAFT, MANUAL_STATE_PUBLISHED, STATE_ARCHIVE, STATE_HAS_ERRORS, STATE_PUBLISHED, STATE_UNPUBLISHED, cx;
 
 cx = React.addons.classSet;
 
@@ -1190,6 +1132,8 @@ STATE_PUBLISHED = 'published';
 STATE_HAS_ERRORS = 'has_errors';
 
 STATE_UNPUBLISHED = 'unpublished';
+
+STATE_ARCHIVE = 'archive';
 
 MANUAL_STATE_DEFAULT = 0;
 
@@ -1229,8 +1173,7 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
       "checked": isChecked,
       "has_errors": hasErrors
     });
-    return React.DOM.label({className: classes, 
-                   role: "product-toggle"}, 
+    return React.DOM.label({className: classes }, 
               React.DOM.div({className: "toggle__block-label-checked pull-left"}, 
                 "Товар на сайте"
               ), 
@@ -1276,6 +1219,50 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
         }
       });
     }
+  }
+});
+
+
+
+},{}],21:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.Spinner = React.createClass({displayName: 'Spinner',
+  propTypes: {
+    align: React.PropTypes.string,
+    className: React.PropTypes.string
+  },
+  render: function() {
+    var className, spinner;
+    className = "fa fa-spinner fa-spin";
+    if (this.props.className) {
+      className << this.props.className;
+    }
+    spinner = React.DOM.i({className: className});
+    if (this.props.align === 'center') {
+      return React.DOM.div({className: "text-center"}, spinner);
+    } else {
+      return spinner;
+    }
+  }
+});
+
+window.SpinnerLegacy = React.createClass({displayName: 'SpinnerLegacy',
+  propTypes: {
+    size: React.PropTypes.number
+  },
+  getDefaultProps: function() {
+    return {
+      size: 8
+    };
+  },
+  render: function() {
+    return React.DOM.span({className:  'spinner spinner--' + this._getSize()}, 
+      React.DOM.span({className: "spinner__icon"})
+    );
+  },
+  _getSize: function() {
+    return this.props.size + 'x' + this.props.size;
   }
 });
 
@@ -1446,16 +1433,15 @@ window.CategoryProductDroptarget = {
       tolerance: 'pointer',
       drop: this.handleProductDrop,
       accept: _.throttle(function(productNode) {
-        var product, productId;
-        productId = parseInt(productNode.attr('data-objectid'));
-        product = OperatorProductsStore.getProductById(productId);
-        return product.category_id !== that.props.category.id;
+        var category_id;
+        category_id = parseInt(productNode.attr('data-category-id'));
+        return category_id !== that.props.category.id;
       })
     });
   },
   handleProductDrop: function(e, ui) {
     var productId, productUpdate;
-    productId = parseInt(ui.draggable.attr('data-objectid'));
+    productId = parseInt(ui.draggable.attr('data-product-id'));
     productUpdate = {
       id: productId,
       category_id: this.props.category.id
@@ -1463,7 +1449,9 @@ window.CategoryProductDroptarget = {
     return ProductsService.updateProduct({
       product: productUpdate,
       success: function() {},
-      error: function() {}
+      error: function(error) {
+        return KioskOperatorApp.error_alert(error);
+      }
     });
   }
 };
@@ -1934,6 +1922,25 @@ window.ProductsService = {
       }, this.mockLatency);
     }
   },
+  pullProductsByCategory: function(_arg) {
+    var category_id, error, success;
+    category_id = _arg.category_id, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      dataType: 'json',
+      data: {
+        per_page: 10000,
+        category_id: category_id
+      },
+      url: Routes.operator_products_by_category_url(),
+      method: 'get',
+      error: function(xhr, status, err) {
+        return error(err || status);
+      },
+      success: function(data) {
+        return success(data.products);
+      }
+    });
+  },
   getProducts: function(callback) {
     var that;
     if (!this.mockMode) {
@@ -1977,7 +1984,6 @@ window.ProductsService = {
           return error(err || status);
         },
         success: function(response) {
-          OperatorProductsServerActions.productUpdated(product);
           return success(response);
         }
       });
@@ -2372,6 +2378,8 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
 },{}],34:[function(require,module,exports){
 require('./libs');
 
+require('./routes');
+
 require('./app');
 
 require('./legacy');
@@ -2403,7 +2411,7 @@ window.KioskOperatorApp = {
 
 
 
-},{"./app":34,"./app_helpers":35,"./legacy":36,"./libs":37,"./requester":38,"./thumbor_service":39}],35:[function(require,module,exports){
+},{"./app":34,"./app_helpers":35,"./legacy":36,"./libs":37,"./requester":38,"./routes":39,"./thumbor_service":40}],35:[function(require,module,exports){
 window.AppHelpers = {
   reselectAndFocus: function(el) {
     el.focus();
@@ -2633,7 +2641,7 @@ require('typeahead');
 
 
 
-},{"bootstrapSass":undefined,"eventEmitter":undefined,"flux":40,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],38:[function(require,module,exports){
+},{"bootstrapSass":undefined,"eventEmitter":undefined,"flux":41,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],38:[function(require,module,exports){
 var RequesterClass,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -2673,6 +2681,42 @@ window.Requester = new RequesterClass({
 
 
 },{}],39:[function(require,module,exports){
+window.Routes = {
+  products_image_delete_path: function(id) {
+    return gon.root_url + '/products/images/' + id;
+  },
+  operator_categories_url: function() {
+    return gon.api_root_url + '/v1/operator/categories.json';
+  },
+  operator_categories_item_url: function(id) {
+    return gon.api_root_url + '/v1/operator/categories/' + id + '.json';
+  },
+  operator_products_url: function() {
+    return gon.api_root_url + '/v1/operator/products.json';
+  },
+  operator_products_by_category_url: function() {
+    return gon.api_root_url + '/v1/operator/products.json';
+  },
+  operator_products_item_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/' + id + '.json';
+  },
+  operator_products_item_pub_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/' + id + '/publication.json';
+  },
+  operator_product_url: function(id) {
+    return gon.root_url + '/operator/products/' + id;
+  },
+  edit_operator_product_url: function(id) {
+    return gon.root_url + '/operator/products/' + id + '/edit';
+  },
+  products_by_category_url: function(id) {
+    return gon.root_url + '/operator/products?category_id=' + id;
+  }
+};
+
+
+
+},{}],40:[function(require,module,exports){
 window.ThumborService = {
   thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
   image_url: function(url, style) {
@@ -2693,7 +2737,7 @@ window.ThumborService = {
 
 
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -2705,7 +2749,7 @@ window.ThumborService = {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":41}],41:[function(require,module,exports){
+},{"./lib/Dispatcher":42}],42:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -2957,7 +3001,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":42}],42:[function(require,module,exports){
+},{"./invariant":43}],43:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.

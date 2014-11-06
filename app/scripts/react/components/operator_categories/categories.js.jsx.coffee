@@ -7,11 +7,14 @@ STATE_READY   = 'ready'
 
 window.OperatorCategories = React.createClass
   propTypes:
+    # dapi: А где root?
     categories:     React.PropTypes.array
 
   getInitialState: ->
     selectedCategory: null
     currentState:     STATE_LOADING
+
+    # dapi: Почему это state? Он же не метяется, это props
     rootCategory:     null
 
   getDefaultProps: ->
@@ -19,6 +22,11 @@ window.OperatorCategories = React.createClass
 
   componentDidMount: ->
     # Если категории пришли в props, имитируем загрузку с сервера
+    # dapi: Что-то не очень. Тут должно быть что-то типа такого:
+    #
+    # OperatorCategoriesStore.addChangeListener @props @_onChange
+    # OperatorCategoriesStore.pullCategories props.rootCategory
+    #
     if (@props.categories)
       OperatorCategoriesServerActions.categoriesLoaded @props.categories
     else
@@ -35,12 +43,9 @@ window.OperatorCategories = React.createClass
         @_getCategoriesForm()
       when STATE_LOADING
         `<div className="adm-categories-grid">
-              <div className="adm-categories-grid-col"
-                   role=     "categories-list">
+              <div className="adm-categories-grid-col">
                 <br />
-                <div className="text-center">
-                  <i className="fa fa-spinner fa-3x fa-spin" />
-                </div>
+                <Spinner className="fa-3x" align="center" />
               </div>
          </div>`
 
@@ -48,15 +53,14 @@ window.OperatorCategories = React.createClass
     subcategoriesPane = @_getSubcategoriesPane()
 
     return `<div className="adm-categories-grid">
-              <div className="adm-categories-grid-col"
-                   role=     "categories-list">
+              <div className="adm-categories-grid-col">
                 <OperatorCategories_List parentCategory=  { this.state.rootCategory }
                                          selectedCategory={ this.state.selectedCategory }
                                          onSelectCategory={ this.handleCategorySelection } />
               </div>
               { subcategoriesPane }
               <div className="adm-categories-grid-col __wide">
-                <OperatorProducts category={ this.state.selectedCategory } />
+                <OperatorProducts category_id={ this.state.selectedCategory.id } />
               </div>
             </div>`
 
@@ -70,8 +74,7 @@ window.OperatorCategories = React.createClass
         when 2
           rightParentCat = OperatorCategoriesStore.getCategoryById selectedCat.parent_id
     if rightParentCat
-      `<div className="adm-categories-grid-col"
-            role=     "categories-list">
+      `<div className="adm-categories-grid-col">
          <OperatorCategories_List parentCategory=  { rightParentCat }
                                   selectedCategory={ this.state.selectedCategory }
                                   onSelectCategory={ this.handleCategorySelection } />

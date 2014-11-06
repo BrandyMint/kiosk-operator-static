@@ -10,30 +10,27 @@ window.OperatorProducts_Row = React.createClass
 
   render: ->
     `<tr onClick      ={ this.handleItemClick }
-         data-objectid={ this.props.product.id }>
+         data-category-id={this.props.product.category_id}
+         data-product-id={ this.props.product.id }>
       <td className  = "adm-categories-goods-cover"
-          data-title = "Товар"
-          role>
+          data-title = "Товар">
         <img
           src={ AppHelpers.productImageUrl(this.props.product) }
           src={ this.imageUrl() }
           alt={ this.props.product.title }
         />
       </td>
-      <td className="adm-categories-goods-content"
-          role>
+      <td className="adm-categories-goods-content">
         { this.props.product.title }
       </td>
       <td className  = "adm-categories-goods-price"
-          data-title = "Сумма"
-          role>
+          data-title = "Сумма" >
         <span className="nobr">
           { (this.props.product.price.cents/100).toLocaleString('ru-RU') } руб
         </span>
       </td>
       <td className  = "adm-categories-goods-status"
-          data-title = "Статус"
-          role>
+          data-title = "Статус">
         <ProductState state={ this.props.product.state } />
       </td>
     </tr>`
@@ -42,4 +39,4 @@ window.OperatorProducts_Row = React.createClass
 
   handleItemClick: (e) ->
     if not @state.isDragged
-      ModalService.show Routes.operator_product_url @props.product.id
+      ModalService.show Routes.edit_operator_product_url @props.product.id

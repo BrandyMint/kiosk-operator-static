@@ -37,6 +37,20 @@ window.ProductsService =
           success that.mockData.unpublishResponse
       , @mockLatency
 
+  pullProductsByCategory: ({category_id, success, error}) ->
+    Requester.request
+      dataType: 'json'
+      data:
+        per_page: 10000
+        category_id: category_id
+      url:      Routes.operator_products_by_category_url()
+      method:   'get'
+      error: (xhr, status, err) ->
+        error err || status
+      success: (data) ->
+        # TODO Пейджирование
+        success data.products
+
   getProducts: (callback) ->
     if !@mockMode
       Requester.request
@@ -66,7 +80,7 @@ window.ProductsService =
         error: (xhr, status, err) ->
           error err || status
         success: (response) ->
-          OperatorProductsServerActions.productUpdated product
+          #OperatorProductsServerActions.productUpdated product
           success response
     else
       setTimeout ->

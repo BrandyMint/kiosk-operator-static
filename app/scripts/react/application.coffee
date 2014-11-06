@@ -18,13 +18,13 @@ require './mixins/product_draggable'
 require './mixins/category_product_droptarget'
 
 require './components/images_form_thumbs'
+require './components/spinner'
 
 require './components/operator_categories/item_view'
 require './components/operator_categories/item_edit'
 require './components/operator_categories/item'
 require './components/operator_categories/list'
 require './components/operator_categories/create_form'
-require './components/operator_categories/products_pane'
 require './components/operator_categories/categories'
 
 require './components/product_status_toggle'

@@ -1,2 +1,6 @@
 source "https://rubygems.org"
-gem 'sass' #, '~> 3.4'
+gem 'guard'
+gem 'guard-ctags-bundler'
+gem 'guard-bundler'
+gem 'guard-shell'
+gem 'CoffeeTags'

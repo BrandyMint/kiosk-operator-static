@@ -40,7 +40,6 @@ window.ImagesFormMixin =
       formData: (form)       => @serializeArray @data()
 
   serializeArray: (data) ->
-    debugger
     return _.keys(data).map (key) ->  name: key,  value: data[key]
 
   addFileToForm: (e, data) ->

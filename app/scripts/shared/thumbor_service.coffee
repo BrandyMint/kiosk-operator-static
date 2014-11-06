@@ -5,4 +5,7 @@ window.ThumborService =
     if gon.env is 'static-development'
       return url
     else
-      @thumbor_url + "unsafe/#{style}/" + url
+      if @thumbor_url
+        @thumbor_url + "unsafe/#{style}/" + url
+      else
+        url

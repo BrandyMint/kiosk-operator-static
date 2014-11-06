@@ -17,6 +17,7 @@ require './mixins/images_form_mixin'
 require './mixins/product_draggable'
 require './mixins/category_product_droptarget'
 
+require './components/product_thumb'
 require './components/images_form_thumbs'
 require './components/spinner'
 

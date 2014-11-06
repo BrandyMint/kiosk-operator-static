@@ -5,7 +5,7 @@ require('./react/application');
 
 
 
-},{"./react/application":5,"./shared/app":34}],2:[function(require,module,exports){
+},{"./react/application":5,"./shared/app":35}],2:[function(require,module,exports){
 window.OperatorCategoriesActions = {
   categorySelected: function(category) {
     return OperatorCategoriesDispatcher.handleViewAction({
@@ -125,6 +125,8 @@ require('./mixins/product_draggable');
 
 require('./mixins/category_product_droptarget');
 
+require('./components/product_thumb');
+
 require('./components/images_form_thumbs');
 
 require('./components/spinner');
@@ -161,7 +163,7 @@ require('./components/images_form');
 
 
 
-},{"./actions/operator_categories_actions":2,"./actions/operator_categories_server_actions":3,"./actions/operator_products_server_actions":4,"./components/images_form":6,"./components/images_form_thumbs":7,"./components/modal":8,"./components/operator_categories/categories":9,"./components/operator_categories/create_form":10,"./components/operator_categories/item":11,"./components/operator_categories/item_edit":12,"./components/operator_categories/item_view":13,"./components/operator_categories/list":14,"./components/operator_products/list_body":15,"./components/operator_products/list_row":16,"./components/operator_products/list_row_drag_helper":17,"./components/operator_products/product_state":18,"./components/operator_products/products":19,"./components/product_status_toggle":20,"./components/spinner":21,"./components/super_select":22,"./dispatchers/operator_categories_dispatcher":23,"./dispatchers/operator_products_dispatcher":24,"./mixins/category_product_droptarget":25,"./mixins/dragging":26,"./mixins/images_form_mixin":27,"./mixins/product_draggable":28,"./services/modal_service":29,"./services/operator_categories_service":30,"./services/products_service":31,"./stores/operator_categories_store":32,"./stores/operator_products_store":33}],6:[function(require,module,exports){
+},{"./actions/operator_categories_actions":2,"./actions/operator_categories_server_actions":3,"./actions/operator_products_server_actions":4,"./components/images_form":6,"./components/images_form_thumbs":7,"./components/modal":8,"./components/operator_categories/categories":9,"./components/operator_categories/create_form":10,"./components/operator_categories/item":11,"./components/operator_categories/item_edit":12,"./components/operator_categories/item_view":13,"./components/operator_categories/list":14,"./components/operator_products/list_body":15,"./components/operator_products/list_row":16,"./components/operator_products/list_row_drag_helper":17,"./components/operator_products/product_state":18,"./components/operator_products/products":19,"./components/product_status_toggle":20,"./components/product_thumb":21,"./components/spinner":22,"./components/super_select":23,"./dispatchers/operator_categories_dispatcher":24,"./dispatchers/operator_products_dispatcher":25,"./mixins/category_product_droptarget":26,"./mixins/dragging":27,"./mixins/images_form_mixin":28,"./mixins/product_draggable":29,"./services/modal_service":30,"./services/operator_categories_service":31,"./services/products_service":32,"./stores/operator_categories_store":33,"./stores/operator_products_store":34}],6:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ImagesForm = React.createClass({displayName: 'ImagesForm',
@@ -928,11 +930,7 @@ window.OperatorProducts_Row = React.createClass({displayName: 'OperatorProducts_
          'data-product-id':  this.props.product.id}, 
       React.DOM.td({className: "adm-categories-goods-cover", 
           'data-title': "Товар"}, 
-        React.DOM.img({
-          src:  AppHelpers.productImageUrl(this.props.product), 
-          src:  this.imageUrl(), 
-          alt:  this.props.product.title}
-        )
+            ProductThumb({product: this.props.product})
       ), 
       React.DOM.td({className: "adm-categories-goods-content"}, 
          this.props.product.title
@@ -948,9 +946,6 @@ window.OperatorProducts_Row = React.createClass({displayName: 'OperatorProducts_
         ProductState({state:  this.props.product.state})
       )
     );
-  },
-  imageUrl: function() {
-    return AppHelpers.productImageUrl(this.props.product);
   },
   handleItemClick: function(e) {
     if (!this.state.isDragged) {
@@ -974,10 +969,7 @@ window.OperatorProducts_Row_DragHelper = React.createClass({displayName: 'Operat
     return React.DOM.span({className: "adm-categories-goods-draghelper"}, React.DOM.table(null, React.DOM.tbody(null, React.DOM.tr(null, 
       React.DOM.td({className: "adm-categories-goods-cover", 
           'data-title': "Товар"}, 
-        React.DOM.img({
-          src:  this.imageUrl(), 
-          alt:  this.props.product.title}
-        )
+         ProductThumb({product: this.props.product})
       ), 
       React.DOM.td({className: "adm-categories-goods-content"}, 
          this.props.product.title
@@ -1227,6 +1219,34 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
 },{}],21:[function(require,module,exports){
 
 /** @jsx React.DOM */
+window.ProductThumb = React.createClass({displayName: 'ProductThumb',
+  propTypes: {
+    product: React.PropTypes.object.isRequired,
+    style: React.PropTypes.string
+  },
+  getDefaultProps: function() {
+    return {
+      style: '50x50'
+    };
+  },
+  render: function() {
+    return React.DOM.img({src:  this.imageUrl(), alt:  this.props.product.title, className: "adm-categories-goods-thumb"});
+  },
+  imageUrl: function() {
+    var _ref;
+    if ((_ref = this.props.product.image) != null ? _ref.url : void 0) {
+      return ThumborService.image_url(this.props.product.image.url, this.props.style);
+    } else {
+      return gon.fallback_product_thumb_url;
+    }
+  }
+});
+
+
+
+},{}],22:[function(require,module,exports){
+
+/** @jsx React.DOM */
 window.Spinner = React.createClass({displayName: 'Spinner',
   propTypes: {
     align: React.PropTypes.string,
@@ -1268,7 +1288,7 @@ window.SpinnerLegacy = React.createClass({displayName: 'SpinnerLegacy',
 
 
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.SuperSelect = React.createClass({displayName: 'SuperSelect',
@@ -1378,7 +1398,7 @@ window.SuperSelect = React.createClass({displayName: 'SuperSelect',
 
 
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 
 /**global _, Dispatcher */
 window.OperatorCategoriesDispatcher = _.extend(new Dispatcher(), {
@@ -1398,7 +1418,7 @@ window.OperatorCategoriesDispatcher = _.extend(new Dispatcher(), {
 
 
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 
 /**global _, Dispatcher, window */
 window.OperatorProductsDispatcher = _.extend(new Dispatcher(), {
@@ -1418,7 +1438,7 @@ window.OperatorProductsDispatcher = _.extend(new Dispatcher(), {
 
 
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 
 /**global window, React */
 window.CategoryProductDroptarget = {
@@ -1458,7 +1478,7 @@ window.CategoryProductDroptarget = {
 
 
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 var DRAGOFF_TIMEOUT, DRAG_HOVER_CLASS;
 
 DRAG_HOVER_CLASS = 'state--drag-hover';
@@ -1524,7 +1544,7 @@ window.Dragging = {
 
 
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 var ACCEPT_FILE_TYPES, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
 
 ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
@@ -1625,7 +1645,7 @@ window.ImagesFormMixin = {
 
 
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 
 /**global window, React */
 window.ProductDraggable = {
@@ -1670,7 +1690,7 @@ window.ProductDraggable = {
 
 
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 
 /**global window, $, React, ModalComponent */
 window.ModalService = {
@@ -1686,7 +1706,7 @@ window.ModalService = {
 
 
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 
 /**global Routes, OperatorCategoriesServerActions */
 window.OperatorCategoriesService = {
@@ -1860,7 +1880,7 @@ window.OperatorCategoriesService = {
 
 
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 
 /**global Routes, OperatorProductsServerActions, Requester, $, window, _, OperatorProductsStore */
 window.ProductsService = {
@@ -2007,7 +2027,7 @@ window.ProductsService = {
 
 
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 
 /**global _, EventEmitter, OperatorCategoriesDispatcher */
 var CHANGE_EVENT, _addCategory, _applyPositions, _categories, _changeCategoryProductCount, _deleteCategory, _getAncestors, _getCategoryById, _getCategoryLevel, _getDescendands, _getNewPositions, _getSortedCategoriesByParent, _hasChildren, _positionCategory, _pushCategories, _updateCategory;
@@ -2298,7 +2318,7 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(fu
 
 
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 
 /**global _, window, EventEmitter, OperatorProductsDispatcher, OperatorCategoriesStore */
 var CHANGE_EVENT, _getProductById, _getSortedProductsByCategory, _products, _pushProducts, _updateProduct,
@@ -2375,7 +2395,7 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
 
 
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 require('./libs');
 
 require('./routes');
@@ -2411,28 +2431,17 @@ window.KioskOperatorApp = {
 
 
 
-},{"./app":34,"./app_helpers":35,"./legacy":36,"./libs":37,"./requester":38,"./routes":39,"./thumbor_service":40}],35:[function(require,module,exports){
+},{"./app":35,"./app_helpers":36,"./legacy":37,"./libs":38,"./requester":39,"./routes":40,"./thumbor_service":41}],36:[function(require,module,exports){
 window.AppHelpers = {
   reselectAndFocus: function(el) {
     el.focus();
     return el.selectionStart = el.selectionEnd = el.value.length;
-  },
-  productImageUrl: function(product, style) {
-    var _ref;
-    if (style == null) {
-      style = '50x50';
-    }
-    if ((_ref = product.image) != null ? _ref.url : void 0) {
-      return ThumborService.image_url(product.image.url, style);
-    } else {
-      return gon.fallback_product_thumb_url;
-    }
   }
 };
 
 
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 $(function() {
   var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productToggle, productToggleSwitch, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
   bindActivities = function() {
@@ -2600,7 +2609,7 @@ $(function() {
 
 
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 window._ = require('lodash');
 
 window.$ = window.jQuery = require('jquery');
@@ -2641,7 +2650,7 @@ require('typeahead');
 
 
 
-},{"bootstrapSass":undefined,"eventEmitter":undefined,"flux":41,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],38:[function(require,module,exports){
+},{"bootstrapSass":undefined,"eventEmitter":undefined,"flux":42,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],39:[function(require,module,exports){
 var RequesterClass,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -2680,7 +2689,7 @@ window.Requester = new RequesterClass({
 
 
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 window.Routes = {
   products_image_delete_path: function(id) {
     return gon.root_url + '/products/images/' + id;
@@ -2716,7 +2725,7 @@ window.Routes = {
 
 
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 window.ThumborService = {
   thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
   image_url: function(url, style) {
@@ -2737,7 +2746,7 @@ window.ThumborService = {
 
 
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -2749,7 +2758,7 @@ window.ThumborService = {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":42}],42:[function(require,module,exports){
+},{"./lib/Dispatcher":43}],43:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -3001,7 +3010,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":43}],43:[function(require,module,exports){
+},{"./invariant":44}],44:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.

@@ -11,10 +11,7 @@ window.OperatorProducts_Row_DragHelper = React.createClass
     `<span className="adm-categories-goods-draghelper"><table><tbody><tr>
       <td className  = "adm-categories-goods-cover"
           data-title = "Товар">
-        <img
-          src={ this.imageUrl() }
-          alt={ this.props.product.title }
-        />
+         <ProductThumb product={this.props.product} />
       </td>
       <td className="adm-categories-goods-content">
         { this.props.product.title }

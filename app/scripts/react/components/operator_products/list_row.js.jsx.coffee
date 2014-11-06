@@ -14,11 +14,7 @@ window.OperatorProducts_Row = React.createClass
          data-product-id={ this.props.product.id }>
       <td className  = "adm-categories-goods-cover"
           data-title = "Товар">
-        <img
-          src={ AppHelpers.productImageUrl(this.props.product) }
-          src={ this.imageUrl() }
-          alt={ this.props.product.title }
-        />
+            <ProductThumb product={this.props.product} />
       </td>
       <td className="adm-categories-goods-content">
         { this.props.product.title }
@@ -35,7 +31,6 @@ window.OperatorProducts_Row = React.createClass
       </td>
     </tr>`
 
-  imageUrl: -> AppHelpers.productImageUrl @props.product
 
   handleItemClick: (e) ->
     if not @state.isDragged

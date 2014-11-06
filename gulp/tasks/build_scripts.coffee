@@ -63,6 +63,8 @@ gulp.task 'clientScripts', ['clean'], ->
     .external 'jquery.ui.core'
     .external 'jquery.ui.widget'
     .external 'jquery.ui.mouse'
+    .external 'jquery.ui.draggable'
+    .external 'jquery.ui.droppable'
     .external 'jquery.ui.sortable'
     .external 'lodash'
     .external 'bootstrapSass'

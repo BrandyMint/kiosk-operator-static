@@ -24,6 +24,8 @@ gulp.task 'scripts', ->
     .require './bower_components/jquery-ui/ui/core',                                    { expose: 'jquery.ui.core' }
     .require './bower_components/jquery-ui/ui/widget',                                  { expose: 'jquery.ui.widget' }
     .require './bower_components/jquery-ui/ui/mouse',                                   { expose: 'jquery.ui.mouse' }
+    .require './bower_components/jquery-ui/ui/draggable',                               { expose: 'jquery.ui.draggable' }
+    .require './bower_components/jquery-ui/ui/droppable',                               { expose: 'jquery.ui.droppable' }
     .require './bower_components/jquery-ui/ui/sortable',                                { expose: 'jquery.ui.sortable' }
     .require './bower_components/lodash/dist/lodash',                                   { expose: 'lodash' }
     .require './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap', { expose: 'bootstrapSass' }

@@ -1606,7 +1606,6 @@ window.ImagesFormMixin = {
     });
   },
   serializeArray: function(data) {
-    debugger;
     return _.keys(data).map(function(key) {
       return {
         name: key,

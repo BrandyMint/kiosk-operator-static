@@ -1998,7 +1998,7 @@ window.ProductsService = {
       return Requester.request({
         dataType: 'json',
         url: Routes.operator_products_item_url(id),
-        data: data,
+        data: product,
         method: 'put',
         error: function(xhr, status, err) {
           return error(err || status);
@@ -2736,7 +2736,7 @@ window.ThumborService = {
       return url;
     } else {
       if (this.thumbor_url) {
-        return this.thumbor_url + ("unsafe/" + style + "/") + url;
+        return this.thumbor_url + ("/unsafe/" + style + "/") + url;
       } else {
         return url;
       }

@@ -110,14 +110,37 @@ _getCategoryLevel = (category) ->
   else
     0
 
+_getAncestors = (category) ->
+  if not category or not category.parent_id
+    return []
+  else
+    parent = _getCategoryById category.parent_id
+    return [parent].concat _getAncestors parent
+
 _getDescendands = (category) ->
-  if not category or not category['has_children?']
+  if not category or not _hasChildren category
     return []
   else
     children = _.filter _categories, (i) -> i.parent_id == category.id
     descendands = []
     _.each descendands, (i) -> descendands.concat _getDescendands i
     return children.concat descendands
+
+_hasChildren = (category) ->
+  false unless category
+  !!_.find _categories, (i) -> i.parent_id == category.id
+
+_changeCategoryProductCount = (category, increment) ->
+  updatedCategory = _getCategoryById category.id
+  updatedCategory.products_count += increment
+  updatedCategory.deep_products_count += increment
+  _updateCategory updatedCategory
+
+  ancestorsToChange = _getAncestors category
+  _.each ancestorsToChange, (i) ->
+    updatedCategory = _getCategoryById i.id
+    updatedCategory.deep_products_count += increment
+    _updateCategory updatedCategory
 
 window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
   emitChange: ->
@@ -188,4 +211,8 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (p
     when 'categoryCreated'
       _categories = _.map _categories, (i) ->
         if i.id == action.tmpId then action.category else i
+      OperatorCategoriesStore.emitChange()
+
+    when 'changeCategoryProductCount'
+      _changeCategoryProductCount action.category, action.increment
       OperatorCategoriesStore.emitChange()

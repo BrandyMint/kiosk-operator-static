@@ -24,6 +24,8 @@ gulp.task 'vendorScripts', ['clean'], ->
     .require './jquery-ui/ui/widget',                                  { expose: 'jquery.ui.widget' }
     .require './jquery-ui/ui/mouse',                                   { expose: 'jquery.ui.mouse' }
     .require './jquery-ui/ui/sortable',                                { expose: 'jquery.ui.sortable' }
+    .require './jquery-ui/ui/draggable',                               { expose: 'jquery.ui.draggable' }
+    .require './jquery-ui/ui/droppable',                               { expose: 'jquery.ui.droppable' }
     .require './lodash/dist/lodash',                                   { expose: 'lodash' }
     .require './bootstrap-sass-official/assets/javascripts/bootstrap', { expose: 'bootstrapSass' }
     .require './react/react-with-addons',                              { expose: 'react' }

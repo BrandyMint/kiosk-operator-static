@@ -31,7 +31,7 @@ gulp.task 'scripts', ->
     .require './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap', { expose: 'bootstrapSass' }
     .require './bower_components/react/react-with-addons',                              { expose: 'react' }
     .require './bower_components/react-mixin-manager/react-mixin-manager',              { expose: 'react-mixin-manager' }
-    .require './scripts/react/resources/react_ujs',                                     { expose: 'reactUjs' }
+    .require './scripts/react/libs/react_ujs',                                     { expose: 'reactUjs' }
     .require './bower_components/eventEmitter/EventEmitter',                            { expose: 'eventEmitter' }
     .require './bower_components/typeahead.js/dist/typeahead.bundle',                   { expose: 'typeahead' }
 

@@ -7,7 +7,7 @@ window.OperatorCategoriesService =
     if !@mockMode
       Requester.request
         dataType: 'json'
-        url:      Routes.operator_categories_url()
+        url:      RoutesApi.operator_categories_url()
         method:   'get'
         error: (xhr, status, err) ->
           if callback then callback err || status
@@ -28,7 +28,7 @@ window.OperatorCategoriesService =
     if !@mockMode
       $.ajax
         dataType: 'json'
-        url:      Routes.operator_categories_url()
+        url:      RoutesApi.operator_categories_url()
         data:     data
         method:   'post'
         error: (xhr, status, err) ->
@@ -59,7 +59,7 @@ window.OperatorCategoriesService =
     if !@mockMode
       $.ajax
         dataType: 'json'
-        url:      Routes.operator_category_url id
+        url:      RoutesApi.operator_category_url id
         data:     data
         method:   'put'
         error: (xhr, status, err) ->

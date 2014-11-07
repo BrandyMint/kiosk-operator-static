@@ -73,20 +73,20 @@ window.ProductStatusToggle = React.createClass
   handleInputChange: (e) ->
     that = @
     if @refs.checkbox.getDOMNode().checked
-      @setState {
-        state:        STATE_PUBLISHED
-        manual_state: MANUAL_STATE_PUBLISHED
-      }
-      ProductsService.tryPublish {
+      @setState manual_state: MANUAL_STATE_PUBLISHED
+        #state:        STATE_PUBLISHED
+      
+      ProductsResource.publish
         id: @props.product_id
         success: (response) ->
           that.setState _.pick response, ['state', 'manual_state']
-      }
+      
     else
-      if @state.manual_state in [MANUAL_STATE_DEFAULT, MANUAL_STATE_PUBLISHED]
-        @setState(state: STATE_UNPUBLISHED)
-      ProductsService.tryUnpublish {
+      @setState manual_state: MANUAL_STATE_ARCHIVE
+      #if @state.manual_state in [MANUAL_STATE_DEFAULT, MANUAL_STATE_PUBLISHED]
+        #@setState(state: STATE_UNPUBLISHED)
+      ProductsResource.unpublish
         id: @props.product_id
         success: (response) ->
           that.setState _.pick response, ['state', 'manual_state']
-      }
+      

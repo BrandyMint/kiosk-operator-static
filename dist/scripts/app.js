@@ -5,8 +5,27 @@ require('./react/application');
 
 
 
-},{"./react/application":5,"./shared/app":35}],2:[function(require,module,exports){
+},{"./react/application":5,"./shared/app":37}],2:[function(require,module,exports){
 window.OperatorCategoriesActions = {
+  reloadCategory: function(category_id) {
+    return CategoriesResource.get({
+      id: category_id,
+      success: function(category) {
+        return OperatorCategoriesDispatcher.handleServerAction({
+          type: 'updateCategory',
+          category: category
+        });
+      }
+    });
+  },
+  deleteCategory: function(_arg) {
+    var category, error;
+    category = _arg.category, error = _arg.error;
+    return CategoriesResource["delete"]({
+      category: category,
+      error: error
+    });
+  },
   categorySelected: function(category) {
     return OperatorCategoriesDispatcher.handleViewAction({
       type: 'categorySelected',
@@ -33,7 +52,7 @@ window.OperatorCategoriesServerActions = {
       categories: categoriesData
     });
   },
-  categoryCreated: function(category) {
+  addCategory: function(category) {
     return OperatorCategoriesDispatcher.handleServerAction({
       type: 'addCategory',
       category: category
@@ -45,17 +64,10 @@ window.OperatorCategoriesServerActions = {
       category: category
     });
   },
-  categoryDeleted: function(category) {
+  deleteCategory: function(category) {
     return OperatorCategoriesDispatcher.handleServerAction({
       type: 'deleteCategory',
       category: category
-    });
-  },
-  changeCategoryProductCount: function(category, increment) {
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'changeCategoryProductCount',
-      category: category,
-      increment: increment
     });
   }
 };
@@ -66,31 +78,9 @@ window.OperatorCategoriesServerActions = {
 
 /**global OperatorProductsDispatcher, window, OperatorCategoriesStore, OperatorCategoriesDispatcher */
 window.OperatorProductsServerActions = {
-  productsLoaded: function(productsData) {
-    return OperatorProductsDispatcher.handleServerAction({
-      type: 'receiveAll',
-      products: productsData
-    });
-  },
-  productUpdated: function(product) {
-    var newCategory, oldCategory, oldProduct;
-    oldProduct = OperatorProductsStore.getProductById(product.id);
-    oldCategory = OperatorCategoriesStore.getCategoryById(oldProduct.category_id);
-    newCategory = OperatorCategoriesStore.getCategoryById(product.category_id);
-    OperatorProductsDispatcher.handleServerAction({
-      type: 'productUpdated',
-      product: product
-    });
-    OperatorCategoriesDispatcher.handleServerAction({
-      type: 'changeCategoryProductCount',
-      category: oldCategory,
-      increment: -1
-    });
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'changeCategoryProductCount',
-      category: newCategory,
-      increment: 1
-    });
+  removeProductFromCategory: function(_arg) {
+    var category_id, product_id;
+    product_id = _arg.product_id, category_id = _arg.category_id;
   }
 };
 
@@ -104,6 +94,10 @@ require('./dispatchers/operator_products_dispatcher');
 require('./stores/operator_categories_store');
 
 require('./stores/operator_products_store');
+
+require('./resources/categories');
+
+require('./resources/products');
 
 require('./services/operator_categories_service');
 
@@ -163,7 +157,7 @@ require('./components/images_form');
 
 
 
-},{"./actions/operator_categories_actions":2,"./actions/operator_categories_server_actions":3,"./actions/operator_products_server_actions":4,"./components/images_form":6,"./components/images_form_thumbs":7,"./components/modal":8,"./components/operator_categories/categories":9,"./components/operator_categories/create_form":10,"./components/operator_categories/item":11,"./components/operator_categories/item_edit":12,"./components/operator_categories/item_view":13,"./components/operator_categories/list":14,"./components/operator_products/list_body":15,"./components/operator_products/list_row":16,"./components/operator_products/list_row_drag_helper":17,"./components/operator_products/product_state":18,"./components/operator_products/products":19,"./components/product_status_toggle":20,"./components/product_thumb":21,"./components/spinner":22,"./components/super_select":23,"./dispatchers/operator_categories_dispatcher":24,"./dispatchers/operator_products_dispatcher":25,"./mixins/category_product_droptarget":26,"./mixins/dragging":27,"./mixins/images_form_mixin":28,"./mixins/product_draggable":29,"./services/modal_service":30,"./services/operator_categories_service":31,"./services/products_service":32,"./stores/operator_categories_store":33,"./stores/operator_products_store":34}],6:[function(require,module,exports){
+},{"./actions/operator_categories_actions":2,"./actions/operator_categories_server_actions":3,"./actions/operator_products_server_actions":4,"./components/images_form":6,"./components/images_form_thumbs":7,"./components/modal":8,"./components/operator_categories/categories":9,"./components/operator_categories/create_form":10,"./components/operator_categories/item":11,"./components/operator_categories/item_edit":12,"./components/operator_categories/item_view":13,"./components/operator_categories/list":14,"./components/operator_products/list_body":15,"./components/operator_products/list_row":16,"./components/operator_products/list_row_drag_helper":17,"./components/operator_products/product_state":18,"./components/operator_products/products":19,"./components/product_status_toggle":20,"./components/product_thumb":21,"./components/spinner":22,"./components/super_select":23,"./dispatchers/operator_categories_dispatcher":24,"./dispatchers/operator_products_dispatcher":25,"./mixins/category_product_droptarget":26,"./mixins/dragging":27,"./mixins/images_form_mixin":28,"./mixins/product_draggable":29,"./resources/categories":30,"./resources/products":31,"./services/modal_service":32,"./services/operator_categories_service":33,"./services/products_service":34,"./stores/operator_categories_store":35,"./stores/operator_products_store":36}],6:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ImagesForm = React.createClass({displayName: 'ImagesForm',
@@ -702,9 +696,8 @@ window.OperatorCategories_ItemEdit = React.createClass({displayName: 'OperatorCa
     e.stopPropagation();
     e.preventDefault();
     if (window.confirm('Удалить категорию "' + this.props.category.name + '"?')) {
-      return OperatorCategoriesService.deleteCategory({
+      return OperatorCategoriesActions.deleteCategory({
         category: this.props.category,
-        success: function() {},
         error: this.handleError
       });
     }
@@ -1071,8 +1064,10 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
     this.setState({
       currentState: STATE_LOADING
     });
-    return ProductsService.pullProductsByCategory({
-      category_id: category_id,
+    return ProductsResource.index({
+      data: {
+        category_id: category_id
+      },
       success: (function(_this) {
         return function(products) {
           return _this.setState({
@@ -1190,26 +1185,23 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
     return this.state.state === STATE_HAS_ERRORS;
   },
   handleInputChange: function(e) {
-    var that, _ref;
+    var that;
     that = this;
     if (this.refs.checkbox.getDOMNode().checked) {
       this.setState({
-        state: STATE_PUBLISHED,
         manual_state: MANUAL_STATE_PUBLISHED
       });
-      return ProductsService.tryPublish({
+      return ProductsResource.publish({
         id: this.props.product_id,
         success: function(response) {
           return that.setState(_.pick(response, ['state', 'manual_state']));
         }
       });
     } else {
-      if ((_ref = this.state.manual_state) === MANUAL_STATE_DEFAULT || _ref === MANUAL_STATE_PUBLISHED) {
-        this.setState({
-          state: STATE_UNPUBLISHED
-        });
-      }
-      return ProductsService.tryUnpublish({
+      this.setState({
+        manual_state: MANUAL_STATE_ARCHIVE
+      });
+      return ProductsResource.unpublish({
         id: this.props.product_id,
         success: function(response) {
           return that.setState(_.pick(response, ['state', 'manual_state']));
@@ -1464,18 +1456,10 @@ window.CategoryProductDroptarget = {
     });
   },
   handleProductDrop: function(e, ui) {
-    var productId, productUpdate;
-    productId = parseInt(ui.draggable.attr('data-product-id'));
-    productUpdate = {
-      id: productId,
-      category_id: this.props.category.id
-    };
-    return ProductsService.updateProduct({
-      product: productUpdate,
-      success: function() {},
-      error: function(error) {
-        return KioskOperatorApp.error_alert(error);
-      }
+    return OperatorProductsViewActions.changProductCategory({
+      product_id: parseInt(ui.draggable.attr('data-product-id')),
+      new_category_id: this.props.category.id,
+      old_category_id: parseInt(e.attr('data-category-id'))
     });
   }
 };
@@ -1695,6 +1679,165 @@ window.ProductDraggable = {
 
 
 },{}],30:[function(require,module,exports){
+window.CategoriesResource = {
+  "delete": function(_arg) {
+    var category, error, success;
+    category = _arg.category, success = _arg.success, error = _arg.error;
+    if (!this.mockMode) {
+      return $.ajax({
+        dataType: 'json',
+        url: Routes.operator_category_url(category.id),
+        method: 'delete',
+        error: function(xhr, status, err) {
+          return error(err || status);
+        },
+        success: function(response) {
+          OperatorCategoriesServerActions.deleteCategory(category);
+          return typeof success === "function" ? success() : void 0;
+        }
+      });
+    } else {
+      return setTimeout(function() {
+        if (typeof success === "function") {
+          success();
+        }
+        return OperatorCategoriesServerActions.deleteCategory(category);
+      }, this.mockLatency);
+    }
+  },
+  get: function(_arg) {
+    var error, id, success;
+    id = _arg.id, success = _arg.success, error = _arg.error;
+    if (!this.mockMode) {
+      return $.ajax({
+        dataType: 'json',
+        url: Routes.operator_category_url(id),
+        method: 'get',
+        error: function(xhr, status, err) {
+          return error(err || status);
+        },
+        success: function(data) {
+          return success(data);
+        }
+      });
+    } else {
+      return setTimeout(function() {
+        return callback(null);
+      }, this.mockLatency);
+    }
+  }
+};
+
+
+
+},{}],31:[function(require,module,exports){
+window.ProductsResource = {
+  publish: function(_arg) {
+    var error, id, success, that;
+    id = _arg.id, success = _arg.success, error = _arg.error;
+    if (!this.mockMode) {
+      return $.ajax({
+        dataType: 'json',
+        method: 'post',
+        url: RoutesApi.operator_product_publicate_url(id),
+        error: function(xhr, status, err) {
+          if (error) {
+            return error(err || status);
+          }
+        },
+        success: function(data) {
+          if (success) {
+            return success(data);
+          }
+        }
+      });
+    } else {
+      console.info("Mocked ProductsService: tryPublish id=" + id);
+      that = this;
+      return setTimeout(function() {
+        if (success) {
+          return success(that.mockData.publishResponse);
+        }
+      }, this.mockLatency);
+    }
+  },
+  unpublish: function(_arg) {
+    var error, id, success, that;
+    id = _arg.id, success = _arg.success, error = _arg.error;
+    if (!this.mockMode) {
+      return $.ajax({
+        dataType: 'json',
+        method: 'delete',
+        url: RoutesApi.operator_product_publicate_url(id),
+        error: function(xhr, status, err) {
+          if (error) {
+            return error(err || status);
+          }
+        },
+        success: function(data) {
+          if (success) {
+            return success(data);
+          }
+        }
+      });
+    } else {
+      console.info("Mocked ProductsService: tryUnpublish id=" + id);
+      that = this;
+      return setTimeout(function() {
+        if (success) {
+          return success(that.mockData.unpublishResponse);
+        }
+      }, this.mockLatency);
+    }
+  },
+  index: function(_arg) {
+    var data, error, success;
+    data = _arg.data, success = _arg.success, error = _arg.error;
+    error || (error = KioskOperatorApp.error_alert);
+    data.per_page || (data.per_page = 1000);
+    return Requester.request({
+      dataType: 'json',
+      url: RoutesApi.operator_products_by_category_url(),
+      method: 'get',
+      data: data,
+      error: function(xhr, status, err) {
+        return error(err || status);
+      },
+      success: function(data) {
+        return success(data.products);
+      }
+    });
+  },
+  update: function(_arg) {
+    var data, error, id, success;
+    id = _arg.id, data = _arg.data, success = _arg.success, error = _arg.error;
+    error || (error = KioskOperatorApp.error_alert);
+    if (!this.mockMode) {
+      return Requester.request({
+        dataType: 'json',
+        method: 'put',
+        url: RoutesApi.operator_product_url(id),
+        data: data,
+        error: function(xhr, status, err) {
+          return error(err || status);
+        },
+        success: success
+      });
+    } else {
+      return setTimeout(success, this.mockLatency);
+    }
+  },
+  mockMode: false,
+  mockLatency: 500,
+  mockData: {
+    publishResponse: null,
+    unpublishResponse: null
+  }
+};
+
+
+
+},{}],32:[function(require,module,exports){
 
 /**global window, $, React, ModalComponent */
 window.ModalService = {
@@ -1710,7 +1853,7 @@ window.ModalService = {
 
 
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 
 /**global Routes, OperatorCategoriesServerActions */
 window.OperatorCategoriesService = {
@@ -1719,7 +1862,7 @@ window.OperatorCategoriesService = {
     if (!this.mockMode) {
       return Requester.request({
         dataType: 'json',
-        url: Routes.operator_categories_url(),
+        url: RoutesApi.operator_categories_url(),
         method: 'get',
         error: function(xhr, status, err) {
           if (callback) {
@@ -1753,14 +1896,14 @@ window.OperatorCategoriesService = {
     if (!this.mockMode) {
       return $.ajax({
         dataType: 'json',
-        url: Routes.operator_categories_url(),
+        url: RoutesApi.operator_categories_url(),
         data: data,
         method: 'post',
         error: function(xhr, status, err) {
           return error(err || status);
         },
         success: function(category) {
-          OperatorCategoriesServerActions.categoryCreated(category);
+          OperatorCategoriesServerActions.addCategory(category);
           return success(category);
         }
       });
@@ -1769,27 +1912,8 @@ window.OperatorCategoriesService = {
         data.id = Math.floor(Math.random() * 100000000);
         data.products_count = 0;
         data.deep_products_count = 0;
-        OperatorCategoriesServerActions.categoryCreated(data);
+        OperatorCategoriesServerActions.addCategory(data);
         return success(data);
-      }, this.mockLatency);
-    }
-  },
-  getCategory: function(id, callback) {
-    if (!this.mockMode) {
-      return $.ajax({
-        dataType: 'json',
-        url: Routes.operator_categories_item_url(id),
-        method: 'get',
-        error: function(xhr, status, err) {
-          return callback(err || status);
-        },
-        success: function(data) {
-          return callback(null, data);
-        }
-      });
-    } else {
-      return setTimeout(function() {
-        return callback(null);
       }, this.mockLatency);
     }
   },
@@ -1813,7 +1937,7 @@ window.OperatorCategoriesService = {
     if (!this.mockMode) {
       return $.ajax({
         dataType: 'json',
-        url: Routes.operator_categories_item_url(id),
+        url: RoutesApi.operator_category_url(id),
         data: data,
         method: 'put',
         error: function(xhr, status, err) {
@@ -1826,29 +1950,6 @@ window.OperatorCategoriesService = {
     } else {
       return setTimeout(function() {
         return success(category);
-      }, this.mockLatency);
-    }
-  },
-  deleteCategory: function(_arg) {
-    var category, error, success;
-    category = _arg.category, success = _arg.success, error = _arg.error;
-    if (!this.mockMode) {
-      return $.ajax({
-        dataType: 'json',
-        url: Routes.operator_categories_item_url(category.id),
-        method: 'delete',
-        error: function(xhr, status, err) {
-          return error(err || status);
-        },
-        success: function(response) {
-          OperatorCategoriesServerActions.categoryDeleted(category);
-          return success();
-        }
-      });
-    } else {
-      return setTimeout(function() {
-        success();
-        return OperatorCategoriesServerActions.categoryDeleted(category);
       }, this.mockLatency);
     }
   },
@@ -1884,157 +1985,17 @@ window.OperatorCategoriesService = {
 
 
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 
 /**global Routes, OperatorProductsServerActions, Requester, $, window, _, OperatorProductsStore */
-window.ProductsService = {
-  tryPublish: function(_arg) {
-    var error, id, success, that;
-    id = _arg.id, success = _arg.success, error = _arg.error;
-    if (!this.mockMode) {
-      return $.ajax({
-        dataType: 'json',
-        url: Routes.operator_products_item_pub_url(id),
-        method: 'post',
-        error: function(xhr, status, err) {
-          if (error) {
-            return error(err || status);
-          }
-        },
-        success: function(data) {
-          if (success) {
-            return success(data);
-          }
-        }
-      });
-    } else {
-      console.info("Mocked ProductsService: tryPublish id=" + id);
-      that = this;
-      return setTimeout(function() {
-        if (success) {
-          return success(that.mockData.publishResponse);
-        }
-      }, this.mockLatency);
-    }
-  },
-  tryUnpublish: function(_arg) {
-    var error, id, success, that;
-    id = _arg.id, success = _arg.success, error = _arg.error;
-    if (!this.mockMode) {
-      return $.ajax({
-        dataType: 'json',
-        url: Routes.operator_products_item_pub_url(id),
-        method: 'delete',
-        error: function(xhr, status, err) {
-          if (error) {
-            return error(err || status);
-          }
-        },
-        success: function(data) {
-          if (success) {
-            return success(data);
-          }
-        }
-      });
-    } else {
-      console.info("Mocked ProductsService: tryUnpublish id=" + id);
-      that = this;
-      return setTimeout(function() {
-        if (success) {
-          return success(that.mockData.unpublishResponse);
-        }
-      }, this.mockLatency);
-    }
-  },
-  pullProductsByCategory: function(_arg) {
-    var category_id, error, success;
-    category_id = _arg.category_id, success = _arg.success, error = _arg.error;
-    return Requester.request({
-      dataType: 'json',
-      data: {
-        per_page: 10000,
-        category_id: category_id
-      },
-      url: Routes.operator_products_by_category_url(),
-      method: 'get',
-      error: function(xhr, status, err) {
-        return error(err || status);
-      },
-      success: function(data) {
-        return success(data.products);
-      }
-    });
-  },
-  getProducts: function(callback) {
-    var that;
-    if (!this.mockMode) {
-      return Requester.request({
-        dataType: 'json',
-        url: Routes.operator_products_url(),
-        method: 'get',
-        error: function(xhr, status, err) {
-          if (callback) {
-            return callback(err || status);
-          }
-        },
-        success: function(data) {
-          OperatorProductsServerActions.productsLoaded(data.products);
-          if (callback) {
-            return callback(null, data.products);
-          }
-        }
-      });
-    } else {
-      that = this;
-      return setTimeout(function() {
-        OperatorProductsServerActions.productsLoaded(that.mockData.allProductsResponse.products);
-        if (callback) {
-          return callback(null, that.mockData.allProductsResponse.products);
-        }
-      }, this.mockLatency);
-    }
-  },
-  updateProduct: function(_arg) {
-    var error, id, product, success;
-    product = _arg.product, success = _arg.success, error = _arg.error;
-    id = product.id;
-    if (!this.mockMode) {
-      return Requester.request({
-        dataType: 'json',
-        url: Routes.operator_products_item_url(id),
-        data: product,
-        method: 'put',
-        error: function(xhr, status, err) {
-          return error(err || status);
-        },
-        success: function(response) {
-          return success(response);
-        }
-      });
-    } else {
-      return setTimeout(function() {
-        var oldProduct, updatedProduct;
-        oldProduct = _.clone(OperatorProductsStore.getProductById(id));
-        updatedProduct = _.assign(oldProduct, product);
-        OperatorProductsServerActions.productUpdated(updatedProduct);
-        return success(updatedProduct);
-      }, this.mockLatency);
-    }
-  },
-  mockMode: false,
-  mockLatency: 500,
-  mockData: {
-    publishResponse: null,
-    unpublishResponse: null
-  }
-};
+window.ProductsService = {};
 
 
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 
 /**global _, EventEmitter, OperatorCategoriesDispatcher */
-var CHANGE_EVENT, _addCategory, _applyPositions, _categories, _changeCategoryProductCount, _deleteCategory, _getAncestors, _getCategoryById, _getCategoryLevel, _getDescendands, _getNewPositions, _getSortedCategoriesByParent, _hasChildren, _positionCategory, _pushCategories, _updateCategory;
+var CHANGE_EVENT, _addCategory, _applyPositions, _categories, _deleteCategory, _getAncestors, _getCategoryById, _getCategoryLevel, _getDescendands, _getNewPositions, _getSortedCategoriesByParent, _hasChildren, _positionCategory, _pushCategories, _updateCategory;
 
 CHANGE_EVENT = 'change';
 
@@ -2223,20 +2184,6 @@ _hasChildren = function(category) {
   });
 };
 
-_changeCategoryProductCount = function(category, increment) {
-  var ancestorsToChange, updatedCategory;
-  updatedCategory = _getCategoryById(category.id);
-  updatedCategory.products_count += increment;
-  updatedCategory.deep_products_count += increment;
-  _updateCategory(updatedCategory);
-  ancestorsToChange = _getAncestors(category);
-  return _.each(ancestorsToChange, function(i) {
-    updatedCategory = _getCategoryById(i.id);
-    updatedCategory.deep_products_count += increment;
-    return _updateCategory(updatedCategory);
-  });
-};
-
 window.OperatorCategoriesStore = _.extend({}, EventEmitter.prototype, {
   emitChange: function() {
     return this.emit(CHANGE_EVENT);
@@ -2246,6 +2193,9 @@ window.OperatorCategoriesStore = _.extend({}, EventEmitter.prototype, {
   },
   removeChangeListener: function(callback) {
     return this.off(CHANGE_EVENT, callback);
+  },
+  emitChangeCategory: function(category_id) {
+    return this.emit(CHANGE_EVENT + (":" + category_id));
   },
   getAllCategories: function() {
     return _categories;
@@ -2305,7 +2255,7 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(fu
     case 'reorderCategories':
       _applyPositions(action.newOrder);
       return OperatorCategoriesStore.emitChange();
-    case 'categoryCreated':
+    case 'createCategory':
       _categories = _.map(_categories, function(i) {
         if (i.id === action.tmpId) {
           return action.category;
@@ -2314,92 +2264,21 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(fu
         }
       });
       return OperatorCategoriesStore.emitChange();
-    case 'changeCategoryProductCount':
-      _changeCategoryProductCount(action.category, action.increment);
-      return OperatorCategoriesStore.emitChange();
   }
 });
 
 
 
-},{}],34:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 
 /**global _, window, EventEmitter, OperatorProductsDispatcher, OperatorCategoriesStore */
-var CHANGE_EVENT, _getProductById, _getSortedProductsByCategory, _products, _pushProducts, _updateProduct,
-  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+window.OperatorProductsStore = _.extend({}, EventEmitter.prototype);
 
-CHANGE_EVENT = 'change';
-
-_products = [];
-
-_pushProducts = function(products) {
-  return _products = products;
-};
-
-_getSortedProductsByCategory = function(category) {
-  var catIds, categories;
-  categories = [category].concat(OperatorCategoriesStore.getDescendands(category));
-  catIds = _.map(categories, function(i) {
-    return i.id;
-  });
-  return _.filter(_products, function(i) {
-    var _ref;
-    return _ref = i.category_id, __indexOf.call(catIds, _ref) >= 0;
-  }).sort(function(a, b) {
-    return a.position - b.position;
-  });
-};
-
-_updateProduct = function(product) {
-  return _products = _.map(_products, function(i) {
-    if (i.id === product.id) {
-      return product;
-    } else {
-      return i;
-    }
-  });
-};
-
-_getProductById = function(id) {
-  return _.find(_products, function(i) {
-    return i.id === id;
-  });
-};
-
-window.OperatorProductsStore = _.extend({}, EventEmitter.prototype, {
-  emitChange: function() {
-    return this.emit(CHANGE_EVENT);
-  },
-  addChangeListener: function(callback) {
-    return this.on(CHANGE_EVENT, callback);
-  },
-  removeChangeListener: function(callback) {
-    return this.off(CHANGE_EVENT, callback);
-  },
-  getSortedProductsByCategory: function(category) {
-    return _getSortedProductsByCategory(category);
-  },
-  getProductById: function(id) {
-    return _getProductById(id);
-  }
-});
-
-OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(function(payload) {
-  var action;
-  action = payload.action;
-  switch (action.type) {
-    case 'receiveAll':
-      _pushProducts(action.products);
-      return OperatorProductsStore.emitChange();
-    case 'productUpdated':
-      _updateProduct(action.product);
-      return OperatorProductsStore.emitChange();
-  }
-});
+OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(function(payload) {});
 
 
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 require('./libs');
 
 require('./routes');
@@ -2430,12 +2309,15 @@ window.KioskOperatorApp = {
     });
     window.EB.emit('start');
     return ReactUjs.initialize();
+  },
+  error_alert: function(message) {
+    return alert(message);
   }
 };
 
 
 
-},{"./app":35,"./app_helpers":36,"./legacy":37,"./libs":38,"./requester":39,"./routes":40,"./thumbor_service":41}],36:[function(require,module,exports){
+},{"./app":37,"./app_helpers":38,"./legacy":39,"./libs":40,"./requester":41,"./routes":42,"./thumbor_service":43}],38:[function(require,module,exports){
 window.AppHelpers = {
   reselectAndFocus: function(el) {
     el.focus();
@@ -2445,7 +2327,7 @@ window.AppHelpers = {
 
 
 
-},{}],37:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 $(function() {
   var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
   bindActivities = function() {
@@ -2603,7 +2485,7 @@ $(function() {
 
 
 
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 window._ = require('lodash');
 
 window.$ = window.jQuery = require('jquery');
@@ -2644,7 +2526,7 @@ require('typeahead');
 
 
 
-},{"bootstrapSass":undefined,"eventEmitter":undefined,"flux":42,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],39:[function(require,module,exports){
+},{"bootstrapSass":undefined,"eventEmitter":undefined,"flux":44,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],41:[function(require,module,exports){
 var RequesterClass,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -2683,28 +2565,10 @@ window.Requester = new RequesterClass({
 
 
 
-},{}],40:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 window.Routes = {
   products_image_delete_path: function(id) {
     return gon.root_url + '/products/images/' + id;
-  },
-  operator_categories_url: function() {
-    return gon.api_root_url + '/v1/operator/categories.json';
-  },
-  operator_categories_item_url: function(id) {
-    return gon.api_root_url + '/v1/operator/categories/' + id + '.json';
-  },
-  operator_products_url: function() {
-    return gon.api_root_url + '/v1/operator/products.json';
-  },
-  operator_products_by_category_url: function() {
-    return gon.api_root_url + '/v1/operator/products.json';
-  },
-  operator_products_item_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/' + id + '.json';
-  },
-  operator_products_item_pub_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/' + id + '/publication.json';
   },
   operator_product_url: function(id) {
     return gon.root_url + '/operator/products/' + id;
@@ -2717,9 +2581,27 @@ window.Routes = {
   }
 };
 
+window.RoutesApi = {
+  operator_categories_url: function() {
+    return gon.api_root_url + '/v1/operator/categories.json';
+  },
+  operator_category_url: function(id) {
+    return gon.api_root_url + '/v1/operator/categories/' + id + '.json';
+  },
+  operator_product_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/' + id + '.json';
+  },
+  operator_product_publicate_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/' + id + '/publication.json';
+  },
+  operator_products_by_category_url: function() {
+    return gon.api_root_url + '/v1/operator/products.json';
+  }
+};
 
 
-},{}],41:[function(require,module,exports){
+
+},{}],43:[function(require,module,exports){
 window.ThumborService = {
   thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
   image_url: function(url, style) {
@@ -2740,7 +2622,7 @@ window.ThumborService = {
 
 
 
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -2752,7 +2634,7 @@ window.ThumborService = {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":43}],43:[function(require,module,exports){
+},{"./lib/Dispatcher":45}],45:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -3004,7 +2886,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":44}],44:[function(require,module,exports){
+},{"./invariant":46}],46:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.

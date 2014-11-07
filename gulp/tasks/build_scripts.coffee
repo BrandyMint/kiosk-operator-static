@@ -30,7 +30,7 @@ gulp.task 'vendorScripts', ['clean'], ->
     .require './bootstrap-sass-official/assets/javascripts/bootstrap', { expose: 'bootstrapSass' }
     .require './react/react-with-addons',                              { expose: 'react' }
     .require './react-mixin-manager/react-mixin-manager',              { expose: 'react-mixin-manager' }
-    .require '../scripts/react/resources/react_ujs',                   { expose: 'reactUjs' }
+    .require '../scripts/react/libs/react_ujs',                   { expose: 'reactUjs' }
     .require './eventEmitter/EventEmitter',                            { expose: 'eventEmitter' }
     .require './typeahead.js/dist/typeahead.bundle',                   { expose: 'typeahead' }
 

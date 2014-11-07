@@ -136,9 +136,6 @@ window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
   removeChangeListener: (callback)  -> @off CHANGE_EVENT, callback
 
   emitChangeCategory: (category_id) -> @emit CHANGE_EVENT+":#{category_id}"
-  on:                 (callback)    -> @on   CHANGE_EVENT+":#{category_id}", callback
-  off:                (callback)    -> @off  CHANGE_EVENT+":#{category_id}", callback
-
 
   getAllCategories: ->
     _categories

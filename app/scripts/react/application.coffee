@@ -5,6 +5,7 @@ require './stores/operator_categories_store'
 require './stores/operator_products_store'
 
 require './resources/categories'
+require './resources/products'
 
 require './services/operator_categories_service'
 require './services/products_service'

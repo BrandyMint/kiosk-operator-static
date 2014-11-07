@@ -16,16 +16,8 @@ window.CategoryProductDroptarget =
     }
 
   handleProductDrop: (e, ui) ->
-    productId = parseInt ui.draggable.attr 'data-product-id'
-    productUpdate =
-      id: productId
-      category_id: @props.category.id
+    OperatorProductsViewActions.changProductCategory
+      product_id:      parseInt ui.draggable.attr 'data-product-id'
+      new_category_id: @props.category.id
+      old_category_id: parseInt e.attr 'data-category-id'
 
-    ProductsService.updateProduct
-      product: productUpdate
-      success: ->
-        # TODO Продукт удалился из текущего списка
-      error: (error) ->
-        KioskOperatorApp.error_alert error
-
-        #todo?

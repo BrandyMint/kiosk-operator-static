@@ -18,3 +18,5 @@ window.KioskOperatorApp =
 
     window.EB.emit 'start'
     ReactUjs.initialize()
+
+  error_alert: (message) -> alert message

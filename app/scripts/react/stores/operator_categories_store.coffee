@@ -130,27 +130,15 @@ _hasChildren = (category) ->
   false unless category
   !!_.find _categories, (i) -> i.parent_id == category.id
 
-_changeCategoryProductCount = (category, increment) ->
-  updatedCategory = _getCategoryById category.id
-  updatedCategory.products_count += increment
-  updatedCategory.deep_products_count += increment
-  _updateCategory updatedCategory
-
-  ancestorsToChange = _getAncestors category
-  _.each ancestorsToChange, (i) ->
-    updatedCategory = _getCategoryById i.id
-    updatedCategory.deep_products_count += increment
-    _updateCategory updatedCategory
-
 window.OperatorCategoriesStore = _.extend {}, EventEmitter.prototype, {
-  emitChange: ->
-    @emit CHANGE_EVENT
+  emitChange:                       -> @emit CHANGE_EVENT
+  addChangeListener:    (callback)  -> @on  CHANGE_EVENT, callback
+  removeChangeListener: (callback)  -> @off CHANGE_EVENT, callback
 
-  addChangeListener: (callback) ->
-    @on CHANGE_EVENT, callback
+  emitChangeCategory: (category_id) -> @emit CHANGE_EVENT+":#{category_id}"
+  on:                 (callback)    -> @on   CHANGE_EVENT+":#{category_id}", callback
+  off:                (callback)    -> @off  CHANGE_EVENT+":#{category_id}", callback
 
-  removeChangeListener: (callback) ->
-    @off CHANGE_EVENT, callback
 
   getAllCategories: ->
     _categories
@@ -208,11 +196,7 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (p
       _applyPositions action.newOrder
       OperatorCategoriesStore.emitChange()
 
-    when 'categoryCreated'
+    when 'createCategory'
       _categories = _.map _categories, (i) ->
         if i.id == action.tmpId then action.category else i
-      OperatorCategoriesStore.emitChange()
-
-    when 'changeCategoryProductCount'
-      _changeCategoryProductCount action.category, action.increment
       OperatorCategoriesStore.emitChange()

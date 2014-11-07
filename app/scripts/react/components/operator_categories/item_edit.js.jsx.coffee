@@ -64,9 +64,8 @@ window.OperatorCategories_ItemEdit = React.createClass
     e.stopPropagation()
     e.preventDefault()
     if window.confirm 'Удалить категорию "' + @props.category.name + '"?'
-      OperatorCategoriesService.deleteCategory
+      OperatorCategoriesActions.deleteCategory
         category: @props.category
-        success:  ->
         error:    @handleError
 
   _confirmEdit: ->

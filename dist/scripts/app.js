@@ -153,81 +153,11 @@ require('./components/modal');
 
 require('./components/super_select');
 
-require('./components/images_form');
+require('./components/product_images');
 
 
 
-},{"./actions/operator_categories_actions":2,"./actions/operator_categories_server_actions":3,"./actions/operator_products_server_actions":4,"./components/images_form":6,"./components/images_form_thumbs":7,"./components/modal":8,"./components/operator_categories/categories":9,"./components/operator_categories/create_form":10,"./components/operator_categories/item":11,"./components/operator_categories/item_edit":12,"./components/operator_categories/item_view":13,"./components/operator_categories/list":14,"./components/operator_products/list_body":15,"./components/operator_products/list_row":16,"./components/operator_products/list_row_drag_helper":17,"./components/operator_products/product_state":18,"./components/operator_products/products":19,"./components/product_status_toggle":20,"./components/product_thumb":21,"./components/spinner":22,"./components/super_select":23,"./dispatchers/operator_categories_dispatcher":24,"./dispatchers/operator_products_dispatcher":25,"./mixins/category_product_droptarget":26,"./mixins/dragging":27,"./mixins/images_form_mixin":28,"./mixins/product_draggable":29,"./resources/categories":30,"./resources/products":31,"./services/modal_service":32,"./services/operator_categories_service":33,"./services/products_service":34,"./stores/operator_categories_store":35,"./stores/operator_products_store":36}],6:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.ImagesForm = React.createClass({displayName: 'ImagesForm',
-  mixins: [ImagesFormMixin],
-  propTypes: {
-    imagesDeletePath: React.PropTypes.string.isRequired,
-    fieldName: React.PropTypes.string.isRequired,
-    images: React.PropTypes.array
-  },
-  getInitialState: function() {
-    return {
-      images: this.props.images
-    };
-  },
-  getDefaultProps: function() {
-    return {
-      savingUrl: '/..',
-      images: [
-        {
-          id: 1,
-          src: 'assets/product-1-square.png?1'
-        }, {
-          id: 2,
-          src: 'assets/product-2-square.png?1'
-        }, {
-          id: 3,
-          src: 'assets/product-3-square.png?1'
-        }
-      ]
-    };
-  },
-  render: function() {
-    return React.DOM.div({className: "images_form"}, 
-       React.DOM.div({className: "products__new-form-image-large"}, 
-         this.image(), 
-          React.DOM.input({id: "image", name: this.props.fieldName, 
-                 className: "form-upload__input products__new-form-image-input", 
-                 accept: "image/*", type: "file", multiple: true, ref: "input"}), 
-          React.DOM.div({className: "products__list-item-new-label text-muted"}, 
-            React.DOM.span({className: "form-upload__text"}, "Выберите"), 
-            React.DOM.br(null), 
-            React.DOM.span(null, "фотографии")
-          )
-          ), 
-       ImagesForm_Thumbs({images: this.state.images, onRemove: this.removeImage})
-    );
-  },
-  image: function() {
-    if (this.state.images.length > 0) {
-      return React.DOM.img({className: "products__list-item-new-image", src: this.state.images[0].src});
-    } else {
-      return React.DOM.img({className: "products__list-item-new-image", src: "/assets/product-add.svg"});
-    }
-  },
-  removeImage: function(image) {
-    this.setState({
-      images: _.reject(this.state.images, function(i) {
-        return i === image;
-      })
-    });
-    return $.ajax({
-      url: this.props.imageDeletePath + '?id=' + image.id,
-      method: 'delete'
-    });
-  }
-});
-
-
-
-},{}],7:[function(require,module,exports){
+},{"./actions/operator_categories_actions":2,"./actions/operator_categories_server_actions":3,"./actions/operator_products_server_actions":4,"./components/images_form_thumbs":6,"./components/modal":7,"./components/operator_categories/categories":8,"./components/operator_categories/create_form":9,"./components/operator_categories/item":10,"./components/operator_categories/item_edit":11,"./components/operator_categories/item_view":12,"./components/operator_categories/list":13,"./components/operator_products/list_body":14,"./components/operator_products/list_row":15,"./components/operator_products/list_row_drag_helper":16,"./components/operator_products/product_state":17,"./components/operator_products/products":18,"./components/product_images":19,"./components/product_status_toggle":20,"./components/product_thumb":21,"./components/spinner":22,"./components/super_select":23,"./dispatchers/operator_categories_dispatcher":24,"./dispatchers/operator_products_dispatcher":25,"./mixins/category_product_droptarget":26,"./mixins/dragging":27,"./mixins/images_form_mixin":28,"./mixins/product_draggable":29,"./resources/categories":30,"./resources/products":31,"./services/modal_service":32,"./services/operator_categories_service":33,"./services/products_service":34,"./stores/operator_categories_store":35,"./stores/operator_products_store":36}],6:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
@@ -260,7 +190,7 @@ window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
 
 
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -318,7 +248,7 @@ window.ModalComponent = React.createClass({displayName: 'ModalComponent',
 
 
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -430,7 +360,7 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
 
 
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -538,7 +468,7 @@ window.OperatorCategories_CreateForm = React.createClass({displayName: 'Operator
 
 
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -619,7 +549,7 @@ window.OperatorCategories_Item = React.createClass({displayName: 'OperatorCatego
 
 
 
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -720,7 +650,7 @@ window.OperatorCategories_ItemEdit = React.createClass({displayName: 'OperatorCa
 
 
 
-},{}],13:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -753,7 +683,7 @@ window.OperatorCategories_ItemView = React.createClass({displayName: 'OperatorCa
 
 
 
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -869,7 +799,7 @@ window.OperatorCategories_List = React.createClass({displayName: 'OperatorCatego
 
 
 
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -907,7 +837,7 @@ window.OperatorProducts_ListBody = React.createClass({displayName: 'OperatorProd
 
 
 
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -949,7 +879,7 @@ window.OperatorProducts_Row = React.createClass({displayName: 'OperatorProducts_
 
 
 
-},{}],17:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -980,7 +910,7 @@ window.OperatorProducts_Row_DragHelper = React.createClass({displayName: 'Operat
 
 
 
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1013,7 +943,7 @@ window.ProductState = React.createClass({displayName: 'ProductState',
 
 
 
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1105,6 +1035,99 @@ window.OperatorProducts_Error = React.createClass({displayName: 'OperatorProduct
 
 
 
+},{}],19:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.ProductImages = React.createClass({displayName: 'ProductImages',
+  mixins: [ImagesFormMixin],
+  propTypes: {
+    productId: React.PropTypes.number.isRequired,
+    fieldName: React.PropTypes.string.isRequired,
+    images: React.PropTypes.array.isRequired
+  },
+  getInitialState: function() {
+    return {
+      images: this.props.images
+    };
+  },
+  getDefaultProps: function() {
+    return {
+      savingUrl: '/..',
+      images: [
+        {
+          id: 1,
+          src: 'assets/product-1-square.png?1'
+        }, {
+          id: 2,
+          src: 'assets/product-2-square.png?1'
+        }, {
+          id: 3,
+          src: 'assets/product-3-square.png?1'
+        }
+      ]
+    };
+  },
+  render: function() {
+    return React.DOM.div({className: "__small products__new-form-images-list"}, 
+        ProductImages_Placeholder({fieldName: this.props.fieldName}), 
+        ProductImages_List({images: this.state.images, callbackRemove: this.removeImage, productId: this.props.productId})
+       );
+  }
+});
+
+window.ProductImages_Placeholder = React.createClass({displayName: 'ProductImages_Placeholder',
+  propTypes: {
+    fieldName: React.PropTypes.string.isRequired
+  },
+  render: function() {
+    return React.DOM.div({className: "products__new-form-image-thumb-block"}, 
+      React.DOM.input({id: "image", name: this.props.fieldName, 
+             className: "form-upload__input products__new-form-image-input", 
+             accept: "image/*", type: "file", multiple: true}), 
+       React.DOM.div({className: "products__new-form-image-thumb-empty"}), 
+       React.DOM.div({className: "products__new-form-image-thumb-add"})
+     );
+  }
+});
+
+window.ProductImages_List = React.createClass({displayName: 'ProductImages_List',
+  propTypes: {
+    productId: React.PropTypes.number.isRequired,
+    images: React.PropTypes.array.isRequired,
+    callbackRemove: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    var callbackRemove, images;
+    callbackRemove = this.props.callbackRemove;
+    images = this.props.images.map(function(image) {
+      return ProductImages_Image({image: image, callbackRemove: callbackRemove, key: image.id || image.src});
+    });
+    return React.DOM.div({className: "products__new-form-images-list-list"}, images);
+  }
+});
+
+window.ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
+  propTypes: {
+    image: React.PropTypes.object.isRequired,
+    callbackRemove: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    return React.DOM.div({className: "products__new-form-image-thumb-block"}, 
+       React.DOM.img({className: "products__new-form-image-thumb", src: this.props.image.src}), 
+       React.DOM.div({className: "products__new-form-image-thumb-remove", onClick: this.handleRemove}), 
+       React.DOM.div({className: "products__new-form-image-thumb-update", onClick: this.handleRotate})
+     );
+  },
+  handleRotate: function() {
+    return alert("Функция временно не доступна");
+  },
+  handleRemove: function() {
+    return this.props.callbackRemove(this.props.image);
+  }
+});
+
+
+
 },{}],20:[function(require,module,exports){
 
 /** @jsx React.DOM */
@@ -1185,28 +1208,33 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
     return this.state.state === STATE_HAS_ERRORS;
   },
   handleInputChange: function(e) {
-    var that;
-    that = this;
+    var options, savedManualState;
+    savedManualState = this.state.manual_state;
+    options = {
+      id: this.props.product_id,
+      success: (function(_this) {
+        return function(response) {
+          return _this.setState(_.pick(response, ['state', 'manual_state']));
+        };
+      })(this),
+      error: (function(_this) {
+        return function() {
+          return _this.setState({
+            manual_state: savedManualState
+          });
+        };
+      })(this)
+    };
     if (this.refs.checkbox.getDOMNode().checked) {
       this.setState({
         manual_state: MANUAL_STATE_PUBLISHED
       });
-      return ProductsResource.publish({
-        id: this.props.product_id,
-        success: function(response) {
-          return that.setState(_.pick(response, ['state', 'manual_state']));
-        }
-      });
+      return ProductsResource.publish(options);
     } else {
       this.setState({
         manual_state: MANUAL_STATE_ARCHIVE
       });
-      return ProductsResource.unpublish({
-        id: this.props.product_id,
-        success: function(response) {
-          return that.setState(_.pick(response, ['state', 'manual_state']));
-        }
-      });
+      return ProductsResource.unpublish(options);
     }
   }
 });
@@ -1628,6 +1656,16 @@ window.ImagesFormMixin = {
       images: images,
       isInserting: false
     });
+  },
+  removeImage: function(image) {
+    this.setState({
+      images: _.reject(this.state.images, function(i) {
+        return i === image;
+      })
+    });
+    return ProductsResource.deleteImage({
+      image_id: image.id
+    });
   }
 };
 
@@ -1732,6 +1770,14 @@ window.CategoriesResource = {
 
 },{}],31:[function(require,module,exports){
 window.ProductsResource = {
+  deleteImage: function(_arg) {
+    var image_id;
+    image_id = _arg.image_id;
+    return $.ajax({
+      url: RoutesApi.operator_product_image_delete_url(image_id),
+      method: 'delete'
+    });
+  },
   publish: function(_arg) {
     var error, id, success, that;
     id = _arg.id, success = _arg.success, error = _arg.error;
@@ -2582,6 +2628,9 @@ window.Routes = {
 };
 
 window.RoutesApi = {
+  operator_product_image_delete_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/images/' + id;
+  },
   operator_categories_url: function() {
     return gon.api_root_url + '/v1/operator/categories.json';
   },

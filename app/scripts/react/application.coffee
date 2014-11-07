@@ -41,4 +41,6 @@ require './components/operator_products/products'
 require './components/modal'
 
 require './components/super_select'
-require './components/images_form'
+require './components/product_images'
+# Не используется
+#require './components/images_form'

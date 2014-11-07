@@ -29,18 +29,7 @@
                     Невозможно опубликовать товар. Проверьте поля, выделенные красным
                   .form-group
                     %label.control-label Фотографии
-                    .products__new-form-images-list.__small
-                      .products__new-form-image-thumb-block
-                        .products__new-form-image-thumb-empty
-                        .products__new-form-image-thumb-add
-                      .products__new-form-image-thumb-block
-                        %img.products__new-form-image-thumb{src: "assets/product-2-square.png", alt: ""}
-                        .products__new-form-image-thumb-remove
-                        .products__new-form-image-thumb-update
-                      .products__new-form-image-thumb-block
-                        %img.products__new-form-image-thumb{src: "assets/product-2-square.png", alt: ""}
-                        .products__new-form-image-thumb-remove
-                        .products__new-form-image-thumb-update
+                    %div( data-react-class="ProductImages" data-react-props='{"productId": 1924, "fieldName": "images[]"}')
                   .form-group
                     %label.control-label Название товара
                     %textarea.form-control.form-control-text-large{placeholder: 'Например, велосипед городской'}

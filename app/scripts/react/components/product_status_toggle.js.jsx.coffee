@@ -66,27 +66,23 @@ window.ProductStatusToggle = React.createClass
   hasErrors: ->
     @state.state == STATE_HAS_ERRORS
 
-
   # todo: Здесь потенциально имеет место нарушение Flux
   # После встраивания компонента в приложение React, ответы
   # от сервиса не должны напрямую обрабатываться в компоненте
   handleInputChange: (e) ->
-    that = @
+    savedManualState = @state.manual_state
+    options =
+      id: @props.product_id
+      success: (response) =>
+        @setState _.pick response, ['state', 'manual_state']
+      error: =>
+        @setState manual_state: savedManualState
+
     if @refs.checkbox.getDOMNode().checked
       @setState manual_state: MANUAL_STATE_PUBLISHED
-        #state:        STATE_PUBLISHED
-      
-      ProductsResource.publish
-        id: @props.product_id
-        success: (response) ->
-          that.setState _.pick response, ['state', 'manual_state']
+      ProductsResource.publish options
       
     else
       @setState manual_state: MANUAL_STATE_ARCHIVE
-      #if @state.manual_state in [MANUAL_STATE_DEFAULT, MANUAL_STATE_PUBLISHED]
-        #@setState(state: STATE_UNPUBLISHED)
-      ProductsResource.unpublish
-        id: @props.product_id
-        success: (response) ->
-          that.setState _.pick response, ['state', 'manual_state']
-      
+      ProductsResource.unpublish options
+

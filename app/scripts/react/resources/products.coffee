@@ -1,4 +1,9 @@
 window.ProductsResource =
+  deleteImage: ({image_id}) ->
+    $.ajax
+      url:    RoutesApi.operator_product_image_delete_url(image_id)
+      method: 'delete'
+
   publish: ({id, success, error}) ->
     if !@mockMode
       $.ajax

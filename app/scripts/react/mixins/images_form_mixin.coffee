@@ -58,3 +58,7 @@ window.ImagesFormMixin =
     #@getChangeCallback 'images', images
 
     @setState images: images, isInserting: false
+
+  removeImage: (image) ->
+    @setState images: _.reject @state.images, (i)-> i==image
+    ProductsResource.deleteImage image_id: image.id

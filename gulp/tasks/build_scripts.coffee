@@ -45,9 +45,8 @@ gulp.task 'vendorScripts', ['clean'], ->
              .on 'end', ->
                bundleLogger.end vendorConfig.outputName
 
-  if global.isWatching
-    bundler = watchify bundler
-    bundler.on 'update', bundle
+  bundler = watchify bundler
+  bundler.on 'update', bundle
 
   return bundle()
 
@@ -85,8 +84,7 @@ gulp.task 'localScripts', ['clean'], ->
              .on 'end', ->
                bundleLogger.end localConfig.outputName
 
-  if global.isWatching
-    bundler = watchify bundler
-    bundler.on 'update', bundle
+  bundler = watchify bundler
+  bundler.on 'update', bundle
 
   return bundle()

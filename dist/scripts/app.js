@@ -1663,9 +1663,11 @@ window.ImagesFormMixin = {
         return i === image;
       })
     });
-    return ProductsResource.deleteImage({
-      image_id: image.id
-    });
+    if (image.id) {
+      return ProductsResource.deleteImage({
+        image_id: image.id
+      });
+    }
   }
 };
 

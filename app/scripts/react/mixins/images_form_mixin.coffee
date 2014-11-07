@@ -61,4 +61,4 @@ window.ImagesFormMixin =
 
   removeImage: (image) ->
     @setState images: _.reject @state.images, (i)-> i==image
-    ProductsResource.deleteImage image_id: image.id
+    ProductsResource.deleteImage image_id: image.id if image.id

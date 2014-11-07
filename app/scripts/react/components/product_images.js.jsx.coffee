@@ -1,5 +1,6 @@
 ###* @jsx React.DOM ###
-#
+
+
 window.ProductImages = React.createClass
   mixins: [ImagesFormMixin]
 
@@ -15,9 +16,9 @@ window.ProductImages = React.createClass
     savingUrl: '/..' #Routes.api.update_entry_url @props.entry
     images:
       [
-        {id: 1, src: 'assets/product-1-square.png?1'},
-        {id: 2, src: 'assets/product-2-square.png?1'},
-        {id: 3, src: 'assets/product-3-square.png?1'}
+        {id: null, src: 'assets/product-1-square.png?1'},
+        {id: null, src: 'assets/product-2-square.png?1'},
+        {id: null, src: 'assets/product-3-square.png?1'}
       ]
 
   render: ->
@@ -26,7 +27,8 @@ window.ProductImages = React.createClass
         <ProductImages_List images={this.state.images} callbackRemove={this.removeImage} productId={this.props.productId} />
        </div>`
 
-window.ProductImages_Placeholder = React.createClass
+
+ProductImages_Placeholder = React.createClass
   propTypes:
     fieldName:        React.PropTypes.string.isRequired
   render: ->
@@ -38,7 +40,8 @@ window.ProductImages_Placeholder = React.createClass
        <div className="products__new-form-image-thumb-add"></div>
      </div>`
 
-window.ProductImages_List = React.createClass
+
+ProductImages_List = React.createClass
   propTypes:
     productId:      React.PropTypes.number.isRequired
     images:         React.PropTypes.array.isRequired
@@ -50,7 +53,8 @@ window.ProductImages_List = React.createClass
 
     `<div className="products__new-form-images-list-list">{images}</div>`
 
-window.ProductImages_Image = React.createClass
+
+ProductImages_Image = React.createClass
   propTypes:
     image:          React.PropTypes.object.isRequired
     callbackRemove: React.PropTypes.func.isRequired

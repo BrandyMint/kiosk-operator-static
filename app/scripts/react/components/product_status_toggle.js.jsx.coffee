@@ -28,6 +28,8 @@ window.ProductStatusToggle = React.createClass
   getInitialState: ->
     state:             @props.state
     manual_state:      @props.manual_state
+    localChecked:      null
+    isLocalChecked:    false
 
   componentWillReceiveProps: (nextProps) ->
     @setState nextProps
@@ -36,7 +38,8 @@ window.ProductStatusToggle = React.createClass
     classes = cx {
       "toggle__block": true
       "checked":       @isChecked()
-      "has_errors":    @hasErrors()
+      "has_errors":    @hasErrors(),
+      '__disabled':    @state.isLocalChecked
     }
 
     return `<label className={ classes }>
@@ -60,8 +63,10 @@ window.ProductStatusToggle = React.createClass
 
 
   isChecked: ->
-    @state.state == STATE_PUBLISHED and
-      @state.manual_state in [MANUAL_STATE_DEFAULT, MANUAL_STATE_PUBLISHED]
+    if @state.isLocalChecked
+      @state.localChecked
+    else
+      @state.state == STATE_PUBLISHED
 
   hasErrors: ->
     @state.state == STATE_HAS_ERRORS
@@ -70,19 +75,23 @@ window.ProductStatusToggle = React.createClass
   # После встраивания компонента в приложение React, ответы
   # от сервиса не должны напрямую обрабатываться в компоненте
   handleInputChange: (e) ->
+    return if @state.isLocalChecked
+
     savedManualState = @state.manual_state
     options =
       id: @props.product_id
       success: (response) =>
-        @setState _.pick response, ['state', 'manual_state']
+        state=_.pick response, ['state', 'manual_state']
+        state.isLocalChecked = false
+        @setState state
       error: =>
-        @setState manual_state: savedManualState
+        @setState manual_state: savedManualState, isLocalChecked: false
 
     if @refs.checkbox.getDOMNode().checked
-      @setState manual_state: MANUAL_STATE_PUBLISHED
+      @setState manual_state: MANUAL_STATE_PUBLISHED, localChecked: true, isLocalChecked: true
       ProductsResource.publish options
       
     else
-      @setState manual_state: MANUAL_STATE_ARCHIVE
+      @setState manual_state: MANUAL_STATE_ARCHIVE, localChecked: false, isLocalChecked: true
       ProductsResource.unpublish options
 

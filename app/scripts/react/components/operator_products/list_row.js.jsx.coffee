@@ -9,25 +9,12 @@ window.OperatorProducts_Row = React.createClass
     product: React.PropTypes.object.isRequired
 
   render: ->
-    `<tr onClick      ={ this.handleItemClick }
-         data-category-id={this.props.product.category_id}
-         data-product-id={ this.props.product.id }>
-      <td className  = "adm-categories-goods-cover"
-          data-title = "Товар">
-            <ProductThumb product={this.props.product} />
-      </td>
-      <td className="adm-categories-goods-content">
-        { this.props.product.title }
-      </td>
-      <td className  = "adm-categories-goods-price"
-          data-title = "Сумма" >
-        <span className="nobr">
-          { (this.props.product.price.cents/100).toLocaleString('ru-RU') } руб
-        </span>
-      </td>
-      <td className  = "adm-categories-goods-status"
-          data-title = "Статус">
-        <ProductState state={ this.props.product.state } />
+    console.debug? 'product_id', @props.product.id
+    `<tr onClick={ this.handleItemClick } data-category-id={this.props.product.category_id} data-product-id={ this.props.product.id }>
+      <td className="adm-categories-goods-cover" data-title = "Товар"> <ProductThumb product={this.props.product} /> </td>
+      <td className="adm-categories-goods-content"> { this.props.product.title } </td>
+      <td className="adm-categories-goods-price" data-title = "Сумма" > <Money money={this.props.product.price} /> </td>
+      <td className="adm-categories-goods-status" data-title = "Статус"> <ProductState state={ this.props.product.state } />
       </td>
     </tr>`
 

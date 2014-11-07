@@ -40,6 +40,7 @@ require './components/operator_products/products'
 
 require './components/modal'
 
+require './components/money'
 require './components/super_select'
 require './components/product_images'
 # Не используется

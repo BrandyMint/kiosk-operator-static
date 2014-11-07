@@ -2,9 +2,9 @@
 # =            BrowserSync Task            =
 # ========================================*/
 
-browserSync = require 'browser-sync'
 gulp        = require 'gulp'
+browserSync = require 'browser-sync'
 config      = require('../config').browserSync
 
-gulp.task 'browserSync', ['build'], ->
+gulp.task 'browserSync', ->
   browserSync config

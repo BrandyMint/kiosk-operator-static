@@ -1,0 +1,138 @@
+-# "!!! 5" - на клиенте не генерирует <!DOCTYPE html>
+-# Поэтому в вёрстке делаем так:
+<!DOCTYPE html>
+%html
+  %head
+    +include './app/shared/_head.haml'
+  %body.adm-body
+    +include './app/shared/_topbar.haml'
+
+    / Layout
+    .adm-layout
+      +include './app/shared/_layout_sidebar.haml'
+
+      / Layout Main
+      .adm-layout-main
+        .adm-layout-main-inner
+          .adm-form-item
+            %form.simple_form.products__new-form
+              %header.adm-form-item-header
+                .row
+                  .col-md-4
+                    %h1.adm-section-header-title Добавить товар
+                  .col-md-8
+                    %div( data-react-class="ProductStatusToggle" data-react-props='{"product_id": 1924, "state": "published", "manual_state": 0}')
+                %hr
+              .row
+                .col-md-10
+                  .form-alert.form-alert-danger
+                    Невозможно опубликовать товар. Проверьте поля, выделенные красным
+                  .form-group
+                    %label.control-label Фотографии
+                    .products__new-form-images-list.__small
+                      .products__new-form-image-thumb-block
+                        .products__new-form-image-thumb-empty
+                        .products__new-form-image-thumb-add
+                      .products__new-form-image-thumb-block
+                        %img.products__new-form-image-thumb{src: "assets/product-2-square.png", alt: ""}
+                        .products__new-form-image-thumb-remove
+                        .products__new-form-image-thumb-update
+                      .products__new-form-image-thumb-block
+                        %img.products__new-form-image-thumb{src: "assets/product-2-square.png", alt: ""}
+                        .products__new-form-image-thumb-remove
+                        .products__new-form-image-thumb-update
+                  .form-group
+                    %label.control-label Название товара
+                    %textarea.form-control.form-control-text-large{placeholder: 'Например, велосипед городской'}
+                  .row
+                    .col-sm-6
+                      .form-group
+                        %label.control-label Бренд
+                        %input.form-control{type: "text", placeholder: 'Бренд'}
+                    .col-sm-6
+                      .form-group
+                        %label.control-label Цена
+                        %input.form-control{type: "text", placeholder: '20 000'}
+                    .col-sm-6
+                      .form-group
+                        %label.control-label Категория
+                        %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}')
+                    .col-sm-6
+                      .form-group
+                        %label.control-label Подкатегория
+                        %div( data-react-class="SuperSelect" data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}')
+                  .form-group
+                    %label.control-label Варианты товара
+                    .form-block-group
+                      .form-group
+                        %a.products__new-form-variant-type-btn.active{role: 'products__new-form-variant-type-btn'} Размер
+                        %a.products__new-form-variant-type-btn{role: 'products__new-form-variant-type-btn'} Цвет
+                        %input.products__new-form-custom-variant-input{type: "text", placeholder: 'Другое', role: 'products__new-form-variant-type-input'}
+                      .row
+                        .col-md-11
+                          .row.row-block-padding
+                            .col-sm-4.hidden-xs
+                              %label.control-label{role: 'products__new-form-variant-type-label'} Размер
+                            .col-sm-4.hidden-xs
+                              %label.control-label Количество
+                            .col-sm-4.hidden-xs
+                              %label.control-label Артикул
+
+                      .row{role: 'products__new-form-variants-item'}
+                        .col-md-12
+                        .col-md-11
+                          .row.row-block-padding
+                            .col-sm-4
+                              %label.control-label.hidden-sm.hidden-md.hidden-lg Размер
+                              %input.form-control{type: "text", placeholder: 'Например, XL'}
+                            .col-sm-4
+                              %label.control-label.hidden-sm.hidden-md.hidden-lg Количество
+                              %input.form-control{type: "text", placeholder: 'Например, 5'}
+                            .col-sm-4
+                              %label.control-label.hidden-sm.hidden-md.hidden-lg Артикул
+                              %input.form-control{type: "text", placeholder: 'Например, M001-11-00'}
+                          %br
+                        .col-md-1
+                          %a.products__new-form-remove-variant-btn.pull-right
+                          .clearfix
+                      .row{role: 'products__new-form-variants-place'}
+
+                      .form-group
+                        -#input.btn.form-control{type: "text", placeholder: 'Добавить размеры и цвета'}
+                        .btn-add-fields{role: 'products__new-form-variants-add'}
+                          Добавить ещё
+
+                  .form-group.text
+                    %label.control-label
+                      Описание
+                    %textarea.form-control{:placeholder => "Описание", :required => "required", "autosize" => true}
+
+                  .form-group
+                    %label.control-label Характеристики
+                    .row
+                      .col-sm-6
+                        .form-group-sm
+                          %div.form-control-fake Например, веc
+                      .col-sm-6
+                        .row-gutter-dash.text-muted
+                          &mdash;
+                        .form-group-sm
+                          %input.form-control{type: "text", placeholder: '11 грамм'}
+                    .row
+                      .col-sm-6
+                        .form-group-sm
+                          %div.form-control-fake Например, вес
+                      .col-sm-6
+                        .row-gutter-dash.text-muted
+                          &mdash;
+                        .form-group-sm
+                          %input.form-control{type: "text", placeholder: '11 грамм'}
+              %footer.adm-form-item-footer
+                %button.adm-btn-submit{"data-disable-with" => "Сохраняем...", :type => "submit"}
+                  Сохранить
+                %button.adm-btn-remove
+                  Удалить товар навсегда
+      / end Layout Main
+    / end Layout
+    %script{src: 'scripts/vendor.js'}
+    %script{src: 'scripts/local.js'}

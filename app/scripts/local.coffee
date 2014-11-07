@@ -3,6 +3,8 @@ require './local/gon'
 require './shared/app'
 require './react/application'
 
+require './local/demo'
+
 require './local/routes'
 
 if localStorage.getItem('mockMode')

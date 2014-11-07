@@ -1131,9 +1131,9 @@ MANUAL_STATE_DEFAULT = 0;
 
 MANUAL_STATE_PUBLISHED = 1;
 
-MANUAL_STATE_DRAFT = 2;
+MANUAL_STATE_DRAFT = -1;
 
-MANUAL_STATE_ARCHIVE = 3;
+MANUAL_STATE_ARCHIVE = -2;
 
 window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggle',
   propTypes: {
@@ -1157,13 +1157,11 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
     return this.setState(nextProps);
   },
   render: function() {
-    var classes, hasErrors, isChecked, _ref;
-    isChecked = this.state.state === STATE_PUBLISHED && ((_ref = this.state.manual_state) === MANUAL_STATE_DEFAULT || _ref === MANUAL_STATE_PUBLISHED);
-    hasErrors = this.state.state === STATE_HAS_ERRORS;
+    var classes;
     classes = cx({
       "toggle__block": true,
-      "checked": isChecked,
-      "has_errors": hasErrors
+      "checked": this.isChecked(),
+      "has_errors": this.hasErrors()
     });
     return React.DOM.label({className: classes }, 
               React.DOM.div({className: "toggle__block-label-checked pull-left"}, 
@@ -1172,7 +1170,7 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
               React.DOM.div({className: "toggle__block-box pull-left"}, 
                 React.DOM.input({className: "toggle__block-checkbox", 
                        type: "checkbox", 
-                       checked: isChecked, 
+                       checked:  this.isChecked(), 
                        onChange:  this.handleInputChange, 
                        ref: "checkbox"}), 
                 React.DOM.div({className: "toggle__block-switch"}), 
@@ -1183,6 +1181,13 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
               ), 
               React.DOM.div({className: "clearfix"})
             );
+  },
+  isChecked: function() {
+    var _ref;
+    return this.state.state === STATE_PUBLISHED && ((_ref = this.state.manual_state) === MANUAL_STATE_DEFAULT || _ref === MANUAL_STATE_PUBLISHED);
+  },
+  hasErrors: function() {
+    return this.state.state === STATE_HAS_ERRORS;
   },
   handleInputChange: function(e) {
     var that, _ref;
@@ -1334,7 +1339,6 @@ window.SuperSelect = React.createClass({displayName: 'SuperSelect',
     if (!this.state.inFocus) {
       placeholder = this.props.placeholder;
     }
-    console.log('render value', this.state.value);
     return React.DOM.div({className: "form-group login__form-group--icon-right"}, 
         React.DOM.input({ref: "input", 
                onFocus:  this.onFocus, 
@@ -2443,7 +2447,7 @@ window.AppHelpers = {
 
 },{}],37:[function(require,module,exports){
 $(function() {
-  var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productToggle, productToggleSwitch, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
+  var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
   bindActivities = function() {
     $('[ks-modal]').on('click', function() {
       return ModalService.show($(this).data('modalUrl'));
@@ -2541,16 +2545,6 @@ $(function() {
   });
   $('@jump .dropdown, @jump input').on('click', function(e) {
     return e.stopPropagation();
-  });
-  productToggle = $('@product-toggle');
-  productToggleSwitch = productToggle.find('input[type="checkbox"]');
-  productToggleSwitch.on('change', function() {
-    var toggleBlock;
-    toggleBlock = $(this).parents().filter('[role="product-toggle"]');
-    toggleBlock.removeClass('checked');
-    if ($(this).is(':checked')) {
-      return toggleBlock.addClass('checked');
-    }
   });
   categoriesList = $('@categories-list');
   switcherDisplayCategories = $('@switch-display-categories');

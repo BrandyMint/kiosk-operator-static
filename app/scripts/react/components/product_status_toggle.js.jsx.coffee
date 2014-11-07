@@ -11,8 +11,8 @@ STATE_ARCHIVE     = 'archive'
 
 MANUAL_STATE_DEFAULT   = 0
 MANUAL_STATE_PUBLISHED = 1
-MANUAL_STATE_DRAFT     = 2
-MANUAL_STATE_ARCHIVE   = 3
+MANUAL_STATE_DRAFT     = -1
+MANUAL_STATE_ARCHIVE   = -2
 
 window.ProductStatusToggle = React.createClass
 
@@ -33,14 +33,10 @@ window.ProductStatusToggle = React.createClass
     @setState nextProps
 
   render: ->
-    isChecked = @state.state == STATE_PUBLISHED and
-      @state.manual_state in [MANUAL_STATE_DEFAULT, MANUAL_STATE_PUBLISHED]
-    hasErrors = @state.state == STATE_HAS_ERRORS
-
     classes = cx {
       "toggle__block": true
-      "checked":       isChecked
-      "has_errors":    hasErrors
+      "checked":       @isChecked()
+      "has_errors":    @hasErrors()
     }
 
     return `<label className={ classes }>
@@ -50,7 +46,7 @@ window.ProductStatusToggle = React.createClass
               <div className="toggle__block-box pull-left">
                 <input className="toggle__block-checkbox"
                        type=     "checkbox"
-                       checked=  { isChecked }
+                       checked=  { this.isChecked() }
                        onChange= { this.handleInputChange }
                        ref=      "checkbox" />
                 <div className="toggle__block-switch"></div>
@@ -61,6 +57,15 @@ window.ProductStatusToggle = React.createClass
               </div>
               <div className="clearfix"></div>
             </label>`
+
+
+  isChecked: ->
+    @state.state == STATE_PUBLISHED and
+      @state.manual_state in [MANUAL_STATE_DEFAULT, MANUAL_STATE_PUBLISHED]
+
+  hasErrors: ->
+    @state.state == STATE_HAS_ERRORS
+
 
   # todo: Здесь потенциально имеет место нарушение Flux
   # После встраивания компонента в приложение React, ответы

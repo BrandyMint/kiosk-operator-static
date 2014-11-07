@@ -33,8 +33,6 @@ window.SuperSelect = React.createClass
     closeButton = @closeButton() if @showCloseButton()
     placeholder = @props.placeholder unless @state.inFocus
 
-    console.log 'render value', @state.value
-
     `<div className='form-group login__form-group--icon-right' >
         <input ref='input' 
                onFocus = { this.onFocus }

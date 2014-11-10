@@ -1,0 +1,62 @@
+-# "!!! 5" - на клиенте не генерирует <!DOCTYPE html>
+-# Поэтому в вёрстке делаем так:
+<!DOCTYPE html>
+%html
+  %head
+    +include './app/shared/_head.haml'
+  %body.adm-body
+    +include './app/shared/_topbar.haml'
+
+    / Layout
+    .adm-layout
+      +include './app/shared/_layout_sidebar.haml'
+
+      - filter_product_states = {new: {slug: 'published', title: 'Опубликованные'}, delivery: {slug: 'unpublished', title: 'В подготовке'}, cancelled: {slug: 'has_errors', title: 'С ошибками'}, paused: {slug: 'archive', title: 'Архив'}}
+
+      / Layout Main
+      .adm-layout-main
+        .adm-layout-main-inner
+          / Section Header
+          %header.adm-section-header
+            %h1.adm-section-header-title Страницы
+          / end Section Header
+          / Main Content
+          .adm-main-content
+            .adm-main-content-grid
+              .adm-main-content-grid-col
+                / Subnav
+                %nav.adm-subnav
+                  %ul.adm-subnav-list
+                    %li.adm-subnav-item{class: 'selected'}
+                      %a.adm-subnav-item-link{href: '#todo', title: 'Доставка'}
+                        %span.adm-subnav-item-content Доставка
+                      %button.adm-btn-edit-item{title: 'Редактировать'}
+                        %span
+                          Редактировать
+                    %li.adm-subnav-item{class: '__edit'}
+                      %span.adm-subnav-item-content
+                        %input.adm-subnav-item-field{type: 'text', :value => "Оплата"}
+                        %span.adm-subnav-item-remove
+                    %li.adm-subnav-item
+                      %a.adm-subnav-item-link{href: '#todo', title: 'О магазине'}
+                        %span.adm-subnav-item-content О магазине
+                      %button.adm-btn-edit-item{title: 'Редактировать'}
+                        %span
+                          Редактировать
+                  %div.adm-subnav-item{class: '__edit'}
+                    %span.adm-subnav-item-content
+                      %input.adm-subnav-item-field{type: 'text', placeholder: 'Новая страница'}
+                / end Subnav
+              .adm-main-content-grid-col.__wide
+                / Textpage
+                .adm-textpage
+                  .adm-textpage-title.medium-editor-placeholder{data: {placeholder: 'Заголовок'}}
+                  .adm-textpage-content.medium-editor-placeholder{data: {placeholder: 'Начните писать текст. Можно перетаскивать или вставлять ссылки на картинки, вставлять ссылки на Яндекс или Гугл-карты, выделять и форматировать текст'}}
+                  %button.adm-btn-submit{"data-disable-with" => "Сохраняем...", :type => "submit"}
+                    Сохранить
+                / end Textpage
+          / end Main Content
+      / end Layout Main
+    / end Layout
+    %script{src: 'scripts/vendor.js'}
+    %script{src: 'scripts/local.js'}

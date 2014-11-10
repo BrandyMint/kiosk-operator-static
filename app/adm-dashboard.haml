@@ -53,28 +53,5 @@
           / end Dashboard
       / end Layout Main
     / end Layout
-
-    / Popup Products
-    - popup_products = [{cover: {src: 'assets/product-60x60-1.jpg'}, title: 'Мыльница с якорем', size: '16', article: '56456456', quantity: '1', price: '12 000'}, {cover: {src: 'assets/product-60x60-2.jpg'}, title: 'Мыльница с якорем', size: '-', article: '56456456', quantity: '1', price: '4 000'}]
-    - if popup_products.length > 0
-      .popup-products{class: 'bottom', style: 'top: 160px; left: 356px; display: none;'}
-        .popup-products__inner
-          %ul.popup-products__list
-            - for popup_product of popup_products
-              - popup_product = popup_products[popup_product]
-              %li.popup-products__item
-                .popup-products__item-price
-                  = popup_product.price + ' руб.'
-                .popup-products__item-pic
-                  %img{:src => popup_product.cover.src, :alt => popup_product.title}
-                .popup-products__item-desc
-                  %h4.popup-products__item-title
-                    %a{:href => "#product", :title => '#{popup_product.title}'}= popup_product.title
-                  %p.popup-products__item-details
-                    - if popup_product.size != '-'
-                      != 'Размер: ' + popup_product.size + '<br />'
-                    != 'Артикул: ' + popup_product.article + '<br />'
-                    = 'Количество: ' + popup_product.quantity
-    / end Popup Products
     %script{src: 'scripts/vendor.js'}
     %script{src: 'scripts/local.js'}

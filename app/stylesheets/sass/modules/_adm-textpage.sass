@@ -1,0 +1,28 @@
+.adm-textpage
+  height: 100%
+  padding: 20px 28px 90px
+  .adm-btn-submit
+    position: absolute
+    bottom: 20px
+    right: 20px
+
+.adm-textpage-title
+  min-height: 1.2em
+  margin-bottom: 0.25em
+  font-size: 32px
+  line-height: 1.2
+
+.adm-textpage-content
+  min-height: $line-height-base + em
+  font-size: 18px
+  line-height: $line-height-base
+
+.medium-editor-placeholder
+  position: relative
+  &:after
+    content: attr(data-placeholder) !important
+    position: absolute
+    top: 0
+    left: 0
+    font-style: normal !important
+    color: #d0d0d0

@@ -1,0 +1,46 @@
+.adm-main-content
+  margin: -20px -30px -20px
+  border-top: 1px solid $line-color
+  .adm-section-header + &
+    margin-top: 0
+
+.adm-main-content-grid
+  @include clearfix
+  position: relative
+  overflow: hidden
+
+.adm-main-content-grid-col
+  width: 20%
+  min-height: 460px
+  padding:
+    right: 0
+    left: 0
+  float: left
+  &.__wide
+    width: auto
+    float: none
+    overflow: hidden
+  &:before
+    content: ""
+    width: 1px
+    position: absolute
+    display: block
+    top: 0
+    bottom: 0
+    background-color: $line-color
+    z-index: $zindex-adm-main-content-col-divider
+  &:first-child
+    &:before
+      display: none
+
+
+@media screen and (max-width: $screen-sm-max)
+  .adm-main-content-grid-col
+    width: auto
+    min-height: 0
+    float: none
+    border-top: 1px solid $line-color
+    &:first-child
+      border-top: none
+    &:before
+      display: none

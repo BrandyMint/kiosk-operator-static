@@ -62,9 +62,24 @@ $navbar-background-color: #fff
 $block-padding: 20px
 
 // Z-index List
-$zindex-adm-categories-item-active: 10
+$zindex-toggle-block-switch: 1
+$zindex-products-new-form-image-thumb-block-mask: 1
+$zindex-products-new-form-image-thumb-remove: 2
+$zindex-products-new-form-image-input: 3
+$zindex-toggle-block-checkbox: 6
+$zindex-login-content-fullscreen: 10
+$zindex-left-sidebar: 300
+$zindex-header-navbar: 400
+
+$zindex-adm-categories-col-divider: 1
+$zindex-adm-main-content-col-divider: 1
+$zindex-adm-btn-auth-back: 2
+$zindex-adm-categories-item-active: 3
+$zindex-adm-subnav-item-active: 3
+$zindex-adm-categories-btn-edit-item: 4
+$zindex-adm-subnav-btn-edit-item: 4
+$zindex-adm-auth-buttons: 10
 $zindex-adm-topbar: 400 !default
-$zindex-popup: 1000 // для popup-roducts (TODO: избавиться, т.к. не используется)
 $zindex-adm-dropdown-popup: 1000 !default
 
 // Navbar
@@ -93,10 +108,6 @@ $hr-border: $gray-lightest
 
 $input-background-inactive: rgba(#fff, 0.85)
 
-$left-sidebar-z-index: 300
-$header-navbar-z-index: 400
-$products__new-form-image-input-z-index: 3
-
 // Order Status Bullet
 $order-status-bullet-size: 10px
 
@@ -113,13 +124,6 @@ $tooltip-bg: rgba(red($gray-darker), green($gray-darker), blue($gray-darker), .9
 $tooltip-arrow-color: $tooltip-bg
 
 $tooltip-opacity: 1
-
-// Popup Products
-$popup-products-bg: rgba(red($gray-darker), green($gray-darker), blue($gray-darker), .95)
-
-$popup-products-arrow-width: 10px !default
-
-$popup-products-arrow-color: $popup-products-bg !default
 
 // Breadcrumb
 $breadcrumb-padding-vertical: 0
@@ -180,3 +184,11 @@ $adm-categories-item-horizontal-padding: 15px
 $adm-categories-item-font-size: $font-size-base
 
 $adm-categories-item-active-bg: $blue
+
+// Categories
+$adm-subnav-item-vertical-padding: 14px
+$adm-subnav-item-horizontal-padding: 15px
+
+$adm-subnav-item-font-size: $font-size-base
+
+$adm-subnav-item-active-bg: $blue

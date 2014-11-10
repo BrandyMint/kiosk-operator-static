@@ -125,7 +125,7 @@ $products-form-images-list-padding: 12px
   top: 0
   opacity: 0
   cursor: pointer
-  z-index: $products__new-form-image-input-z-index
+  z-index: $zindex-products-new-form-image-input
 
 .products__new-form-images-list
   @include clearfix
@@ -146,7 +146,7 @@ $products-form-images-list-padding: 12px
   &:after
     content: ' '
     position: absolute
-    z-index: 1
+    z-index: $zindex-products-new-form-image-thumb-block-mask
     @each $s in top, left, right, bottom
       #{$s}: $products-form-images-list-padding/2
     background: none
@@ -170,11 +170,10 @@ $products-form-images-list-padding: 12px
   @extend .products__new-form-image-thumb
   padding-bottom: 97%
 
-
 .products__new-form-image-thumb-remove
   display: none
   position: absolute
-  z-index: 2
+  z-index: $zindex-products-new-form-image-thumb-remove
   top: 50%
   left: 30%
   width: 34px

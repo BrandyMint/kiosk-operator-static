@@ -33,12 +33,12 @@ input[type="checkbox"]
   width: 100%
   height: 100%
   opacity: 0
-  z-index: 6
+  z-index: $zindex-toggle-block-checkbox
 
-  &:checked ~ .toggle__block-track 
+  &:checked ~ .toggle__block-track
     box-shadow: inset 0 0 0 $toggle-height $gray-lighter
 
-  &:checked ~ .toggle__block-switch 
+  &:checked ~ .toggle__block-switch
     right: ($toggle-height - $toggle-switch-radius*2) / 2
     left: ($toggle-height - $toggle-switch-radius*2) / 2
     @extend %toggle-transition
@@ -55,14 +55,14 @@ input[type="checkbox"]
   width: $toggle-switch-radius*2
   height: $toggle-switch-radius*2
   border-radius: $toggle-switch-radius*2
-  z-index: 1
+  z-index: $zindex-toggle-block-switch
   transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860)
   transition-property: left, right
   transition-delay: 0s, .05s
   .has_errors &
     background-color: $red
 
-.toggle__block-track 
+.toggle__block-track
   position: absolute
   left: 0
   top: 0

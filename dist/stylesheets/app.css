@@ -8672,27 +8672,34 @@ a.label {
     background-color: #cc3700; }
 
 /* line 41, /home/danil/code/kiosk-operator-static/app/stylesheets/sass/settings/labels */
+.label.__any {
+  background-color: #d8d8d8; }
+  /* line 8, ./app/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/labels */
+  .label.__any[href]:hover, .label.__any[href]:focus {
+    background-color: #bfbfbf; }
+
+/* line 44, /home/danil/code/kiosk-operator-static/app/stylesheets/sass/settings/labels */
 .label.__published {
   background-color: #57cb6a; }
   /* line 8, ./app/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/labels */
   .label.__published[href]:hover, .label.__published[href]:focus {
     background-color: #38b74d; }
 
-/* line 44, /home/danil/code/kiosk-operator-static/app/stylesheets/sass/settings/labels */
+/* line 47, /home/danil/code/kiosk-operator-static/app/stylesheets/sass/settings/labels */
 .label.__unpublished {
   background-color: #006f99; }
   /* line 8, ./app/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/labels */
   .label.__unpublished[href]:hover, .label.__unpublished[href]:focus {
     background-color: #004a66; }
 
-/* line 47, /home/danil/code/kiosk-operator-static/app/stylesheets/sass/settings/labels */
+/* line 50, /home/danil/code/kiosk-operator-static/app/stylesheets/sass/settings/labels */
 .label.__has_errors {
   background-color: #ff4500; }
   /* line 8, ./app/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/labels */
   .label.__has_errors[href]:hover, .label.__has_errors[href]:focus {
     background-color: #cc3700; }
 
-/* line 50, /home/danil/code/kiosk-operator-static/app/stylesheets/sass/settings/labels */
+/* line 53, /home/danil/code/kiosk-operator-static/app/stylesheets/sass/settings/labels */
 .label.__archive {
   background-color: #ffd600; }
   /* line 8, ./app/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/labels */

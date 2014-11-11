@@ -939,7 +939,7 @@ window.ProductState = React.createClass({displayName: 'ProductState',
     source = {
       label: true
     };
-    source["__" + state] = true;
+    source["__" + this.props.state] = true;
     classes = React.addons.classSet(source);
     title = TITLES[this.props.state];
     return React.DOM.span({className: classes}, title);

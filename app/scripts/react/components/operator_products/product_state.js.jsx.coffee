@@ -14,7 +14,7 @@ window.ProductState = React.createClass
 
   render: ->
     source = label: true
-    source["__#{state}"] = true
+    source["__#{@props.state}"] = true
 
     classes = React.addons.classSet source
 

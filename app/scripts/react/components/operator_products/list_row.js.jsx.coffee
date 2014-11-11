@@ -9,7 +9,6 @@ window.OperatorProducts_Row = React.createClass
     product: React.PropTypes.object.isRequired
 
   render: ->
-    console.debug? 'product_id', @props.product.id
     `<tr onClick={ this.handleItemClick } data-category-id={this.props.product.category_id} data-product-id={ this.props.product.id }>
       <td className="adm-categories-goods-cover" data-title = "Товар"> <ProductThumb product={this.props.product} /> </td>
       <td className="adm-categories-goods-content"> { this.props.product.title } </td>
@@ -21,4 +20,5 @@ window.OperatorProducts_Row = React.createClass
 
   handleItemClick: (e) ->
     if not @state.isDragged
+      e.stopPropagation()
       ModalService.show Routes.edit_operator_product_url @props.product.id

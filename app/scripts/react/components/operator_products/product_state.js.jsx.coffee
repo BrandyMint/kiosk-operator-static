@@ -7,7 +7,6 @@ window.ProductState = React.createClass
     state: React.PropTypes.string.isRequired
 
   render: ->
-    console.debug? 'product state', @props.state
     switch @props.state
       when 'published'
         `<span className="label label-success">

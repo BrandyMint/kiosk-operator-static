@@ -9,11 +9,17 @@ STATE_ERROR   = 'error'
 window.OperatorProducts = React.createClass
   mixins: [React.addons.PureRenderMixin]
   propTypes:
-    category_id:     React.PropTypes.number.isRequired
+    category_id:    React.PropTypes.number.isRequired
+    productState:   React.PropTypes.string
+    productQuery:   React.PropTypes.string
 
   getInitialState: ->
-    currentState: STATE_LOADING
-    products:     null
+    currentState:   STATE_LOADING
+    products:       null
+
+  getDefaultProps: ->
+    productState:   null
+    productQuery:   null
 
   componentDidMount: -> @pullProducts @props.category_id
 
@@ -38,6 +44,8 @@ window.OperatorProducts = React.createClass
     @setState currentState: STATE_LOADING
     ProductsResource.index
       data:
+        query:       @props.productQuery
+        state:       @props.productState
         category_id: category_id
       success: (products) =>
         @setState products: products, currentState: STATE_READY

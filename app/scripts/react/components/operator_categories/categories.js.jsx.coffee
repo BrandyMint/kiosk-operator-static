@@ -7,8 +7,9 @@ STATE_READY   = 'ready'
 
 window.OperatorCategories = React.createClass
   propTypes:
-    # dapi: А где root?
     categories:     React.PropTypes.array
+    productState:   React.PropTypes.string
+    productQuery:   React.PropTypes.string
 
   getInitialState: ->
     selectedCategory: null
@@ -19,6 +20,8 @@ window.OperatorCategories = React.createClass
 
   getDefaultProps: ->
     categories:     null
+    productState:   null
+    productQuery:   null
 
   componentDidMount: ->
     # Если категории пришли в props, имитируем загрузку с сервера

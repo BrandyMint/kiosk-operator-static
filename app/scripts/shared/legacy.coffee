@@ -1,7 +1,8 @@
 $ ->
   # Подключение универсального модального окна
   modalClick = (event) ->
-    event.stopImmediatePropagation()
+    event.stopPropagation()
+    event.preventDefault()
     ModalService.show $(@).data 'modalUrl'
 
   bindActivities = ->

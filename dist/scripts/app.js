@@ -281,7 +281,9 @@ STATE_READY = 'ready';
 
 window.OperatorCategories = React.createClass({displayName: 'OperatorCategories',
   propTypes: {
-    categories: React.PropTypes.array
+    categories: React.PropTypes.array,
+    productState: React.PropTypes.string,
+    productQuery: React.PropTypes.string
   },
   getInitialState: function() {
     return {
@@ -292,7 +294,9 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
   },
   getDefaultProps: function() {
     return {
-      categories: null
+      categories: null,
+      productState: null,
+      productQuery: null
     };
   },
   componentDidMount: function() {
@@ -868,9 +872,6 @@ window.OperatorProducts_Row = React.createClass({displayName: 'OperatorProducts_
     product: React.PropTypes.object.isRequired
   },
   render: function() {
-    if (typeof console.debug === "function") {
-      console.debug('product_id', this.props.product.id);
-    }
     return React.DOM.tr({onClick:  this.handleItemClick, 'data-category-id': this.props.product.category_id, 'data-product-id':  this.props.product.id}, 
       React.DOM.td({className: "adm-categories-goods-cover", 'data-title': "Товар"}, " ", ProductThumb({product: this.props.product}), " "), 
       React.DOM.td({className: "adm-categories-goods-content"}, " ",  this.props.product.title, " "), 
@@ -881,6 +882,7 @@ window.OperatorProducts_Row = React.createClass({displayName: 'OperatorProducts_
   },
   handleItemClick: function(e) {
     if (!this.state.isDragged) {
+      e.stopPropagation();
       return ModalService.show(Routes.edit_operator_product_url(this.props.product.id));
     }
   }
@@ -929,9 +931,6 @@ window.ProductState = React.createClass({displayName: 'ProductState',
     state: React.PropTypes.string.isRequired
   },
   render: function() {
-    if (typeof console.debug === "function") {
-      console.debug('product state', this.props.state);
-    }
     switch (this.props.state) {
       case 'published':
         return React.DOM.span({className: "label label-success"}, 
@@ -971,12 +970,20 @@ STATE_ERROR = 'error';
 window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
   mixins: [React.addons.PureRenderMixin],
   propTypes: {
-    category_id: React.PropTypes.number.isRequired
+    category_id: React.PropTypes.number.isRequired,
+    productState: React.PropTypes.string,
+    productQuery: React.PropTypes.string
   },
   getInitialState: function() {
     return {
       currentState: STATE_LOADING,
       products: null
+    };
+  },
+  getDefaultProps: function() {
+    return {
+      productState: null,
+      productQuery: null
     };
   },
   componentDidMount: function() {
@@ -1008,6 +1015,8 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
     });
     return ProductsResource.index({
       data: {
+        query: this.props.productQuery,
+        state: this.props.productState,
         category_id: category_id
       },
       success: (function(_this) {
@@ -2410,7 +2419,8 @@ window.AppHelpers = {
 $(function() {
   var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, modalClick, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
   modalClick = function(event) {
-    event.stopImmediatePropagation();
+    event.stopPropagation();
+    event.preventDefault();
     return ModalService.show($(this).data('modalUrl'));
   };
   bindActivities = function() {

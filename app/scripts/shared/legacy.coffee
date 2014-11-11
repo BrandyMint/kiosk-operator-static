@@ -1,17 +1,16 @@
 $ ->
   # Подключение универсального модального окна
-  bindActivities = ->
-    modalClick = (event) ->
-      event.stopImmediatePropagation()
-      ModalService.show $(@).data 'modalUrl'
+  modalClick = (event) ->
+    event.stopImmediatePropagation()
+    ModalService.show $(@).data 'modalUrl'
 
-    $('[ks-modal]').off 'click', modalClick
-    $('[ks-modal]').on 'click',  modalClick
+  bindActivities = ->
     $("[tooltip]").tooltip()
     $('[autosize]').autosize()
 
-  bindActivities()
+  $(document).on 'click', '[ks-modal]', modalClick
 
+  bindActivities()
   $(document).on 'page:change', bindActivities
 
   productVariantsAdd = $('@products__new-form-variants-add')

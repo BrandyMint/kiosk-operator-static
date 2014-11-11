@@ -2,25 +2,22 @@
 
 ###*global window, React ###
 
+TITLES=
+  published:   'Опубликован'
+  has_errors:  'Есть ошибки'
+  unpublished: 'Снят с публикации'
+  archive:     'Архив'
+
 window.ProductState = React.createClass
   propTypes:
     state: React.PropTypes.string.isRequired
 
   render: ->
-    switch @props.state
-      when 'published'
-        `<span className="label label-success">
-          Опубликован
-        </span>`
-      when 'has_errors'
-        `<span className="label label-danger">
-          Есть ошибки
-        </span>`
-      when 'unpublished'
-        `<span className="label label-warning">
-          Снят с публикации
-        </span>`
-      when 'archive'
-        `<span className="label label-info">
-          В архиве
-        </span>`
+    source = label: true
+    source["__#{state}"] = true
+
+    classes = React.addons.classSet source
+
+    title = TITLES[@props.state]
+
+    `<span className={classes}>{title}</span>`

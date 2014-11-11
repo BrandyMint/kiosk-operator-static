@@ -921,29 +921,28 @@ window.OperatorProducts_Row_DragHelper = React.createClass({displayName: 'Operat
 /** @jsx React.DOM */
 
 /**global window, React */
+var TITLES;
+
+TITLES = {
+  published: 'Опубликован',
+  has_errors: 'Есть ошибки',
+  unpublished: 'Снят с публикации',
+  archive: 'Архив'
+};
+
 window.ProductState = React.createClass({displayName: 'ProductState',
   propTypes: {
     state: React.PropTypes.string.isRequired
   },
   render: function() {
-    switch (this.props.state) {
-      case 'published':
-        return React.DOM.span({className: "label label-success"}, 
-          "Опубликован"
-        );
-      case 'has_errors':
-        return React.DOM.span({className: "label label-danger"}, 
-          "Есть ошибки"
-        );
-      case 'unpublished':
-        return React.DOM.span({className: "label label-warning"}, 
-          "Снят с публикации"
-        );
-      case 'archive':
-        return React.DOM.span({className: "label label-info"}, 
-          "В архиве"
-        );
-    }
+    var classes, source, title;
+    source = {
+      label: true
+    };
+    source["__" + state] = true;
+    classes = React.addons.classSet(source);
+    title = TITLES[this.props.state];
+    return React.DOM.span({className: classes}, title);
   }
 });
 

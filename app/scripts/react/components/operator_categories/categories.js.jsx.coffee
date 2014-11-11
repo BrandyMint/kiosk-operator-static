@@ -7,7 +7,6 @@ STATE_READY   = 'ready'
 
 window.OperatorCategories = React.createClass
   propTypes:
-    categories:     React.PropTypes.array
     productState:   React.PropTypes.string
     productQuery:   React.PropTypes.string
 
@@ -24,18 +23,8 @@ window.OperatorCategories = React.createClass
     productQuery:   null
 
   componentDidMount: ->
-    # Если категории пришли в props, имитируем загрузку с сервера
-    # dapi: Что-то не очень. Тут должно быть что-то типа такого:
-    #
-    # OperatorCategoriesStore.addChangeListener @props @_onChange
-    # OperatorCategoriesStore.pullCategories props.rootCategory
-    #
-    if (@props.categories)
-      OperatorCategoriesServerActions.categoriesLoaded @props.categories
-    else
-      OperatorCategoriesService.getCategories()
-
     OperatorCategoriesStore.addChangeListener @_onChange
+    OperatorCategoriesService.getCategories()
 
   componentWillUnmount: ->
     OperatorCategoriesStore.removeChangeListener @_onChange
@@ -63,7 +52,7 @@ window.OperatorCategories = React.createClass
               </div>
               { subcategoriesPane }
               <div className="adm-categories-grid-col __wide">
-                <OperatorProducts category_id={ this.state.selectedCategory.id } />
+                <OperatorProducts category_id={ this.state.selectedCategory.id } productState={this.props.productState} productQuery={this.props.productQuery} />
               </div>
             </div>`
 

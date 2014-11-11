@@ -281,7 +281,6 @@ STATE_READY = 'ready';
 
 window.OperatorCategories = React.createClass({displayName: 'OperatorCategories',
   propTypes: {
-    categories: React.PropTypes.array,
     productState: React.PropTypes.string,
     productQuery: React.PropTypes.string
   },
@@ -300,12 +299,8 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
     };
   },
   componentDidMount: function() {
-    if (this.props.categories) {
-      OperatorCategoriesServerActions.categoriesLoaded(this.props.categories);
-    } else {
-      OperatorCategoriesService.getCategories();
-    }
-    return OperatorCategoriesStore.addChangeListener(this._onChange);
+    OperatorCategoriesStore.addChangeListener(this._onChange);
+    return OperatorCategoriesService.getCategories();
   },
   componentWillUnmount: function() {
     return OperatorCategoriesStore.removeChangeListener(this._onChange);
@@ -334,7 +329,7 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
               ), 
               subcategoriesPane, 
               React.DOM.div({className: "adm-categories-grid-col __wide"}, 
-                OperatorProducts({category_id:  this.state.selectedCategory.id})
+                OperatorProducts({category_id:  this.state.selectedCategory.id, productState: this.props.productState, productQuery: this.props.productQuery})
               )
             );
   },

@@ -1,7 +1,12 @@
 $ ->
   # Подключение универсального модального окна
   bindActivities = ->
-    $('[ks-modal]').on 'click', () -> ModalService.show $(@).data 'modalUrl'
+    modalClick = (event) ->
+      event.stopImmediatePropagation()
+      ModalService.show $(@).data 'modalUrl'
+
+    $('[ks-modal]').off 'click', modalClick
+    $('[ks-modal]').on 'click',  modalClick
     $("[tooltip]").tooltip()
     $('[autosize]').autosize()
 

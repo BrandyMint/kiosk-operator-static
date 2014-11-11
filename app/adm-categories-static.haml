@@ -43,7 +43,7 @@
                   %form.adm-categories-search-form{action: '?'}
                     %input.adm-categories-search-field.form-control{type: 'text', placeholder: 'Поиск по товарам'}
                   .adm-dropdown
-                    %a.label.label-product-published{href: '#todo', data: {toggle: 'dropdown'}} Опубликованные
+                    %a.label.__any{href: '#todo', data: {toggle: 'dropdown'}} Все товары
                       %i.fa.fa-angle-down
                     %ul.adm-dropdown-menu-status
                       - for filter_product_state of filter_product_states

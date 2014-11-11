@@ -2408,14 +2408,17 @@ window.AppHelpers = {
 
 },{}],40:[function(require,module,exports){
 $(function() {
-  var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
+  var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, modalClick, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
+  modalClick = function(event) {
+    event.stopImmediatePropagation();
+    return ModalService.show($(this).data('modalUrl'));
+  };
   bindActivities = function() {
-    $('[ks-modal]').on('click', function() {
-      return ModalService.show($(this).data('modalUrl'));
-    });
     $("[tooltip]").tooltip();
     return $('[autosize]').autosize();
   };
+  console.log('document bind click');
+  $(document).on('click', '[ks-modal]', modalClick);
   bindActivities();
   $(document).on('page:change', bindActivities);
   productVariantsAdd = $('@products__new-form-variants-add');

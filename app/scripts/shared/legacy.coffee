@@ -8,6 +8,7 @@ $ ->
     $("[tooltip]").tooltip()
     $('[autosize]').autosize()
 
+  console.log 'document bind click'
   $(document).on 'click', '[ks-modal]', modalClick
 
   bindActivities()

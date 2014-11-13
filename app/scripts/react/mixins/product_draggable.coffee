@@ -16,7 +16,7 @@ window.ProductDraggable =
         top: -5
         left: -15
       helper: ->
-        $ React.renderComponentToString OperatorProducts_Row_DragHelper(product: that.props.product)
+        $ React.renderComponentToString OperatorProducts_ListItem_DragHelper(product: that.props.product)
       start: (e) ->
         that.setState(isDragged: true)
       stop: (e) ->

@@ -26,7 +26,7 @@ window.OperatorCategories_TwoCategories = React.createClass
       </div>
       <div className="adm-categories-grid-col __wide">
         <OperatorProducts
-            category_id={ this.props.selectedCategory.id }
+            categoryId={ this.props.selectedCategory.id }
             productState={ this.props.productState }
             productQuery={ this.props.productQuery } />
       </div>

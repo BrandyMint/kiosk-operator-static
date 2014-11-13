@@ -1,9 +1,5 @@
 ###* @jsx React.DOM ###
 
-###*global React, window, $, ProductsStore, _ ###
-
-cx = React.addons.classSet
-
 window.OperatorCategories_Item = React.createClass
   mixins: [CategoryProductDroptarget]
 
@@ -13,40 +9,37 @@ window.OperatorCategories_Item = React.createClass
     onSelectCategory: React.PropTypes.func.isRequired
 
   getInitialState: ->
-    status:   'view'
+    status: 'view'
 
   render: ->
-    classes = cx {
+    classes = React.addons.classSet {
       'adm-categories-item': true
       'selected':            @props.isActive
       '__edit':              @state.status == 'edit'
     }
 
-    return `<div className=    { classes }
-                 onClick=      { this.handleItemClick }
-                 data-objectid={ this.props.category.id }>
+    return `<div className={ classes }
+                 data-objectid={ this.props.category.id }
+                 onClick={ this.handleItemClick }>
               { this._getItemNode() }
             </div>`
 
   _getItemNode: ->
-    return switch @state.status
+    switch @state.status
       when 'view'
         `<OperatorCategories_ItemView
-           category=           { this.props.category }
-           onDeleteStart=      { this.handleDeleteStart }
-           onEditStart=        { this.handleEditStart }
-         />`
+             category={ this.props.category }
+             onDeleteStart={ this.handleDeleteStart }
+             onEditStart={ this.handleEditStart } />`
       when 'edit'
         `<OperatorCategories_ItemEdit
-           category=           { this.props.category }
-           onFinish=           { this._backToView }
-           onDeleteStart =     { this.handleDeleteStart }
-         />`
+             category={ this.props.category }
+             onFinish={ this._backToView }
+             onDeleteStart={ this.handleDeleteStart } />`
       when 'delete'
         `<OperatorCategories_ItemDelete
-           category=           { this.props.category }
-           onFinish=           { this._backToView }
-         />`
+             category={ this.props.category }
+             onFinish={ this._backToView } />`
 
   _backToView: ->
     @setState(status: 'view')

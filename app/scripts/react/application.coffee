@@ -36,12 +36,17 @@ require './components/operator_categories/list/item'
 require './components/operator_categories/list/list'
 require './components/operator_categories/list/create_form'
 
+
+# new
+require './components/operator_products/operator_products'
+require './components/operator_products/loading'
+require './components/operator_products/loading_error'
+require './components/operator_products/list/list'
+require './components/operator_products/list/item'
+require './components/operator_products/list/item_drag_helper'
+require './components/operator_products/list/product_state'
+# old
 require './components/product_status_toggle'
-require './components/operator_products/list_row_drag_helper'
-require './components/operator_products/product_state'
-require './components/operator_products/list_row'
-require './components/operator_products/list_body'
-require './components/operator_products/products'
 
 require './components/modal'
 

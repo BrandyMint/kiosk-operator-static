@@ -1,14 +1,10 @@
 ###* @jsx React.DOM ###
 
-###*global $, React, OperatorCategoriesStore, OperatorCategoriesActions ###
-
-cx = React.addons.classSet
-#ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
-
-DRAG_DELAY  = 100 # мс
-DRAG_REVERT = 100 # мс
+DRAG_DELAY  = 100
+DRAG_REVERT = 100
 
 window.OperatorCategories_List = React.createClass
+
   propTypes:
     parentCategory:   React.PropTypes.object
     selectedCategory: React.PropTypes.object
@@ -19,7 +15,7 @@ window.OperatorCategories_List = React.createClass
     categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent @props.parentCategory
 
   componentDidMount: ->
-    OperatorCategoriesStore.addChangeListener @_onChange
+    OperatorCategoriesStore.addChangeListener @_onStoreChange
 
     $(@refs.list.getDOMNode()).sortable {
       scope: 'categoriesReorder'
@@ -36,20 +32,21 @@ window.OperatorCategories_List = React.createClass
       categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent newProps.parentCategory
 
   componentWillUnmount: ->
-    OperatorCategoriesStore.removeChangeListener @_onChange
+    OperatorCategoriesStore.removeChangeListener @_onStoreChange
 
   render: ->
+    totalCountClasses = React.addons.classSet {
+      'adm-categories-item': true
+      'selected': @props.selectedCategory?.id == @props.parentCategory.id
+    }
+
     that = @
     categoryNodes = @state.categoriesToShow.map (cat) ->
-      `<OperatorCategories_Item key=               { cat.id }
-                                category=          { cat }
-                                isActive=          { that._isCategoryActive(cat) }
-                                onSelectCategory=  { that.props.onSelectCategory } />`
-
-    totalCountClasses = cx {
-      'adm-categories-item': true
-      'selected'           : @props.selectedCategory?.id == @props.parentCategory.id
-    }
+      `<OperatorCategories_Item
+           category={ cat }
+           isActive={ that._isCategoryActive(cat) }
+           onSelectCategory={ that.props.onSelectCategory }
+           key={ cat.id } />`
 
     return `<div className="adm-categories-list">
 
@@ -67,10 +64,9 @@ window.OperatorCategories_List = React.createClass
                 { categoryNodes }
               </span>
 
-              <OperatorCategories_CreateForm parentCategory= { this.props.parentCategory } />
-
-              <div className="adm-categories-item __muted">
-                <span className="adm-categories-item-name">
+              <div className="adm-categories-item">
+                <span className="adm-categories-item-name"
+                      onClick={ this.handleTotalCountClick }>
                   Без категории
                 </span>
                 <span className="adm-categories-item-counter">
@@ -78,16 +74,16 @@ window.OperatorCategories_List = React.createClass
                 </span>
               </div>
 
+              <OperatorCategories_CreateForm parentCategory={ this.props.parentCategory } />
+
             </div>`
 
-  _onChange: ->
-    @setState
-      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent @state.parentCategory
-
   _isCategoryActive: (cat) ->
-    selectedCat = @props.selectedCategory
-    if selectedCat and not (@state.parentCategory and @state.parentCategory.id == selectedCat.id)
-      (cat.id == selectedCat.id) or (cat.id == selectedCat.parent_id)
+    selectedCategory = @props.selectedCategory
+    console.log @state.parentCategory, selectedCategory
+
+    if selectedCategory and not (@state.parentCategory and @state.parentCategory.id == selectedCategory.id)
+      (cat.id == selectedCategory.id) or (cat.id == selectedCategory.parent_id)
     else
       false
 
@@ -103,3 +99,10 @@ window.OperatorCategories_List = React.createClass
   handleTotalCountClick: (e) ->
     e.preventDefault()
     @props.onSelectCategory @props.parentCategory
+
+  handleWithoutCategoryClick: (e) ->
+    
+
+  _onStoreChange: ->
+    @setState
+      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent @state.parentCategory

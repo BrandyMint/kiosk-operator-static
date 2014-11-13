@@ -3,17 +3,15 @@
 # На основе http://api.kormilica.info/#!/operator
 
 window.OperatorCategoriesService =
-  getCategories: (callback) ->
+  getCategories: (options) ->
     if !@mockMode
       Requester.request
-        dataType: 'json'
-        url:      RoutesApi.operator_categories_url()
-        method:   'get'
+        url: RoutesApi.operator_categories_url()
         error: (xhr, status, err) ->
-          if callback then callback err || status
-        success: (data) ->
-          OperatorCategoriesServerActions.categoriesLoaded data
-          if callback then callback null, data
+          options?.error?(err || status)
+        success: (categories) ->
+          OperatorCategoriesServerActions.categoriesLoaded categories
+          options?.success?(null, categories)
     else
       that = @
       setTimeout ->

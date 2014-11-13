@@ -2,10 +2,10 @@
 
 window.OperatorCategoriesServerActions =
 
-  categoriesLoaded: (categoriesData) ->
+  categoriesLoaded: (categories) ->
     OperatorCategoriesDispatcher.handleServerAction
       type: 'receiveAll'
-      categories: categoriesData
+      categories: categories
 
   addCategory: (category) ->
     OperatorCategoriesDispatcher.handleServerAction

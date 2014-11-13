@@ -1,4 +1,5 @@
 class RequesterClass
+
   constructor: ({eb}) ->
     @start = false
     @eb = eb
@@ -12,4 +13,4 @@ class RequesterClass
     else
       @eb.on 'start', -> $.ajax options
 
-window.Requester = new RequesterClass eb: window.EB
+window.Requester = new RequesterClass(eb: window.EB)

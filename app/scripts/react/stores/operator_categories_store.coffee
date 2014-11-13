@@ -25,7 +25,7 @@ _positionCategory = (category) ->
     lastPosition = -1
 
   return _.extend category, {
-    "position":       lastPosition + 1
+    "position": lastPosition + 1
   }
 
 _getSortedCategoriesByParent = (parentCat) ->

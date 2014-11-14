@@ -1,6 +1,8 @@
 ###* @jsx React.DOM ###
 
-window.OperatorCategories_Item = React.createClass
+#TODO: ListItemManager
+
+window.OperatorCategories_ListItem = React.createClass
   mixins: [CategoryProductDroptarget]
 
   propTypes:
@@ -14,8 +16,8 @@ window.OperatorCategories_Item = React.createClass
   render: ->
     classes = React.addons.classSet {
       'adm-categories-item': true
-      'selected':            @props.isActive
-      '__edit':              @state.status == 'edit'
+      'selected': @props.isActive
+      '__edit': @state.status is 'edit'
     }
 
     return `<div className={ classes }
@@ -27,17 +29,17 @@ window.OperatorCategories_Item = React.createClass
   _getItemNode: ->
     switch @state.status
       when 'view'
-        `<OperatorCategories_ItemView
+        `<OperatorCategories_ListItemView
              category={ this.props.category }
              onDeleteStart={ this.handleDeleteStart }
              onEditStart={ this.handleEditStart } />`
       when 'edit'
-        `<OperatorCategories_ItemEdit
+        `<OperatorCategories_ListItemEdit
              category={ this.props.category }
              onFinish={ this._backToView }
              onDeleteStart={ this.handleDeleteStart } />`
       when 'delete'
-        `<OperatorCategories_ItemDelete
+        `<OperatorCategories_ListItemDelete
              category={ this.props.category }
              onFinish={ this._backToView } />`
 

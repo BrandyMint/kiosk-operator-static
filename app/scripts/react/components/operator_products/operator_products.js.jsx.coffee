@@ -1,16 +1,17 @@
 ###* @jsx React.DOM ###
 
 LOADING_STATE = 'loading'
-LOADED_STATE  = 'ready'
+LOADED_STATE  = 'loaded'
 ERROR_STATE   = 'error'
 
 window.OperatorProducts = React.createClass
   mixins: [React.addons.PureRenderMixin]
 
   propTypes:
-    categoryId:   React.PropTypes.number.isRequired
-    productState: React.PropTypes.string
-    productQuery: React.PropTypes.string
+    categoryId:           React.PropTypes.number.isRequired
+    productState:         React.PropTypes.string
+    productQuery:         React.PropTypes.string
+    includeSubcategories: React.PropTypes.bool.isRequired
 
   getInitialState: ->
     currentState: LOADING_STATE
@@ -21,10 +22,10 @@ window.OperatorProducts = React.createClass
     productQuery: null
 
   componentDidMount: ->
-    @pullProducts @props.categoryId
+    @pullProducts @props.categoryId, @props.includeSubcategories
 
   componentWillReceiveProps: (nextProps) ->
-    @pullProducts nextProps.categoryId
+    @pullProducts nextProps.categoryId, nextProps.includeSubcategories
 
   render: ->
     switch @state.currentState
@@ -43,14 +44,15 @@ window.OperatorProducts = React.createClass
   _onChange: ->
     @activateLoadedState()
 
-  pullProducts: (categoryId) ->
+  pullProducts: (categoryId, includeSubcategories) ->
     @activateLoadingState()
-
+    #TODO: safeUpdateState
     ProductsResource.index
       data:
-        query:       @props.productQuery
-        state:       @props.productState
+        query: @props.productQuery
+        state: @props.productState
         category_id: categoryId
+        include_subcategories: includeSubcategories
       success: (products) =>
         @setState {
           products: products

@@ -3,11 +3,12 @@
 window.OperatorCategories_CategoriesLoaded = React.createClass
 
   propTypes:
-    parentCategory:   React.PropTypes.object.isRequired
-    selectedCategory: React.PropTypes.object.isRequired
-    productQuery:     React.PropTypes.string
-    productState:     React.PropTypes.string
-    onSelectCategory: React.PropTypes.func.isRequired
+    parentCategory:       React.PropTypes.object.isRequired
+    selectedCategory:     React.PropTypes.object.isRequired
+    productQuery:         React.PropTypes.string
+    productState:         React.PropTypes.string
+    includeSubcategories: React.PropTypes.bool.isRequired
+    onSelectCategory:     React.PropTypes.func.isRequired
 
   render: ->
     selectedCategory = @props.selectedCategory
@@ -19,6 +20,7 @@ window.OperatorCategories_CategoriesLoaded = React.createClass
                                            selectedCategory={ selectedCategory }
                                            productQuery={ this.props.productQuery }
                                            productState={ this.props.productState }
+                                           includeSubcategories={ this.props.includeSubcategories }
                                            onSelectCategory={ this.props.onSelectCategory } />`
 
       when 1 then categoriesContent = `<OperatorCategories_TwoCategories
@@ -27,6 +29,7 @@ window.OperatorCategories_CategoriesLoaded = React.createClass
                                            selectedCategory={ selectedCategory }
                                            productQuery={ this.props.productQuery }
                                            productState={ this.props.productState }
+                                           includeSubcategories={ this.props.includeSubcategories }
                                            onSelectCategory={ this.props.onSelectCategory } />`
 
       when 2
@@ -37,6 +40,7 @@ window.OperatorCategories_CategoriesLoaded = React.createClass
                                  selectedCategory={ selectedCategory }
                                  productQuery={ this.props.productQuery }
                                  productState={ this.props.productState }
+                                 includeSubcategories={ this.props.includeSubcategories }
                                  onSelectCategory={ this.props.onSelectCategory } />`
 
     categoriesContent

@@ -6,7 +6,7 @@ STATE_INPUT   = 'input'
 STATE_POSTING = 'posting'
 STATE_ERROR   = 'error'
 
-window.OperatorCategories_ItemEdit = React.createClass
+window.OperatorCategories_ListItemEdit = React.createClass
   propTypes:
     category:         React.PropTypes.object.isRequired
     onDeleteStart:    React.PropTypes.func.isRequired

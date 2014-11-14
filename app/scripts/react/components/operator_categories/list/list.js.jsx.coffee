@@ -6,9 +6,10 @@ DRAG_REVERT = 100
 window.OperatorCategories_List = React.createClass
 
   propTypes:
-    parentCategory:   React.PropTypes.object
-    selectedCategory: React.PropTypes.object
-    onSelectCategory: React.PropTypes.func.isRequired
+    parentCategory:       React.PropTypes.object
+    selectedCategory:     React.PropTypes.object
+    includeSubcategories: React.PropTypes.bool.isRequired
+    onSelectCategory:     React.PropTypes.func.isRequired
 
   getInitialState: ->
     parentCategory:   @props.parentCategory
@@ -26,23 +27,18 @@ window.OperatorCategories_List = React.createClass
       stop: @handleDrop
     }
 
-  componentWillReceiveProps: (newProps) ->
+  componentWillReceiveProps: (nextProps) ->
     @setState
-      parentCategory:   newProps.parentCategory
-      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent newProps.parentCategory
+      parentCategory:   nextProps.parentCategory
+      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent nextProps.parentCategory
 
   componentWillUnmount: ->
     OperatorCategoriesStore.removeChangeListener @_onStoreChange
 
   render: ->
-    totalCountClasses = React.addons.classSet {
-      'adm-categories-item': true
-      'selected': @props.selectedCategory?.id == @props.parentCategory.id
-    }
-
     that = @
-    categoryNodes = @state.categoriesToShow.map (cat) ->
-      `<OperatorCategories_Item
+    categories = @state.categoriesToShow.map (cat) ->
+      `<OperatorCategories_ListItem
            category={ cat }
            isActive={ that._isCategoryActive(cat) }
            onSelectCategory={ that.props.onSelectCategory }
@@ -50,29 +46,19 @@ window.OperatorCategories_List = React.createClass
 
     return `<div className="adm-categories-list">
 
-              <div className={ totalCountClasses }
-                   onClick={ this.handleTotalCountClick }>
-                <span className="adm-categories-item-name">
-                  Все товары
-                </span>
-                <span className="adm-categories-item-counter">
-                  { this.props.parentCategory.deep_products_count }
-                </span>
-              </div>
+              <OperatorCategories_ListItemWithSubcategories
+                  category={ this.props.parentCategory }
+                  isActive={ this.props.selectedCategory.id == this.props.parentCategory.id &&
+                             this.props.includeSubcategories == true }
+                  onSelectCategory={ this.props.onSelectCategory } />
 
-              <span ref="list">
-                { categoryNodes }
-              </span>
+              <span ref="list">{ categories }</span>
 
-              <div className="adm-categories-item">
-                <span className="adm-categories-item-name"
-                      onClick={ this.handleTotalCountClick }>
-                  Без категории
-                </span>
-                <span className="adm-categories-item-counter">
-                  { this.props.parentCategory.products_count }
-                </span>
-              </div>
+              <OperatorCategories_ListItemWithoutCategory
+                  category={ this.props.parentCategory }
+                  isActive={ this.props.selectedCategory.id == this.props.parentCategory.id &&
+                             this.props.includeSubcategories == false }
+                  onSelectCategory={ this.props.onSelectCategory } />
 
               <OperatorCategories_CreateForm parentCategory={ this.props.parentCategory } />
 
@@ -80,7 +66,6 @@ window.OperatorCategories_List = React.createClass
 
   _isCategoryActive: (cat) ->
     selectedCategory = @props.selectedCategory
-    console.log @state.parentCategory, selectedCategory
 
     if selectedCategory and not (@state.parentCategory and @state.parentCategory.id == selectedCategory.id)
       (cat.id == selectedCategory.id) or (cat.id == selectedCategory.parent_id)
@@ -99,9 +84,6 @@ window.OperatorCategories_List = React.createClass
   handleTotalCountClick: (e) ->
     e.preventDefault()
     @props.onSelectCategory @props.parentCategory
-
-  handleWithoutCategoryClick: (e) ->
-    
 
   _onStoreChange: ->
     @setState

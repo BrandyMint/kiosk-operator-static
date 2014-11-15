@@ -11,34 +11,29 @@ window.OperatorCategories = React.createClass
   #   productQuery: React.PropTypes.string
 
   getInitialState: ->
-    currentState: LOADING_STATE
-    # selectedCategory: null
+    currentState:    LOADING_STATE
+    currentCategory: null
+    rootCategory:    null
     # Determines whether or not load products deeper. In first time we open
     # 'Все товары' listitem, which implies truthy value
     # includeSubcategories: true
 
-    # # dapi: Почему это state? Он же не метяется, это props
-    # rootCategory:     null
-
   componentDidMount: ->
-    # OperatorCategoriesStore.addChangeListener @_onStoreChange
-
     OperatorCategoriesViewActions.loadCategories {
       error: => @activateErrorState()
     }
 
+    OperatorCategoriesStore.addChangeListener @_onStoreChange
+
   componentWillUnmount: ->
-    # OperatorCategoriesStore.removeChangeListener @_onStoreChange
+    OperatorCategoriesStore.removeChangeListener @_onStoreChange
 
   render: ->
     switch @state.currentState
-      when LOADED_STATE  then categoriesContent = `<OperatorCategories_CategoriesLoaded
+      when LOADED_STATE  then categoriesContent = `<OperatorCategories_Loaded
                                                        parentCategory={ this.state.rootCategory }
-                                                       selectedCategory={ this.state.selectedCategory }
-                                                       productQuery={ this.props.productQuery }
-                                                       productState={ this.props.productState }
-                                                       includeSubcategories={ this.state.includeSubcategories }
-                                                       onSelectCategory={ this.handleCategorySelection } />`
+                                                       currentCategory={ this.state.currentCategory }
+                                                       onCategorySelect={ this.handleCategorySelect } />`
       when LOADING_STATE then categoriesContent = `<OperatorCategories_Loading />`
       when ERROR_STATE   then categoriesContent = `<OperatorCategories_LoadingError />`
       else console.warn 'Unknown currentState of OperatorCategories component', @state.currentState
@@ -47,24 +42,21 @@ window.OperatorCategories = React.createClass
 
   activateErrorState: -> @setState(currentState: ERROR_STATE)
 
-  # handleCategorySelection: (category, includeSubcategories = true) ->
-  #   @setState {
-  #     selectedCategory: category
-  #     includeSubcategories: includeSubcategories
-  #   }
+  handleCategorySelect: (category) ->
+    @setState(currentCategory: category)
 
-  # _onStoreChange: ->
-  #   rootCategory = @state.rootCategory || OperatorCategoriesStore.getRootCategory()
+  _onStoreChange: ->
+    rootCategory = OperatorCategoriesStore.getRootCategory()
 
-  #   if OperatorCategoriesStore.hasCategory @state.selectedCategory
-  #     selectedCategory = @state.selectedCategory
-  #   else if @state.selectedCategory and @state.selectedCategory.parent_id
-  #     selectedCategory = OperatorCategoriesStore.getCategoryById @state.selectedCategory.parent_id
-  #   else
-  #     selectedCategory = rootCategory
+    if OperatorCategoriesStore.isCategoryExists @state.currentCategory
+      currentCategory = @state.currentCategory
+    else if @state.currentCategory && @state.currentCategory.parent_id
+      currentCategory = OperatorCategoriesStore.getCategoryById @state.currentCategory.parent_id
+    else
+      currentCategory = rootCategory
 
-  #   @setState {
-  #     currentState: LOADED_STATE
-  #     selectedCategory: selectedCategory
-  #     rootCategory: rootCategory
-  #   }
+    @setState {
+      currentState:    LOADED_STATE
+      currentCategory: currentCategory
+      rootCategory:    rootCategory
+    }

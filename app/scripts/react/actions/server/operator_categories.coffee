@@ -2,5 +2,5 @@ window.OperatorCategoriesServerActions =
 
   receiveCategories: (categories) ->
     OperatorCategoriesDispatcher.handleServerAction
-      type: 'receiveCategories'
+      type: 'categoriesLoaded'
       categories: categories

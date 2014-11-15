@@ -1,37 +1,27 @@
 window.OperatorCategoriesService =
 
-  loadCategories: (options) ->
+  loadCategories: ({error}) ->
     Requester.request
       url: ApiRoutes.operator_categories_url()
       error: (xhr, status, err) ->
-        options?.error?(err || status)
+        error?(err || status)
       success: (categories) ->
         OperatorCategoriesServerActions.receiveCategories categories
-        options?.success?(null, categories)
+        success?(categories)
 
-  # createCategory: ({name, parent_id, success, error}) ->
-  #   data = OperatorCategoriesStore.positionCategory
-  #     name: name
-  #     parent_id: parent_id
-  #   if !@mockMode
-  #     $.ajax
-  #       dataType: 'json'
-  #       url:      RoutesApi.operator_categories_url()
-  #       data:     data
-  #       method:   'post'
-  #       error: (xhr, status, err) ->
-  #         error err || status
-  #       success: (category) ->
-  #         OperatorCategoriesServerActions.addCategory category
-  #         success category
-  #   else
-  #     setTimeout ->
-  #       data.id = Math.floor(Math.random() * 100000000)
-  #       data.products_count = 0
-  #       data.deep_products_count = 0
-  #       OperatorCategoriesServerActions.addCategory data
-  #       success data
-  #     , @mockLatency
+  createCategory: ({name, parentId, success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_categories_url()
+      method: 'POST'
+      data:
+        name:      name
+        parent_id: parentId
+        position:  OperatorCategoriesStore.getCategoryPosition(parent_id: parentId)
+      error: (xhr, status, err) ->
+        error(err || status)
+      success: (category) ->
+        OperatorCategoriesServerActions.createCategory category
+        success?(category)
 
   # updateSingleCategory: ({category, success, error}) ->
   #   @updateCategory

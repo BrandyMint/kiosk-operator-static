@@ -47,6 +47,7 @@ window.OperatorCategories_List = React.createClass
 
               <span ref="list">{ categories }</span>
 
+              <OperatorCategories_CreateForm parentCategory={ this.props.parentCategory } />
             </div>`
 
   _isCategoryActive: (cat) ->

@@ -6,7 +6,7 @@ module.exports = {
   dist: {
     scripts: {
       baseDir: src
-      extensions: ['.coffee', '.js.jsx.coffee']
+      extensions: ['.coffee', '.jsx.coffee', '.js.jsx.coffee']
       entries: './scripts/dist.coffee'
       dest: dist + '/scripts/'
       outputName: 'app.js'
@@ -27,7 +27,7 @@ module.exports = {
     entries: src + '/scripts/local.coffee'
     dest: build + '/scripts'
     outputName: 'local.js'
-    extensions: ['.coffee', '.js.jsx.coffee']
+    extensions: ['.coffee', '.jsx.coffee', '.js.jsx.coffee']
   }
   browserSync: {
     port: 9000

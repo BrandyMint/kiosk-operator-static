@@ -9,7 +9,7 @@ source         = require 'vinyl-source-stream'
 bundleLogger   = require '../util/bundleLogger'
 handleErrors   = require '../util/handleErrors'
 vendorConfig   = require('../config').vendor
-localConfig   = require('../config').local
+localConfig    = require('../config').local
 
 gulp.task 'vendorScripts', ['clean'], ->
   bundler = browserify({
@@ -30,7 +30,7 @@ gulp.task 'vendorScripts', ['clean'], ->
     .require './bootstrap-sass-official/assets/javascripts/bootstrap', { expose: 'bootstrapSass' }
     .require './react/react-with-addons',                              { expose: 'react' }
     .require './react-mixin-manager/react-mixin-manager',              { expose: 'react-mixin-manager' }
-    .require '../scripts/react/libs/react_ujs',                   { expose: 'reactUjs' }
+    .require '../scripts/libs/react_ujs',                              { expose: 'reactUjs' }
     .require './eventEmitter/EventEmitter',                            { expose: 'eventEmitter' }
     .require './typeahead.js/dist/typeahead.bundle',                   { expose: 'typeahead' }
 

@@ -1,5 +1,0 @@
-class window.NotificationControllerClass
-  notify:
-
-
-

@@ -65,6 +65,8 @@ window.OperatorCategories_ListItemManager = React.createClass
     e.preventDefault()
     @activateDeleteState()
 
-  handleItemClick: (e) ->
-    e.preventDefault()
-    @props.onCategorySelect @props.category
+  handleItemClick: ->
+    @props.onCategorySelect {
+      category: @props.category
+      includeSubcategories: false
+    }

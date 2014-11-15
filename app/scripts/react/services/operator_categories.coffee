@@ -1,6 +1,6 @@
 window.OperatorCategoriesService =
 
-  loadCategories: ({error}) ->
+  loadCategories: ({success, error}) ->
     Requester.request
       url: ApiRoutes.operator_categories_url()
       error: (xhr, status, err) ->

@@ -3,9 +3,10 @@
 window.OperatorCategories_OneCategory = React.createClass
 
   propTypes:
-    parentCategory:   React.PropTypes.object.isRequired
-    currentCategory:  React.PropTypes.object.isRequired
-    onCategorySelect: React.PropTypes.func.isRequired
+    parentCategory:       React.PropTypes.object.isRequired
+    currentCategory:      React.PropTypes.object.isRequired
+    includeSubcategories: React.PropTypes.bool.isRequired
+    onCategorySelect:     React.PropTypes.func.isRequired
 
   render: ->
    `<div className="adm-categories-grid">
@@ -13,6 +14,7 @@ window.OperatorCategories_OneCategory = React.createClass
         <OperatorCategories_List
             parentCategory={ this.props.parentCategory }
             currentCategory={ this.props.currentCategory }
+            includeSubcategories={ this.props.includeSubcategories }
             onCategorySelect={ this.props.onCategorySelect } />
       </div>
       <div className="adm-categories-grid-col __wide">

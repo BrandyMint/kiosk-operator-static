@@ -5,7 +5,7 @@ PLACEHOLDER   = 'Новая категория'
 ERROR_MESSAGE = 'Ошибка создания категории.'
 
 INPUT_STATE   = 'input'
-CREATE_STATE = 'posting'
+CREATE_STATE  = 'create'
 ERROR_STATE   = 'error'
 
 window.OperatorCategories_CreateForm = React.createClass

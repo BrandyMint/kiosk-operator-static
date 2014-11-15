@@ -11,16 +11,17 @@ window.OperatorCategories = React.createClass
   #   productQuery: React.PropTypes.string
 
   getInitialState: ->
-    currentState:    LOADING_STATE
-    currentCategory: null
-    rootCategory:    null
+    currentState:         LOADING_STATE
+    currentCategory:      null
+    rootCategory:         null
     # Determines whether or not load products deeper. In first time we open
-    # 'Все товары' listitem, which implies truthy value
-    # includeSubcategories: true
+    # all products with subcategories, which implies truthy value
+    includeSubcategories: true
 
   componentDidMount: ->
     OperatorCategoriesViewActions.loadCategories {
-      error: => @activateErrorState()
+      success: @activateLoadedState
+      error:   @activateErrorState
     }
 
     OperatorCategoriesStore.addChangeListener @_onStoreChange
@@ -33,6 +34,7 @@ window.OperatorCategories = React.createClass
       when LOADED_STATE  then categoriesContent = `<OperatorCategories_Loaded
                                                        parentCategory={ this.state.rootCategory }
                                                        currentCategory={ this.state.currentCategory }
+                                                       includeSubcategories={ this.state.includeSubcategories }
                                                        onCategorySelect={ this.handleCategorySelect } />`
       when LOADING_STATE then categoriesContent = `<OperatorCategories_Loading />`
       when ERROR_STATE   then categoriesContent = `<OperatorCategories_LoadingError />`
@@ -40,10 +42,14 @@ window.OperatorCategories = React.createClass
 
     categoriesContent
 
-  activateErrorState: -> @setState(currentState: ERROR_STATE)
+  activateLoadedState: -> @setState(currentState: LOADED_STATE)
+  activateErrorState:  -> @setState(currentState: ERROR_STATE)
 
-  handleCategorySelect: (category) ->
-    @setState(currentCategory: category)
+  handleCategorySelect: ({category, includeSubcategories}) ->
+    @setState {
+      currentCategory: category
+      includeSubcategories: includeSubcategories
+    }
 
   _onStoreChange: ->
     rootCategory = OperatorCategoriesStore.getRootCategory()
@@ -56,7 +62,6 @@ window.OperatorCategories = React.createClass
       currentCategory = rootCategory
 
     @setState {
-      currentState:    LOADED_STATE
       currentCategory: currentCategory
       rootCategory:    rootCategory
     }

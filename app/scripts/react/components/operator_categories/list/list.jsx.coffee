@@ -36,25 +36,37 @@ window.OperatorCategories_List = React.createClass
 
   render: ->
     that = @
-    categories = @state.categoriesToShow.map (cat) ->
+    categories = @state.categoriesToShow.map (category) ->
       `<OperatorCategories_ListItemManager
-           category={ cat }
-           isActive={ that._isCategoryActive(cat) }
+           category={ category }
+           isActive={ that._isCategoryActive(category) }
            onCategorySelect={ that.props.onCategorySelect }
-           key={ cat.id } />`
+           key={ category.id } />`
 
     return `<div className="adm-categories-list">
 
+              <OperatorCategories_ListItemWithSubcategories
+                  category={ this.props.parentCategory }
+                  isActive={ this.props.currentCategory.id == this.props.parentCategory.id &&
+                             this.props.includeSubcategories == true }
+                  onCategorySelect={ this.props.onCategorySelect } />
+
               <span ref="list">{ categories }</span>
+
+              <OperatorCategories_ListItemWithoutCategory
+                  category={ this.props.parentCategory }
+                  isActive={ this.props.currentCategory.id == this.props.parentCategory.id &&
+                             this.props.includeSubcategories == false }
+                  onCategorySelect={ this.props.onCategorySelect } />
 
               <OperatorCategories_CreateForm parentCategory={ this.props.parentCategory } />
             </div>`
 
-  _isCategoryActive: (cat) ->
+  _isCategoryActive: (category) ->
     currentCategory = @props.currentCategory
 
     if currentCategory and not (@state.parentCategory and @state.parentCategory.id == currentCategory.id)
-      (cat.id == currentCategory.id) or (cat.id == currentCategory.parent_id)
+      (category.id == currentCategory.id) or (category.id == currentCategory.parent_id)
     else
       false
 

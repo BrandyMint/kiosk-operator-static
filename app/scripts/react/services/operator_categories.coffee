@@ -18,7 +18,7 @@ window.OperatorCategoriesService =
         parent_id: parentId
         position:  OperatorCategoriesStore.getCategoryPosition(parent_id: parentId)
       error: (xhr, status, err) ->
-        error(err || status)
+        error?(err || status)
       success: (category) ->
         OperatorCategoriesServerActions.createCategory category
         success?(category)
@@ -31,23 +31,29 @@ window.OperatorCategoriesService =
   #       success category
   #     error: error
 
-  # updateCategory: ({category, success, error}) ->
-  #   id = category.id
-  #   data = _.pick category, ['name', 'position', 'parent_id']
-  #   if !@mockMode
-  #     $.ajax
-  #       dataType: 'json'
-  #       url:      RoutesApi.operator_category_url id
-  #       data:     data
-  #       method:   'put'
-  #       error: (xhr, status, err) ->
-  #         error err || status
-  #       success: (response) ->
-  #         success response
-  #   else
-  #     setTimeout ->
-  #       success category
-  #     , @mockLatency
+  updateCategory: ({category, success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_category_url category.id
+      method: 'PUT'
+      data:
+        name:      category.name
+        position:  category.position
+        parent_id: category.parent_id
+      error: (xhr, status, err) ->
+        error?(err || status)
+      success: (category) ->
+        OperatorCategoriesServerActions.updateCategory category
+        success?(category)
+
+  deleteCategory: ({category, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_category_url category.id
+      method: 'DELETE'
+      error: (xhr, status, err) ->
+        error?(err || status)
+      success: (response) ->
+        OperatorCategoriesServerActions.deleteCategory category
+        success?(response)
 
   # reorderCategories: (categoryId, insertIdx) ->
   #   positionChanges = OperatorCategoriesStore.getReorderedPositions categoryId, insertIdx

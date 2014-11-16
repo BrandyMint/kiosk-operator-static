@@ -3,6 +3,15 @@ window.OperatorCategoriesViewActions =
   loadCategories: (options) ->
     OperatorCategoriesService.loadCategories options
 
+  createCategory: (options) ->
+    OperatorCategoriesService.createCategory options
+
+  updateCategory: (options) ->
+    OperatorCategoriesService.updateCategory options
+
+  deleteCategory: (options) ->
+    OperatorCategoriesService.deleteCategory options
+
   # # Пробую исопльзовать actions для более сложной логики
   # # нежели простой вызов диспетчера
   # reloadCategory: (category_id) ->
@@ -12,11 +21,6 @@ window.OperatorCategoriesViewActions =
   #       OperatorCategoriesDispatcher.handleServerAction
   #         type: 'updateCategory'
   #         category: category
-
-  # deleteCategory: ({category, error}) ->
-  #   CategoriesResource.delete
-  #     category: category
-  #     error:    error
 
   # categorySelected: (category) ->
   #   OperatorCategoriesDispatcher.handleViewAction

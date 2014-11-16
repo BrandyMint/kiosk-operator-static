@@ -56,11 +56,12 @@ window.OperatorCategories_CreateForm = React.createClass
       categoryName: categoryName
     }
 
-    OperatorCategoriesService.createCategory
+    OperatorCategoriesViewActions.createCategory {
       name:     categoryName
       parentId: parentId
       success:  @restoreDefaults
       error:    @activateErrorState
+    }
 
   restoreDefaults: ->
     @setState @getInitialState()

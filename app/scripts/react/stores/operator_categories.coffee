@@ -20,6 +20,21 @@ window.OperatorCategoriesStore = _.extend new BaseStore(), {
 
     _categories = clonedCategories
 
+  updateCategory: (data) ->
+    for _category in _categories when _category.id == data.id
+      _.extend _category, data
+      break
+
+  deleteCategory: (category) ->
+    clonedCategories = _categories[..]
+    console.log 'удаляем', category
+    for clonedCategory, i in clonedCategories when clonedCategory.id == category.id
+      clonedCategories.splice i, 1
+      console.log 'удалили', clonedCategory
+      break
+
+    _categories = clonedCategories
+
   getCategories: -> _categories
 
   getRootCategory: ->
@@ -62,6 +77,16 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (p
     when 'categoriesLoaded'
       OperatorCategoriesStore.pushCategories action.categories
       OperatorCategoriesStore.emitChange()
+      break
     when 'categoryCreated'
       OperatorCategoriesStore.pushCategories [action.category]
       OperatorCategoriesStore.emitChange()
+      break
+    when 'categoryUpdated'
+      OperatorCategoriesStore.updateCategory action.category
+      OperatorCategoriesStore.emitChange()
+      break
+    when 'categoryDeleted'
+      OperatorCategoriesStore.deleteCategory action.category
+      OperatorCategoriesStore.emitChange()
+      break

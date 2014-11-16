@@ -57,10 +57,10 @@ require './react/components/operator_categories/two_categories'
 require './react/components/operator_categories/list/list'
 require './react/components/operator_categories/list/items/item_manager'
 require './react/components/operator_categories/list/items/item'
-require './react/components/operator_categories/list/create_form'
-# require './components/operator_categories/list/items/edit'
+require './react/components/operator_categories/list/items/item_edit'
 require './react/components/operator_categories/list/items/without_category'
 require './react/components/operator_categories/list/items/with_subcategories'
+require './react/components/operator_categories/list/create_form'
 
 # require './components/operator_products/operator_products'
 # require './components/operator_products/loading'
@@ -79,3 +79,6 @@ require './react/components/operator_categories/list/items/with_subcategories'
 
 # Не используется
 #require './components/images_form'
+
+# /*==========  Helpers  ==========*/
+require './react/helpers/app'

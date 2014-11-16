@@ -70,14 +70,14 @@ window.OperatorCategories_List = React.createClass
     else
       false
 
-  handleDrop: (evt, ui) ->
-    # Считываем нужные параметры перед завершением drag&drop, затем отменяем его.
-    # Если не отменить, ui.sortable сам меняет порядок элементов в DOM,
-    # что вступает в конфликт с рендерингом React, и всё ломается.
-    srcId = parseInt ui.item.attr('data-objectid')
-    insertIdx = ui.item.index()
-    $(@refs.list.getDOMNode()).sortable 'cancel'
-    OperatorCategoriesService.reorderCategories srcId, insertIdx
+  # handleDrop: (evt, ui) ->
+  #   # Считываем нужные параметры перед завершением drag&drop, затем отменяем его.
+  #   # Если не отменить, ui.sortable сам меняет порядок элементов в DOM,
+  #   # что вступает в конфликт с рендерингом React, и всё ломается.
+  #   srcId = parseInt ui.item.attr('data-objectid')
+  #   insertIdx = ui.item.index()
+  #   $(@refs.list.getDOMNode()).sortable 'cancel'
+  #   OperatorCategoriesService.reorderCategories srcId, insertIdx
 
   handleTotalCountClick: (e) ->
     e.preventDefault()

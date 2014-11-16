@@ -7,13 +7,13 @@ require './app'
 
 require './react/dispatchers/_base'
 require './react/dispatchers/operator_categories'
-# require './dispatchers/operator_products_dispatcher'
+require './react/dispatchers/operator_products'
 
 # /*==========  Stores  ==========*/
 
 require './react/stores/_base'
 require './react/stores/operator_categories'
-# require './stores/operator_products_store'
+require './react/stores/operator_products'
 
 # /*==========  Resources  ==========*/
 
@@ -23,16 +23,15 @@ require './react/stores/operator_categories'
 # /*==========  Services  ==========*/
 
 require './react/services/operator_categories'
-# require './services/operator_products'
+require './react/services/operator_products'
 # require './services/modal_service'
 
 # /*==========  Actions  ==========*/
 
 require './react/actions/view/operator_categories'
+require './react/actions/view/operator_products'
 require './react/actions/server/operator_categories'
-# require './actions/operator_categories_server_actions'
-# require './actions/operator_products_server_actions'
-# require './actions/operator_products_view_actions'
+require './react/actions/server/operator_products'
 
 # /*==========  Mixins  ==========*/
 
@@ -44,9 +43,13 @@ require './react/actions/server/operator_categories'
 
 # /*==========  Components  ==========*/
 
-# require './components/product_thumb'
-# require './components/images_form_thumbs'
 require './react/components/common/spinner'
+require './react/components/common/money'
+
+require './react/components/product/thumb'
+require './react/components/product/state'
+
+# require './components/images_form_thumbs'
 
 require './react/components/operator_categories/operator_categories'
 require './react/components/operator_categories/loaded'
@@ -62,18 +65,17 @@ require './react/components/operator_categories/list/items/without_category'
 require './react/components/operator_categories/list/items/with_subcategories'
 require './react/components/operator_categories/list/create_form'
 
-# require './components/operator_products/operator_products'
-# require './components/operator_products/loading'
-# require './components/operator_products/loading_error'
-# require './components/operator_products/list/list'
-# require './components/operator_products/list/item'
+require './react/components/operator_products/operator_products'
+require './react/components/operator_products/loading'
+require './react/components/operator_products/loading_error'
+require './react/components/operator_products/list/list'
+require './react/components/operator_products/list/item'
 # require './components/operator_products/list/item_drag_helper'
 # require './components/operator_products/list/product_state'
 # require './components/product_status_toggle'
 
 # require './components/modal'
 
-# require './components/money'
 # require './components/super_select'
 # require './components/product_images'
 

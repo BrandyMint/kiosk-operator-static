@@ -54,5 +54,5 @@ window.OperatorCategories_ListItemManager = React.createClass
   handleItemClick: ->
     @props.onCategorySelect {
       category: @props.category
-      includeSubcategories: false
+      includeSubcategories: true
     }

@@ -31,13 +31,16 @@ window.OperatorCategories = React.createClass
 
   render: ->
     switch @state.currentState
-      when LOADED_STATE  then categoriesContent = `<OperatorCategories_Loaded
-                                                       parentCategory={ this.state.rootCategory }
-                                                       currentCategory={ this.state.currentCategory }
-                                                       includeSubcategories={ this.state.includeSubcategories }
-                                                       onCategorySelect={ this.handleCategorySelect } />`
-      when LOADING_STATE then categoriesContent = `<OperatorCategories_Loading />`
-      when ERROR_STATE   then categoriesContent = `<OperatorCategories_LoadingError />`
+      when LOADED_STATE
+        categoriesContent = `<OperatorCategories_Loaded
+                                 parentCategory={ this.state.rootCategory }
+                                 currentCategory={ this.state.currentCategory }
+                                 includeSubcategories={ this.state.includeSubcategories }
+                                 onCategorySelect={ this.handleCategorySelect } />`
+      when LOADING_STATE
+        categoriesContent = `<OperatorCategories_Loading />`
+      when ERROR_STATE
+        categoriesContent = `<OperatorCategories_LoadingError />`
       else console.warn 'Unknown currentState of OperatorCategories component', @state.currentState
 
     categoriesContent

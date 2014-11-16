@@ -27,10 +27,9 @@ window.OperatorCategoriesStore = _.extend new BaseStore(), {
 
   deleteCategory: (category) ->
     clonedCategories = _categories[..]
-    console.log 'удаляем', category
+
     for clonedCategory, i in clonedCategories when clonedCategory.id == category.id
       clonedCategories.splice i, 1
-      console.log 'удалили', clonedCategory
       break
 
     _categories = clonedCategories

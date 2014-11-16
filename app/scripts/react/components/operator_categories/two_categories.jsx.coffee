@@ -26,7 +26,9 @@ window.OperatorCategories_TwoCategories = React.createClass
              onCategorySelect={ this.props.onCategorySelect } />
       </div>
       <div className="adm-categories-grid-col __wide">
-
+        <OperatorProducts
+            categoryId={ this.props.currentCategory.id }
+            includeSubcategories={ this.props.includeSubcategories } />
       </div>
     </div>`
 

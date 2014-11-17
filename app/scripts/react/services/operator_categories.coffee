@@ -1,84 +1,26 @@
-###*global Routes, OperatorCategoriesServerActions ###
-
-# На основе http://api.kormilica.info/#!/operator
-
 window.OperatorCategoriesService =
-  getCategories: (options) ->
-    if !@mockMode
-      Requester.request
-        url: RoutesApi.operator_categories_url()
-        error: (xhr, status, err) ->
-          options?.error?(err || status)
-        success: (categories) ->
-          OperatorCategoriesServerActions.categoriesLoaded categories
-          options?.success?(null, categories)
-    else
-      that = @
-      setTimeout ->
-        OperatorCategoriesServerActions.categoriesLoaded that.mockData
-        if callback then callback null, that.mockData
-      , @mockLatency
 
-  createCategory: ({name, parent_id, success, error}) ->
-    data = OperatorCategoriesStore.positionCategory
-      name: name
-      parent_id: parent_id
-    if !@mockMode
-      $.ajax
-        dataType: 'json'
-        url:      RoutesApi.operator_categories_url()
-        data:     data
-        method:   'post'
-        error: (xhr, status, err) ->
-          error err || status
-        success: (category) ->
-          OperatorCategoriesServerActions.addCategory category
-          success category
-    else
-      setTimeout ->
-        data.id = Math.floor(Math.random() * 100000000)
-        data.products_count = 0
-        data.deep_products_count = 0
-        OperatorCategoriesServerActions.addCategory data
-        success data
-      , @mockLatency
+  loadCategories: ({success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_categories_url()
+      error: (xhr, status, err) ->
+        error?(err || status)
+      success: (categories) ->
+        OperatorCategoriesServerActions.receiveCategories categories
+        success?(categories)
 
-  updateSingleCategory: ({category, success, error}) ->
-    @updateCategory
-      category: category
-      success:  ->
-        OperatorCategoriesServerActions.categoryUpdated category
-        success category
-      error: error
+  reorderCategories: ({categoryId, insertIdx}) ->
+    #TODO: refactor
+    newPositions = OperatorCategoriesStore.getReorderedPositions categoryId, insertIdx
 
-  updateCategory: ({category, success, error}) ->
-    id = category.id
-    data = _.pick category, ['name', 'position', 'parent_id']
-    if !@mockMode
-      $.ajax
-        dataType: 'json'
-        url:      RoutesApi.operator_category_url id
-        data:     data
-        method:   'put'
-        error: (xhr, status, err) ->
-          error err || status
-        success: (response) ->
-          success response
-    else
-      setTimeout ->
-        success category
-      , @mockLatency
-
-  reorderCategories: (categoryId, insertIdx) ->
-    positionChanges = OperatorCategoriesStore.getReorderedPositions categoryId, insertIdx
-    if positionChanges.length
-      OperatorCategoriesActions.reorderCategories positionChanges
-      @updateCategories positionChanges, (err, response) ->
-        if err
-          console.error err # todo
+    if newPositions.length
+      OperatorCategoriesServerActions.reorderCategories newPositions
+      @updateCategories newPositions, (err, response) ->
+        console.error(err) if err # todo
 
   updateCategories: (data, callback) ->
-    # todo. Очень грубая замена. Надо бы делать хотя бы async.parallel
+    #TODO: refactor
+    #TODO: Очень грубая замена. Надо бы делать хотя бы async.parallel
     done = _.after data.length, ->
       callback()
     that = @
@@ -87,6 +29,49 @@ window.OperatorCategoriesService =
         category: i
         success: done
 
-  mockMode: false
-  mockLatency: 500
-  mockData: []
+  reloadCategory: ({categoryId}) ->
+    Requester.request
+      url: ApiRoutes.operator_category_url categoryId
+      error: (xhr, status, err) ->
+        error?(err || status)
+      success: (category) ->
+        OperatorCategoriesServerActions.receiveCategory category
+        success?(category)
+
+  createCategory: ({name, parentId, success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_categories_url()
+      method: 'POST'
+      data:
+        name:      name
+        parent_id: parentId
+        position:  OperatorCategoriesStore.getCategoryPosition(parent_id: parentId)
+      error: (xhr, status, err) ->
+        error?(err || status)
+      success: (category) ->
+        OperatorCategoriesServerActions.createCategory category
+        success?(category)
+
+  updateCategory: ({category, success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_category_url category.id
+      method: 'PUT'
+      data:
+        name:      category.name
+        position:  category.position
+        parent_id: category.parent_id
+      error: (xhr, status, err) ->
+        error?(err || status)
+      success: (category) ->
+        OperatorCategoriesServerActions.updateCategory category
+        success?(category)
+
+  deleteCategory: ({category, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_category_url category.id
+      method: 'DELETE'
+      error: (xhr, status, err) ->
+        error?(err || status)
+      success: (response) ->
+        OperatorCategoriesServerActions.deleteCategory category
+        success?(response)

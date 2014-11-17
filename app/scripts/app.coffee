@@ -1,4 +1,5 @@
 window.KioskOperatorApp =
+
   start: ({ vendor_key, operator }) ->
     console.log "KioskOperatorApp start for vendor: #{vendor_key}, operator: #{operator.name}"
 

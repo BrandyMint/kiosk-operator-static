@@ -1,7 +1,7 @@
 ###* @jsx React.DOM ###
 
 window.OperatorProducts_ListItem = React.createClass
-  # mixins: [ProductDraggable]
+  mixins: [ProductDraggable]
 
   propTypes:
     product: React.PropTypes.object.isRequired

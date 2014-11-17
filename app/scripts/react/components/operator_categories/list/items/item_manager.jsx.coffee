@@ -4,7 +4,7 @@ VIEW_STATE = 'view'
 EDIT_STATE = 'edit'
 
 window.OperatorCategories_ListItemManager = React.createClass
-  # mixins: [CategoryProductDroptarget]
+  mixins: [CategoryDroppable]
 
   propTypes:
     category:         React.PropTypes.object.isRequired

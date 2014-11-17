@@ -9,6 +9,15 @@ window.OperatorCategoriesService =
         OperatorCategoriesServerActions.receiveCategories categories
         success?(categories)
 
+  reloadCategory: ({categoryId}) ->
+    Requester.request
+      url: ApiRoutes.operator_category_url categoryId
+      error: (xhr, status, err) ->
+        error?(err || status)
+      success: (category) ->
+        OperatorCategoriesServerActions.receiveCategory category
+        success?(category)
+
   createCategory: ({name, parentId, success, error}) ->
     Requester.request
       url: ApiRoutes.operator_categories_url()

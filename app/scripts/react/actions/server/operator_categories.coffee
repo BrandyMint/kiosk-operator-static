@@ -5,6 +5,11 @@ window.OperatorCategoriesServerActions =
       type: 'categoriesLoaded'
       categories: categories
 
+  receiveCategory: (category) ->
+    OperatorCategoriesDispatcher.handleServerAction
+      type: 'categoryLoaded'
+      category: category
+
   createCategory: (category) ->
     OperatorCategoriesDispatcher.handleServerAction
       type: 'categoryCreated'

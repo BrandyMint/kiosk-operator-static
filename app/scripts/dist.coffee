@@ -37,8 +37,8 @@ require './react/actions/server/operator_products'
 
 # require './mixins/dragging'
 # require './mixins/images_form_mixin'
-# require './mixins/product_draggable'
-# require './mixins/category_product_droptarget'
+require './react/mixins/product_draggable'
+require './react/mixins/category_droppable'
 # require './mixins/component_manipulations'
 
 # /*==========  Components  ==========*/
@@ -70,7 +70,7 @@ require './react/components/operator_products/loading'
 require './react/components/operator_products/loading_error'
 require './react/components/operator_products/list/list'
 require './react/components/operator_products/list/item'
-# require './components/operator_products/list/item_drag_helper'
+require './react/components/operator_products/list/item_drag'
 # require './components/operator_products/list/product_state'
 # require './components/product_status_toggle'
 

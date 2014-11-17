@@ -15,13 +15,22 @@ window.OperatorProductsService =
         # TODO Пейджирование
         success?(response.products)
 
-    # Requester.request
-    #   url: ApiRoutes.operator_categories_url()
-    #   error: (xhr, status, err) ->
-    #     error?(err || status)
-    #   success: (categories) ->
-    #     OperatorCategoriesServerActions.receiveCategories categories
-    #     success?(categories)
+  changeProductCategory: ({productId, newCategoryId, oldCategoryId}) ->
+    Requester.request
+      url: ApiRoutes.operator_product_url productId
+      method: 'PUT'
+      data:
+        category_id: newCategoryId
+      error: (xhr, status, err) ->
+
+      success: ->
+        #TODO: Dispose from 2 additional GET requests. Proccess changes on the front
+        OperatorCategoriesViewActions.reloadCategory(categoryId: newCategoryId)
+        OperatorCategoriesViewActions.reloadCategory(categoryId: oldCategoryId)
+
+        OperatorProductsServerActions.moveProduct
+          productId:  productId
+          categoryId: oldCategoryId
 
   # createCategory: ({name, parentId, success, error}) ->
   #   Requester.request

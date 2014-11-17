@@ -77,6 +77,14 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register (p
       OperatorCategoriesStore.pushCategories action.categories
       OperatorCategoriesStore.emitChange()
       break
+    when 'categoryLoaded'
+      if OperatorCategoriesStore.isCategoryExists action.category
+        OperatorCategoriesStore.updateCategory action.category
+      else
+        OperatorCategoriesStore.pushCategories [action.category]
+
+      OperatorCategoriesStore.emitChange()
+      break
     when 'categoryCreated'
       OperatorCategoriesStore.pushCategories [action.category]
       OperatorCategoriesStore.emitChange()

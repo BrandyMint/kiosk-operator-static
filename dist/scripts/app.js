@@ -1,11 +1,3009 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-require('./shared/app');
+require('./libs');
 
-require('./react/application');
+require('./routes/api');
+
+require('./routes/routes');
+
+require('./legacy');
+
+require('./app');
+
+require('./react/dispatchers/_base');
+
+require('./react/dispatchers/operator_categories');
+
+require('./react/dispatchers/operator_products');
+
+require('./react/stores/_base');
+
+require('./react/stores/operator_categories');
+
+require('./react/stores/operator_products');
+
+require('./react/services/operator_categories');
+
+require('./react/services/operator_products');
+
+require('./react/services/thumbor');
+
+require('./react/controllers/modal');
+
+require('./react/actions/view/operator_categories');
+
+require('./react/actions/view/operator_products');
+
+require('./react/actions/server/operator_categories');
+
+require('./react/actions/server/operator_products');
+
+require('./react/mixins/images_form');
+
+require('./react/mixins/unmount');
+
+require('./react/mixins/product_draggable');
+
+require('./react/mixins/category_droppable');
+
+require('./react/mixins/component_manipulations');
+
+require('./react/components/common/spinner');
+
+require('./react/components/common/money');
+
+require('./react/components/common/images_form_thumbs');
+
+require('./react/components/product/thumb');
+
+require('./react/components/product/state');
+
+require('./react/components/product/status_toggle');
+
+require('./react/components/operator_categories/operator_categories');
+
+require('./react/components/operator_categories/loaded');
+
+require('./react/components/operator_categories/loading');
+
+require('./react/components/operator_categories/loading_error');
+
+require('./react/components/operator_categories/one_category');
+
+require('./react/components/operator_categories/two_categories');
+
+require('./react/components/operator_categories/list/list');
+
+require('./react/components/operator_categories/list/items/item_manager');
+
+require('./react/components/operator_categories/list/items/item');
+
+require('./react/components/operator_categories/list/items/item_edit');
+
+require('./react/components/operator_categories/list/items/without_category');
+
+require('./react/components/operator_categories/list/items/with_subcategories');
+
+require('./react/components/operator_categories/list/create_form');
+
+require('./react/components/operator_products/operator_products');
+
+require('./react/components/operator_products/loading');
+
+require('./react/components/operator_products/loading_error');
+
+require('./react/components/operator_products/list/list');
+
+require('./react/components/operator_products/list/item');
+
+require('./react/components/operator_products/list/item_drag');
+
+require('./react/components/modal/modal');
+
+require('./react/helpers/app');
 
 
 
-},{"./react/application":5,"./shared/app":48}],"bootstrapSass":[function(require,module,exports){
+},{"./app":2,"./legacy":3,"./libs":4,"./react/actions/server/operator_categories":6,"./react/actions/server/operator_products":7,"./react/actions/view/operator_categories":8,"./react/actions/view/operator_products":9,"./react/components/common/images_form_thumbs":10,"./react/components/common/money":11,"./react/components/common/spinner":12,"./react/components/modal/modal":13,"./react/components/operator_categories/list/create_form":14,"./react/components/operator_categories/list/items/item":15,"./react/components/operator_categories/list/items/item_edit":16,"./react/components/operator_categories/list/items/item_manager":17,"./react/components/operator_categories/list/items/with_subcategories":18,"./react/components/operator_categories/list/items/without_category":19,"./react/components/operator_categories/list/list":20,"./react/components/operator_categories/loaded":21,"./react/components/operator_categories/loading":22,"./react/components/operator_categories/loading_error":23,"./react/components/operator_categories/one_category":24,"./react/components/operator_categories/operator_categories":25,"./react/components/operator_categories/two_categories":26,"./react/components/operator_products/list/item":27,"./react/components/operator_products/list/item_drag":28,"./react/components/operator_products/list/list":29,"./react/components/operator_products/loading":30,"./react/components/operator_products/loading_error":31,"./react/components/operator_products/operator_products":32,"./react/components/product/state":33,"./react/components/product/status_toggle":34,"./react/components/product/thumb":35,"./react/controllers/modal":36,"./react/dispatchers/_base":37,"./react/dispatchers/operator_categories":38,"./react/dispatchers/operator_products":39,"./react/helpers/app":40,"./react/mixins/category_droppable":41,"./react/mixins/component_manipulations":42,"./react/mixins/images_form":43,"./react/mixins/product_draggable":44,"./react/mixins/unmount":45,"./react/services/operator_categories":46,"./react/services/operator_products":47,"./react/services/thumbor":48,"./react/stores/_base":49,"./react/stores/operator_categories":50,"./react/stores/operator_products":51,"./routes/api":52,"./routes/routes":53}],2:[function(require,module,exports){
+window.KioskOperatorApp = {
+  start: function(_arg) {
+    var operator, vendor_key;
+    vendor_key = _arg.vendor_key, operator = _arg.operator;
+    console.log("KioskOperatorApp start for vendor: " + vendor_key + ", operator: " + operator.name);
+    $.ajaxSetup({
+      xhrFields: {
+        withCredentials: true,
+        crossDomain: true
+      },
+      headers: {
+        "X-Vendor-Key": vendor_key
+      }
+    });
+    window.EB.emit('start');
+    return ReactUjs.initialize();
+  },
+  error_alert: function(message) {
+    return alert(message);
+  }
+};
+
+
+
+},{}],3:[function(require,module,exports){
+$(function() {
+  var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, modalClick, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
+  modalClick = function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    return ModalService.show($(this).data('modalUrl'));
+  };
+  bindActivities = function() {
+    $("[tooltip]").tooltip();
+    return $('[autosize]').autosize();
+  };
+  $(document).on('click', '[ks-modal]', modalClick);
+  bindActivities();
+  $(document).on('page:change', bindActivities);
+  productVariantsAdd = $('@products__new-form-variants-add');
+  productVariantsTitle = $('@products__new-form-variants-title');
+  productVariantsItem = $('@products__new-form-variants-item');
+  productVariantsPlace = $('@products__new-form-variants-place');
+  productVariantsAddBlock = $('@products__new-form-variants-add-block');
+  productVariantsAddBlockBtn = $('@products__new-form-variants-add-block-btn');
+  productVariantsBlock = $('@products__new-form-variants-block');
+  productVariantTypeBtn = $('@products__new-form-variant-type-btn');
+  productVariantTypeInput = $('@products__new-form-variant-type-input');
+  productVariantTypeLabel = $('@products__new-form-variant-type-label');
+  productVariantsBlock.hide();
+  productVariantsAddBlockBtn.on('click', function(e) {
+    e.preventDefault();
+    productVariantsAddBlock.hide();
+    return productVariantsBlock.show();
+  });
+  productVariantTypeBtn.on('click', function(e) {
+    var type;
+    e.preventDefault();
+    productVariantTypeBtn.removeClass('active');
+    $(this).addClass('active');
+    type = $(this).text();
+    return productVariantTypeLabel.text(type);
+  });
+  productVariantTypeInput.on('focus', function() {
+    var prevBtn;
+    prevBtn = productVariantTypeBtn.filter('.active');
+    productVariantTypeBtn.removeClass('active');
+    return $(this).on('blur', function() {
+      if (!($(this).val().length > 0)) {
+        prevBtn.addClass('active');
+        return productVariantTypeLabel.text(prevBtn.text());
+      }
+    });
+  });
+  productVariantTypeInput.on('keypress', function() {
+    var type;
+    if ($(this).val().length > 0) {
+      type = $(this).val();
+      return productVariantTypeLabel.text(type);
+    }
+  });
+  productParamsAdd = $('@products__new-form-params-add');
+  productParamsTitle = $('@products__new-form-params-title');
+  productParamsItem = $('@products__new-form-params-item');
+  productParamsPlace = $('@products__new-form-params-place');
+  productFormQuantity = $('@products__new-form-quantity');
+  productFormArticul = $('@products__new-form-articul');
+  productFormImageAdd = $('@products__new-form-image-add');
+  productVariantsTitle.hide();
+  productVariantsPlace.hide();
+  productVariantsAdd.on('click', function(e) {
+    var html;
+    e.preventDefault();
+    productFormArticul.hide();
+    productFormQuantity.hide();
+    productVariantsTitle.show();
+    productVariantsPlace.show();
+    html = productVariantsItem.html();
+    return productVariantsPlace.append(html);
+  });
+  productParamsTitle.hide();
+  productParamsPlace.hide();
+  productParamsAdd.on('click', function(e) {
+    var html;
+    e.preventDefault();
+    productParamsTitle.show();
+    productParamsPlace.show();
+    html = productParamsItem.html();
+    return productParamsPlace.append(html);
+  });
+  productFormImageAdd.on('click', function(e) {
+    e.preventDefault();
+    return $(this).toggleClass('active');
+  });
+  $('@jump').on('click', function(e) {
+    var href;
+    href = $(this).data('href');
+    if (href !== '') {
+      if (event.shiftKey || event.ctrlKey || event.metaKey) {
+        return window.open(target, '_blank');
+      } else {
+        return window.location = href;
+      }
+    }
+  });
+  $('@jump .dropdown, @jump input').on('click', function(e) {
+    return e.stopPropagation();
+  });
+  categoriesList = $('@categories-list');
+  switcherDisplayCategories = $('@switch-display-categories');
+  switcherTitles = {
+    hide: switcherDisplayCategories.data('title-hide'),
+    show: switcherDisplayCategories.data('title-show')
+  };
+  switcherDisplayCategories.on('click', function(e) {
+    e.preventDefault();
+    if (categoriesList.is(':visible')) {
+      categoriesList.hide();
+      return $(this).text(switcherTitles.show);
+    } else {
+      categoriesList.show();
+      return $(this).text(switcherTitles.hide);
+    }
+  });
+  authBox = $('@auth-box');
+  authSectionToggle = $('@auth-section-toggle');
+  authBack = $('@auth-back-btn');
+  path = [];
+  prevSection = 'welcome';
+  clearClasses = function() {
+    var className, classNames, i;
+    i = 0;
+    classNames = authBox.attr("class").split(/\s+/);
+    while (i < classNames.length) {
+      className = classNames[i];
+      if (className.match(/^__\w+/)) {
+        authBox.removeClass(className);
+      }
+      i++;
+    }
+  };
+  authSectionToggle.on('click', function(e) {
+    var step;
+    e.preventDefault();
+    path.push(prevSection);
+    step = $(this).data('step');
+    clearClasses();
+    authBox.addClass('__' + step);
+    return prevSection = step;
+  });
+  return authBack.on('click', function(e) {
+    var step;
+    console.log(path.length);
+    if (path.length === 0) {
+      return false;
+    }
+    step = path.pop();
+    prevSection = step;
+    clearClasses();
+    return authBox.addClass('__' + step);
+  });
+});
+
+
+
+},{}],4:[function(require,module,exports){
+var Requester;
+
+window._ = require('lodash');
+
+window.$ = window.jQuery = require('jquery');
+
+window.React = require('react');
+
+window.Dispatcher = require('flux').Dispatcher;
+
+window.EventEmitter = require('eventEmitter');
+
+window.ReactUjs = require('reactUjs');
+
+Requester = require('./libs/requester');
+
+window.EB = new EventEmitter();
+
+window.Requester = new Requester({
+  eb: window.EB
+});
+
+require('jquery.ui.core');
+
+require('jquery.ui.widget');
+
+require('jquery.ui.mouse');
+
+require('jquery.ui.draggable');
+
+require('jquery.ui.droppable');
+
+require('jquery.ui.sortable');
+
+require('jquery.autosize');
+
+require('jquery.fileupload');
+
+require('jquery.role');
+
+require('react-mixin-manager')(window.React);
+
+require('bootstrapSass');
+
+require('typeahead');
+
+
+
+},{"./libs/requester":5,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":54,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],5:[function(require,module,exports){
+var Requester,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+Requester = (function() {
+  function Requester(_arg) {
+    var eb;
+    eb = _arg.eb;
+    this.request = __bind(this.request, this);
+    this.start = false;
+    this.eb = eb;
+    eb.on('start', (function(_this) {
+      return function() {
+        _this.start = true;
+        return console.log('Requester started');
+      };
+    })(this));
+  }
+
+  Requester.prototype.request = function(options) {
+    if (this.start) {
+      return $.ajax(options);
+    } else {
+      return this.eb.on('start', function() {
+        return $.ajax(options);
+      });
+    }
+  };
+
+  return Requester;
+
+})();
+
+module.exports = Requester;
+
+
+
+},{}],6:[function(require,module,exports){
+window.OperatorCategoriesServerActions = {
+  receiveCategories: function(categories) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoriesLoaded',
+      categories: categories
+    });
+  },
+  reorderCategories: function(newPositions) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoriesReordered',
+      newPositions: newPositions
+    });
+  },
+  receiveCategory: function(category) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoryLoaded',
+      category: category
+    });
+  },
+  createCategory: function(category) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoryCreated',
+      category: category
+    });
+  },
+  updateCategory: function(category) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoryUpdated',
+      category: category
+    });
+  },
+  deleteCategory: function(category) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoryDeleted',
+      category: category
+    });
+  }
+};
+
+
+
+},{}],7:[function(require,module,exports){
+window.OperatorProductsServerActions = {
+  receiveProducts: function(categoryId, products) {
+    return OperatorProductsDispatcher.handleServerAction({
+      type: 'productsLoaded',
+      categoryId: categoryId,
+      products: products
+    });
+  },
+  moveProduct: function(_arg) {
+    var categoryId, productId;
+    productId = _arg.productId, categoryId = _arg.categoryId;
+    return OperatorProductsDispatcher.handleServerAction({
+      type: 'productMoved',
+      categoryId: categoryId,
+      productId: productId
+    });
+  }
+};
+
+
+
+},{}],8:[function(require,module,exports){
+window.OperatorCategoriesViewActions = {
+  loadCategories: function(options) {
+    return OperatorCategoriesService.loadCategories(options);
+  },
+  reorderCategories: function(options) {
+    return OperatorCategoriesService.reorderCategories(options);
+  },
+  reloadCategory: function(options) {
+    return OperatorCategoriesService.reloadCategory(options);
+  },
+  createCategory: function(options) {
+    return OperatorCategoriesService.createCategory(options);
+  },
+  updateCategory: function(options) {
+    return OperatorCategoriesService.updateCategory(options);
+  },
+  deleteCategory: function(options) {
+    return OperatorCategoriesService.deleteCategory(options);
+  }
+};
+
+
+
+},{}],9:[function(require,module,exports){
+window.OperatorProductsViewActions = {
+  loadProducts: function(options) {
+    return OperatorProductsService.loadProducts(options);
+  },
+  changeProductCategory: function(options) {
+    return OperatorProductsService.changeProductCategory(options);
+  }
+};
+
+
+
+},{}],10:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
+  propTypes: {
+    images: React.PropTypes.array.isRequired,
+    onRemove: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    var images, that;
+    if (this.props.images.length === 0) {
+      return null;
+    }
+    images = [];
+    console.log('images', this.props.images);
+    that = this;
+    $.each(this.props.images, function(idx, image) {
+      var onClick;
+      onClick = function() {
+        return that.props.onRemove(image);
+      };
+      return images.push(React.DOM.div({key: image.src, className: "products__new-form-image-thumb-block"}, 
+         React.DOM.img({className: "products__new-form-image-thumb", src: image.src}), 
+         React.DOM.div({className: "products__new-form-image-thumb-remove", onClick: onClick, ref: "remove"}), 
+         React.DOM.div({className: "products__new-form-image-thumb-update", onClick: onClick, ref: "update"})
+       ));
+    });
+    return React.DOM.div({className: "products__new-form-images-list"}, images);
+  }
+});
+
+
+
+},{}],11:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.Money = React.createClass({displayName: 'Money',
+  propTypes: {
+    money: React.PropTypes.object.isRequired
+  },
+  render: function() {
+    if (this.props.money) {
+      return React.DOM.span({className: "nobr"}, " ",  (this.props.money.cents/100).toLocaleString('ru-RU'), " руб.");
+    } else {
+      return React.DOM.span({className: "nobr"}, "---");
+    }
+  }
+});
+
+
+
+},{}],12:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.Spinner = React.createClass({displayName: 'Spinner',
+  propTypes: {
+    align: React.PropTypes.oneOf([null, 'center']),
+    className: React.PropTypes.string
+  },
+  render: function() {
+    var spinner, spinnerClasses;
+    spinnerClasses = ['fa', 'fa-spinner', 'fa-spin'];
+    if (this.props.className) {
+      spinnerClasses.push(this.props.className);
+    }
+    if (this.props.align === 'center') {
+      spinner = React.DOM.div({className: "text-center"}, 
+                   React.DOM.i({className:  spinnerClasses.join(' ') })
+                 );
+    } else {
+      spinner = React.DOM.i({className:  spinnerClasses.join(' ') });
+    }
+    return spinner;
+  }
+});
+
+
+
+},{}],13:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var LOADED_STATE, LOADING_STATE;
+
+LOADING_STATE = 'loading';
+
+LOADED_STATE = 'loaded';
+
+window.ModalComponent = React.createClass({displayName: 'ModalComponent',
+  mixins: [UnmountMixin],
+  propTypes: {
+    url: React.PropTypes.string.isRequired
+  },
+  getInitialState: function() {
+    return {
+      currentState: LOADING_STATE,
+      content: ''
+    };
+  },
+  componentDidMount: function() {
+    var $modal;
+    $modal = $(this.getDOMNode());
+    this.loadUrl();
+    $modal.modal('show');
+    return $modal.on('hidden.bs.modal', this.unmount);
+  },
+  componentWillUnmount: function() {
+    var $modal;
+    $modal = $(this.getDOMNode());
+    return $modal.off('hidden.bs.modal', this.unmount);
+  },
+  render: function() {
+    var spinner;
+    if (this.isLoadingState()) {
+      spinner = React.DOM.div({className: "modal-body"}, 
+                   React.DOM.div({className: "text-center"}, 
+                     Spinner({className: "fa-5x"})
+                   )
+                 );
+    }
+    return React.DOM.div({className: "modal fade", 
+                 'aria-hidden': "true", 
+                 tabIndex: "-1"}, 
+              React.DOM.div({className: "modal-dialog modal-lg"}, 
+                React.DOM.div({className: "modal-content"}, 
+                  spinner, 
+                  React.DOM.div({dangerouslySetInnerHTML: { __html: this.state.content}})
+                )
+              )
+            );
+  },
+  isLoadingState: function() {
+    return this.state.currentState === LOADING_STATE;
+  },
+  activateLoadedState: function() {
+    return this.setState({
+      currentState: LOADED_STATE
+    });
+  },
+  loadUrl: function() {
+    return Requester.request({
+      url: this.props.url,
+      success: (function(_this) {
+        return function(content) {
+          $(document).trigger('page:change');
+          return _this.setState({
+            content: content,
+            currentState: LOADED_STATE
+          });
+        };
+      })(this)
+    });
+  }
+});
+
+
+
+},{}],14:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var CREATE_STATE, ERROR_MESSAGE, ERROR_STATE, INPUT_STATE, PLACEHOLDER;
+
+PLACEHOLDER = 'Новая категория';
+
+ERROR_MESSAGE = 'Ошибка создания категории.';
+
+INPUT_STATE = 'input';
+
+CREATE_STATE = 'create';
+
+ERROR_STATE = 'error';
+
+window.OperatorCategories_CreateForm = React.createClass({displayName: 'OperatorCategories_CreateForm',
+  propTypes: {
+    parentCategory: React.PropTypes.object
+  },
+  getInitialState: function() {
+    return {
+      currentState: INPUT_STATE,
+      categoryName: ''
+    };
+  },
+  render: function() {
+    var form;
+    switch (this.state.currentState) {
+      case INPUT_STATE:
+        form = React.DOM.div({className: "adm-categories-item __edit"}, 
+                  React.DOM.input({
+                      ref: "input", 
+                      type: "text", 
+                      className: "adm-categories-item-field", 
+                      placeholder: PLACEHOLDER, 
+                      onKeyDown:  this.handleKeyDown, 
+                      onBlur:  this.restoreDefaultsAndBlur})
+                );
+        break;
+      case CREATE_STATE:
+        form = React.DOM.div({className: "adm-categories-item"}, 
+                  React.DOM.span({className: "adm-categories-item-name text-muted"}, 
+                     this.state.categoryName
+                  ), 
+                  React.DOM.span({className: "adm-categories-item-name"}, 
+                    Spinner(null)
+                  )
+                );
+        break;
+      case ERROR_STATE:
+        form = React.DOM.div(null, ERROR_MESSAGE );
+        break;
+      default:
+        console.warn('Unknown currentState of OperatorCategories_CreateForm component', this.state.currentState);
+    }
+    return form;
+  },
+  activateErrorState: function() {
+    return this.setState({
+      currentState: ERROR_STATE
+    });
+  },
+  createCategory: function() {
+    var categoryName, inputNode, parentId;
+    inputNode = this.refs.input.getDOMNode();
+    categoryName = inputNode.value;
+    parentId = this.props.parentCategory ? this.props.parentCategory.id : null;
+    this.setState({
+      currentState: CREATE_STATE,
+      categoryName: categoryName
+    });
+    return OperatorCategoriesViewActions.createCategory({
+      name: categoryName,
+      parentId: parentId,
+      success: this.restoreDefaults,
+      error: this.activateErrorState
+    });
+  },
+  restoreDefaults: function() {
+    return this.setState(this.getInitialState());
+  },
+  restoreDefaultsAndBlur: function() {
+    var inputNode;
+    inputNode = this.refs.input.getDOMNode();
+    inputNode.value = '';
+    inputNode.blur();
+    return this.restoreDefaults();
+  },
+  handleKeyDown: function(e) {
+    switch (e.key) {
+      case 'Enter':
+        e.preventDefault();
+        return this.createCategory();
+      case 'Escape':
+        e.preventDefault();
+        return this.restoreDefaultsAndBlur();
+    }
+  }
+});
+
+
+
+},{}],15:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_ListItem = React.createClass({displayName: 'OperatorCategories_ListItem',
+  propTypes: {
+    category: React.PropTypes.object.isRequired,
+    onEditStart: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    return React.DOM.span(null, 
+      React.DOM.span(null, 
+        React.DOM.span({className: "adm-categories-item-name"}, 
+           this.props.category.name
+        ), 
+        React.DOM.span({className: "adm-categories-item-counter"}, 
+           this.props.category.deep_products_count
+        )
+      ), 
+      React.DOM.button({
+          className: "adm-btn-edit-category", 
+          title: "Редактировать", 
+          onClick:  this.props.onEditStart}, 
+        React.DOM.span(null, "Редактировать")
+      )
+    );
+  }
+});
+
+
+
+},{}],16:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var ERROR_MESSAGE, ERROR_STATE, INPUT_STATE, UPDATE_STATE;
+
+ERROR_MESSAGE = 'Ошибка обновления категории.';
+
+INPUT_STATE = 'input';
+
+UPDATE_STATE = 'update';
+
+ERROR_STATE = 'error';
+
+window.OperatorCategories_ListItemEdit = React.createClass({displayName: 'OperatorCategories_ListItemEdit',
+  propTypes: {
+    category: React.PropTypes.object.isRequired,
+    onEditFinish: React.PropTypes.func.isRequired
+  },
+  getInitialState: function() {
+    return {
+      currentState: INPUT_STATE,
+      categoryName: this.props.category.name
+    };
+  },
+  componentDidMount: function() {
+    var inputNode;
+    inputNode = this.refs.input.getDOMNode();
+    return AppHelpers.reselectAndFocus(inputNode);
+  },
+  render: function() {
+    var form;
+    switch (this.state.currentState) {
+      case INPUT_STATE:
+        form = React.DOM.span(null, 
+                  React.DOM.input({
+                      ref: "input", 
+                      type: "text", 
+                      className: "adm-categories-item-field", 
+                      defaultValue:  this.state.categoryName, 
+                      onKeyDown:  this.handleKeydown}), 
+                  React.DOM.span({
+                      className: "adm-categories-item-remove", 
+                      onClick:  this.handleDeleteClick})
+                );
+        break;
+      case UPDATE_STATE:
+        form = React.DOM.span(null, 
+                  React.DOM.span({className: "adm-categories-item-name text-muted"}, 
+                     this.state.categoryName
+                  ), 
+                  React.DOM.span({className: "adm-categories-item-name"}, 
+                    Spinner(null)
+                  )
+                );
+        break;
+      case ERROR_STATE:
+        form = React.DOM.span(null, 
+                  "   ", 
+                  React.DOM.i(null, ERROR_MESSAGE )
+                );
+        break;
+      default:
+        console.warn('Unknown currentState of OperatorCategories_ListItemEdit component', this.state.currentState);
+    }
+    return form;
+  },
+  activateErrorState: function() {
+    return this.setState({
+      currentState: ERROR_STATE
+    });
+  },
+  editCategory: function() {
+    var categoryName, inputNode, updatedCategory;
+    inputNode = this.refs.input.getDOMNode();
+    categoryName = inputNode.value;
+    this.setState({
+      currentState: UPDATE_STATE,
+      categoryName: categoryName
+    });
+    updatedCategory = _.clone(this.props.category);
+    updatedCategory.name = categoryName;
+    return OperatorCategoriesViewActions.updateCategory({
+      category: updatedCategory,
+      success: this.props.onEditFinish,
+      error: this.activateErrorState
+    });
+  },
+  handleDeleteClick: function() {
+    if (window.confirm("Удалить категорию \"" + this.props.category.name + "\"?")) {
+      return OperatorCategoriesViewActions.deleteCategory({
+        category: this.props.category,
+        error: this.activateErrorState
+      });
+    }
+  },
+  handleKeydown: function(e) {
+    switch (e.key) {
+      case 'Enter':
+        e.preventDefault();
+        return this.editCategory();
+      case 'Escape':
+        e.preventDefault();
+        return this.props.onEditFinish();
+    }
+  }
+});
+
+
+
+},{}],17:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var EDIT_STATE, VIEW_STATE;
+
+VIEW_STATE = 'view';
+
+EDIT_STATE = 'edit';
+
+window.OperatorCategories_ListItemManager = React.createClass({displayName: 'OperatorCategories_ListItemManager',
+  mixins: [CategoryDroppable],
+  propTypes: {
+    category: React.PropTypes.object.isRequired,
+    isActive: React.PropTypes.bool.isRequired,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  getInitialState: function() {
+    return {
+      currentState: VIEW_STATE
+    };
+  },
+  render: function() {
+    var item, managerClasses;
+    item = this.getItem();
+    managerClasses = React.addons.classSet({
+      'adm-categories-item': true,
+      'selected': this.props.isActive,
+      '__edit': this.isEditState()
+    });
+    return React.DOM.div({className: managerClasses, 
+                 'data-objectid':  this.props.category.id, 
+                 onClick:  this.handleItemClick}, 
+              item 
+            );
+  },
+  isEditState: function() {
+    return this.state.currentState === EDIT_STATE;
+  },
+  activateViewState: function() {
+    return this.setState({
+      currentState: VIEW_STATE
+    });
+  },
+  activateEditState: function() {
+    return this.setState({
+      currentState: EDIT_STATE
+    });
+  },
+  getItem: function() {
+    var item;
+    switch (this.state.currentState) {
+      case VIEW_STATE:
+        item = OperatorCategories_ListItem({
+                    category:  this.props.category, 
+                    onEditStart:  this.handleEditStart});
+        break;
+      case EDIT_STATE:
+        item = OperatorCategories_ListItemEdit({
+                    category:  this.props.category, 
+                    onEditFinish:  this.activateViewState});
+    }
+    return item;
+  },
+  handleEditStart: function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    return this.activateEditState();
+  },
+  handleItemClick: function() {
+    return this.props.onCategorySelect({
+      category: this.props.category,
+      includeSubcategories: true
+    });
+  }
+});
+
+
+
+},{}],18:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var TITLE;
+
+TITLE = 'Все товары';
+
+window.OperatorCategories_ListItemWithSubcategories = React.createClass({displayName: 'OperatorCategories_ListItemWithSubcategories',
+  propTypes: {
+    category: React.PropTypes.object.isRequired,
+    isActive: React.PropTypes.bool.isRequired,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    var itemClasses, totalCount;
+    totalCount = this.props.category.deep_products_count;
+    itemClasses = React.addons.classSet({
+      'adm-categories-item': true,
+      'selected': this.props.isActive
+    });
+    return React.DOM.div({className: itemClasses, 
+                 onClick:  this.handleClick}, 
+              React.DOM.span({className: "adm-categories-item-name"}, 
+                TITLE 
+              ), 
+              React.DOM.span({className: "adm-categories-item-counter"}, 
+                totalCount 
+              )
+            );
+  },
+  handleClick: function() {
+    return this.props.onCategorySelect({
+      category: this.props.category,
+      includeSubcategories: true
+    });
+  }
+});
+
+
+
+},{}],19:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var TITLE;
+
+TITLE = 'Без категории';
+
+window.OperatorCategories_ListItemWithoutCategory = React.createClass({displayName: 'OperatorCategories_ListItemWithoutCategory',
+  propTypes: {
+    category: React.PropTypes.object.isRequired,
+    isActive: React.PropTypes.bool.isRequired,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    var itemClasses, totalCount;
+    totalCount = this.props.category.products_count;
+    itemClasses = React.addons.classSet({
+      'adm-categories-item': true,
+      'selected': this.props.isActive
+    });
+    return React.DOM.div({className: itemClasses, 
+                 onClick:  this.handleClick}, 
+              React.DOM.span({className: "adm-categories-item-name"}, 
+                TITLE 
+              ), 
+              React.DOM.span({className: "adm-categories-item-counter"}, 
+                totalCount 
+              )
+            );
+  },
+  handleClick: function() {
+    return this.props.onCategorySelect({
+      category: this.props.category,
+      includeSubcategories: false
+    });
+  }
+});
+
+
+
+},{}],20:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var DRAG_DELAY, DRAG_REVERT;
+
+DRAG_DELAY = 100;
+
+DRAG_REVERT = 100;
+
+window.OperatorCategories_List = React.createClass({displayName: 'OperatorCategories_List',
+  propTypes: {
+    parentCategory: React.PropTypes.object,
+    currentCategory: React.PropTypes.object,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  getInitialState: function() {
+    return {
+      parentCategory: this.props.parentCategory,
+      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(this.props.parentCategory)
+    };
+  },
+  componentDidMount: function() {
+    OperatorCategoriesStore.addChangeListener(this._onStoreChange);
+    return $(this.refs.list.getDOMNode()).sortable({
+      scope: 'categoriesReorder',
+      placeholder: 'adm-categories-item __dropzone',
+      forcePlaceholderSize: true,
+      revert: DRAG_REVERT,
+      delay: DRAG_DELAY,
+      stop: this.handleDrop
+    });
+  },
+  componentWillReceiveProps: function(nextProps) {
+    return this.setState({
+      parentCategory: nextProps.parentCategory,
+      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(nextProps.parentCategory)
+    });
+  },
+  componentWillUnmount: function() {
+    return OperatorCategoriesStore.removeChangeListener(this._onStoreChange);
+  },
+  render: function() {
+    var categories, that;
+    that = this;
+    categories = this.state.categoriesToShow.map(function(category) {
+      return OperatorCategories_ListItemManager({
+           category: category, 
+           isActive:  that._isCategoryActive(category), 
+           onCategorySelect:  that.props.onCategorySelect, 
+           key:  category.id});
+    });
+    return React.DOM.div({className: "adm-categories-list"}, 
+
+              OperatorCategories_ListItemWithSubcategories({
+                  category:  this.props.parentCategory, 
+                  isActive:  this.props.currentCategory.id == this.props.parentCategory.id &&
+                             this.props.includeSubcategories == true, 
+                  onCategorySelect:  this.props.onCategorySelect}), 
+
+              React.DOM.span({ref: "list"}, categories ), 
+
+              OperatorCategories_ListItemWithoutCategory({
+                  category:  this.props.parentCategory, 
+                  isActive:  this.props.currentCategory.id == this.props.parentCategory.id &&
+                             this.props.includeSubcategories == false, 
+                  onCategorySelect:  this.props.onCategorySelect}), 
+
+              OperatorCategories_CreateForm({parentCategory:  this.props.parentCategory})
+            );
+  },
+  _isCategoryActive: function(category) {
+    var currentCategory;
+    currentCategory = this.props.currentCategory;
+    if (currentCategory && !(this.state.parentCategory && this.state.parentCategory.id === currentCategory.id)) {
+      return (category.id === currentCategory.id) || (category.id === currentCategory.parent_id);
+    } else {
+      return false;
+    }
+  },
+  handleDrop: function(evt, ui) {
+    var insertIdx, srcId;
+    srcId = parseInt(ui.item.attr('data-objectid'));
+    insertIdx = ui.item.index();
+    $(this.refs.list.getDOMNode()).sortable('cancel');
+    return OperatorCategoriesViewActions.reorderCategories({
+      categoryId: srcId,
+      insertIdx: insertIdx
+    });
+  },
+  handleTotalCountClick: function(e) {
+    e.preventDefault();
+    return this.props.onCategorySelect(this.props.parentCategory);
+  },
+  _onStoreChange: function() {
+    console.log('store changed');
+    return this.setState({
+      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(this.state.parentCategory)
+    });
+  }
+});
+
+
+
+},{}],21:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCategories_Loaded',
+  propTypes: {
+    parentCategory: React.PropTypes.object.isRequired,
+    currentCategory: React.PropTypes.object.isRequired,
+    productQuery: React.PropTypes.string,
+    productState: React.PropTypes.string,
+    includeSubcategories: React.PropTypes.bool.isRequired,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    var categoriesContent, currentCategory, currentCategoryLevel, secondCategory;
+    currentCategory = this.props.currentCategory;
+    currentCategoryLevel = OperatorCategoriesStore.getCategoryLevel(currentCategory);
+    switch (currentCategoryLevel) {
+      case 0:
+        categoriesContent = OperatorCategories_OneCategory({
+                                 parentCategory:  this.props.parentCategory, 
+                                 currentCategory: currentCategory, 
+                                 productQuery:  this.props.productQuery, 
+                                 productState:  this.props.productState, 
+                                 includeSubcategories:  this.props.includeSubcategories, 
+                                 onCategorySelect:  this.props.onCategorySelect});
+        break;
+      case 1:
+        categoriesContent = OperatorCategories_TwoCategories({
+                                 firstCategory:  this.props.parentCategory, 
+                                 secondCategory: currentCategory, 
+                                 currentCategory: currentCategory, 
+                                 productQuery:  this.props.productQuery, 
+                                 productState:  this.props.productState, 
+                                 includeSubcategories:  this.props.includeSubcategories, 
+                                 onCategorySelect:  this.props.onCategorySelect});
+        break;
+      case 2:
+        secondCategory = OperatorCategoriesStore.getCategoryById(currentCategory.parent_id);
+        categoriesContent = OperatorCategories_TwoCategories({
+                                 firstCategory:  this.props.parentCategory, 
+                                 secondCategory: secondCategory, 
+                                 currentCategory: currentCategory, 
+                                 productQuery:  this.props.productQuery, 
+                                 productState:  this.props.productState, 
+                                 includeSubcategories:  this.props.includeSubcategories, 
+                                 onCategorySelect:  this.props.onCategorySelect});
+    }
+    return categoriesContent;
+  }
+});
+
+
+
+},{}],22:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_Loading = React.createClass({displayName: 'OperatorCategories_Loading',
+  render: function() {
+    return React.DOM.div({className: "adm-categories-grid"}, 
+      React.DOM.div({className: "adm-categories-grid-col"}, 
+        React.DOM.br(null), 
+        Spinner({
+            className: "fa-3x", 
+            align: "center"})
+      )
+    );
+  }
+});
+
+
+
+},{}],23:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_LoadingError = React.createClass({displayName: 'OperatorCategories_LoadingError',
+  render: function() {
+    return React.DOM.div({className: "adm-categories-grid"}, 
+      React.DOM.div({className: "adm-categories-grid-col"}, 
+        "При загрузке категорий возникла ошибка."
+      )
+    );
+  }
+});
+
+
+
+},{}],24:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_OneCategory = React.createClass({displayName: 'OperatorCategories_OneCategory',
+  propTypes: {
+    parentCategory: React.PropTypes.object.isRequired,
+    currentCategory: React.PropTypes.object.isRequired,
+    productQuery: React.PropTypes.string,
+    productState: React.PropTypes.string,
+    includeSubcategories: React.PropTypes.bool.isRequired,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    return React.DOM.div({className: "adm-categories-grid"}, 
+      React.DOM.div({className: "adm-categories-grid-col"}, 
+        OperatorCategories_List({
+            parentCategory:  this.props.parentCategory, 
+            currentCategory:  this.props.currentCategory, 
+            includeSubcategories:  this.props.includeSubcategories, 
+            onCategorySelect:  this.props.onCategorySelect})
+      ), 
+      React.DOM.div({className: "adm-categories-grid-col __wide"}, 
+        OperatorProducts({
+            categoryId:  this.props.currentCategory.id, 
+            productState:  this.props.productState, 
+            productQuery:  this.props.productQuery, 
+            includeSubcategories:  this.props.includeSubcategories})
+      )
+    );
+  }
+});
+
+
+
+},{}],25:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var ERROR_STATE, LOADED_STATE, LOADING_STATE;
+
+LOADING_STATE = 'loading';
+
+LOADED_STATE = 'loaded';
+
+ERROR_STATE = 'error';
+
+window.OperatorCategories = React.createClass({displayName: 'OperatorCategories',
+  propTypes: {
+    productState: React.PropTypes.string,
+    productQuery: React.PropTypes.string
+  },
+  getInitialState: function() {
+    return {
+      currentState: LOADING_STATE,
+      currentCategory: null,
+      rootCategory: null,
+      includeSubcategories: true
+    };
+  },
+  componentDidMount: function() {
+    OperatorCategoriesViewActions.loadCategories({
+      success: this.activateLoadedState,
+      error: this.activateErrorState
+    });
+    return OperatorCategoriesStore.addChangeListener(this._onStoreChange);
+  },
+  componentWillUnmount: function() {
+    return OperatorCategoriesStore.removeChangeListener(this._onStoreChange);
+  },
+  render: function() {
+    var categoriesContent;
+    switch (this.state.currentState) {
+      case LOADED_STATE:
+        categoriesContent = OperatorCategories_Loaded({
+                                 parentCategory:  this.state.rootCategory, 
+                                 currentCategory:  this.state.currentCategory, 
+                                 productQuery:  this.props.productQuery, 
+                                 productState:  this.props.productState, 
+                                 includeSubcategories:  this.state.includeSubcategories, 
+                                 onCategorySelect:  this.handleCategorySelect});
+        break;
+      case LOADING_STATE:
+        categoriesContent = OperatorCategories_Loading(null);
+        break;
+      case ERROR_STATE:
+        categoriesContent = OperatorCategories_LoadingError(null);
+        break;
+      default:
+        console.warn('Unknown currentState of OperatorCategories component', this.state.currentState);
+    }
+    return categoriesContent;
+  },
+  activateLoadedState: function() {
+    return this.setState({
+      currentState: LOADED_STATE
+    });
+  },
+  activateErrorState: function() {
+    return this.setState({
+      currentState: ERROR_STATE
+    });
+  },
+  handleCategorySelect: function(_arg) {
+    var category, includeSubcategories;
+    category = _arg.category, includeSubcategories = _arg.includeSubcategories;
+    return this.setState({
+      currentCategory: category,
+      includeSubcategories: includeSubcategories
+    });
+  },
+  _onStoreChange: function() {
+    var currentCategory, rootCategory;
+    rootCategory = OperatorCategoriesStore.getRootCategory();
+    if (OperatorCategoriesStore.isCategoryExists(this.state.currentCategory)) {
+      currentCategory = this.state.currentCategory;
+    } else if (this.state.currentCategory && this.state.currentCategory.parent_id) {
+      currentCategory = OperatorCategoriesStore.getCategoryById(this.state.currentCategory.parent_id);
+    } else {
+      currentCategory = rootCategory;
+    }
+    return this.setState({
+      currentCategory: currentCategory,
+      rootCategory: rootCategory
+    });
+  }
+});
+
+
+
+},{}],26:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_TwoCategories = React.createClass({displayName: 'OperatorCategories_TwoCategories',
+  propTypes: {
+    firstCategory: React.PropTypes.object.isRequired,
+    secondCategory: React.PropTypes.object.isRequired,
+    currentCategory: React.PropTypes.object.isRequired,
+    productQuery: React.PropTypes.string,
+    productState: React.PropTypes.string,
+    includeSubcategories: React.PropTypes.bool.isRequired,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    return React.DOM.div({className: "adm-categories-grid"}, 
+      React.DOM.div({className: "adm-categories-grid-col"}, 
+        OperatorCategories_List({
+            parentCategory:  this.props.firstCategory, 
+            currentCategory:  this.props.currentCategory, 
+            includeSubcategories:  this.props.includeSubcategories, 
+            onCategorySelect:  this.props.onCategorySelect})
+      ), 
+      React.DOM.div({className: "adm-categories-grid-col"}, 
+         OperatorCategories_List({
+             parentCategory:  this.props.secondCategory, 
+             currentCategory:  this.props.currentCategory, 
+             includeSubcategories:  this.props.includeSubcategories, 
+             onCategorySelect:  this.props.onCategorySelect})
+      ), 
+      React.DOM.div({className: "adm-categories-grid-col __wide"}, 
+        OperatorProducts({
+            categoryId:  this.props.currentCategory.id, 
+            productState:  this.props.productState, 
+            productQuery:  this.props.productQuery, 
+            includeSubcategories:  this.props.includeSubcategories})
+      )
+    );
+  }
+});
+
+
+
+},{}],27:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProducts_ListItem',
+  mixins: [ProductDraggable],
+  propTypes: {
+    product: React.PropTypes.object.isRequired
+  },
+  render: function() {
+    return React.DOM.tr({'data-category-id':  this.props.product.category_id, 
+        'data-product-id':  this.props.product.id}, 
+      React.DOM.td({className: "adm-categories-goods-cover", 
+          'data-title': "Товар"}, 
+        ProductThumb({product:  this.props.product})
+      ), 
+      React.DOM.td({className: "adm-categories-goods-content"}, 
+        React.DOM.a({href:  Routes.edit_operator_product_url(this.props.product.id) }, 
+           this.props.product.title
+        )
+      ), 
+      React.DOM.td({className: "adm-categories-goods-price", 
+          'data-title': "Сумма"}, 
+        Money({money:  this.props.product.price})
+      ), 
+      React.DOM.td({className: "adm-categories-goods-status", 
+          'data-title': "Статус"}, 
+        ProductState({state:  this.props.product.state})
+      )
+    );
+  },
+  handleClick: function(e) {}
+});
+
+
+
+},{}],28:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorProducts_ListItemDrag = React.createClass({displayName: 'OperatorProducts_ListItemDrag',
+  propTypes: {
+    product: React.PropTypes.object.isRequired
+  },
+  render: function() {
+    return React.DOM.span({className: "adm-categories-goods-draghelper"}, 
+      React.DOM.table(null, 
+        React.DOM.tbody(null, 
+          React.DOM.tr(null, 
+            React.DOM.td({className: "adm-categories-goods-cover", 
+                'data-title': "Товар"}, 
+              ProductThumb({product:  this.props.product})
+            ), 
+            React.DOM.td({className: "adm-categories-goods-content"}, 
+               this.props.product.title
+            )
+          )
+        )
+      ), 
+      React.DOM.hr(null), 
+      React.DOM.i(null, "Перетащите товар в категорию")
+    );
+  },
+  imageUrl: function() {
+    return AppHelpers.productImageUrl(this.props.product);
+  }
+});
+
+
+
+},{}],29:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts_List',
+  mixins: [React.addons.PureRenderMixin],
+  propTypes: {
+    categoryId: React.PropTypes.number.isRequired
+  },
+  getInitialState: function() {
+    return this.getStateFromStore();
+  },
+  componentDidMount: function() {
+    return OperatorProductsStore.addChangeListener(this._onStoreChange);
+  },
+  componentWillUnmount: function() {
+    return OperatorProductsStore.removeChangeListener(this._onStoreChange);
+  },
+  render: function() {
+    var products;
+    products = this.state.products.map(function(product) {
+      return OperatorProducts_ListItem({
+            product: product, 
+            key:  product.id});
+    });
+    return React.DOM.div({className: "adm-categories-content"}, 
+              React.DOM.table({className: "adm-categories-goods"}, 
+                React.DOM.thead(null, 
+                  React.DOM.tr(null, 
+                    React.DOM.td({colSpan: "2"}, "Товар"), 
+                    React.DOM.td({className: "adm-categories-goods-price"}, "Цена"), 
+                    React.DOM.td({className: "adm-categories-goods-status"}, "Статус")
+                  )
+                ), 
+                React.DOM.tbody(null, products )
+              )
+            );
+  },
+  getStateFromStore: function() {
+    return {
+      products: OperatorProductsStore.getProducts(this.props.categoryId)
+    };
+  },
+  _onStoreChange: function() {
+    return this.setState(this.getStateFromStore());
+  }
+});
+
+
+
+},{}],30:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorProducts_Loading = React.createClass({displayName: 'OperatorProducts_Loading',
+  render: function() {
+    return React.DOM.div({className: "adm-categories-content"}, 
+      Spinner({className: "fa-3x"})
+    );
+  }
+});
+
+
+
+},{}],31:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorProducts_LoadingError = React.createClass({displayName: 'OperatorProducts_LoadingError',
+  propTypes: {
+    message: React.PropTypes.string.isRequired
+  },
+  render: function() {
+    return React.DOM.div({className: "adm-categories-content"}, 
+      "Ошибка загрузки ",  this.props.message
+    );
+  }
+});
+
+
+
+},{}],32:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var ERROR_STATE, LOADED_STATE, LOADING_STATE;
+
+LOADING_STATE = 'loading';
+
+LOADED_STATE = 'loaded';
+
+ERROR_STATE = 'error';
+
+window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
+  mixins: [React.addons.PureRenderMixin],
+  propTypes: {
+    categoryId: React.PropTypes.number.isRequired,
+    productState: React.PropTypes.string,
+    productQuery: React.PropTypes.string,
+    includeSubcategories: React.PropTypes.bool.isRequired
+  },
+  getDefaultProps: function() {
+    return {
+      productState: null,
+      productQuery: null
+    };
+  },
+  getInitialState: function() {
+    return {
+      currentState: LOADING_STATE,
+      products: null
+    };
+  },
+  componentDidMount: function() {
+    return this.loadProducts(this.props.categoryId, this.props.includeSubcategories);
+  },
+  componentWillReceiveProps: function(nextProps) {
+    return this.loadProducts(nextProps.categoryId, nextProps.includeSubcategories);
+  },
+  render: function() {
+    var productsContent;
+    switch (this.state.currentState) {
+      case LOADED_STATE:
+        productsContent = OperatorProducts_List({categoryId:  this.props.categoryId});
+        break;
+      case LOADING_STATE:
+        productsContent = OperatorProducts_Loading(null);
+        break;
+      case ERROR_STATE:
+        productsContent = OperatorProducts_LoadingError({message:  this.state.errorMessage});
+        break;
+      default:
+        console.warn('Unknown currentState of OperatorProducts component', this.state.currentState);
+    }
+    return productsContent;
+  },
+  activateErrorState: function() {
+    return this.setState({
+      currentState: ERROR_STATE
+    });
+  },
+  activateLoadingState: function() {
+    return this.setState({
+      currentState: LOADING_STATE
+    });
+  },
+  activateLoadedState: function() {
+    return this.setState({
+      currentState: LOADED_STATE
+    });
+  },
+  loadProducts: function(categoryId, includeSubcategories) {
+    this.activateLoadingState();
+    return OperatorProductsViewActions.loadProducts({
+      data: {
+        categoryId: categoryId,
+        productQuery: this.props.productQuery,
+        productState: this.props.productState,
+        includeSubcategories: includeSubcategories
+      },
+      success: this.activateLoadedState,
+      error: (function(_this) {
+        return function(errMsg) {
+          return _this.setState({
+            currentState: ERROR_STATE,
+            errorMessage: errMsg
+          });
+        };
+      })(this)
+    });
+  }
+});
+
+
+
+},{}],33:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var TITLES;
+
+TITLES = {
+  published: 'Опубликован',
+  has_errors: 'Есть ошибки',
+  unpublished: 'Снят с публикации',
+  archive: 'Архив'
+};
+
+window.ProductState = React.createClass({displayName: 'ProductState',
+  propTypes: {
+    state: React.PropTypes.string.isRequired
+  },
+  render: function() {
+    var classes, source, title;
+    source = {
+      label: true
+    };
+    source["__" + this.props.state] = true;
+    classes = React.addons.classSet(source);
+    title = TITLES[this.props.state];
+    return React.DOM.span({className: classes}, title);
+  }
+});
+
+
+
+},{}],34:[function(require,module,exports){
+
+/** @jsx React.DOM */
+
+/**global React, ProductsService */
+var MANUAL_STATE_ARCHIVE, MANUAL_STATE_DEFAULT, MANUAL_STATE_DRAFT, MANUAL_STATE_PUBLISHED, STATE_ARCHIVE, STATE_HAS_ERRORS, STATE_PUBLISHED, STATE_UNPUBLISHED, cx;
+
+cx = React.addons.classSet;
+
+STATE_PUBLISHED = 'published';
+
+STATE_HAS_ERRORS = 'has_errors';
+
+STATE_UNPUBLISHED = 'unpublished';
+
+STATE_ARCHIVE = 'archive';
+
+MANUAL_STATE_DEFAULT = 0;
+
+MANUAL_STATE_PUBLISHED = 1;
+
+MANUAL_STATE_DRAFT = -1;
+
+MANUAL_STATE_ARCHIVE = -2;
+
+window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggle',
+  propTypes: {
+    product_id: React.PropTypes.number.isRequired,
+    state: React.PropTypes.string,
+    manual_state: React.PropTypes.number
+  },
+  getDefaultProps: function() {
+    return {
+      state: STATE_PUBLISHED,
+      manual_state: MANUAL_STATE_DEFAULT
+    };
+  },
+  getInitialState: function() {
+    return {
+      state: this.props.state,
+      manual_state: this.props.manual_state,
+      localChecked: null,
+      isLocalChecked: false
+    };
+  },
+  componentWillReceiveProps: function(nextProps) {
+    return this.setState(nextProps);
+  },
+  render: function() {
+    var classes;
+    classes = cx({
+      "toggle__block": true,
+      "checked": this.isChecked(),
+      "has_errors": this.hasErrors(),
+      '__disabled': this.state.isLocalChecked
+    });
+    return React.DOM.label({className: classes }, 
+              React.DOM.div({className: "toggle__block-label-checked pull-left"}, 
+                "Товар на сайте"
+              ), 
+              React.DOM.div({className: "toggle__block-box pull-left"}, 
+                React.DOM.input({className: "toggle__block-checkbox", 
+                       type: "checkbox", 
+                       checked:  this.isChecked(), 
+                       onChange:  this.handleInputChange, 
+                       ref: "checkbox"}), 
+                React.DOM.div({className: "toggle__block-switch"}), 
+                React.DOM.div({className: "toggle__block-track"})
+              ), 
+              React.DOM.div({className: "toggle__block-label-unchecked pull-left"}, 
+                "Скрыть товар"
+              ), 
+              React.DOM.div({className: "clearfix"})
+            );
+  },
+  isChecked: function() {
+    if (this.state.isLocalChecked) {
+      return this.state.localChecked;
+    } else {
+      return this.state.state === STATE_PUBLISHED;
+    }
+  },
+  hasErrors: function() {
+    return this.state.state === STATE_HAS_ERRORS;
+  },
+  handleInputChange: function(e) {
+    var options, savedManualState;
+    if (this.state.isLocalChecked) {
+      return;
+    }
+    savedManualState = this.state.manual_state;
+    options = {
+      id: this.props.product_id,
+      success: (function(_this) {
+        return function(response) {
+          var state;
+          state = _.pick(response, ['state', 'manual_state']);
+          state.isLocalChecked = false;
+          return _this.setState(state);
+        };
+      })(this),
+      error: (function(_this) {
+        return function() {
+          return _this.setState({
+            manual_state: savedManualState,
+            isLocalChecked: false
+          });
+        };
+      })(this)
+    };
+    if (this.refs.checkbox.getDOMNode().checked) {
+      this.setState({
+        manual_state: MANUAL_STATE_PUBLISHED,
+        localChecked: true,
+        isLocalChecked: true
+      });
+      return ProductsResource.publish(options);
+    } else {
+      this.setState({
+        manual_state: MANUAL_STATE_ARCHIVE,
+        localChecked: false,
+        isLocalChecked: true
+      });
+      return ProductsResource.unpublish(options);
+    }
+  }
+});
+
+
+
+},{}],35:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.ProductThumb = React.createClass({displayName: 'ProductThumb',
+  propTypes: {
+    product: React.PropTypes.object.isRequired,
+    style: React.PropTypes.string
+  },
+  getDefaultProps: function() {
+    return {
+      style: '50x50'
+    };
+  },
+  render: function() {
+    return React.DOM.img({src:  this.imageUrl(), 
+          className: "adm-categories-goods-thumb", 
+          alt:  this.props.product.title});
+  },
+  imageUrl: function() {
+    var _ref;
+    if ((_ref = this.props.product.image) != null ? _ref.url : void 0) {
+      return ThumborService.image_url(this.props.product.image.url, this.props.style);
+    } else {
+      return gon.fallback_product_thumb_url;
+    }
+  }
+});
+
+
+
+},{}],36:[function(require,module,exports){
+window.ModalController = {
+  show: function(url) {
+    var container;
+    container = document.querySelectorAll('[modal-container]')[0];
+    if (!container) {
+      container = $('<\div>', {
+        'modal-container': ''
+      }).appendTo('body')[0];
+    }
+    return React.renderComponent(ModalComponent({
+      url: url
+    }), container);
+  }
+};
+
+
+
+},{}],37:[function(require,module,exports){
+var BaseDispatcher,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+BaseDispatcher = (function(_super) {
+  __extends(BaseDispatcher, _super);
+
+  function BaseDispatcher() {
+    return BaseDispatcher.__super__.constructor.apply(this, arguments);
+  }
+
+  BaseDispatcher.prototype.handleViewAction = function(action) {
+    return this.dispatch({
+      source: 'VIEW_ACTION',
+      action: action
+    });
+  };
+
+  BaseDispatcher.prototype.handleServerAction = function(action) {
+    return this.dispatch({
+      source: 'SERVER_ACTION',
+      action: action
+    });
+  };
+
+  return BaseDispatcher;
+
+})(Dispatcher);
+
+module.exports = BaseDispatcher;
+
+
+
+},{}],38:[function(require,module,exports){
+var BaseDispatcher;
+
+BaseDispatcher = require('./_base');
+
+window.OperatorCategoriesDispatcher = new BaseDispatcher();
+
+
+
+},{"./_base":37}],39:[function(require,module,exports){
+var BaseDispatcher;
+
+BaseDispatcher = require('./_base');
+
+window.OperatorProductsDispatcher = new BaseDispatcher();
+
+
+
+},{"./_base":37}],40:[function(require,module,exports){
+window.AppHelpers = {
+  reselectAndFocus: function(node) {
+    var value, valueLength;
+    value = node.value;
+    valueLength = value.length;
+    node.focus();
+    if (node.setSelectionRange != null) {
+      return node.setSelectionRange(0, valueLength);
+    } else {
+      return node.value = value;
+    }
+  }
+};
+
+
+
+},{}],41:[function(require,module,exports){
+window.CategoryDroppable = {
+  componentDidMount: function() {
+    var that;
+    that = this;
+    return $(this.getDOMNode()).droppable({
+      scope: 'productsToCategories',
+      activeClass: '__droptarget-active',
+      addClasses: false,
+      hoverClass: '__droptarget-hover',
+      tolerance: 'pointer',
+      drop: this.handleProductDrop,
+      accept: _.throttle(function(productNode) {
+        var category_id;
+        category_id = parseInt(productNode.attr('data-category-id'));
+        return category_id !== that.props.category.id;
+      })
+    });
+  },
+  handleProductDrop: function(e, ui) {
+    return OperatorProductsViewActions.changeProductCategory({
+      productId: parseInt(ui.draggable.attr('data-product-id')),
+      newCategoryId: this.props.category.id,
+      oldCategoryId: parseInt(ui.draggable.attr('data-category-id'))
+    });
+  }
+};
+
+
+
+},{}],42:[function(require,module,exports){
+window.ComponentManipulationsMixin = {
+  safeUpdate: function(func) {
+    if (!this._isUnmounted()) {
+      func();
+    }
+  },
+  safeUpdateState: function(newStates) {
+    if (!this._isUnmounted()) {
+      this.setState(newStates);
+    }
+  },
+  _isUnmounted: function() {
+    return this._compositeLifeCycleState === 'UNMOUNTING' || this._compositeLifeCycleState === 'UNMOUNTED' || this._lifeCycleState === 'UNMOUNTING' || this._lifeCycleState === 'UNMOUNTED';
+  }
+};
+
+
+
+},{}],43:[function(require,module,exports){
+var ACCEPT_FILE_TYPES, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
+
+ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
+
+MAX_FILE_SIZE = 10 * 1000 * 1000;
+
+MAX_NUMBER_OF_FILES = 6;
+
+window.ImagesFormMixin = {
+  componentDidMount: function() {
+    var $form, ffu;
+    $form = $(this.getDOMNode()).closest('form');
+    this.fileUploader = null;
+    return ffu = $form.fileupload({
+      acceptFileTypes: ACCEPT_FILE_TYPES,
+      maxFileSize: MAX_FILE_SIZE,
+      maxNumberOfFiles: MAX_NUMBER_OF_FILES,
+      multipart: true,
+      singleFileUploads: false,
+      autoUpload: false,
+      replaceFileInput: false,
+      pasteZone: null,
+      start: (function(_this) {
+        return function() {
+          return _this.setState({
+            isInserting: false
+          });
+        };
+      })(this),
+      stop: (function(_this) {
+        return function() {
+          return _this.setState({
+            uploadingProgress: 0
+          });
+        };
+      })(this),
+      fail: (function(_this) {
+        return function(e, data) {
+          return NotifyController.errorResponse(data);
+        };
+      })(this),
+      done: (function(_this) {
+        return function(e, data) {
+          return _this.props.doneCallback(data.jqXHR.responseJSON);
+        };
+      })(this),
+      dragover: (function(_this) {
+        return function(e, data) {
+          return _this.dragOver();
+        };
+      })(this),
+      progressall: (function(_this) {
+        return function(e, data) {
+          var progress;
+          progress = parseInt(data.loaded / data.total * 100, 10);
+          return _this.setState({
+            uploadingProgress: progress
+          });
+        };
+      })(this),
+      add: this.addFileToForm,
+      formData: (function(_this) {
+        return function(form) {
+          return _this.serializeArray(_this.data());
+        };
+      })(this)
+    });
+  },
+  serializeArray: function(data) {
+    return _.keys(data).map(function(key) {
+      return {
+        name: key,
+        value: data[key]
+      };
+    });
+  },
+  addFileToForm: function(e, data) {
+    var images;
+    if ((this.fileUploader != null) && this.fileUploader !== data) {
+      console.warn('new file uploader', data, this.fileUploader);
+    }
+    this.fileUploader = data;
+    if (data.files.length === 0) {
+      return;
+    }
+    images = data.files.map(function(file) {
+      var image;
+      image = new Image();
+      image.src = window.URL.createObjectURL(file);
+      return image;
+    });
+    return this.setState({
+      images: images,
+      isInserting: false
+    });
+  },
+  removeImage: function(image) {
+    this.setState({
+      images: _.reject(this.state.images, function(i) {
+        return i === image;
+      })
+    });
+    if (image.id) {
+      return ProductsResource.deleteImage({
+        image_id: image.id
+      });
+    }
+  }
+};
+
+
+
+},{}],44:[function(require,module,exports){
+window.ProductDraggable = {
+  getInitialState: function() {
+    return {
+      isDragged: false
+    };
+  },
+  componentDidMount: function() {
+    var that;
+    that = this;
+    return $(this.getDOMNode()).draggable({
+      scope: 'productsToCategories',
+      addClasses: false,
+      appendTo: 'body',
+      zIndex: 100,
+      cursor: 'default',
+      cursorAt: {
+        top: -5,
+        left: -15
+      },
+      helper: function() {
+        return $(React.renderComponentToString(OperatorProducts_ListItemDrag({
+          product: that.props.product
+        })));
+      },
+      start: function(e) {
+        return that.setState({
+          isDragged: true
+        });
+      },
+      stop: function(e) {
+        return setTimeout(function() {
+          return that.setState({
+            isDragged: false
+          });
+        }, 0);
+      }
+    });
+  }
+};
+
+
+
+},{}],45:[function(require,module,exports){
+window.UnmountMixin = {
+  unmount: function() {
+    return _.defer((function(_this) {
+      return function() {
+        return React.unmountComponentAtNode(_this.getDOMNode().parentNode);
+      };
+    })(this));
+  }
+};
+
+
+
+},{}],46:[function(require,module,exports){
+window.OperatorCategoriesService = {
+  loadCategories: function(_arg) {
+    var error, success;
+    success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_categories_url(),
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      },
+      success: function(categories) {
+        OperatorCategoriesServerActions.receiveCategories(categories);
+        return typeof success === "function" ? success(categories) : void 0;
+      }
+    });
+  },
+  reorderCategories: function(_arg) {
+    var categoryId, insertIdx, newPositions;
+    categoryId = _arg.categoryId, insertIdx = _arg.insertIdx;
+    newPositions = OperatorCategoriesStore.getReorderedPositions(categoryId, insertIdx);
+    if (newPositions.length) {
+      OperatorCategoriesServerActions.reorderCategories(newPositions);
+      return this.updateCategories(newPositions, function(err, response) {
+        if (err) {
+          return console.error(err);
+        }
+      });
+    }
+  },
+  updateCategories: function(data, callback) {
+    var done, that;
+    done = _.after(data.length, function() {
+      return callback();
+    });
+    that = this;
+    return _.each(data, function(i) {
+      return that.updateCategory({
+        category: i,
+        success: done
+      });
+    });
+  },
+  reloadCategory: function(_arg) {
+    var categoryId;
+    categoryId = _arg.categoryId;
+    return Requester.request({
+      url: ApiRoutes.operator_category_url(categoryId),
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      },
+      success: function(category) {
+        OperatorCategoriesServerActions.receiveCategory(category);
+        return typeof success === "function" ? success(category) : void 0;
+      }
+    });
+  },
+  createCategory: function(_arg) {
+    var error, name, parentId, success;
+    name = _arg.name, parentId = _arg.parentId, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_categories_url(),
+      method: 'POST',
+      data: {
+        name: name,
+        parent_id: parentId,
+        position: OperatorCategoriesStore.getCategoryPosition({
+          parent_id: parentId
+        })
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      },
+      success: function(category) {
+        OperatorCategoriesServerActions.createCategory(category);
+        return typeof success === "function" ? success(category) : void 0;
+      }
+    });
+  },
+  updateCategory: function(_arg) {
+    var category, error, success;
+    category = _arg.category, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_category_url(category.id),
+      method: 'PUT',
+      data: {
+        name: category.name,
+        position: category.position,
+        parent_id: category.parent_id
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      },
+      success: function(category) {
+        OperatorCategoriesServerActions.updateCategory(category);
+        return typeof success === "function" ? success(category) : void 0;
+      }
+    });
+  },
+  deleteCategory: function(_arg) {
+    var category, error;
+    category = _arg.category, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_category_url(category.id),
+      method: 'DELETE',
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      },
+      success: function(response) {
+        OperatorCategoriesServerActions.deleteCategory(category);
+        return typeof success === "function" ? success(response) : void 0;
+      }
+    });
+  }
+};
+
+
+
+},{}],47:[function(require,module,exports){
+window.OperatorProductsService = {
+  loadProducts: function(_arg) {
+    var data, error, success;
+    data = _arg.data, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_products_by_category_url(),
+      data: {
+        category_id: data.categoryId,
+        query: data.productQuery,
+        state: data.productState,
+        include_subcategories: data.includeSubcategories,
+        per_page: 1000
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      },
+      success: function(response) {
+        OperatorProductsServerActions.receiveProducts(data.categoryId, response.products);
+        return typeof success === "function" ? success(response.products) : void 0;
+      }
+    });
+  },
+  changeProductCategory: function(_arg) {
+    var newCategoryId, oldCategoryId, productId;
+    productId = _arg.productId, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId;
+    return Requester.request({
+      url: ApiRoutes.operator_product_url(productId),
+      method: 'PUT',
+      data: {
+        category_id: newCategoryId
+      },
+      error: function(xhr, status, err) {},
+      success: function() {
+        OperatorCategoriesViewActions.reloadCategory({
+          categoryId: newCategoryId
+        });
+        OperatorCategoriesViewActions.reloadCategory({
+          categoryId: oldCategoryId
+        });
+        return OperatorProductsServerActions.moveProduct({
+          productId: productId,
+          categoryId: oldCategoryId
+        });
+      }
+    });
+  }
+};
+
+
+
+},{}],48:[function(require,module,exports){
+window.ThumborService = {
+  thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
+  image_url: function(url, style) {
+    if (style == null) {
+      style = "100x100";
+    }
+    if (gon.env === 'static-development') {
+      return url;
+    }
+    if (this.thumbor_url) {
+      return this.thumbor_url + ("/unsafe/" + style + "/") + url;
+    } else {
+      return url;
+    }
+  }
+};
+
+
+
+},{}],49:[function(require,module,exports){
+var BaseStore, CHANGE_EVENT,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CHANGE_EVENT = 'change';
+
+BaseStore = (function(_super) {
+  __extends(BaseStore, _super);
+
+  function BaseStore() {
+    return BaseStore.__super__.constructor.apply(this, arguments);
+  }
+
+  BaseStore.prototype.emitChange = function() {
+    return this.emit(CHANGE_EVENT);
+  };
+
+  BaseStore.prototype.addChangeListener = function(cb) {
+    return this.on(CHANGE_EVENT, cb);
+  };
+
+  BaseStore.prototype.removeChangeListener = function(cb) {
+    return this.off(CHANGE_EVENT, cb);
+  };
+
+  return BaseStore;
+
+})(EventEmitter);
+
+module.exports = BaseStore;
+
+
+
+},{}],50:[function(require,module,exports){
+var BaseStore, _categories, _getNewPositions;
+
+BaseStore = require('./_base');
+
+_categories = [];
+
+_getNewPositions = function(category, insertIndex) {
+  var catToShift, currentPosition, minPosition, newPositions, nextSibling, oldCategoriesParent, oldCategoriesPositions, oldTail, originalIndex, positionDiff, previousSibling, slicePosition, _i, _len;
+  oldCategoriesParent = OperatorCategoriesStore.getCategoryById(category.parent_id);
+  oldCategoriesPositions = OperatorCategoriesStore.getSortedCategoriesByParent(oldCategoriesParent);
+  originalIndex = _.findIndex(oldCategoriesPositions, function(i) {
+    return i.id === category.id;
+  });
+  if (insertIndex === originalIndex) {
+    return [];
+  }
+  oldCategoriesPositions = _.reject(oldCategoriesPositions, function(i) {
+    return i.id === category.id;
+  });
+  if (!(insertIndex < 1)) {
+    previousSibling = oldCategoriesPositions[insertIndex - 1];
+  }
+  if (!(insertIndex > oldCategoriesPositions.length - 1)) {
+    nextSibling = oldCategoriesPositions[insertIndex];
+  }
+  if (!nextSibling) {
+    return [
+      {
+        id: category.id,
+        position: previousSibling.position + 1
+      }
+    ];
+  }
+  if (!previousSibling) {
+    previousSibling = {
+      position: -1,
+      id: null
+    };
+  }
+  positionDiff = nextSibling.position - previousSibling.position;
+  if (positionDiff > 1) {
+    return [
+      {
+        id: category.id,
+        position: previousSibling.position + 1
+      }
+    ];
+  }
+  slicePosition = previousSibling.position + 1;
+  newPositions = [
+    {
+      id: category.id,
+      position: slicePosition,
+      name: category.name
+    }
+  ];
+  oldTail = oldCategoriesPositions.slice(insertIndex);
+  for (_i = 0, _len = oldTail.length; _i < _len; _i++) {
+    catToShift = oldTail[_i];
+    minPosition = slicePosition + 1;
+    currentPosition = catToShift.position;
+    if (currentPosition < minPosition) {
+      currentPosition = minPosition;
+      newPositions.push({
+        id: catToShift.id,
+        position: currentPosition,
+        name: catToShift.name
+      });
+      slicePosition = currentPosition + 1;
+    }
+  }
+  return newPositions;
+};
+
+window.OperatorCategoriesStore = _.extend(new BaseStore(), {
+  isCategoryExists: function(category) {
+    var _category, _i, _len;
+    if (!category) {
+      return false;
+    }
+    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
+      _category = _categories[_i];
+      if (_category.id === category.id) {
+        return true;
+      }
+    }
+    return false;
+  },
+  pushCategories: function(categories) {
+    var category, clonedCategories, _i, _len;
+    clonedCategories = _categories.slice(0);
+    for (_i = 0, _len = categories.length; _i < _len; _i++) {
+      category = categories[_i];
+      if (!this.isCategoryExists(category)) {
+        clonedCategories.push(category);
+      }
+    }
+    return _categories = clonedCategories;
+  },
+  updateCategory: function(data) {
+    var _category, _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
+      _category = _categories[_i];
+      if (!(_category.id === data.id)) {
+        continue;
+      }
+      _.extend(_category, data);
+      break;
+    }
+    return _results;
+  },
+  updatePositions: function(newPositions) {
+    var category, newPosition, reorderedCategories, _i, _j, _len, _len1;
+    reorderedCategories = _categories.slice(0);
+    for (_i = 0, _len = reorderedCategories.length; _i < _len; _i++) {
+      category = reorderedCategories[_i];
+      for (_j = 0, _len1 = newPositions.length; _j < _len1; _j++) {
+        newPosition = newPositions[_j];
+        if (category.id === newPosition.id) {
+          category.position = newPosition.position;
+        }
+      }
+    }
+    return _categories = reorderedCategories;
+  },
+  deleteCategory: function(category) {
+    var clonedCategories, clonedCategory, i, _i, _len;
+    clonedCategories = _categories.slice(0);
+    for (i = _i = 0, _len = clonedCategories.length; _i < _len; i = ++_i) {
+      clonedCategory = clonedCategories[i];
+      if (!(clonedCategory.id === category.id)) {
+        continue;
+      }
+      clonedCategories.splice(i, 1);
+      break;
+    }
+    return _categories = clonedCategories;
+  },
+  getCategories: function() {
+    return _categories;
+  },
+  getRootCategory: function() {
+    var _category, _i, _len;
+    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
+      _category = _categories[_i];
+      if (_category.parent_id === null) {
+        return _category;
+      }
+    }
+  },
+  getCategoryLevel: function(category) {
+    if (category.parent_id) {
+      return 1 + this.getCategoryLevel(this.getCategoryById(category.parent_id));
+    } else {
+      return 0;
+    }
+  },
+  getCategoryPosition: function(category) {
+    var lastPosition, lastSibling, siblings;
+    siblings = _.filter(_categories, function(i) {
+      return i.parent_id === category.parent_id;
+    });
+    if (siblings.length) {
+      lastSibling = _.max(siblings, function(i) {
+        return i.position;
+      });
+      lastPosition = lastSibling.position;
+    } else {
+      lastPosition = -1;
+    }
+    return lastPosition + 1;
+  },
+  getReorderedPositions: function(categoryId, insertIdx) {
+    var category;
+    category = this.getCategoryById(categoryId);
+    return _getNewPositions(category, insertIdx);
+  },
+  getCategoryById: function(categoryId) {
+    var _category, _i, _len;
+    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
+      _category = _categories[_i];
+      if (_category.id === categoryId) {
+        return _category;
+      }
+    }
+  },
+  getSortedCategoriesByParent: function(parentCategory) {
+    var parentId;
+    parentId = parentCategory ? parentCategory.id : null;
+    return _.filter(_categories, function(i) {
+      return i.parent_id === parentId;
+    }).sort(function(a, b) {
+      return a.position - b.position;
+    });
+  }
+});
+
+OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(function(payload) {
+  var action;
+  action = payload.action;
+  switch (action.type) {
+    case 'categoriesLoaded':
+      OperatorCategoriesStore.pushCategories(action.categories);
+      OperatorCategoriesStore.emitChange();
+      break;
+    case 'categoriesReordered':
+      OperatorCategoriesStore.updatePositions(action.newPositions);
+      OperatorCategoriesStore.emitChange();
+      break;
+    case 'categoryLoaded':
+      if (OperatorCategoriesStore.isCategoryExists(action.category)) {
+        OperatorCategoriesStore.updateCategory(action.category);
+      } else {
+        OperatorCategoriesStore.pushCategories([action.category]);
+      }
+      OperatorCategoriesStore.emitChange();
+      break;
+    case 'categoryCreated':
+      OperatorCategoriesStore.pushCategories([action.category]);
+      OperatorCategoriesStore.emitChange();
+      break;
+    case 'categoryUpdated':
+      OperatorCategoriesStore.updateCategory(action.category);
+      OperatorCategoriesStore.emitChange();
+      break;
+    case 'categoryDeleted':
+      OperatorCategoriesStore.deleteCategory(action.category);
+      OperatorCategoriesStore.emitChange();
+      break;
+  }
+});
+
+
+
+},{"./_base":49}],51:[function(require,module,exports){
+var BaseStore, _products;
+
+BaseStore = require('./_base');
+
+_products = {};
+
+window.OperatorProductsStore = _.extend(new BaseStore(), {
+  isProductExists: function(categoryId, productId) {
+    var product, products, _i, _len, _ref;
+    products = (_ref = _products[categoryId]) != null ? _ref : [];
+    for (_i = 0, _len = products.length; _i < _len; _i++) {
+      product = products[_i];
+      if (product.id === productId) {
+        return true;
+      }
+    }
+    return false;
+  },
+  replaceProducts: function(categoryId, products) {
+    return _products[categoryId] = products;
+  },
+  removeProduct: function(categoryId, productId) {
+    var clonedProduct, clonedProducts, i, _i, _len;
+    if (!this.isProductExists(categoryId, productId)) {
+      return;
+    }
+    clonedProducts = _products[categoryId].slice(0);
+    for (i = _i = 0, _len = clonedProducts.length; _i < _len; i = ++_i) {
+      clonedProduct = clonedProducts[i];
+      if (!(clonedProduct.id === productId)) {
+        continue;
+      }
+      clonedProducts.splice(i, 1);
+      break;
+    }
+    return _products[categoryId] = clonedProducts;
+  },
+  getProducts: function(categoryId) {
+    var _ref;
+    return (_ref = _products[categoryId]) != null ? _ref : [];
+  }
+});
+
+OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(function(payload) {
+  var action;
+  action = payload.action;
+  switch (action.type) {
+    case 'productsLoaded':
+      OperatorProductsStore.replaceProducts(action.categoryId, action.products);
+      OperatorProductsStore.emitChange();
+      break;
+    case 'productMoved':
+      OperatorProductsStore.removeProduct(action.categoryId, action.productId);
+      OperatorProductsStore.emitChange();
+      break;
+  }
+});
+
+
+
+},{"./_base":49}],52:[function(require,module,exports){
+window.ApiRoutes = {
+  operator_product_image_delete_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/images/' + id;
+  },
+  operator_categories_url: function() {
+    return gon.api_root_url + '/v1/operator/categories';
+  },
+  operator_category_url: function(id) {
+    return gon.api_root_url + '/v1/operator/categories/' + id;
+  },
+  operator_product_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/' + id;
+  },
+  operator_product_publicate_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/' + id + '/publication';
+  },
+  operator_products_by_category_url: function() {
+    return gon.api_root_url + '/v1/operator/products';
+  }
+};
+
+
+
+},{}],53:[function(require,module,exports){
+window.Routes = {
+  products_image_delete_path: function(id) {
+    return gon.root_url + '/products/images/' + id;
+  },
+  operator_product_url: function(id) {
+    return gon.root_url + '/operator/products/' + id;
+  },
+  edit_operator_product_url: function(id) {
+    return gon.root_url + '/operator/products/' + id + '/edit';
+  },
+  products_by_category_url: function(id) {
+    return gon.root_url + '/operator/products?category_id=' + id;
+  }
+};
+
+
+
+},{}],54:[function(require,module,exports){
+/**
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+module.exports.Dispatcher = require('./lib/Dispatcher')
+
+},{"./lib/Dispatcher":55}],55:[function(require,module,exports){
+/*
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule Dispatcher
+ * @typechecks
+ */
+
+"use strict";
+
+var invariant = require('./invariant');
+
+var _lastID = 1;
+var _prefix = 'ID_';
+
+/**
+ * Dispatcher is used to broadcast payloads to registered callbacks. This is
+ * different from generic pub-sub systems in two ways:
+ *
+ *   1) Callbacks are not subscribed to particular events. Every payload is
+ *      dispatched to every registered callback.
+ *   2) Callbacks can be deferred in whole or part until other callbacks have
+ *      been executed.
+ *
+ * For example, consider this hypothetical flight destination form, which
+ * selects a default city when a country is selected:
+ *
+ *   var flightDispatcher = new Dispatcher();
+ *
+ *   // Keeps track of which country is selected
+ *   var CountryStore = {country: null};
+ *
+ *   // Keeps track of which city is selected
+ *   var CityStore = {city: null};
+ *
+ *   // Keeps track of the base flight price of the selected city
+ *   var FlightPriceStore = {price: null}
+ *
+ * When a user changes the selected city, we dispatch the payload:
+ *
+ *   flightDispatcher.dispatch({
+ *     actionType: 'city-update',
+ *     selectedCity: 'paris'
+ *   });
+ *
+ * This payload is digested by `CityStore`:
+ *
+ *   flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'city-update') {
+ *       CityStore.city = payload.selectedCity;
+ *     }
+ *   });
+ *
+ * When the user selects a country, we dispatch the payload:
+ *
+ *   flightDispatcher.dispatch({
+ *     actionType: 'country-update',
+ *     selectedCountry: 'australia'
+ *   });
+ *
+ * This payload is digested by both stores:
+ *
+ *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'country-update') {
+ *       CountryStore.country = payload.selectedCountry;
+ *     }
+ *   });
+ *
+ * When the callback to update `CountryStore` is registered, we save a reference
+ * to the returned token. Using this token with `waitFor()`, we can guarantee
+ * that `CountryStore` is updated before the callback that updates `CityStore`
+ * needs to query its data.
+ *
+ *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'country-update') {
+ *       // `CountryStore.country` may not be updated.
+ *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
+ *       // `CountryStore.country` is now guaranteed to be updated.
+ *
+ *       // Select the default city for the new country
+ *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
+ *     }
+ *   });
+ *
+ * The usage of `waitFor()` can be chained, for example:
+ *
+ *   FlightPriceStore.dispatchToken =
+ *     flightDispatcher.register(function(payload) {
+ *       switch (payload.actionType) {
+ *         case 'country-update':
+ *           flightDispatcher.waitFor([CityStore.dispatchToken]);
+ *           FlightPriceStore.price =
+ *             getFlightPriceStore(CountryStore.country, CityStore.city);
+ *           break;
+ *
+ *         case 'city-update':
+ *           FlightPriceStore.price =
+ *             FlightPriceStore(CountryStore.country, CityStore.city);
+ *           break;
+ *     }
+ *   });
+ *
+ * The `country-update` payload will be guaranteed to invoke the stores'
+ * registered callbacks in order: `CountryStore`, `CityStore`, then
+ * `FlightPriceStore`.
+ */
+
+  function Dispatcher() {
+    this.$Dispatcher_callbacks = {};
+    this.$Dispatcher_isPending = {};
+    this.$Dispatcher_isHandled = {};
+    this.$Dispatcher_isDispatching = false;
+    this.$Dispatcher_pendingPayload = null;
+  }
+
+  /**
+   * Registers a callback to be invoked with every dispatched payload. Returns
+   * a token that can be used with `waitFor()`.
+   *
+   * @param {function} callback
+   * @return {string}
+   */
+  Dispatcher.prototype.register=function(callback) {
+    var id = _prefix + _lastID++;
+    this.$Dispatcher_callbacks[id] = callback;
+    return id;
+  };
+
+  /**
+   * Removes a callback based on its token.
+   *
+   * @param {string} id
+   */
+  Dispatcher.prototype.unregister=function(id) {
+    invariant(
+      this.$Dispatcher_callbacks[id],
+      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
+      id
+    );
+    delete this.$Dispatcher_callbacks[id];
+  };
+
+  /**
+   * Waits for the callbacks specified to be invoked before continuing execution
+   * of the current callback. This method should only be used by a callback in
+   * response to a dispatched payload.
+   *
+   * @param {array<string>} ids
+   */
+  Dispatcher.prototype.waitFor=function(ids) {
+    invariant(
+      this.$Dispatcher_isDispatching,
+      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
+    );
+    for (var ii = 0; ii < ids.length; ii++) {
+      var id = ids[ii];
+      if (this.$Dispatcher_isPending[id]) {
+        invariant(
+          this.$Dispatcher_isHandled[id],
+          'Dispatcher.waitFor(...): Circular dependency detected while ' +
+          'waiting for `%s`.',
+          id
+        );
+        continue;
+      }
+      invariant(
+        this.$Dispatcher_callbacks[id],
+        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
+        id
+      );
+      this.$Dispatcher_invokeCallback(id);
+    }
+  };
+
+  /**
+   * Dispatches a payload to all registered callbacks.
+   *
+   * @param {object} payload
+   */
+  Dispatcher.prototype.dispatch=function(payload) {
+    invariant(
+      !this.$Dispatcher_isDispatching,
+      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
+    );
+    this.$Dispatcher_startDispatching(payload);
+    try {
+      for (var id in this.$Dispatcher_callbacks) {
+        if (this.$Dispatcher_isPending[id]) {
+          continue;
+        }
+        this.$Dispatcher_invokeCallback(id);
+      }
+    } finally {
+      this.$Dispatcher_stopDispatching();
+    }
+  };
+
+  /**
+   * Is this Dispatcher currently dispatching.
+   *
+   * @return {boolean}
+   */
+  Dispatcher.prototype.isDispatching=function() {
+    return this.$Dispatcher_isDispatching;
+  };
+
+  /**
+   * Call the callback stored with the given id. Also do some internal
+   * bookkeeping.
+   *
+   * @param {string} id
+   * @internal
+   */
+  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
+    this.$Dispatcher_isPending[id] = true;
+    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
+    this.$Dispatcher_isHandled[id] = true;
+  };
+
+  /**
+   * Set up bookkeeping needed when dispatching.
+   *
+   * @param {object} payload
+   * @internal
+   */
+  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
+    for (var id in this.$Dispatcher_callbacks) {
+      this.$Dispatcher_isPending[id] = false;
+      this.$Dispatcher_isHandled[id] = false;
+    }
+    this.$Dispatcher_pendingPayload = payload;
+    this.$Dispatcher_isDispatching = true;
+  };
+
+  /**
+   * Clear bookkeeping used for dispatching.
+   *
+   * @internal
+   */
+  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
+    this.$Dispatcher_pendingPayload = null;
+    this.$Dispatcher_isDispatching = false;
+  };
+
+
+module.exports = Dispatcher;
+
+},{"./invariant":56}],56:[function(require,module,exports){
+/**
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule invariant
+ */
+
+"use strict";
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+  if (false) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  }
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        'Invariant Violation: ' +
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+module.exports = invariant;
+
+},{}],"bootstrapSass":[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.2.0
  * http://getbootstrap.com/javascript/#affix
@@ -2114,3286 +5112,6 @@ require('./react/application');
 }(jQuery);
 
 
-},{}],2:[function(require,module,exports){
-window.OperatorCategoriesActions = {
-  reloadCategory: function(category_id) {
-    return CategoriesResource.get({
-      id: category_id,
-      success: function(category) {
-        return OperatorCategoriesDispatcher.handleServerAction({
-          type: 'updateCategory',
-          category: category
-        });
-      }
-    });
-  },
-  deleteCategory: function(_arg) {
-    var category, error;
-    category = _arg.category, error = _arg.error;
-    return CategoriesResource["delete"]({
-      category: category,
-      error: error
-    });
-  },
-  categorySelected: function(category) {
-    return OperatorCategoriesDispatcher.handleViewAction({
-      type: 'categorySelected',
-      category: category
-    });
-  },
-  reorderCategories: function(newOrder) {
-    return OperatorCategoriesDispatcher.handleViewAction({
-      type: 'reorderCategories',
-      newOrder: newOrder
-    });
-  }
-};
-
-
-
-},{}],3:[function(require,module,exports){
-
-/**global OperatorCategoriesDispatcher */
-window.OperatorCategoriesServerActions = {
-  categoriesLoaded: function(categories) {
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'receiveAll',
-      categories: categories
-    });
-  },
-  addCategory: function(category) {
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'addCategory',
-      category: category
-    });
-  },
-  categoryUpdated: function(category) {
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'updateCategory',
-      category: category
-    });
-  },
-  deleteCategory: function(category) {
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'deleteCategory',
-      category: category
-    });
-  }
-};
-
-
-
-},{}],4:[function(require,module,exports){
-
-/**global OperatorProductsDispatcher, window, OperatorCategoriesStore, OperatorCategoriesDispatcher */
-window.OperatorProductsServerActions = {
-  removeProductFromCategory: function(_arg) {
-    var category_id, product_id;
-    product_id = _arg.product_id, category_id = _arg.category_id;
-  }
-};
-
-
-
-},{}],5:[function(require,module,exports){
-require('./dispatchers/operator_categories_dispatcher');
-
-require('./dispatchers/operator_products_dispatcher');
-
-require('./stores/operator_categories_store');
-
-require('./stores/operator_products_store');
-
-require('./resources/categories');
-
-require('./resources/products');
-
-require('./services/operator_categories');
-
-require('./services/operator_products');
-
-require('./services/modal_service');
-
-require('./actions/operator_categories_actions');
-
-require('./actions/operator_categories_server_actions');
-
-require('./actions/operator_products_server_actions');
-
-require('./mixins/dragging');
-
-require('./mixins/images_form_mixin');
-
-require('./mixins/product_draggable');
-
-require('./mixins/category_product_droptarget');
-
-require('./mixins/component_manipulations');
-
-require('./components/product_thumb');
-
-require('./components/images_form_thumbs');
-
-require('./components/spinner');
-
-require('./components/operator_categories/operator_categories');
-
-require('./components/operator_categories/categories_loaded');
-
-require('./components/operator_categories/one_category');
-
-require('./components/operator_categories/two_categories');
-
-require('./components/operator_categories/loading');
-
-require('./components/operator_categories/loading_error');
-
-require('./components/operator_categories/list/list');
-
-require('./components/operator_categories/list/items/item');
-
-require('./components/operator_categories/list/items/view');
-
-require('./components/operator_categories/list/items/edit');
-
-require('./components/operator_categories/list/items/without_category');
-
-require('./components/operator_categories/list/items/with_subcategories');
-
-require('./components/operator_categories/list/create_form');
-
-require('./components/operator_products/operator_products');
-
-require('./components/operator_products/loading');
-
-require('./components/operator_products/loading_error');
-
-require('./components/operator_products/list/list');
-
-require('./components/operator_products/list/item');
-
-require('./components/operator_products/list/item_drag_helper');
-
-require('./components/operator_products/list/product_state');
-
-require('./components/product_status_toggle');
-
-require('./components/modal');
-
-require('./components/money');
-
-require('./components/super_select');
-
-require('./components/product_images');
-
-
-
-},{"./actions/operator_categories_actions":2,"./actions/operator_categories_server_actions":3,"./actions/operator_products_server_actions":4,"./components/images_form_thumbs":6,"./components/modal":7,"./components/money":8,"./components/operator_categories/categories_loaded":9,"./components/operator_categories/list/create_form":10,"./components/operator_categories/list/items/edit":11,"./components/operator_categories/list/items/item":12,"./components/operator_categories/list/items/view":13,"./components/operator_categories/list/items/with_subcategories":14,"./components/operator_categories/list/items/without_category":15,"./components/operator_categories/list/list":16,"./components/operator_categories/loading":17,"./components/operator_categories/loading_error":18,"./components/operator_categories/one_category":19,"./components/operator_categories/operator_categories":20,"./components/operator_categories/two_categories":21,"./components/operator_products/list/item":22,"./components/operator_products/list/item_drag_helper":23,"./components/operator_products/list/list":24,"./components/operator_products/list/product_state":25,"./components/operator_products/loading":26,"./components/operator_products/loading_error":27,"./components/operator_products/operator_products":28,"./components/product_images":29,"./components/product_status_toggle":30,"./components/product_thumb":31,"./components/spinner":32,"./components/super_select":33,"./dispatchers/operator_categories_dispatcher":34,"./dispatchers/operator_products_dispatcher":35,"./mixins/category_product_droptarget":36,"./mixins/component_manipulations":37,"./mixins/dragging":38,"./mixins/images_form_mixin":39,"./mixins/product_draggable":40,"./resources/categories":41,"./resources/products":42,"./services/modal_service":43,"./services/operator_categories":44,"./services/operator_products":45,"./stores/operator_categories_store":46,"./stores/operator_products_store":47}],6:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
-  propTypes: {
-    images: React.PropTypes.array.isRequired,
-    onRemove: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    var images, that;
-    if (this.props.images.length === 0) {
-      return null;
-    }
-    images = [];
-    console.log('images', this.props.images);
-    that = this;
-    $.each(this.props.images, function(idx, image) {
-      var onClick;
-      onClick = function() {
-        return that.props.onRemove(image);
-      };
-      return images.push(React.DOM.div({key: image.src, className: "products__new-form-image-thumb-block"}, 
-         React.DOM.img({className: "products__new-form-image-thumb", src: image.src}), 
-         React.DOM.div({className: "products__new-form-image-thumb-remove", onClick: onClick, ref: "remove"}), 
-         React.DOM.div({className: "products__new-form-image-thumb-update", onClick: onClick, ref: "update"})
-       ));
-    });
-    return React.DOM.div({className: "products__new-form-images-list"}, images);
-  }
-});
-
-
-
-},{}],7:[function(require,module,exports){
-
-/** @jsx React.DOM */
-
-/**global React */
-var STATE_LOADED, STATE_LOADING;
-
-STATE_LOADING = 'loading';
-
-STATE_LOADED = 'loaded';
-
-window.ModalComponent = React.createClass({displayName: 'ModalComponent',
-  propTypes: {
-    url: React.PropTypes.string.isRequired
-  },
-  getInitialState: function() {
-    return {
-      state: STATE_LOADING
-    };
-  },
-  componentDidMount: function() {
-    var jqNode, that;
-    jqNode = $(this.getDOMNode());
-    jqNode.modal('show');
-    that = this;
-    return $(that.refs.content.getDOMNode()).load(that.props.url, function() {
-      $(document).trigger('page:change');
-      that.setState({
-        state: STATE_LOADED
-      });
-      return jqNode.on('hidden.bs.modal', function() {
-        React.unmountComponentAtNode(jqNode[0]);
-        return jqNode.remove();
-      });
-    });
-  },
-  render: function() {
-    var spinner;
-    spinner = this.state.state === STATE_LOADING ? React.DOM.div({className: "modal-body"}, 
-        React.DOM.div({className: "text-center"}, 
-          React.DOM.i({className: "fa fa-spinner fa-5x fa-spin"})
-        )
-      ) : null;
-    return React.DOM.div({className: "modal fade", 
-                 'aria-hidden': "true", 
-                 tabIndex: "-1"}, 
-              React.DOM.div({className: "modal-dialog modal-lg"}, 
-                React.DOM.div({className: "modal-content"}, 
-                  spinner, 
-                  React.DOM.div({ref: "content"})
-                )
-              )
-            );
-  }
-});
-
-
-
-},{}],8:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.Money = React.createClass({displayName: 'Money',
-  propTypes: {
-    money: React.PropTypes.object.isRequired
-  },
-  render: function() {
-    if (this.props.money) {
-      return React.DOM.span({className: "nobr"}, " ",  (this.props.money.cents/100).toLocaleString('ru-RU'), " руб.");
-    } else {
-      return React.DOM.span({className: "nobr"}, "---");
-    }
-  }
-});
-
-
-
-},{}],9:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_CategoriesLoaded = React.createClass({displayName: 'OperatorCategories_CategoriesLoaded',
-  propTypes: {
-    parentCategory: React.PropTypes.object.isRequired,
-    selectedCategory: React.PropTypes.object.isRequired,
-    productQuery: React.PropTypes.string,
-    productState: React.PropTypes.string,
-    includeSubcategories: React.PropTypes.bool.isRequired,
-    onSelectCategory: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    var categoriesContent, secondCategory, selectedCategory, selectedLevel;
-    selectedCategory = this.props.selectedCategory;
-    selectedLevel = OperatorCategoriesStore.getCategoryLevel(selectedCategory);
-    switch (selectedLevel) {
-      case 0:
-        categoriesContent = OperatorCategories_OneCategory({
-                                           parentCategory:  this.props.parentCategory, 
-                                           selectedCategory: selectedCategory, 
-                                           productQuery:  this.props.productQuery, 
-                                           productState:  this.props.productState, 
-                                           includeSubcategories:  this.props.includeSubcategories, 
-                                           onSelectCategory:  this.props.onSelectCategory});
-        break;
-      case 1:
-        categoriesContent = OperatorCategories_TwoCategories({
-                                           firstCategory:  this.props.parentCategory, 
-                                           secondCategory: selectedCategory, 
-                                           selectedCategory: selectedCategory, 
-                                           productQuery:  this.props.productQuery, 
-                                           productState:  this.props.productState, 
-                                           includeSubcategories:  this.props.includeSubcategories, 
-                                           onSelectCategory:  this.props.onSelectCategory});
-        break;
-      case 2:
-        secondCategory = OperatorCategoriesStore.getCategoryById(selectedCategory.parent_id);
-        categoriesContent = OperatorCategories_TwoCategories({
-                                 firstCategory:  this.props.parentCategory, 
-                                 secondCategory: secondCategory, 
-                                 selectedCategory: selectedCategory, 
-                                 productQuery:  this.props.productQuery, 
-                                 productState:  this.props.productState, 
-                                 includeSubcategories:  this.props.includeSubcategories, 
-                                 onSelectCategory:  this.props.onSelectCategory});
-    }
-    return categoriesContent;
-  }
-});
-
-
-
-},{}],10:[function(require,module,exports){
-
-/** @jsx React.DOM */
-
-/**global React, OperatorCategoriesActions */
-var STATE_ERROR, STATE_INPUT, STATE_POSTING;
-
-STATE_INPUT = 'input';
-
-STATE_POSTING = 'posting';
-
-STATE_ERROR = 'error';
-
-window.OperatorCategories_CreateForm = React.createClass({displayName: 'OperatorCategories_CreateForm',
-  propTypes: {
-    parentCategory: React.PropTypes.object
-  },
-  getInitialState: function() {
-    return {
-      currentState: STATE_INPUT
-    };
-  },
-  render: function() {
-    switch (this.state.currentState) {
-      case STATE_INPUT:
-        return this._inputTag();
-      case STATE_POSTING:
-        return React.DOM.div({className: "adm-categories-item"}, 
-           React.DOM.span({className: "adm-categories-item-name text-muted"}, 
-              this.state.newName
-           ), 
-           React.DOM.span({className: "adm-categories-item-name"}, " ", Spinner(null), " ")
-         );
-      case STATE_ERROR:
-        return React.DOM.div(null, "Ошибка создания категории.");
-    }
-  },
-  _inputTag: function() {
-    return React.DOM.div({className: "adm-categories-item __edit"}, 
-      React.DOM.input({className: "adm-categories-item-field", 
-             type: "text", 
-             placeholder: "Новая категория", 
-             ref: "input", 
-             onKeyDown:  this.handleInputKeyDown, 
-             onBlur:  this.handleInputBlur})
-    );
-  },
-  handleInputKeyDown: function(e) {
-    switch (e.key) {
-      case "Enter":
-        e.preventDefault();
-        return this._createCategory();
-      case "Escape":
-        e.preventDefault();
-        return this._blur();
-    }
-  },
-  handleInputBlur: function(e) {
-    e.preventDefault();
-    return this._blur();
-  },
-  _createCategory: function() {
-    var parent_id;
-    this.setState({
-      currentState: STATE_POSTING,
-      newName: this.refs.input.getDOMNode().value
-    });
-    parent_id = this.props.parentCategory ? this.props.parentCategory.id : null;
-    return OperatorCategoriesService.createCategory({
-      name: this.refs.input.getDOMNode().value,
-      parent_id: parent_id,
-      success: this._refresh,
-      error: this.handleError
-    });
-  },
-  _refresh: function() {
-    var that;
-    that = this;
-    return this.setState({
-      currentState: STATE_INPUT
-    }, function() {
-      var inputNode;
-      inputNode = that.refs.input.getDOMNode();
-      inputNode.value = "";
-      return AppHelpers.reselectAndFocus(inputNode);
-    });
-  },
-  _blur: function() {
-    var that;
-    that = this;
-    return this.setState({
-      currentState: STATE_INPUT
-    }, function() {
-      var inputNode;
-      inputNode = that.refs.input.getDOMNode();
-      inputNode.value = "";
-      return $(inputNode).blur();
-    });
-  },
-  handleError: function() {
-    return this.setState({
-      currentState: STATE_ERROR
-    });
-  }
-});
-
-
-
-},{}],11:[function(require,module,exports){
-
-/** @jsx React.DOM */
-
-/**global React, OperatorCategoriesActions */
-var STATE_ERROR, STATE_INPUT, STATE_POSTING;
-
-STATE_INPUT = 'input';
-
-STATE_POSTING = 'posting';
-
-STATE_ERROR = 'error';
-
-window.OperatorCategories_ListItemEdit = React.createClass({displayName: 'OperatorCategories_ListItemEdit',
-  propTypes: {
-    category: React.PropTypes.object.isRequired,
-    onDeleteStart: React.PropTypes.func.isRequired,
-    onFinish: React.PropTypes.func.isRequired
-  },
-  getInitialState: function() {
-    return {
-      currentState: STATE_INPUT
-    };
-  },
-  componentDidMount: function() {
-    return AppHelpers.reselectAndFocus(this.refs.input.getDOMNode());
-  },
-  render: function() {
-    switch (this.state.currentState) {
-      case STATE_INPUT:
-        return this._inputForm();
-      case STATE_POSTING:
-        return React.DOM.span(null, 
-           React.DOM.span({className: "adm-categories-item-name text-muted"}, 
-              this.state.newName
-           ), 
-           React.DOM.span({className: "adm-categories-item-name"}, 
-             React.DOM.i({className: "fa fa-spinner fa-spin"})
-           )
-         );
-      case STATE_ERROR:
-        return React.DOM.span(null, 
-          "   ", 
-          React.DOM.i(null, "Ошибка обновления категории.")
-        );
-    }
-  },
-  _inputForm: function() {
-    return React.DOM.span(null, 
-      React.DOM.input({className: "adm-categories-item-field", 
-             type: "text", 
-             ref: "input", 
-             defaultValue:  this.props.category.name, 
-             onKeyDown:  this.handleInputKeyDown}), 
-      React.DOM.span({className: "adm-categories-item-remove", 
-            onClick:  this.handleDeleteClick})
-    );
-  },
-  handleInputKeyDown: function(e) {
-    switch (e.key) {
-      case "Enter":
-        e.preventDefault();
-        return this._confirmEdit();
-      case "Escape":
-        e.preventDefault();
-        return this.props.onFinish();
-    }
-  },
-  handleError: function() {
-    return this.setState({
-      currentState: STATE_ERROR
-    });
-  },
-  handleDeleteClick: function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    if (window.confirm('Удалить категорию "' + this.props.category.name + '"?')) {
-      return OperatorCategoriesActions.deleteCategory({
-        category: this.props.category,
-        error: this.handleError
-      });
-    }
-  },
-  _confirmEdit: function() {
-    var updatedCategory;
-    this.setState({
-      currentState: STATE_POSTING,
-      newName: this.refs.input.getDOMNode().value
-    });
-    updatedCategory = _.clone(this.props.category);
-    updatedCategory.name = this.refs.input.getDOMNode().value;
-    return OperatorCategoriesService.updateSingleCategory({
-      category: updatedCategory,
-      success: this.props.onFinish,
-      error: this.handleError
-    });
-  }
-});
-
-
-
-},{}],12:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_ListItem = React.createClass({displayName: 'OperatorCategories_ListItem',
-  mixins: [CategoryProductDroptarget],
-  propTypes: {
-    category: React.PropTypes.object.isRequired,
-    isActive: React.PropTypes.bool.isRequired,
-    onSelectCategory: React.PropTypes.func.isRequired
-  },
-  getInitialState: function() {
-    return {
-      status: 'view'
-    };
-  },
-  render: function() {
-    var classes;
-    classes = React.addons.classSet({
-      'adm-categories-item': true,
-      'selected': this.props.isActive,
-      '__edit': this.state.status === 'edit'
-    });
-    return React.DOM.div({className: classes, 
-                 'data-objectid':  this.props.category.id, 
-                 onClick:  this.handleItemClick}, 
-               this._getItemNode() 
-            );
-  },
-  _getItemNode: function() {
-    switch (this.state.status) {
-      case 'view':
-        return OperatorCategories_ListItemView({
-             category:  this.props.category, 
-             onDeleteStart:  this.handleDeleteStart, 
-             onEditStart:  this.handleEditStart});
-      case 'edit':
-        return OperatorCategories_ListItemEdit({
-             category:  this.props.category, 
-             onFinish:  this._backToView, 
-             onDeleteStart:  this.handleDeleteStart});
-      case 'delete':
-        return OperatorCategories_ListItemDelete({
-             category:  this.props.category, 
-             onFinish:  this._backToView});
-    }
-  },
-  _backToView: function() {
-    return this.setState({
-      status: 'view'
-    });
-  },
-  handleEditStart: function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    return this.setState({
-      status: 'edit'
-    });
-  },
-  handleDeleteStart: function(e) {
-    e.preventDefault();
-    return this.setState({
-      status: 'delete'
-    });
-  },
-  handleItemClick: function(e) {
-    e.preventDefault();
-    return this.props.onSelectCategory(this.props.category);
-  }
-});
-
-
-
-},{}],13:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_ListItemView = React.createClass({displayName: 'OperatorCategories_ListItemView',
-  propTypes: {
-    category: React.PropTypes.object.isRequired,
-    onEditStart: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    return React.DOM.span(null, 
-      React.DOM.span(null, 
-        React.DOM.span({className: "adm-categories-item-name"}, 
-           this.props.category.name
-        ), 
-        React.DOM.span({className: "adm-categories-item-counter"}, 
-           this.props.category.deep_products_count
-        )
-      ), 
-      React.DOM.button({
-          className: "adm-btn-edit-category", 
-          title: "Редактировать", 
-          onClick:  this.props.onEditStart}, 
-        React.DOM.span(null, "Редактировать")
-      )
-    );
-  }
-});
-
-
-
-},{}],14:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var TITLE;
-
-TITLE = 'Все товары';
-
-window.OperatorCategories_ListItemWithSubcategories = React.createClass({displayName: 'OperatorCategories_ListItemWithSubcategories',
-  propTypes: {
-    category: React.PropTypes.object.isRequired,
-    isActive: React.PropTypes.bool.isRequired,
-    onSelectCategory: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    var itemClasses, totalCount;
-    totalCount = this.props.category.deep_products_count;
-    itemClasses = React.addons.classSet({
-      'adm-categories-item': true,
-      'selected': this.props.isActive
-    });
-    return React.DOM.div({className: itemClasses, 
-                 onClick:  this.props.onSelectCategory.bind(null, this.props.category, true) }, 
-              React.DOM.span({className: "adm-categories-item-name"}, 
-                TITLE 
-              ), 
-              React.DOM.span({className: "adm-categories-item-counter"}, 
-                totalCount 
-              )
-            );
-  }
-});
-
-
-
-},{}],15:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var TITLE;
-
-TITLE = 'Без категории';
-
-window.OperatorCategories_ListItemWithoutCategory = React.createClass({displayName: 'OperatorCategories_ListItemWithoutCategory',
-  propTypes: {
-    category: React.PropTypes.object.isRequired,
-    isActive: React.PropTypes.bool.isRequired,
-    onSelectCategory: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    var itemClasses, totalCount;
-    totalCount = this.props.category.products_count;
-    itemClasses = React.addons.classSet({
-      'adm-categories-item': true,
-      'selected': this.props.isActive
-    });
-    return React.DOM.div({className: itemClasses, 
-                 onClick:  this.props.onSelectCategory.bind(null, this.props.category, false) }, 
-              React.DOM.span({className: "adm-categories-item-name"}, 
-                TITLE 
-              ), 
-              React.DOM.span({className: "adm-categories-item-counter"}, 
-                totalCount 
-              )
-            );
-  }
-});
-
-
-
-},{}],16:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var DRAG_DELAY, DRAG_REVERT;
-
-DRAG_DELAY = 100;
-
-DRAG_REVERT = 100;
-
-window.OperatorCategories_List = React.createClass({displayName: 'OperatorCategories_List',
-  propTypes: {
-    parentCategory: React.PropTypes.object,
-    selectedCategory: React.PropTypes.object,
-    includeSubcategories: React.PropTypes.bool.isRequired,
-    onSelectCategory: React.PropTypes.func.isRequired
-  },
-  getInitialState: function() {
-    return {
-      parentCategory: this.props.parentCategory,
-      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(this.props.parentCategory)
-    };
-  },
-  componentDidMount: function() {
-    OperatorCategoriesStore.addChangeListener(this._onStoreChange);
-    return $(this.refs.list.getDOMNode()).sortable({
-      scope: 'categoriesReorder',
-      placeholder: 'adm-categories-item __dropzone',
-      forcePlaceholderSize: true,
-      revert: DRAG_REVERT,
-      delay: DRAG_DELAY,
-      stop: this.handleDrop
-    });
-  },
-  componentWillReceiveProps: function(nextProps) {
-    return this.setState({
-      parentCategory: nextProps.parentCategory,
-      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(nextProps.parentCategory)
-    });
-  },
-  componentWillUnmount: function() {
-    return OperatorCategoriesStore.removeChangeListener(this._onStoreChange);
-  },
-  render: function() {
-    var categories, that;
-    that = this;
-    categories = this.state.categoriesToShow.map(function(cat) {
-      return OperatorCategories_ListItem({
-           category: cat, 
-           isActive:  that._isCategoryActive(cat), 
-           onSelectCategory:  that.props.onSelectCategory, 
-           key:  cat.id});
-    });
-    return React.DOM.div({className: "adm-categories-list"}, 
-
-              OperatorCategories_ListItemWithSubcategories({
-                  category:  this.props.parentCategory, 
-                  isActive:  this.props.selectedCategory.id == this.props.parentCategory.id &&
-                             this.props.includeSubcategories == true, 
-                  onSelectCategory:  this.props.onSelectCategory}), 
-
-              React.DOM.span({ref: "list"}, categories ), 
-
-              OperatorCategories_ListItemWithoutCategory({
-                  category:  this.props.parentCategory, 
-                  isActive:  this.props.selectedCategory.id == this.props.parentCategory.id &&
-                             this.props.includeSubcategories == false, 
-                  onSelectCategory:  this.props.onSelectCategory}), 
-
-              OperatorCategories_CreateForm({parentCategory:  this.props.parentCategory})
-
-            );
-  },
-  _isCategoryActive: function(cat) {
-    var selectedCategory;
-    selectedCategory = this.props.selectedCategory;
-    if (selectedCategory && !(this.state.parentCategory && this.state.parentCategory.id === selectedCategory.id)) {
-      return (cat.id === selectedCategory.id) || (cat.id === selectedCategory.parent_id);
-    } else {
-      return false;
-    }
-  },
-  handleDrop: function(evt, ui) {
-    var insertIdx, srcId;
-    srcId = parseInt(ui.item.attr('data-objectid'));
-    insertIdx = ui.item.index();
-    $(this.refs.list.getDOMNode()).sortable('cancel');
-    return OperatorCategoriesService.reorderCategories(srcId, insertIdx);
-  },
-  handleTotalCountClick: function(e) {
-    e.preventDefault();
-    return this.props.onSelectCategory(this.props.parentCategory);
-  },
-  _onStoreChange: function() {
-    return this.setState({
-      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(this.state.parentCategory)
-    });
-  }
-});
-
-
-
-},{}],17:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_Loading = React.createClass({displayName: 'OperatorCategories_Loading',
-  render: function() {
-    return React.DOM.div({className: "adm-categories-grid"}, 
-      React.DOM.div({className: "adm-categories-grid-col"}, 
-        React.DOM.br(null), 
-        Spinner({
-            className: "fa-3x", 
-            align: "center"})
-      )
-    );
-  }
-});
-
-
-
-},{}],18:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_LoadingError = React.createClass({displayName: 'OperatorCategories_LoadingError',
-  render: function() {
-    return React.DOM.div({className: "adm-categories-grid"}, 
-      React.DOM.div({className: "adm-categories-grid-col"}, 
-        "При загрузке категорий возникла ошибка."
-      )
-    );
-  }
-});
-
-
-
-},{}],19:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_OneCategory = React.createClass({displayName: 'OperatorCategories_OneCategory',
-  propTypes: {
-    parentCategory: React.PropTypes.object.isRequired,
-    selectedCategory: React.PropTypes.object.isRequired,
-    productQuery: React.PropTypes.string,
-    productState: React.PropTypes.string,
-    includeSubcategories: React.PropTypes.bool.isRequired,
-    onSelectCategory: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    return React.DOM.div({className: "adm-categories-grid"}, 
-      React.DOM.div({className: "adm-categories-grid-col"}, 
-        OperatorCategories_List({
-            parentCategory:  this.props.parentCategory, 
-            selectedCategory:  this.props.selectedCategory, 
-            includeSubcategories:  this.props.includeSubcategories, 
-            onSelectCategory:  this.props.onSelectCategory})
-      ), 
-      React.DOM.div({className: "adm-categories-grid-col __wide"}, 
-        OperatorProducts({
-            categoryId:  this.props.selectedCategory.id, 
-            productState:  this.props.productState, 
-            productQuery:  this.props.productQuery, 
-            includeSubcategories:  this.props.includeSubcategories})
-      )
-    );
-  }
-});
-
-
-
-},{}],20:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var ERROR_STATE, LOADED_STATE, LOADING_STATE;
-
-LOADING_STATE = 'loading';
-
-LOADED_STATE = 'loaded';
-
-ERROR_STATE = 'error';
-
-window.OperatorCategories = React.createClass({displayName: 'OperatorCategories',
-  propTypes: {
-    productState: React.PropTypes.string,
-    productQuery: React.PropTypes.string
-  },
-  getInitialState: function() {
-    return {
-      currentState: LOADING_STATE,
-      selectedCategory: null,
-      includeSubcategories: true,
-      rootCategory: null
-    };
-  },
-  componentDidMount: function() {
-    OperatorCategoriesStore.addChangeListener(this._onStoreChange);
-    return OperatorCategoriesService.getCategories({
-      error: (function(_this) {
-        return function() {
-          return _this.activateErrorState();
-        };
-      })(this)
-    });
-  },
-  componentWillUnmount: function() {
-    return OperatorCategoriesStore.removeChangeListener(this._onStoreChange);
-  },
-  render: function() {
-    var categoriesContent;
-    switch (this.state.currentState) {
-      case LOADED_STATE:
-        categoriesContent = OperatorCategories_CategoriesLoaded({
-                                                       parentCategory:  this.state.rootCategory, 
-                                                       selectedCategory:  this.state.selectedCategory, 
-                                                       productQuery:  this.props.productQuery, 
-                                                       productState:  this.props.productState, 
-                                                       includeSubcategories:  this.state.includeSubcategories, 
-                                                       onSelectCategory:  this.handleCategorySelection});
-        break;
-      case LOADING_STATE:
-        categoriesContent = OperatorCategories_Loading(null);
-        break;
-      case ERROR_STATE:
-        categoriesContent = OperatorCategories_LoadingError(null);
-        break;
-      default:
-        console.warn('Unknown currentState of OperatorCategories component', this.state.currentState);
-    }
-    return categoriesContent;
-  },
-  activateErrorState: function() {
-    return this.setState({
-      currentState: ERROR_STATE
-    });
-  },
-  handleCategorySelection: function(category, includeSubcategories) {
-    if (includeSubcategories == null) {
-      includeSubcategories = true;
-    }
-    return this.setState({
-      selectedCategory: category,
-      includeSubcategories: includeSubcategories
-    });
-  },
-  _onStoreChange: function() {
-    var rootCategory, selectedCategory;
-    rootCategory = this.state.rootCategory || OperatorCategoriesStore.getRootCategory();
-    if (OperatorCategoriesStore.hasCategory(this.state.selectedCategory)) {
-      selectedCategory = this.state.selectedCategory;
-    } else if (this.state.selectedCategory && this.state.selectedCategory.parent_id) {
-      selectedCategory = OperatorCategoriesStore.getCategoryById(this.state.selectedCategory.parent_id);
-    } else {
-      selectedCategory = rootCategory;
-    }
-    return this.setState({
-      currentState: LOADED_STATE,
-      selectedCategory: selectedCategory,
-      rootCategory: rootCategory
-    });
-  }
-});
-
-
-
-},{}],21:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_TwoCategories = React.createClass({displayName: 'OperatorCategories_TwoCategories',
-  propTypes: {
-    firstCategory: React.PropTypes.object.isRequired,
-    secondCategory: React.PropTypes.object.isRequired,
-    selectedCategory: React.PropTypes.object.isRequired,
-    productQuery: React.PropTypes.string,
-    productState: React.PropTypes.string,
-    includeSubcategories: React.PropTypes.bool.isRequired,
-    onSelectCategory: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    return React.DOM.div({className: "adm-categories-grid"}, 
-      React.DOM.div({className: "adm-categories-grid-col"}, 
-        OperatorCategories_List({
-            parentCategory:  this.props.firstCategory, 
-            selectedCategory:  this.props.selectedCategory, 
-            includeSubcategories:  this.props.includeSubcategories, 
-            onSelectCategory:  this.props.onSelectCategory})
-      ), 
-      React.DOM.div({className: "adm-categories-grid-col"}, 
-         OperatorCategories_List({
-             parentCategory:  this.props.secondCategory, 
-             selectedCategory:  this.props.selectedCategory, 
-             includeSubcategories:  this.props.includeSubcategories, 
-             onSelectCategory:  this.props.onSelectCategory})
-      ), 
-      React.DOM.div({className: "adm-categories-grid-col __wide"}, 
-        OperatorProducts({
-            categoryId:  this.props.selectedCategory.id, 
-            productState:  this.props.productState, 
-            productQuery:  this.props.productQuery, 
-            includeSubcategories:  this.props.includeSubcategories})
-      )
-    );
-  }
-});
-
-
-
-},{}],22:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProducts_ListItem',
-  mixins: [ProductDraggable],
-  propTypes: {
-    product: React.PropTypes.object.isRequired
-  },
-  render: function() {
-    return React.DOM.tr({'data-category-id':  this.props.product.category_id, 
-        'data-product-id':  this.props.product.id, 
-        onClick:  this.handleItemClick}, 
-      React.DOM.td({className: "adm-categories-goods-cover", 
-          'data-title': "Товар"}, 
-        ProductThumb({product:  this.props.product})
-      ), 
-      React.DOM.td({className: "adm-categories-goods-content"}, 
-         this.props.product.title
-      ), 
-      React.DOM.td({className: "adm-categories-goods-price", 
-          'data-title': "Сумма"}, 
-        Money({money:  this.props.product.price})
-      ), 
-      React.DOM.td({className: "adm-categories-goods-status", 
-          'data-title': "Статус"}, 
-        ProductState({state:  this.props.product.state})
-      )
-    );
-  },
-  handleItemClick: function(e) {
-    if (!this.state.isDragged) {
-      e.stopPropagation();
-      return ModalService.show(Routes.edit_operator_product_url(this.props.product.id));
-    }
-  }
-});
-
-
-
-},{}],23:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorProducts_ListItem_DragHelper = React.createClass({displayName: 'OperatorProducts_ListItem_DragHelper',
-  propTypes: {
-    product: React.PropTypes.object.isRequired
-  },
-  render: function() {
-    return React.DOM.span({className: "adm-categories-goods-draghelper"}, 
-      React.DOM.table(null, 
-        React.DOM.tbody(null, 
-          React.DOM.tr(null, 
-            React.DOM.td({className: "adm-categories-goods-cover", 
-                'data-title': "Товар"}, 
-              ProductThumb({product:  this.props.product})
-            ), 
-            React.DOM.td({className: "adm-categories-goods-content"}, 
-               this.props.product.title
-            )
-          )
-        )
-      ), 
-      React.DOM.hr(null), 
-      React.DOM.i(null, 
-        "Перетащите товар в категорию"
-      )
-    );
-  },
-  imageUrl: function() {
-    return AppHelpers.productImageUrl(this.props.product);
-  }
-});
-
-
-
-},{}],24:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts_List',
-  propTypes: {
-    categoryId: React.PropTypes.number.isRequired,
-    products: React.PropTypes.array.isRequired
-  },
-  shouldComponentUpdate: function(nextProps) {
-    return nextProps.categoryId !== this.props.categoryId;
-  },
-  render: function() {
-    var products;
-    products = this.props.products.map(function(product) {
-      return OperatorProducts_ListItem({
-            product: product, 
-            key:  product.id});
-    });
-    return React.DOM.div({className: "adm-categories-content"}, 
-              React.DOM.table({className: "adm-categories-goods"}, 
-                React.DOM.thead(null, 
-                  React.DOM.tr(null, 
-                    React.DOM.td({colSpan: "2"}, "Товар"), 
-                    React.DOM.td({className: "adm-categories-goods-price"}, "Цена"), 
-                    React.DOM.td({className: "adm-categories-goods-status"}, "Статус")
-                  )
-                ), 
-                React.DOM.tbody(null, products )
-              )
-            );
-  }
-});
-
-
-
-},{}],25:[function(require,module,exports){
-
-/** @jsx React.DOM */
-
-/**global window, React */
-var TITLES;
-
-TITLES = {
-  published: 'Опубликован',
-  has_errors: 'Есть ошибки',
-  unpublished: 'Снят с публикации',
-  archive: 'Архив'
-};
-
-window.ProductState = React.createClass({displayName: 'ProductState',
-  propTypes: {
-    state: React.PropTypes.string.isRequired
-  },
-  render: function() {
-    var classes, source, title;
-    source = {
-      label: true
-    };
-    source["__" + this.props.state] = true;
-    classes = React.addons.classSet(source);
-    title = TITLES[this.props.state];
-    return React.DOM.span({className: classes}, title);
-  }
-});
-
-
-
-},{}],26:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorProducts_Loading = React.createClass({displayName: 'OperatorProducts_Loading',
-  render: function() {
-    return React.DOM.div({className: "adm-categories-content"}, 
-      Spinner({className: "fa-3x"})
-    );
-  }
-});
-
-
-
-},{}],27:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorProducts_LoadingError = React.createClass({displayName: 'OperatorProducts_LoadingError',
-  propTypes: {
-    message: React.PropTypes.string.isRequired
-  },
-  render: function() {
-    return React.DOM.div({className: "adm-categories-content"}, 
-      "Ошибка загузки ",  this.props.message
-    );
-  }
-});
-
-
-
-},{}],28:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var ERROR_STATE, LOADED_STATE, LOADING_STATE;
-
-LOADING_STATE = 'loading';
-
-LOADED_STATE = 'loaded';
-
-ERROR_STATE = 'error';
-
-window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
-  mixins: [React.addons.PureRenderMixin],
-  propTypes: {
-    categoryId: React.PropTypes.number.isRequired,
-    productState: React.PropTypes.string,
-    productQuery: React.PropTypes.string,
-    includeSubcategories: React.PropTypes.bool.isRequired
-  },
-  getInitialState: function() {
-    return {
-      currentState: LOADING_STATE,
-      products: null
-    };
-  },
-  getDefaultProps: function() {
-    return {
-      productState: null,
-      productQuery: null
-    };
-  },
-  componentDidMount: function() {
-    return this.pullProducts(this.props.categoryId, this.props.includeSubcategories);
-  },
-  componentWillReceiveProps: function(nextProps) {
-    return this.pullProducts(nextProps.categoryId, nextProps.includeSubcategories);
-  },
-  render: function() {
-    var productsContent;
-    switch (this.state.currentState) {
-      case LOADED_STATE:
-        productsContent = OperatorProducts_List({
-                                                     categoryId:  this.props.categoryId, 
-                                                     products:  this.state.products});
-        break;
-      case LOADING_STATE:
-        productsContent = OperatorProducts_Loading(null);
-        break;
-      case ERROR_STATE:
-        productsContent = OperatorProducts_LoadingError({message:  this.state.errorMessage});
-        break;
-      default:
-        console.warn('Unknown currentState of OperatorProducts component', this.state.currentState);
-    }
-    return productsContent;
-  },
-  activateLoadingState: function() {
-    return this.setState({
-      currentState: LOADING_STATE
-    });
-  },
-  activateLoadedState: function() {
-    return this.setState({
-      currentState: LOADED_STATE
-    });
-  },
-  _onChange: function() {
-    return this.activateLoadedState();
-  },
-  pullProducts: function(categoryId, includeSubcategories) {
-    this.activateLoadingState();
-    return ProductsResource.index({
-      data: {
-        query: this.props.productQuery,
-        state: this.props.productState,
-        category_id: categoryId,
-        include_subcategories: includeSubcategories
-      },
-      success: (function(_this) {
-        return function(products) {
-          return _this.setState({
-            products: products,
-            currentState: LOADED_STATE
-          });
-        };
-      })(this),
-      error: (function(_this) {
-        return function(error) {
-          return _this.setState({
-            currentState: ERROR_STATE,
-            errorMessage: error
-          });
-        };
-      })(this)
-    });
-  }
-});
-
-
-
-},{}],29:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var ProductImages_Image, ProductImages_List, ProductImages_Placeholder;
-
-window.ProductImages = React.createClass({displayName: 'ProductImages',
-  mixins: [ImagesFormMixin],
-  propTypes: {
-    productId: React.PropTypes.number.isRequired,
-    fieldName: React.PropTypes.string.isRequired,
-    images: React.PropTypes.array.isRequired
-  },
-  getInitialState: function() {
-    return {
-      images: this.props.images
-    };
-  },
-  getDefaultProps: function() {
-    return {
-      savingUrl: '/..',
-      images: [
-        {
-          id: null,
-          src: 'assets/product-1-square.png?1'
-        }, {
-          id: null,
-          src: 'assets/product-2-square.png?1'
-        }, {
-          id: null,
-          src: 'assets/product-3-square.png?1'
-        }
-      ]
-    };
-  },
-  render: function() {
-    return React.DOM.div({className: "__small products__new-form-images-list"}, 
-        ProductImages_Placeholder({fieldName: this.props.fieldName}), 
-        ProductImages_List({images: this.state.images, callbackRemove: this.removeImage, productId: this.props.productId})
-       );
-  }
-});
-
-ProductImages_Placeholder = React.createClass({displayName: 'ProductImages_Placeholder',
-  propTypes: {
-    fieldName: React.PropTypes.string.isRequired
-  },
-  render: function() {
-    return React.DOM.div({className: "products__new-form-image-thumb-block"}, 
-      React.DOM.input({id: "image", name: this.props.fieldName, 
-             className: "form-upload__input products__new-form-image-input", 
-             accept: "image/*", type: "file", multiple: true}), 
-       React.DOM.div({className: "products__new-form-image-thumb-empty"}), 
-       React.DOM.div({className: "products__new-form-image-thumb-add"})
-     );
-  }
-});
-
-ProductImages_List = React.createClass({displayName: 'ProductImages_List',
-  propTypes: {
-    productId: React.PropTypes.number.isRequired,
-    images: React.PropTypes.array.isRequired,
-    callbackRemove: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    var callbackRemove, images;
-    callbackRemove = this.props.callbackRemove;
-    images = this.props.images.map(function(image) {
-      return ProductImages_Image({image: image, callbackRemove: callbackRemove, key: image.id || image.src});
-    });
-    return React.DOM.div({className: "products__new-form-images-list-list"}, images);
-  }
-});
-
-ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
-  propTypes: {
-    image: React.PropTypes.object.isRequired,
-    callbackRemove: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    return React.DOM.div({className: "products__new-form-image-thumb-block"}, 
-       React.DOM.img({className: "products__new-form-image-thumb", src: this.props.image.src}), 
-       React.DOM.div({className: "products__new-form-image-thumb-remove", onClick: this.handleRemove}), 
-       React.DOM.div({className: "products__new-form-image-thumb-update", onClick: this.handleRotate})
-     );
-  },
-  handleRotate: function() {
-    return alert("Функция временно не доступна");
-  },
-  handleRemove: function() {
-    return this.props.callbackRemove(this.props.image);
-  }
-});
-
-
-
-},{}],30:[function(require,module,exports){
-
-/** @jsx React.DOM */
-
-/**global React, ProductsService */
-var MANUAL_STATE_ARCHIVE, MANUAL_STATE_DEFAULT, MANUAL_STATE_DRAFT, MANUAL_STATE_PUBLISHED, STATE_ARCHIVE, STATE_HAS_ERRORS, STATE_PUBLISHED, STATE_UNPUBLISHED, cx;
-
-cx = React.addons.classSet;
-
-STATE_PUBLISHED = 'published';
-
-STATE_HAS_ERRORS = 'has_errors';
-
-STATE_UNPUBLISHED = 'unpublished';
-
-STATE_ARCHIVE = 'archive';
-
-MANUAL_STATE_DEFAULT = 0;
-
-MANUAL_STATE_PUBLISHED = 1;
-
-MANUAL_STATE_DRAFT = -1;
-
-MANUAL_STATE_ARCHIVE = -2;
-
-window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggle',
-  propTypes: {
-    product_id: React.PropTypes.number.isRequired,
-    state: React.PropTypes.string,
-    manual_state: React.PropTypes.number
-  },
-  getDefaultProps: function() {
-    return {
-      state: STATE_PUBLISHED,
-      manual_state: MANUAL_STATE_DEFAULT
-    };
-  },
-  getInitialState: function() {
-    return {
-      state: this.props.state,
-      manual_state: this.props.manual_state,
-      localChecked: null,
-      isLocalChecked: false
-    };
-  },
-  componentWillReceiveProps: function(nextProps) {
-    return this.setState(nextProps);
-  },
-  render: function() {
-    var classes;
-    classes = cx({
-      "toggle__block": true,
-      "checked": this.isChecked(),
-      "has_errors": this.hasErrors(),
-      '__disabled': this.state.isLocalChecked
-    });
-    return React.DOM.label({className: classes }, 
-              React.DOM.div({className: "toggle__block-label-checked pull-left"}, 
-                "Товар на сайте"
-              ), 
-              React.DOM.div({className: "toggle__block-box pull-left"}, 
-                React.DOM.input({className: "toggle__block-checkbox", 
-                       type: "checkbox", 
-                       checked:  this.isChecked(), 
-                       onChange:  this.handleInputChange, 
-                       ref: "checkbox"}), 
-                React.DOM.div({className: "toggle__block-switch"}), 
-                React.DOM.div({className: "toggle__block-track"})
-              ), 
-              React.DOM.div({className: "toggle__block-label-unchecked pull-left"}, 
-                "Скрыть товар"
-              ), 
-              React.DOM.div({className: "clearfix"})
-            );
-  },
-  isChecked: function() {
-    if (this.state.isLocalChecked) {
-      return this.state.localChecked;
-    } else {
-      return this.state.state === STATE_PUBLISHED;
-    }
-  },
-  hasErrors: function() {
-    return this.state.state === STATE_HAS_ERRORS;
-  },
-  handleInputChange: function(e) {
-    var options, savedManualState;
-    if (this.state.isLocalChecked) {
-      return;
-    }
-    savedManualState = this.state.manual_state;
-    options = {
-      id: this.props.product_id,
-      success: (function(_this) {
-        return function(response) {
-          var state;
-          state = _.pick(response, ['state', 'manual_state']);
-          state.isLocalChecked = false;
-          return _this.setState(state);
-        };
-      })(this),
-      error: (function(_this) {
-        return function() {
-          return _this.setState({
-            manual_state: savedManualState,
-            isLocalChecked: false
-          });
-        };
-      })(this)
-    };
-    if (this.refs.checkbox.getDOMNode().checked) {
-      this.setState({
-        manual_state: MANUAL_STATE_PUBLISHED,
-        localChecked: true,
-        isLocalChecked: true
-      });
-      return ProductsResource.publish(options);
-    } else {
-      this.setState({
-        manual_state: MANUAL_STATE_ARCHIVE,
-        localChecked: false,
-        isLocalChecked: true
-      });
-      return ProductsResource.unpublish(options);
-    }
-  }
-});
-
-
-
-},{}],31:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.ProductThumb = React.createClass({displayName: 'ProductThumb',
-  propTypes: {
-    product: React.PropTypes.object.isRequired,
-    style: React.PropTypes.string
-  },
-  getDefaultProps: function() {
-    return {
-      style: '50x50'
-    };
-  },
-  render: function() {
-    return React.DOM.img({src:  this.imageUrl(), alt:  this.props.product.title, className: "adm-categories-goods-thumb"});
-  },
-  imageUrl: function() {
-    var _ref;
-    if ((_ref = this.props.product.image) != null ? _ref.url : void 0) {
-      return ThumborService.image_url(this.props.product.image.url, this.props.style);
-    } else {
-      return gon.fallback_product_thumb_url;
-    }
-  }
-});
-
-
-
-},{}],32:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.Spinner = React.createClass({displayName: 'Spinner',
-  propTypes: {
-    align: React.PropTypes.string,
-    className: React.PropTypes.string
-  },
-  render: function() {
-    var className, spinner;
-    className = "fa fa-spinner fa-spin";
-    if (this.props.className) {
-      className << this.props.className;
-    }
-    spinner = React.DOM.i({className: className});
-    if (this.props.align === 'center') {
-      return React.DOM.div({className: "text-center"}, spinner);
-    } else {
-      return spinner;
-    }
-  }
-});
-
-window.SpinnerLegacy = React.createClass({displayName: 'SpinnerLegacy',
-  propTypes: {
-    size: React.PropTypes.number
-  },
-  getDefaultProps: function() {
-    return {
-      size: 8
-    };
-  },
-  render: function() {
-    return React.DOM.span({className:  'spinner spinner--' + this._getSize()}, 
-      React.DOM.span({className: "spinner__icon"})
-    );
-  },
-  _getSize: function() {
-    return this.props.size + 'x' + this.props.size;
-  }
-});
-
-
-
-},{}],33:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.SuperSelect = React.createClass({displayName: 'SuperSelect',
-  propTypes: {
-    name: React.PropTypes.string.isRequired,
-    options: React.PropTypes.array.isRequired,
-    value: React.PropTypes.string,
-    placeholder: React.PropTypes.string
-  },
-  getInitialState: function() {
-    return {
-      value: this.props.value,
-      inFocus: false
-    };
-  },
-  getDefaultProps: function() {
-    return {
-      placeholder: 'Новая категория',
-      typeaheadOptions: {
-        minLength: 0,
-        hint: true,
-        highlight: true
-      }
-    };
-  },
-  componentDidMount: function() {
-    var node;
-    node = $(this.refs.input.getDOMNode());
-    return node.typeahead(this.props.typeaheadOptions, {
-      name: 'categories',
-      displayKey: 'name',
-      source: this.substringMatcher
-    });
-  },
-  componentWillUnmount: function() {
-    return this.$input().typeahead('destroy');
-  },
-  render: function() {
-    var closeButton, placeholder;
-    if (this.showCloseButton()) {
-      closeButton = this.closeButton();
-    }
-    if (!this.state.inFocus) {
-      placeholder = this.props.placeholder;
-    }
-    return React.DOM.div({className: "form-group login__form-group--icon-right"}, 
-        React.DOM.input({ref: "input", 
-               onFocus:  this.onFocus, 
-               onBlur:  this.onBlur, 
-               name: this.props.name, 
-               value: this.state.value, 
-               className: "form-control", 
-               onChange: this.change, 
-               placeholder: placeholder, 
-               type: "text"}), 
-        closeButton 
-    );
-  },
-  onFocus: function() {
-    this.setState({
-      inFocus: true
-    });
-    return this.$input().typeahead('open');
-  },
-  onBlur: function() {
-    return this.setState({
-      inFocus: false
-    });
-  },
-  substringMatcher: function(q, cb) {
-    var matches, substrRegex;
-    matches = [];
-    substrRegex = new RegExp(q, 'i');
-    $.each(this.props.options, function(i, str) {
-      return matches.push({
-        name: str
-      });
-    });
-    return cb(matches);
-  },
-  $input: function() {
-    return $(this.refs.input.getDOMNode());
-  },
-  change: function(e) {
-    this.setState({
-      value: this.$input().val()
-    });
-    return e;
-  },
-  showCloseButton: function() {
-    var _ref, _ref1;
-    return (_ref = ((_ref1 = this.state.value) != null ? _ref1.length : void 0) > 0) != null ? _ref : {
-      "true": false
-    };
-  },
-  closeButton: function() {
-    return React.DOM.a({className: "login__form-input-btn--right", onClick: this.clear}, "×");
-  },
-  clear: function() {
-    this.setState({
-      value: ''
-    });
-    return this.$input().typeahead('val', '');
-  }
-});
-
-
-
-},{}],34:[function(require,module,exports){
-
-/**global _, Dispatcher */
-window.OperatorCategoriesDispatcher = _.extend(new Dispatcher(), {
-  handleViewAction: function(action) {
-    return this.dispatch({
-      source: 'VIEW_ACTION',
-      action: action
-    });
-  },
-  handleServerAction: function(action) {
-    return this.dispatch({
-      source: 'SERVER_ACTION',
-      action: action
-    });
-  }
-});
-
-
-
-},{}],35:[function(require,module,exports){
-
-/**global _, Dispatcher, window */
-window.OperatorProductsDispatcher = _.extend(new Dispatcher(), {
-  handleViewAction: function(action) {
-    return this.dispatch({
-      source: 'VIEW_ACTION',
-      action: action
-    });
-  },
-  handleServerAction: function(action) {
-    return this.dispatch({
-      source: 'SERVER_ACTION',
-      action: action
-    });
-  }
-});
-
-
-
-},{}],36:[function(require,module,exports){
-
-/**global window, React */
-window.CategoryProductDroptarget = {
-  componentDidMount: function() {
-    var that;
-    that = this;
-    return $(this.getDOMNode()).droppable({
-      scope: 'productsToCategories',
-      activeClass: '__droptarget-active',
-      addClasses: false,
-      hoverClass: '__droptarget-hover',
-      tolerance: 'pointer',
-      drop: this.handleProductDrop,
-      accept: _.throttle(function(productNode) {
-        var category_id;
-        category_id = parseInt(productNode.attr('data-category-id'));
-        return category_id !== that.props.category.id;
-      })
-    });
-  },
-  handleProductDrop: function(e, ui) {
-    return OperatorProductsViewActions.changProductCategory({
-      product_id: parseInt(ui.draggable.attr('data-product-id')),
-      new_category_id: this.props.category.id,
-      old_category_id: parseInt(e.attr('data-category-id'))
-    });
-  }
-};
-
-
-
-},{}],37:[function(require,module,exports){
-window.ComponentManipulationsMixin = {
-  safeUpdate: function(func) {
-    if (!this._isUnmounted()) {
-      func();
-    }
-  },
-  safeUpdateState: function(newStates) {
-    if (!this._isUnmounted()) {
-      this.setState(newStates);
-    }
-  },
-  _isUnmounted: function() {
-    return this._compositeLifeCycleState === 'UNMOUNTING' || this._compositeLifeCycleState === 'UNMOUNTED' || this._lifeCycleState === 'UNMOUNTING' || this._lifeCycleState === 'UNMOUNTED';
-  }
-};
-
-
-
-},{}],38:[function(require,module,exports){
-var DRAGOFF_TIMEOUT, DRAG_HOVER_CLASS;
-
-DRAG_HOVER_CLASS = 'state--drag-hover';
-
-DRAGOFF_TIMEOUT = 500;
-
-window.Dragging = {
-  getInitialState: function() {
-    return {
-      isDragging: false
-    };
-  },
-  componentDidMount: function() {
-    return this.bindDragging();
-  },
-  componentWillUnmount: function() {
-    return this.unbindDragging();
-  },
-  componentDidUpdate: function() {
-    return this.updateDropZoneClass(this.state.isDragging);
-  },
-  dragOver: function() {
-    if (this._dragLeaveTimer != null) {
-      clearTimeout(this._dragLeaveTimer);
-    }
-    return this.draggingOn();
-  },
-  dragLeave: function() {
-    if (this._dragLeaveTimer != null) {
-      clearTimeout(this._dragLeaveTimer);
-    }
-    return this._dragLeaveTimer = setTimeout(this.draggingOff, DRAGOFF_TIMEOUT);
-  },
-  draggingOn: function() {
-    return this.setState({
-      isDragging: true,
-      isInserting: false
-    });
-  },
-  draggingOff: function() {
-    return this.setState({
-      isDragging: false,
-      isInserting: false
-    });
-  },
-  updateDropZoneClass: function(active) {
-    var $dropZone;
-    $dropZone = $(this.dropZoneNode());
-    return $dropZone.toggleClass(DRAG_HOVER_CLASS, active);
-  },
-  bindDragging: function() {
-    $(document).on('dragleave', this.dragLeave);
-    return $(document).on('drop', this.draggingOff);
-  },
-  unbindDragging: function() {
-    $(document).off('dragleave', this.dragLeave);
-    return $(document).off('drop', this.draggingOff);
-  },
-  dropZoneNode: function() {
-    return this.refs.layout.refs.dropZone.getDOMNode();
-  }
-};
-
-
-
-},{}],39:[function(require,module,exports){
-var ACCEPT_FILE_TYPES, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
-
-ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
-
-MAX_FILE_SIZE = 10 * 1000 * 1000;
-
-MAX_NUMBER_OF_FILES = 6;
-
-window.ImagesFormMixin = {
-  componentDidMount: function() {
-    var $form, ffu;
-    $form = $(this.getDOMNode()).closest('form');
-    this.fileUploader = null;
-    return ffu = $form.fileupload({
-      acceptFileTypes: ACCEPT_FILE_TYPES,
-      maxFileSize: MAX_FILE_SIZE,
-      maxNumberOfFiles: MAX_NUMBER_OF_FILES,
-      multipart: true,
-      singleFileUploads: false,
-      autoUpload: false,
-      replaceFileInput: false,
-      pasteZone: null,
-      start: (function(_this) {
-        return function() {
-          return _this.setState({
-            isInserting: false
-          });
-        };
-      })(this),
-      stop: (function(_this) {
-        return function() {
-          return _this.setState({
-            uploadingProgress: 0
-          });
-        };
-      })(this),
-      fail: (function(_this) {
-        return function(e, data) {
-          return NotifyController.errorResponse(data);
-        };
-      })(this),
-      done: (function(_this) {
-        return function(e, data) {
-          return _this.props.doneCallback(data.jqXHR.responseJSON);
-        };
-      })(this),
-      dragover: (function(_this) {
-        return function(e, data) {
-          return _this.dragOver();
-        };
-      })(this),
-      progressall: (function(_this) {
-        return function(e, data) {
-          var progress;
-          progress = parseInt(data.loaded / data.total * 100, 10);
-          return _this.setState({
-            uploadingProgress: progress
-          });
-        };
-      })(this),
-      add: this.addFileToForm,
-      formData: (function(_this) {
-        return function(form) {
-          return _this.serializeArray(_this.data());
-        };
-      })(this)
-    });
-  },
-  serializeArray: function(data) {
-    return _.keys(data).map(function(key) {
-      return {
-        name: key,
-        value: data[key]
-      };
-    });
-  },
-  addFileToForm: function(e, data) {
-    var images;
-    if ((this.fileUploader != null) && this.fileUploader !== data) {
-      console.warn('new file uploader', data, this.fileUploader);
-    }
-    this.fileUploader = data;
-    if (data.files.length === 0) {
-      return;
-    }
-    images = data.files.map(function(file) {
-      var image;
-      image = new Image();
-      image.src = window.URL.createObjectURL(file);
-      return image;
-    });
-    return this.setState({
-      images: images,
-      isInserting: false
-    });
-  },
-  removeImage: function(image) {
-    this.setState({
-      images: _.reject(this.state.images, function(i) {
-        return i === image;
-      })
-    });
-    if (image.id) {
-      return ProductsResource.deleteImage({
-        image_id: image.id
-      });
-    }
-  }
-};
-
-
-
-},{}],40:[function(require,module,exports){
-
-/**global window, React */
-window.ProductDraggable = {
-  getInitialState: function() {
-    return {
-      isDragged: false
-    };
-  },
-  componentDidMount: function() {
-    var that;
-    that = this;
-    return $(this.getDOMNode()).draggable({
-      scope: 'productsToCategories',
-      addClasses: false,
-      appendTo: 'body',
-      zIndex: 100,
-      cursor: 'default',
-      cursorAt: {
-        top: -5,
-        left: -15
-      },
-      helper: function() {
-        return $(React.renderComponentToString(OperatorProducts_ListItem_DragHelper({
-          product: that.props.product
-        })));
-      },
-      start: function(e) {
-        return that.setState({
-          isDragged: true
-        });
-      },
-      stop: function(e) {
-        return setTimeout(function() {
-          return that.setState({
-            isDragged: false
-          });
-        }, 0);
-      }
-    });
-  }
-};
-
-
-
-},{}],41:[function(require,module,exports){
-window.CategoriesResource = {
-  "delete": function(_arg) {
-    var category, error, success;
-    category = _arg.category, success = _arg.success, error = _arg.error;
-    if (!this.mockMode) {
-      return $.ajax({
-        dataType: 'json',
-        url: Routes.operator_category_url(category.id),
-        method: 'delete',
-        error: function(xhr, status, err) {
-          return error(err || status);
-        },
-        success: function(response) {
-          OperatorCategoriesServerActions.deleteCategory(category);
-          return typeof success === "function" ? success() : void 0;
-        }
-      });
-    } else {
-      return setTimeout(function() {
-        if (typeof success === "function") {
-          success();
-        }
-        return OperatorCategoriesServerActions.deleteCategory(category);
-      }, this.mockLatency);
-    }
-  },
-  get: function(_arg) {
-    var error, id, success;
-    id = _arg.id, success = _arg.success, error = _arg.error;
-    if (!this.mockMode) {
-      return $.ajax({
-        dataType: 'json',
-        url: Routes.operator_category_url(id),
-        method: 'get',
-        error: function(xhr, status, err) {
-          return error(err || status);
-        },
-        success: function(data) {
-          return success(data);
-        }
-      });
-    } else {
-      return setTimeout(function() {
-        return callback(null);
-      }, this.mockLatency);
-    }
-  }
-};
-
-
-
-},{}],42:[function(require,module,exports){
-window.ProductsResource = {
-  deleteImage: function(_arg) {
-    var image_id;
-    image_id = _arg.image_id;
-    return $.ajax({
-      url: RoutesApi.operator_product_image_delete_url(image_id),
-      method: 'delete'
-    });
-  },
-  publish: function(_arg) {
-    var error, id, success, that;
-    id = _arg.id, success = _arg.success, error = _arg.error;
-    if (!this.mockMode) {
-      return $.ajax({
-        dataType: 'json',
-        method: 'post',
-        url: RoutesApi.operator_product_publicate_url(id),
-        error: function(xhr, status, err) {
-          if (error) {
-            return error(err || status);
-          }
-        },
-        success: function(data) {
-          if (success) {
-            return success(data);
-          }
-        }
-      });
-    } else {
-      console.info("Mocked ProductsService: tryPublish id=" + id);
-      that = this;
-      return setTimeout(function() {
-        if (success) {
-          return success(that.mockData.publishResponse);
-        }
-      }, this.mockLatency);
-    }
-  },
-  unpublish: function(_arg) {
-    var error, id, success, that;
-    id = _arg.id, success = _arg.success, error = _arg.error;
-    if (!this.mockMode) {
-      return $.ajax({
-        dataType: 'json',
-        method: 'delete',
-        url: RoutesApi.operator_product_publicate_url(id),
-        error: function(xhr, status, err) {
-          if (error) {
-            return error(err || status);
-          }
-        },
-        success: function(data) {
-          if (success) {
-            return success(data);
-          }
-        }
-      });
-    } else {
-      console.info("Mocked ProductsService: tryUnpublish id=" + id);
-      that = this;
-      return setTimeout(function() {
-        if (success) {
-          return success(that.mockData.unpublishResponse);
-        }
-      }, this.mockLatency);
-    }
-  },
-  index: function(_arg) {
-    var data, error, success;
-    data = _arg.data, success = _arg.success, error = _arg.error;
-    error || (error = KioskOperatorApp.error_alert);
-    data.per_page || (data.per_page = 1000);
-    return Requester.request({
-      dataType: 'json',
-      url: RoutesApi.operator_products_by_category_url(),
-      method: 'get',
-      data: data,
-      error: function(xhr, status, err) {
-        return error(err || status);
-      },
-      success: function(data) {
-        return success(data.products);
-      }
-    });
-  },
-  update: function(_arg) {
-    var data, error, id, success;
-    id = _arg.id, data = _arg.data, success = _arg.success, error = _arg.error;
-    error || (error = KioskOperatorApp.error_alert);
-    if (!this.mockMode) {
-      return Requester.request({
-        dataType: 'json',
-        method: 'put',
-        url: RoutesApi.operator_product_url(id),
-        data: data,
-        error: function(xhr, status, err) {
-          return error(err || status);
-        },
-        success: success
-      });
-    } else {
-      return setTimeout(success, this.mockLatency);
-    }
-  },
-  mockMode: false,
-  mockLatency: 500,
-  mockData: {
-    publishResponse: null,
-    unpublishResponse: null
-  }
-};
-
-
-
-},{}],43:[function(require,module,exports){
-
-/**global window, $, React, ModalComponent */
-window.ModalService = {
-  show: function(url) {
-    var modalRoot;
-    modalRoot = $('<div></div>');
-    $('body').append(modalRoot);
-    return React.renderComponent(ModalComponent({
-      url: url
-    }), modalRoot[0]);
-  }
-};
-
-
-
-},{}],44:[function(require,module,exports){
-
-/**global Routes, OperatorCategoriesServerActions */
-window.OperatorCategoriesService = {
-  getCategories: function(options) {
-    var that;
-    if (!this.mockMode) {
-      return Requester.request({
-        url: RoutesApi.operator_categories_url(),
-        error: function(xhr, status, err) {
-          return options != null ? typeof options.error === "function" ? options.error(err || status) : void 0 : void 0;
-        },
-        success: function(categories) {
-          OperatorCategoriesServerActions.categoriesLoaded(categories);
-          return options != null ? typeof options.success === "function" ? options.success(null, categories) : void 0 : void 0;
-        }
-      });
-    } else {
-      that = this;
-      return setTimeout(function() {
-        OperatorCategoriesServerActions.categoriesLoaded(that.mockData);
-        if (callback) {
-          return callback(null, that.mockData);
-        }
-      }, this.mockLatency);
-    }
-  },
-  createCategory: function(_arg) {
-    var data, error, name, parent_id, success;
-    name = _arg.name, parent_id = _arg.parent_id, success = _arg.success, error = _arg.error;
-    data = OperatorCategoriesStore.positionCategory({
-      name: name,
-      parent_id: parent_id
-    });
-    if (!this.mockMode) {
-      return $.ajax({
-        dataType: 'json',
-        url: RoutesApi.operator_categories_url(),
-        data: data,
-        method: 'post',
-        error: function(xhr, status, err) {
-          return error(err || status);
-        },
-        success: function(category) {
-          OperatorCategoriesServerActions.addCategory(category);
-          return success(category);
-        }
-      });
-    } else {
-      return setTimeout(function() {
-        data.id = Math.floor(Math.random() * 100000000);
-        data.products_count = 0;
-        data.deep_products_count = 0;
-        OperatorCategoriesServerActions.addCategory(data);
-        return success(data);
-      }, this.mockLatency);
-    }
-  },
-  updateSingleCategory: function(_arg) {
-    var category, error, success;
-    category = _arg.category, success = _arg.success, error = _arg.error;
-    return this.updateCategory({
-      category: category,
-      success: function() {
-        OperatorCategoriesServerActions.categoryUpdated(category);
-        return success(category);
-      },
-      error: error
-    });
-  },
-  updateCategory: function(_arg) {
-    var category, data, error, id, success;
-    category = _arg.category, success = _arg.success, error = _arg.error;
-    id = category.id;
-    data = _.pick(category, ['name', 'position', 'parent_id']);
-    if (!this.mockMode) {
-      return $.ajax({
-        dataType: 'json',
-        url: RoutesApi.operator_category_url(id),
-        data: data,
-        method: 'put',
-        error: function(xhr, status, err) {
-          return error(err || status);
-        },
-        success: function(response) {
-          return success(response);
-        }
-      });
-    } else {
-      return setTimeout(function() {
-        return success(category);
-      }, this.mockLatency);
-    }
-  },
-  reorderCategories: function(categoryId, insertIdx) {
-    var positionChanges;
-    positionChanges = OperatorCategoriesStore.getReorderedPositions(categoryId, insertIdx);
-    if (positionChanges.length) {
-      OperatorCategoriesActions.reorderCategories(positionChanges);
-      return this.updateCategories(positionChanges, function(err, response) {
-        if (err) {
-          return console.error(err);
-        }
-      });
-    }
-  },
-  updateCategories: function(data, callback) {
-    var done, that;
-    done = _.after(data.length, function() {
-      return callback();
-    });
-    that = this;
-    return _.each(data, function(i) {
-      return that.updateCategory({
-        category: i,
-        success: done
-      });
-    });
-  },
-  mockMode: false,
-  mockLatency: 500,
-  mockData: []
-};
-
-
-
-},{}],45:[function(require,module,exports){
-window.OperatorProductsService = {};
-
-
-
-},{}],46:[function(require,module,exports){
-
-/**global _, EventEmitter, OperatorCategoriesDispatcher */
-var CHANGE_EVENT, _addCategory, _applyPositions, _categories, _deleteCategory, _getAncestors, _getCategoryById, _getCategoryLevel, _getDescendands, _getNewPositions, _getSortedCategoriesByParent, _hasChildren, _positionCategory, _pushCategories, _updateCategory;
-
-CHANGE_EVENT = 'change';
-
-_categories = [];
-
-_pushCategories = function(categories) {
-  return _categories = categories;
-};
-
-_deleteCategory = function(category) {
-  return _categories = _.reject(_categories, function(i) {
-    return i.id === category.id;
-  });
-};
-
-_updateCategory = function(category) {
-  return _categories = _.map(_categories, function(i) {
-    if (i.id === category.id) {
-      return category;
-    } else {
-      return i;
-    }
-  });
-};
-
-_addCategory = function(category) {
-  return _categories.push(category);
-};
-
-_positionCategory = function(category) {
-  var curList, lastCat, lastPosition;
-  curList = _.filter(_categories, function(i) {
-    return i.parent_id === category.parent_id;
-  });
-  if (curList.length) {
-    lastCat = _.max(curList, function(i) {
-      return i.position;
-    });
-    lastPosition = lastCat.position;
-  } else {
-    lastPosition = -1;
-  }
-  return _.extend(category, {
-    "position": lastPosition + 1
-  });
-};
-
-_getSortedCategoriesByParent = function(parentCat) {
-  var parent_id;
-  parent_id = parentCat ? parentCat.id : null;
-  return _.filter(_categories, function(i) {
-    return i.parent_id === parent_id;
-  }).sort(function(a, b) {
-    return a.position - b.position;
-  });
-};
-
-_applyPositions = function(changes) {
-  var category, change, reorderedCategories, _i, _j, _len, _len1;
-  reorderedCategories = _categories.slice(0);
-  for (_i = 0, _len = reorderedCategories.length; _i < _len; _i++) {
-    category = reorderedCategories[_i];
-    for (_j = 0, _len1 = changes.length; _j < _len1; _j++) {
-      change = changes[_j];
-      if (category.id === change.id) {
-        category.position = change.position;
-      }
-    }
-  }
-  return _categories = reorderedCategories;
-};
-
-_getNewPositions = function(cat, insertIdx) {
-  var catToShift, currentPosition, leftCat, minPosition, newPositions, oldPositions, oldTail, originalIdx, posDiff, rightCat, slicePosition, _i, _len;
-  oldPositions = _getSortedCategoriesByParent(_getCategoryById(cat.parent_id));
-  originalIdx = _.findIndex(oldPositions, function(i) {
-    return i.id === cat.id;
-  });
-  if (insertIdx === originalIdx) {
-    return [];
-  }
-  oldPositions = _.reject(oldPositions, function(i) {
-    return i.id === cat.id;
-  });
-  if (!(insertIdx < 1)) {
-    leftCat = oldPositions[insertIdx - 1];
-  }
-  if (!(insertIdx > oldPositions.length - 1)) {
-    rightCat = oldPositions[insertIdx];
-  }
-  if (!rightCat) {
-    return [
-      {
-        id: cat.id,
-        position: leftCat.position + 1
-      }
-    ];
-  }
-  if (!leftCat) {
-    leftCat = {
-      position: -1,
-      id: null
-    };
-  }
-  posDiff = rightCat.position - leftCat.position;
-  if (posDiff > 1) {
-    return [
-      {
-        id: cat.id,
-        position: leftCat.position + 1
-      }
-    ];
-  }
-  slicePosition = leftCat.position + 1;
-  newPositions = [
-    {
-      id: cat.id,
-      position: slicePosition,
-      name: cat.name
-    }
-  ];
-  oldTail = oldPositions.slice(insertIdx);
-  for (_i = 0, _len = oldTail.length; _i < _len; _i++) {
-    catToShift = oldTail[_i];
-    minPosition = slicePosition + 1;
-    currentPosition = catToShift.position;
-    if (currentPosition < minPosition) {
-      currentPosition = minPosition;
-      newPositions.push({
-        id: catToShift.id,
-        position: currentPosition,
-        name: catToShift.name
-      });
-      slicePosition = currentPosition + 1;
-    }
-  }
-  return newPositions;
-};
-
-_getCategoryById = function(id) {
-  return _.find(_categories, function(i) {
-    return i.id === id;
-  });
-};
-
-_getCategoryLevel = function(category) {
-  if (category.parent_id) {
-    return 1 + _getCategoryLevel(_getCategoryById(category.parent_id));
-  } else {
-    return 0;
-  }
-};
-
-_getAncestors = function(category) {
-  var parent;
-  if (!category || !category.parent_id) {
-    return [];
-  } else {
-    parent = _getCategoryById(category.parent_id);
-    return [parent].concat(_getAncestors(parent));
-  }
-};
-
-_getDescendands = function(category) {
-  var children, descendands;
-  if (!category || !_hasChildren(category)) {
-    return [];
-  } else {
-    children = _.filter(_categories, function(i) {
-      return i.parent_id === category.id;
-    });
-    descendands = [];
-    _.each(descendands, function(i) {
-      return descendands.concat(_getDescendands(i));
-    });
-    return children.concat(descendands);
-  }
-};
-
-_hasChildren = function(category) {
-  if (!category) {
-    false;
-  }
-  return !!_.find(_categories, function(i) {
-    return i.parent_id === category.id;
-  });
-};
-
-window.OperatorCategoriesStore = _.extend({}, EventEmitter.prototype, {
-  emitChange: function() {
-    return this.emit(CHANGE_EVENT);
-  },
-  addChangeListener: function(callback) {
-    return this.on(CHANGE_EVENT, callback);
-  },
-  removeChangeListener: function(callback) {
-    return this.off(CHANGE_EVENT, callback);
-  },
-  emitChangeCategory: function(category_id) {
-    return this.emit(CHANGE_EVENT + (":" + category_id));
-  },
-  getAllCategories: function() {
-    return _categories;
-  },
-  getCategoryById: function(id) {
-    return _getCategoryById(id);
-  },
-  getSortedCategoriesByParent: function(parentCat) {
-    return _getSortedCategoriesByParent(parentCat);
-  },
-  positionCategory: function(category) {
-    return _positionCategory(category);
-  },
-  getReorderedPositions: function(categoryId, insertIdx) {
-    var category;
-    category = _getCategoryById(categoryId);
-    return _getNewPositions(category, insertIdx);
-  },
-  hasCategory: function(category) {
-    if (category) {
-      return !!_.find(_categories, function(i) {
-        return i.id === category.id;
-      });
-    } else {
-      return false;
-    }
-  },
-  getRootCategory: function() {
-    return _.find(_categories, function(i) {
-      return i.parent_id === null;
-    });
-  },
-  getCategoryLevel: function(category) {
-    return _getCategoryLevel(category);
-  },
-  getDescendands: function(category) {
-    return _getDescendands(category);
-  }
-});
-
-OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(function(payload) {
-  var action;
-  action = payload.action;
-  switch (action.type) {
-    case 'receiveAll':
-      _pushCategories(action.categories);
-      return OperatorCategoriesStore.emitChange();
-    case 'deleteCategory':
-      _deleteCategory(action.category);
-      return OperatorCategoriesStore.emitChange();
-    case 'updateCategory':
-      _updateCategory(action.category);
-      return OperatorCategoriesStore.emitChange();
-    case 'addCategory':
-      _addCategory(action.category);
-      return OperatorCategoriesStore.emitChange();
-    case 'reorderCategories':
-      _applyPositions(action.newOrder);
-      return OperatorCategoriesStore.emitChange();
-    case 'createCategory':
-      _categories = _.map(_categories, function(i) {
-        if (i.id === action.tmpId) {
-          return action.category;
-        } else {
-          return i;
-        }
-      });
-      return OperatorCategoriesStore.emitChange();
-  }
-});
-
-
-
-},{}],47:[function(require,module,exports){
-
-/**global _, window, EventEmitter, OperatorProductsDispatcher, OperatorCategoriesStore */
-window.OperatorProductsStore = _.extend({}, EventEmitter.prototype);
-
-OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(function(payload) {});
-
-
-
-},{}],48:[function(require,module,exports){
-require('./libs');
-
-require('./routes');
-
-require('./app');
-
-require('./legacy');
-
-require('./requester');
-
-require('./thumbor_service');
-
-require('./app_helpers');
-
-window.KioskOperatorApp = {
-  start: function(_arg) {
-    var operator, vendor_key;
-    vendor_key = _arg.vendor_key, operator = _arg.operator;
-    console.log("KioskOperatorApp start for vendor: " + vendor_key + ", operator: " + operator.name);
-    $.ajaxSetup({
-      xhrFields: {
-        withCredentials: true,
-        crossDomain: true
-      },
-      headers: {
-        "X-Vendor-Key": vendor_key
-      }
-    });
-    window.EB.emit('start');
-    return ReactUjs.initialize();
-  },
-  error_alert: function(message) {
-    return alert(message);
-  }
-};
-
-
-
-},{"./app":48,"./app_helpers":49,"./legacy":50,"./libs":51,"./requester":52,"./routes":53,"./thumbor_service":54}],49:[function(require,module,exports){
-window.AppHelpers = {
-  reselectAndFocus: function(el) {
-    el.focus();
-    return el.selectionStart = el.selectionEnd = el.value.length;
-  }
-};
-
-
-
-},{}],50:[function(require,module,exports){
-$(function() {
-  var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, modalClick, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
-  modalClick = function(event) {
-    event.stopPropagation();
-    event.preventDefault();
-    return ModalService.show($(this).data('modalUrl'));
-  };
-  bindActivities = function() {
-    $("[tooltip]").tooltip();
-    return $('[autosize]').autosize();
-  };
-  console.log('document bind click');
-  $(document).on('click', '[ks-modal]', modalClick);
-  bindActivities();
-  $(document).on('page:change', bindActivities);
-  productVariantsAdd = $('@products__new-form-variants-add');
-  productVariantsTitle = $('@products__new-form-variants-title');
-  productVariantsItem = $('@products__new-form-variants-item');
-  productVariantsPlace = $('@products__new-form-variants-place');
-  productVariantsAddBlock = $('@products__new-form-variants-add-block');
-  productVariantsAddBlockBtn = $('@products__new-form-variants-add-block-btn');
-  productVariantsBlock = $('@products__new-form-variants-block');
-  productVariantTypeBtn = $('@products__new-form-variant-type-btn');
-  productVariantTypeInput = $('@products__new-form-variant-type-input');
-  productVariantTypeLabel = $('@products__new-form-variant-type-label');
-  productVariantsBlock.hide();
-  productVariantsAddBlockBtn.on('click', function(e) {
-    e.preventDefault();
-    productVariantsAddBlock.hide();
-    return productVariantsBlock.show();
-  });
-  productVariantTypeBtn.on('click', function(e) {
-    var type;
-    e.preventDefault();
-    productVariantTypeBtn.removeClass('active');
-    $(this).addClass('active');
-    type = $(this).text();
-    return productVariantTypeLabel.text(type);
-  });
-  productVariantTypeInput.on('focus', function() {
-    var prevBtn;
-    prevBtn = productVariantTypeBtn.filter('.active');
-    productVariantTypeBtn.removeClass('active');
-    return $(this).on('blur', function() {
-      if (!($(this).val().length > 0)) {
-        prevBtn.addClass('active');
-        return productVariantTypeLabel.text(prevBtn.text());
-      }
-    });
-  });
-  productVariantTypeInput.on('keypress', function() {
-    var type;
-    if ($(this).val().length > 0) {
-      type = $(this).val();
-      return productVariantTypeLabel.text(type);
-    }
-  });
-  productParamsAdd = $('@products__new-form-params-add');
-  productParamsTitle = $('@products__new-form-params-title');
-  productParamsItem = $('@products__new-form-params-item');
-  productParamsPlace = $('@products__new-form-params-place');
-  productFormQuantity = $('@products__new-form-quantity');
-  productFormArticul = $('@products__new-form-articul');
-  productFormImageAdd = $('@products__new-form-image-add');
-  productVariantsTitle.hide();
-  productVariantsPlace.hide();
-  productVariantsAdd.on('click', function(e) {
-    var html;
-    e.preventDefault();
-    productFormArticul.hide();
-    productFormQuantity.hide();
-    productVariantsTitle.show();
-    productVariantsPlace.show();
-    html = productVariantsItem.html();
-    return productVariantsPlace.append(html);
-  });
-  productParamsTitle.hide();
-  productParamsPlace.hide();
-  productParamsAdd.on('click', function(e) {
-    var html;
-    e.preventDefault();
-    productParamsTitle.show();
-    productParamsPlace.show();
-    html = productParamsItem.html();
-    return productParamsPlace.append(html);
-  });
-  productFormImageAdd.on('click', function(e) {
-    e.preventDefault();
-    return $(this).toggleClass('active');
-  });
-  $('@jump').on('click', function(e) {
-    var href;
-    href = $(this).data('href');
-    if (href !== '') {
-      if (event.shiftKey || event.ctrlKey || event.metaKey) {
-        return window.open(target, '_blank');
-      } else {
-        return window.location = href;
-      }
-    }
-  });
-  $('@jump .dropdown, @jump input').on('click', function(e) {
-    return e.stopPropagation();
-  });
-  categoriesList = $('@categories-list');
-  switcherDisplayCategories = $('@switch-display-categories');
-  switcherTitles = {
-    hide: switcherDisplayCategories.data('title-hide'),
-    show: switcherDisplayCategories.data('title-show')
-  };
-  switcherDisplayCategories.on('click', function(e) {
-    e.preventDefault();
-    if (categoriesList.is(':visible')) {
-      categoriesList.hide();
-      return $(this).text(switcherTitles.show);
-    } else {
-      categoriesList.show();
-      return $(this).text(switcherTitles.hide);
-    }
-  });
-  authBox = $('@auth-box');
-  authSectionToggle = $('@auth-section-toggle');
-  authBack = $('@auth-back-btn');
-  path = [];
-  prevSection = 'welcome';
-  clearClasses = function() {
-    var className, classNames, i;
-    i = 0;
-    classNames = authBox.attr("class").split(/\s+/);
-    while (i < classNames.length) {
-      className = classNames[i];
-      if (className.match(/^__\w+/)) {
-        authBox.removeClass(className);
-      }
-      i++;
-    }
-  };
-  authSectionToggle.on('click', function(e) {
-    var step;
-    e.preventDefault();
-    path.push(prevSection);
-    step = $(this).data('step');
-    clearClasses();
-    authBox.addClass('__' + step);
-    return prevSection = step;
-  });
-  return authBack.on('click', function(e) {
-    var step;
-    console.log(path.length);
-    if (path.length === 0) {
-      return false;
-    }
-    step = path.pop();
-    prevSection = step;
-    clearClasses();
-    return authBox.addClass('__' + step);
-  });
-});
-
-
-
-},{}],51:[function(require,module,exports){
-window._ = require('lodash');
-
-window.$ = window.jQuery = require('jquery');
-
-window.React = require('react');
-
-window.Dispatcher = require('flux').Dispatcher;
-
-window.EventEmitter = require('eventEmitter');
-
-window.ReactUjs = require('reactUjs');
-
-window.EB = new EventEmitter;
-
-require('jquery.ui.core');
-
-require('jquery.ui.widget');
-
-require('jquery.ui.mouse');
-
-require('jquery.ui.draggable');
-
-require('jquery.ui.droppable');
-
-require('jquery.ui.sortable');
-
-require('jquery.autosize');
-
-require('jquery.fileupload');
-
-require('jquery.role');
-
-require('react-mixin-manager')(window.React);
-
-require('bootstrapSass');
-
-require('typeahead');
-
-
-
-},{"bootstrapSass":undefined,"eventEmitter":undefined,"flux":55,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],52:[function(require,module,exports){
-var RequesterClass,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
-RequesterClass = (function() {
-  function RequesterClass(_arg) {
-    var eb;
-    eb = _arg.eb;
-    this.request = __bind(this.request, this);
-    this.start = false;
-    this.eb = eb;
-    eb.on('start', (function(_this) {
-      return function() {
-        _this.start = true;
-        return console.log('Requester started');
-      };
-    })(this));
-  }
-
-  RequesterClass.prototype.request = function(options) {
-    if (this.start) {
-      return $.ajax(options);
-    } else {
-      return this.eb.on('start', function() {
-        return $.ajax(options);
-      });
-    }
-  };
-
-  return RequesterClass;
-
-})();
-
-window.Requester = new RequesterClass({
-  eb: window.EB
-});
-
-
-
-},{}],53:[function(require,module,exports){
-window.Routes = {
-  products_image_delete_path: function(id) {
-    return gon.root_url + '/products/images/' + id;
-  },
-  operator_product_url: function(id) {
-    return gon.root_url + '/operator/products/' + id;
-  },
-  edit_operator_product_url: function(id) {
-    return gon.root_url + '/operator/products/' + id + '/edit';
-  },
-  products_by_category_url: function(id) {
-    return gon.root_url + '/operator/products?category_id=' + id;
-  }
-};
-
-window.RoutesApi = {
-  operator_product_image_delete_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/images/' + id;
-  },
-  operator_categories_url: function() {
-    return gon.api_root_url + '/v1/operator/categories.json';
-  },
-  operator_category_url: function(id) {
-    return gon.api_root_url + '/v1/operator/categories/' + id + '.json';
-  },
-  operator_product_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/' + id + '.json';
-  },
-  operator_product_publicate_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/' + id + '/publication.json';
-  },
-  operator_products_by_category_url: function() {
-    return gon.api_root_url + '/v1/operator/products.json';
-  }
-};
-
-
-
-},{}],54:[function(require,module,exports){
-window.ThumborService = {
-  thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
-  image_url: function(url, style) {
-    if (style == null) {
-      style = "100x100";
-    }
-    if (gon.env === 'static-development') {
-      return url;
-    } else {
-      if (this.thumbor_url) {
-        return this.thumbor_url + ("/unsafe/" + style + "/") + url;
-      } else {
-        return url;
-      }
-    }
-  }
-};
-
-
-
-},{}],55:[function(require,module,exports){
-/**
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-module.exports.Dispatcher = require('./lib/Dispatcher')
-
-},{"./lib/Dispatcher":56}],56:[function(require,module,exports){
-/*
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule Dispatcher
- * @typechecks
- */
-
-"use strict";
-
-var invariant = require('./invariant');
-
-var _lastID = 1;
-var _prefix = 'ID_';
-
-/**
- * Dispatcher is used to broadcast payloads to registered callbacks. This is
- * different from generic pub-sub systems in two ways:
- *
- *   1) Callbacks are not subscribed to particular events. Every payload is
- *      dispatched to every registered callback.
- *   2) Callbacks can be deferred in whole or part until other callbacks have
- *      been executed.
- *
- * For example, consider this hypothetical flight destination form, which
- * selects a default city when a country is selected:
- *
- *   var flightDispatcher = new Dispatcher();
- *
- *   // Keeps track of which country is selected
- *   var CountryStore = {country: null};
- *
- *   // Keeps track of which city is selected
- *   var CityStore = {city: null};
- *
- *   // Keeps track of the base flight price of the selected city
- *   var FlightPriceStore = {price: null}
- *
- * When a user changes the selected city, we dispatch the payload:
- *
- *   flightDispatcher.dispatch({
- *     actionType: 'city-update',
- *     selectedCity: 'paris'
- *   });
- *
- * This payload is digested by `CityStore`:
- *
- *   flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'city-update') {
- *       CityStore.city = payload.selectedCity;
- *     }
- *   });
- *
- * When the user selects a country, we dispatch the payload:
- *
- *   flightDispatcher.dispatch({
- *     actionType: 'country-update',
- *     selectedCountry: 'australia'
- *   });
- *
- * This payload is digested by both stores:
- *
- *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'country-update') {
- *       CountryStore.country = payload.selectedCountry;
- *     }
- *   });
- *
- * When the callback to update `CountryStore` is registered, we save a reference
- * to the returned token. Using this token with `waitFor()`, we can guarantee
- * that `CountryStore` is updated before the callback that updates `CityStore`
- * needs to query its data.
- *
- *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'country-update') {
- *       // `CountryStore.country` may not be updated.
- *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
- *       // `CountryStore.country` is now guaranteed to be updated.
- *
- *       // Select the default city for the new country
- *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
- *     }
- *   });
- *
- * The usage of `waitFor()` can be chained, for example:
- *
- *   FlightPriceStore.dispatchToken =
- *     flightDispatcher.register(function(payload) {
- *       switch (payload.actionType) {
- *         case 'country-update':
- *           flightDispatcher.waitFor([CityStore.dispatchToken]);
- *           FlightPriceStore.price =
- *             getFlightPriceStore(CountryStore.country, CityStore.city);
- *           break;
- *
- *         case 'city-update':
- *           FlightPriceStore.price =
- *             FlightPriceStore(CountryStore.country, CityStore.city);
- *           break;
- *     }
- *   });
- *
- * The `country-update` payload will be guaranteed to invoke the stores'
- * registered callbacks in order: `CountryStore`, `CityStore`, then
- * `FlightPriceStore`.
- */
-
-  function Dispatcher() {
-    this.$Dispatcher_callbacks = {};
-    this.$Dispatcher_isPending = {};
-    this.$Dispatcher_isHandled = {};
-    this.$Dispatcher_isDispatching = false;
-    this.$Dispatcher_pendingPayload = null;
-  }
-
-  /**
-   * Registers a callback to be invoked with every dispatched payload. Returns
-   * a token that can be used with `waitFor()`.
-   *
-   * @param {function} callback
-   * @return {string}
-   */
-  Dispatcher.prototype.register=function(callback) {
-    var id = _prefix + _lastID++;
-    this.$Dispatcher_callbacks[id] = callback;
-    return id;
-  };
-
-  /**
-   * Removes a callback based on its token.
-   *
-   * @param {string} id
-   */
-  Dispatcher.prototype.unregister=function(id) {
-    invariant(
-      this.$Dispatcher_callbacks[id],
-      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
-      id
-    );
-    delete this.$Dispatcher_callbacks[id];
-  };
-
-  /**
-   * Waits for the callbacks specified to be invoked before continuing execution
-   * of the current callback. This method should only be used by a callback in
-   * response to a dispatched payload.
-   *
-   * @param {array<string>} ids
-   */
-  Dispatcher.prototype.waitFor=function(ids) {
-    invariant(
-      this.$Dispatcher_isDispatching,
-      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
-    );
-    for (var ii = 0; ii < ids.length; ii++) {
-      var id = ids[ii];
-      if (this.$Dispatcher_isPending[id]) {
-        invariant(
-          this.$Dispatcher_isHandled[id],
-          'Dispatcher.waitFor(...): Circular dependency detected while ' +
-          'waiting for `%s`.',
-          id
-        );
-        continue;
-      }
-      invariant(
-        this.$Dispatcher_callbacks[id],
-        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
-        id
-      );
-      this.$Dispatcher_invokeCallback(id);
-    }
-  };
-
-  /**
-   * Dispatches a payload to all registered callbacks.
-   *
-   * @param {object} payload
-   */
-  Dispatcher.prototype.dispatch=function(payload) {
-    invariant(
-      !this.$Dispatcher_isDispatching,
-      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
-    );
-    this.$Dispatcher_startDispatching(payload);
-    try {
-      for (var id in this.$Dispatcher_callbacks) {
-        if (this.$Dispatcher_isPending[id]) {
-          continue;
-        }
-        this.$Dispatcher_invokeCallback(id);
-      }
-    } finally {
-      this.$Dispatcher_stopDispatching();
-    }
-  };
-
-  /**
-   * Is this Dispatcher currently dispatching.
-   *
-   * @return {boolean}
-   */
-  Dispatcher.prototype.isDispatching=function() {
-    return this.$Dispatcher_isDispatching;
-  };
-
-  /**
-   * Call the callback stored with the given id. Also do some internal
-   * bookkeeping.
-   *
-   * @param {string} id
-   * @internal
-   */
-  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
-    this.$Dispatcher_isPending[id] = true;
-    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
-    this.$Dispatcher_isHandled[id] = true;
-  };
-
-  /**
-   * Set up bookkeeping needed when dispatching.
-   *
-   * @param {object} payload
-   * @internal
-   */
-  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
-    for (var id in this.$Dispatcher_callbacks) {
-      this.$Dispatcher_isPending[id] = false;
-      this.$Dispatcher_isHandled[id] = false;
-    }
-    this.$Dispatcher_pendingPayload = payload;
-    this.$Dispatcher_isDispatching = true;
-  };
-
-  /**
-   * Clear bookkeeping used for dispatching.
-   *
-   * @internal
-   */
-  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
-    this.$Dispatcher_pendingPayload = null;
-    this.$Dispatcher_isDispatching = false;
-  };
-
-
-module.exports = Dispatcher;
-
-},{"./invariant":57}],57:[function(require,module,exports){
-/**
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule invariant
- */
-
-"use strict";
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var invariant = function(condition, format, a, b, c, d, e, f) {
-  if (false) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  }
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error(
-        'Minified exception occurred; use the non-minified dev environment ' +
-        'for the full error message and additional helpful warnings.'
-      );
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(
-        'Invariant Violation: ' +
-        format.replace(/%s/g, function() { return args[argIndex++]; })
-      );
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-};
-
-module.exports = invariant;
-
 },{}],"eventEmitter":[function(require,module,exports){
 /*!
  * EventEmitter v4.2.9 - git.io/ee
@@ -5870,7 +5588,7 @@ module.exports = invariant;
 
 },{}],"jquery.autosize":[function(require,module,exports){
 /*!
-	Autosize 1.18.13
+	Autosize 1.18.15
 	license: MIT
 	http://www.jacklmoore.com/autosize
 */
@@ -5955,7 +5673,7 @@ module.exports = invariant;
 			}
 
 			// IE8 and lower return 'auto', which parses to NaN, if no min-height is set.
-			minHeight = Math.max(parseInt($ta.css('minHeight'), 10) - boxOffset || 0, $ta.height());
+			minHeight = Math.max(parseFloat($ta.css('minHeight')) - boxOffset || 0, $ta.height());
 
 			$ta.css({
 				overflow: 'hidden',
@@ -5974,17 +5692,17 @@ module.exports = invariant;
 			function setWidth() {
 				var width;
 				var style = window.getComputedStyle ? window.getComputedStyle(ta, null) : false;
-				
+
 				if (style) {
 
 					width = ta.getBoundingClientRect().width;
 
 					if (width === 0 || typeof width !== 'number') {
-						width = parseInt(style.width,10);
+						width = parseFloat(style.width);
 					}
 
 					$.each(['paddingLeft', 'paddingRight', 'borderLeftWidth', 'borderRightWidth'], function(i,val){
-						width -= parseInt(style[val],10);
+						width -= parseFloat(style[val]);
 					});
 				} else {
 					width = $ta.width();
@@ -5999,7 +5717,7 @@ module.exports = invariant;
 				mirrored = ta;
 				mirror.className = options.className;
 				mirror.id = options.id;
-				maxHeight = parseInt($ta.css('maxHeight'), 10);
+				maxHeight = parseFloat($ta.css('maxHeight'));
 
 				// mirror is a duplicate textarea located off-screen that
 				// is automatically updated to contain the same text as the
@@ -6009,7 +5727,7 @@ module.exports = invariant;
 				$.each(typographyStyles, function(i,val){
 					styles[val] = $ta.css(val);
 				});
-				
+
 				$(mirror).css(styles).attr('wrap', $ta.attr('wrap'));
 
 				setWidth();
@@ -6037,8 +5755,8 @@ module.exports = invariant;
 				}
 
 				if (!ta.value && options.placeholder) {
-					// If the textarea is empty, copy the placeholder text into 
-					// the mirror control and use that for sizing so that we 
+					// If the textarea is empty, copy the placeholder text into
+					// the mirror control and use that for sizing so that we
 					// don't end up with placeholder getting trimmed.
 					mirror.value = ($ta.attr("placeholder") || '');
 				} else {
@@ -6047,7 +5765,7 @@ module.exports = invariant;
 
 				mirror.value += options.append || '';
 				mirror.style.overflowY = ta.style.overflowY;
-				original = parseInt(ta.style.height,10);
+				original = parseFloat(ta.style.height);
 
 				// Setting scrollTop to zero is needed in IE8 and lower for the next step to be accurately applied
 				mirror.scrollTop = 0;
@@ -6071,6 +5789,10 @@ module.exports = invariant;
 
 				if (original !== height) {
 					ta.style.height = height + 'px';
+
+					// Trigger a repaint for IE8 for when ta is nested 2 or more levels inside an inline-block
+					mirror.className = mirror.className;
+
 					if (callback) {
 						options.callback.call(ta,ta);
 					}
@@ -7674,7 +7396,7 @@ module.exports = invariant;
 }(jQuery)
 },{}],"jquery.ui.core":[function(require,module,exports){
 /*!
- * jQuery UI Core 1.11.1
+ * jQuery UI Core 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -7699,7 +7421,7 @@ module.exports = invariant;
 $.ui = $.ui || {};
 
 $.extend( $.ui, {
-	version: "1.11.1",
+	version: "1.11.2",
 
 	keyCode: {
 		BACKSPACE: 8,
@@ -7980,7 +7702,7 @@ $.ui.plugin = {
 
 },{}],"jquery.ui.draggable":[function(require,module,exports){
 /*!
- * jQuery UI Draggable 1.11.1
+ * jQuery UI Draggable 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -8007,7 +7729,7 @@ $.ui.plugin = {
 }(function( $ ) {
 
 $.widget("ui.draggable", $.ui.mouse, {
-	version: "1.11.1",
+	version: "1.11.2",
 	widgetEventPrefix: "drag",
 	options: {
 		addClasses: true,
@@ -8042,8 +7764,8 @@ $.widget("ui.draggable", $.ui.mouse, {
 	},
 	_create: function() {
 
-		if (this.options.helper === "original" && !(/^(?:r|a|f)/).test(this.element.css("position"))) {
-			this.element[0].style.position = "relative";
+		if ( this.options.helper === "original" ) {
+			this._setPositionRelative();
 		}
 		if (this.options.addClasses){
 			this.element.addClass("ui-draggable");
@@ -8075,20 +7797,9 @@ $.widget("ui.draggable", $.ui.mouse, {
 	},
 
 	_mouseCapture: function(event) {
+		var o = this.options;
 
-		var document = this.document[ 0 ],
-			o = this.options;
-
-		// support: IE9
-		// IE9 throws an "Unspecified error" accessing document.activeElement from an <iframe>
-		try {
-			// Support: IE9+
-			// If the <body> is blurred, IE will switch windows, see #9520
-			if ( document.activeElement && document.activeElement.nodeName.toLowerCase() !== "body" ) {
-				// Blur any element that currently has focus, see #4261
-				$( document.activeElement ).blur();
-			}
-		} catch ( error ) {}
+		this._blurActiveElement( event );
 
 		// among others, prevent a drag on a resizable-handle
 		if (this.helper || o.disabled || $(event.target).closest(".ui-resizable-handle").length > 0) {
@@ -8101,18 +7812,52 @@ $.widget("ui.draggable", $.ui.mouse, {
 			return false;
 		}
 
-		$(o.iframeFix === true ? "iframe" : o.iframeFix).each(function() {
-			$("<div class='ui-draggable-iframeFix' style='background: #fff;'></div>")
-			.css({
-				width: this.offsetWidth + "px", height: this.offsetHeight + "px",
-				position: "absolute", opacity: "0.001", zIndex: 1000
-			})
-			.css($(this).offset())
-			.appendTo("body");
-		});
+		this._blockFrames( o.iframeFix === true ? "iframe" : o.iframeFix );
 
 		return true;
 
+	},
+
+	_blockFrames: function( selector ) {
+		this.iframeBlocks = this.document.find( selector ).map(function() {
+			var iframe = $( this );
+
+			return $( "<div>" )
+				.css( "position", "absolute" )
+				.appendTo( iframe.parent() )
+				.outerWidth( iframe.outerWidth() )
+				.outerHeight( iframe.outerHeight() )
+				.offset( iframe.offset() )[ 0 ];
+		});
+	},
+
+	_unblockFrames: function() {
+		if ( this.iframeBlocks ) {
+			this.iframeBlocks.remove();
+			delete this.iframeBlocks;
+		}
+	},
+
+	_blurActiveElement: function( event ) {
+		var document = this.document[ 0 ];
+
+		// Only need to blur if the event occurred on the draggable itself, see #10527
+		if ( !this.handleElement.is( event.target ) ) {
+			return;
+		}
+
+		// support: IE9
+		// IE9 throws an "Unspecified error" accessing document.activeElement from an <iframe>
+		try {
+
+			// Support: IE9, IE10
+			// If the <body> is blurred, IE will switch windows, see #9520
+			if ( document.activeElement && document.activeElement.nodeName.toLowerCase() !== "body" ) {
+
+				// Blur any element that currently has focus, see #4261
+				$( document.activeElement ).blur();
+			}
+		} catch ( error ) {}
 	},
 
 	_mouseStart: function(event) {
@@ -8144,26 +7889,13 @@ $.widget("ui.draggable", $.ui.mouse, {
 		this.cssPosition = this.helper.css( "position" );
 		this.scrollParent = this.helper.scrollParent( true );
 		this.offsetParent = this.helper.offsetParent();
-		this.offsetParentCssPosition = this.offsetParent.css( "position" );
+		this.hasFixedAncestor = this.helper.parents().filter(function() {
+				return $( this ).css( "position" ) === "fixed";
+			}).length > 0;
 
 		//The element's absolute position on the page minus margins
-		this.offset = this.positionAbs = this.element.offset();
-		this.offset = {
-			top: this.offset.top - this.margins.top,
-			left: this.offset.left - this.margins.left
-		};
-
-		//Reset scroll cache
-		this.offset.scroll = false;
-
-		$.extend(this.offset, {
-			click: { //Where the click happened, relative to the element
-				left: event.pageX - this.offset.left,
-				top: event.pageY - this.offset.top
-			},
-			parent: this._getParentOffset(),
-			relative: this._getRelativeOffset() //This is a relative to absolute position minus the actual position calculation - only used for relative positioned helper
-		});
+		this.positionAbs = this.element.offset();
+		this._refreshOffsets( event );
 
 		//Generate the original position
 		this.originalPosition = this.position = this._generatePosition( event, false );
@@ -8190,6 +7922,10 @@ $.widget("ui.draggable", $.ui.mouse, {
 			$.ui.ddmanager.prepareOffsets(this, event);
 		}
 
+		// Reset helper's right/bottom css if they're set and set explicit width/height instead
+		// as this prevents resizing of elements with right/bottom set (see #7772)
+		this._normalizeRightBottom();
+
 		this._mouseDrag(event, true); //Execute the drag once - this causes the helper not to be visible before getting its correct position
 
 		//If the ddmanager is used for droppables, inform the manager that dragging has started (see #5003)
@@ -8200,9 +7936,24 @@ $.widget("ui.draggable", $.ui.mouse, {
 		return true;
 	},
 
+	_refreshOffsets: function( event ) {
+		this.offset = {
+			top: this.positionAbs.top - this.margins.top,
+			left: this.positionAbs.left - this.margins.left,
+			scroll: false,
+			parent: this._getParentOffset(),
+			relative: this._getRelativeOffset()
+		};
+
+		this.offset.click = {
+			left: event.pageX - this.offset.left,
+			top: event.pageY - this.offset.top
+		};
+	},
+
 	_mouseDrag: function(event, noPropagation) {
 		// reset any necessary cached properties (see #5009)
-		if ( this.offsetParentCssPosition === "fixed" ) {
+		if ( this.hasFixedAncestor ) {
 			this.offset.parent = this._getParentOffset();
 		}
 
@@ -8260,19 +8011,19 @@ $.widget("ui.draggable", $.ui.mouse, {
 		return false;
 	},
 
-	_mouseUp: function(event) {
-		//Remove frame helpers
-		$("div.ui-draggable-iframeFix").each(function() {
-			this.parentNode.removeChild(this);
-		});
+	_mouseUp: function( event ) {
+		this._unblockFrames();
 
 		//If the ddmanager is used for droppables, inform the manager that dragging has stopped (see #5003)
 		if ( $.ui.ddmanager ) {
 			$.ui.ddmanager.dragStop(this, event);
 		}
 
-		// The interaction is over; whether or not the click resulted in a drag, focus the element
-		this.element.focus();
+		// Only need to focus if the event occurred on the draggable itself, see #10527
+		if ( this.handleElement.is( event.target ) ) {
+			// The interaction is over; whether or not the click resulted in a drag, focus the element
+			this.element.focus();
+		}
 
 		return $.ui.mouse.prototype._mouseUp.call(this, event);
 	},
@@ -8308,10 +8059,22 @@ $.widget("ui.draggable", $.ui.mouse, {
 	_createHelper: function(event) {
 
 		var o = this.options,
-			helper = $.isFunction(o.helper) ? $(o.helper.apply(this.element[ 0 ], [ event ])) : (o.helper === "clone" ? this.element.clone().removeAttr("id") : this.element);
+			helperIsFunction = $.isFunction( o.helper ),
+			helper = helperIsFunction ?
+				$( o.helper.apply( this.element[ 0 ], [ event ] ) ) :
+				( o.helper === "clone" ?
+					this.element.clone().removeAttr( "id" ) :
+					this.element );
 
 		if (!helper.parents("body").length) {
 			helper.appendTo((o.appendTo === "parent" ? this.element[0].parentNode : o.appendTo));
+		}
+
+		// http://bugs.jqueryui.com/ticket/9446
+		// a helper function can return the original element
+		// which wouldn't have been set to relative in _create
+		if ( helperIsFunction && helper[ 0 ] === this.element[ 0 ] ) {
+			this._setPositionRelative();
 		}
 
 		if (helper[0] !== this.element[0] && !(/(fixed|absolute)/).test(helper.css("position"))) {
@@ -8320,6 +8083,12 @@ $.widget("ui.draggable", $.ui.mouse, {
 
 		return helper;
 
+	},
+
+	_setPositionRelative: function() {
+		if ( !( /^(?:r|a|f)/ ).test( this.element.css( "position" ) ) ) {
+			this.element[ 0 ].style.position = "relative";
+		}
 	},
 
 	_adjustOffsetFromHelper: function(obj) {
@@ -8406,7 +8175,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 
 	_setContainment: function() {
 
-		var over, c, ce,
+		var isUserScrollable, c, ce,
 			o = this.options,
 			document = this.document[ 0 ];
 
@@ -8453,13 +8222,23 @@ $.widget("ui.draggable", $.ui.mouse, {
 			return;
 		}
 
-		over = c.css( "overflow" ) !== "hidden";
+		isUserScrollable = /(scroll|auto)/.test( c.css( "overflow" ) );
 
 		this.containment = [
 			( parseInt( c.css( "borderLeftWidth" ), 10 ) || 0 ) + ( parseInt( c.css( "paddingLeft" ), 10 ) || 0 ),
 			( parseInt( c.css( "borderTopWidth" ), 10 ) || 0 ) + ( parseInt( c.css( "paddingTop" ), 10 ) || 0 ),
-			( over ? Math.max( ce.scrollWidth, ce.offsetWidth ) : ce.offsetWidth ) - ( parseInt( c.css( "borderRightWidth" ), 10 ) || 0 ) - ( parseInt( c.css( "paddingRight" ), 10 ) || 0 ) - this.helperProportions.width - this.margins.left - this.margins.right,
-			( over ? Math.max( ce.scrollHeight, ce.offsetHeight ) : ce.offsetHeight ) - ( parseInt( c.css( "borderBottomWidth" ), 10 ) || 0 ) - ( parseInt( c.css( "paddingBottom" ), 10 ) || 0 ) - this.helperProportions.height - this.margins.top  - this.margins.bottom
+			( isUserScrollable ? Math.max( ce.scrollWidth, ce.offsetWidth ) : ce.offsetWidth ) -
+				( parseInt( c.css( "borderRightWidth" ), 10 ) || 0 ) -
+				( parseInt( c.css( "paddingRight" ), 10 ) || 0 ) -
+				this.helperProportions.width -
+				this.margins.left -
+				this.margins.right,
+			( isUserScrollable ? Math.max( ce.scrollHeight, ce.offsetHeight ) : ce.offsetHeight ) -
+				( parseInt( c.css( "borderBottomWidth" ), 10 ) || 0 ) -
+				( parseInt( c.css( "paddingBottom" ), 10 ) || 0 ) -
+				this.helperProportions.height -
+				this.margins.top -
+				this.margins.bottom
 		];
 		this.relativeContainer = c;
 	},
@@ -8589,16 +8368,29 @@ $.widget("ui.draggable", $.ui.mouse, {
 		}
 	},
 
+	_normalizeRightBottom: function() {
+		if ( this.options.axis !== "y" && this.helper.css( "right" ) !== "auto" ) {
+			this.helper.width( this.helper.width() );
+			this.helper.css( "right", "auto" );
+		}
+		if ( this.options.axis !== "x" && this.helper.css( "bottom" ) !== "auto" ) {
+			this.helper.height( this.helper.height() );
+			this.helper.css( "bottom", "auto" );
+		}
+	},
+
 	// From now on bulk stuff - mainly helpers
 
-	_trigger: function(type, event, ui) {
+	_trigger: function( type, event, ui ) {
 		ui = ui || this._uiHash();
 		$.ui.plugin.call( this, type, [ event, ui, this ], true );
-		//The absolute position has to be recalculated after plugins
-		if (type === "drag") {
-			this.positionAbs = this._convertPositionTo("absolute");
+
+		// Absolute position and offset (see #6884 ) have to be recalculated after plugins
+		if ( /^(drag|start|stop)/.test( type ) ) {
+			this.positionAbs = this._convertPositionTo( "absolute" );
+			ui.offset = this.positionAbs;
 		}
-		return $.Widget.prototype._trigger.call(this, type, event, ui);
+		return $.Widget.prototype._trigger.call( this, type, event, ui );
 	},
 
 	plugins: {},
@@ -8614,160 +8406,197 @@ $.widget("ui.draggable", $.ui.mouse, {
 
 });
 
-$.ui.plugin.add("draggable", "connectToSortable", {
-	start: function( event, ui, inst ) {
+$.ui.plugin.add( "draggable", "connectToSortable", {
+	start: function( event, ui, draggable ) {
+		var uiSortable = $.extend( {}, ui, {
+			item: draggable.element
+		});
 
-		var o = inst.options,
-			uiSortable = $.extend({}, ui, { item: inst.element });
-		inst.sortables = [];
-		$(o.connectToSortable).each(function() {
+		draggable.sortables = [];
+		$( draggable.options.connectToSortable ).each(function() {
 			var sortable = $( this ).sortable( "instance" );
-			if (sortable && !sortable.options.disabled) {
-				inst.sortables.push({
-					instance: sortable,
-					shouldRevert: sortable.options.revert
-				});
-				sortable.refreshPositions();	// Call the sortable's refreshPositions at drag start to refresh the containerCache since the sortable container cache is used in drag and needs to be up to date (this will ensure it's initialised as well as being kept in step with any changes that might have happened on the page).
+
+			if ( sortable && !sortable.options.disabled ) {
+				draggable.sortables.push( sortable );
+
+				// refreshPositions is called at drag start to refresh the containerCache
+				// which is used in drag. This ensures it's initialized and synchronized
+				// with any changes that might have happened on the page since initialization.
+				sortable.refreshPositions();
 				sortable._trigger("activate", event, uiSortable);
 			}
 		});
-
 	},
-	stop: function( event, ui, inst ) {
-
-		//If we are still over the sortable, we fake the stop event of the sortable, but also remove helper
+	stop: function( event, ui, draggable ) {
 		var uiSortable = $.extend( {}, ui, {
-			item: inst.element
+			item: draggable.element
 		});
 
-		$.each(inst.sortables, function() {
-			if (this.instance.isOver) {
+		draggable.cancelHelperRemoval = false;
 
-				this.instance.isOver = 0;
+		$.each( draggable.sortables, function() {
+			var sortable = this;
 
-				inst.cancelHelperRemoval = true; //Don't remove the helper in the draggable instance
-				this.instance.cancelHelperRemoval = false; //Remove it in the sortable instance (so sortable plugins like revert still work)
+			if ( sortable.isOver ) {
+				sortable.isOver = 0;
 
-				//The sortable revert is supported, and we have to set a temporary dropped variable on the draggable to support revert: "valid/invalid"
-				if (this.shouldRevert) {
-					this.instance.options.revert = this.shouldRevert;
-				}
+				// Allow this sortable to handle removing the helper
+				draggable.cancelHelperRemoval = true;
+				sortable.cancelHelperRemoval = false;
 
-				//Trigger the stop of the sortable
-				this.instance._mouseStop(event);
+				// Use _storedCSS To restore properties in the sortable,
+				// as this also handles revert (#9675) since the draggable
+				// may have modified them in unexpected ways (#8809)
+				sortable._storedCSS = {
+					position: sortable.placeholder.css( "position" ),
+					top: sortable.placeholder.css( "top" ),
+					left: sortable.placeholder.css( "left" )
+				};
 
-				this.instance.options.helper = this.instance.options._helper;
+				sortable._mouseStop(event);
 
-				//If the helper has been the original item, restore properties in the sortable
-				if (inst.options.helper === "original") {
-					this.instance.currentItem.css({ top: "auto", left: "auto" });
-				}
-
+				// Once drag has ended, the sortable should return to using
+				// its original helper, not the shared helper from draggable
+				sortable.options.helper = sortable.options._helper;
 			} else {
-				this.instance.cancelHelperRemoval = false; //Remove the helper in the sortable instance
-				this.instance._trigger("deactivate", event, uiSortable);
+				// Prevent this Sortable from removing the helper.
+				// However, don't set the draggable to remove the helper
+				// either as another connected Sortable may yet handle the removal.
+				sortable.cancelHelperRemoval = true;
+
+				sortable._trigger( "deactivate", event, uiSortable );
 			}
-
 		});
-
 	},
-	drag: function( event, ui, inst ) {
-
-		var that = this;
-
-		$.each(inst.sortables, function() {
-
+	drag: function( event, ui, draggable ) {
+		$.each( draggable.sortables, function() {
 			var innermostIntersecting = false,
-				thisSortable = this;
+				sortable = this;
 
-			//Copy over some variables to allow calling the sortable's native _intersectsWith
-			this.instance.positionAbs = inst.positionAbs;
-			this.instance.helperProportions = inst.helperProportions;
-			this.instance.offset.click = inst.offset.click;
+			// Copy over variables that sortable's _intersectsWith uses
+			sortable.positionAbs = draggable.positionAbs;
+			sortable.helperProportions = draggable.helperProportions;
+			sortable.offset.click = draggable.offset.click;
 
-			if (this.instance._intersectsWith(this.instance.containerCache)) {
+			if ( sortable._intersectsWith( sortable.containerCache ) ) {
 				innermostIntersecting = true;
-				$.each(inst.sortables, function() {
-					this.instance.positionAbs = inst.positionAbs;
-					this.instance.helperProportions = inst.helperProportions;
-					this.instance.offset.click = inst.offset.click;
-					if (this !== thisSortable &&
-						this.instance._intersectsWith(this.instance.containerCache) &&
-						$.contains(thisSortable.instance.element[0], this.instance.element[0])
-					) {
+
+				$.each( draggable.sortables, function() {
+					// Copy over variables that sortable's _intersectsWith uses
+					this.positionAbs = draggable.positionAbs;
+					this.helperProportions = draggable.helperProportions;
+					this.offset.click = draggable.offset.click;
+
+					if ( this !== sortable &&
+							this._intersectsWith( this.containerCache ) &&
+							$.contains( sortable.element[ 0 ], this.element[ 0 ] ) ) {
 						innermostIntersecting = false;
 					}
+
 					return innermostIntersecting;
 				});
 			}
 
-			if (innermostIntersecting) {
-				//If it intersects, we use a little isOver variable and set it once, so our move-in stuff gets fired only once
-				if (!this.instance.isOver) {
+			if ( innermostIntersecting ) {
+				// If it intersects, we use a little isOver variable and set it once,
+				// so that the move-in stuff gets fired only once.
+				if ( !sortable.isOver ) {
+					sortable.isOver = 1;
 
-					this.instance.isOver = 1;
-					//Now we fake the start of dragging for the sortable instance,
-					//by cloning the list group item, appending it to the sortable and using it as inst.currentItem
-					//We can then fire the start event of the sortable with our passed browser event, and our own helper (so it doesn't create a new one)
-					this.instance.currentItem = $(that).clone().removeAttr("id").appendTo(this.instance.element).data("ui-sortable-item", true);
-					this.instance.options._helper = this.instance.options.helper; //Store helper option to later restore it
-					this.instance.options.helper = function() { return ui.helper[0]; };
+					sortable.currentItem = ui.helper
+						.appendTo( sortable.element )
+						.data( "ui-sortable-item", true );
 
-					event.target = this.instance.currentItem[0];
-					this.instance._mouseCapture(event, true);
-					this.instance._mouseStart(event, true, true);
+					// Store helper option to later restore it
+					sortable.options._helper = sortable.options.helper;
 
-					//Because the browser event is way off the new appended portlet, we modify a couple of variables to reflect the changes
-					this.instance.offset.click.top = inst.offset.click.top;
-					this.instance.offset.click.left = inst.offset.click.left;
-					this.instance.offset.parent.left -= inst.offset.parent.left - this.instance.offset.parent.left;
-					this.instance.offset.parent.top -= inst.offset.parent.top - this.instance.offset.parent.top;
+					sortable.options.helper = function() {
+						return ui.helper[ 0 ];
+					};
 
-					inst._trigger("toSortable", event);
-					inst.dropped = this.instance.element; //draggable revert needs that
-					//hack so receive/update callbacks work (mostly)
-					inst.currentItem = inst.element;
-					this.instance.fromOutside = inst;
+					// Fire the start events of the sortable with our passed browser event,
+					// and our own helper (so it doesn't create a new one)
+					event.target = sortable.currentItem[ 0 ];
+					sortable._mouseCapture( event, true );
+					sortable._mouseStart( event, true, true );
 
+					// Because the browser event is way off the new appended portlet,
+					// modify necessary variables to reflect the changes
+					sortable.offset.click.top = draggable.offset.click.top;
+					sortable.offset.click.left = draggable.offset.click.left;
+					sortable.offset.parent.left -= draggable.offset.parent.left -
+						sortable.offset.parent.left;
+					sortable.offset.parent.top -= draggable.offset.parent.top -
+						sortable.offset.parent.top;
+
+					draggable._trigger( "toSortable", event );
+
+					// Inform draggable that the helper is in a valid drop zone,
+					// used solely in the revert option to handle "valid/invalid".
+					draggable.dropped = sortable.element;
+
+					// Need to refreshPositions of all sortables in the case that
+					// adding to one sortable changes the location of the other sortables (#9675)
+					$.each( draggable.sortables, function() {
+						this.refreshPositions();
+					});
+
+					// hack so receive/update callbacks work (mostly)
+					draggable.currentItem = draggable.element;
+					sortable.fromOutside = draggable;
 				}
 
-				//Provided we did all the previous steps, we can fire the drag event of the sortable on every draggable drag, when it intersects with the sortable
-				if (this.instance.currentItem) {
-					this.instance._mouseDrag(event);
+				if ( sortable.currentItem ) {
+					sortable._mouseDrag( event );
+					// Copy the sortable's position because the draggable's can potentially reflect
+					// a relative position, while sortable is always absolute, which the dragged
+					// element has now become. (#8809)
+					ui.position = sortable.position;
 				}
-
 			} else {
+				// If it doesn't intersect with the sortable, and it intersected before,
+				// we fake the drag stop of the sortable, but make sure it doesn't remove
+				// the helper by using cancelHelperRemoval.
+				if ( sortable.isOver ) {
 
-				//If it doesn't intersect with the sortable, and it intersected before,
-				//we fake the drag stop of the sortable, but make sure it doesn't remove the helper by using cancelHelperRemoval
-				if (this.instance.isOver) {
+					sortable.isOver = 0;
+					sortable.cancelHelperRemoval = true;
 
-					this.instance.isOver = 0;
-					this.instance.cancelHelperRemoval = true;
+					// Calling sortable's mouseStop would trigger a revert,
+					// so revert must be temporarily false until after mouseStop is called.
+					sortable.options._revert = sortable.options.revert;
+					sortable.options.revert = false;
 
-					//Prevent reverting on this forced stop
-					this.instance.options.revert = false;
+					sortable._trigger( "out", event, sortable._uiHash( sortable ) );
+					sortable._mouseStop( event, true );
 
-					// The out event needs to be triggered independently
-					this.instance._trigger("out", event, this.instance._uiHash(this.instance));
+					// restore sortable behaviors that were modfied
+					// when the draggable entered the sortable area (#9481)
+					sortable.options.revert = sortable.options._revert;
+					sortable.options.helper = sortable.options._helper;
 
-					this.instance._mouseStop(event, true);
-					this.instance.options.helper = this.instance.options._helper;
-
-					//Now we remove our currentItem, the list group clone again, and the placeholder, and animate the helper back to it's original size
-					this.instance.currentItem.remove();
-					if (this.instance.placeholder) {
-						this.instance.placeholder.remove();
+					if ( sortable.placeholder ) {
+						sortable.placeholder.remove();
 					}
 
-					inst._trigger("fromSortable", event);
-					inst.dropped = false; //draggable revert needs that
+					// Recalculate the draggable's offset considering the sortable
+					// may have modified them in unexpected ways (#8809)
+					draggable._refreshOffsets( event );
+					ui.position = draggable._generatePosition( event, true );
+
+					draggable._trigger( "fromSortable", event );
+
+					// Inform draggable that the helper is no longer in a valid drop zone
+					draggable.dropped = false;
+
+					// Need to refreshPositions of all sortables just in case removing
+					// from one sortable changes the location of other sortables (#9675)
+					$.each( draggable.sortables, function() {
+						this.refreshPositions();
+					});
 				}
-
 			}
-
 		});
-
 	}
 });
 
@@ -8897,9 +8726,9 @@ $.ui.plugin.add("draggable", "snap", {
 
 		for (i = inst.snapElements.length - 1; i >= 0; i--){
 
-			l = inst.snapElements[i].left;
+			l = inst.snapElements[i].left - inst.margins.left;
 			r = l + inst.snapElements[i].width;
-			t = inst.snapElements[i].top;
+			t = inst.snapElements[i].top - inst.margins.top;
 			b = t + inst.snapElements[i].height;
 
 			if ( x2 < l - d || x1 > r + d || y2 < t - d || y1 > b + d || !$.contains( inst.snapElements[ i ].item.ownerDocument, inst.snapElements[ i ].item ) ) {
@@ -8916,16 +8745,16 @@ $.ui.plugin.add("draggable", "snap", {
 				ls = Math.abs(l - x2) <= d;
 				rs = Math.abs(r - x1) <= d;
 				if (ts) {
-					ui.position.top = inst._convertPositionTo("relative", { top: t - inst.helperProportions.height, left: 0 }).top - inst.margins.top;
+					ui.position.top = inst._convertPositionTo("relative", { top: t - inst.helperProportions.height, left: 0 }).top;
 				}
 				if (bs) {
-					ui.position.top = inst._convertPositionTo("relative", { top: b, left: 0 }).top - inst.margins.top;
+					ui.position.top = inst._convertPositionTo("relative", { top: b, left: 0 }).top;
 				}
 				if (ls) {
-					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: l - inst.helperProportions.width }).left - inst.margins.left;
+					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: l - inst.helperProportions.width }).left;
 				}
 				if (rs) {
-					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: r }).left - inst.margins.left;
+					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: r }).left;
 				}
 			}
 
@@ -8937,16 +8766,16 @@ $.ui.plugin.add("draggable", "snap", {
 				ls = Math.abs(l - x1) <= d;
 				rs = Math.abs(r - x2) <= d;
 				if (ts) {
-					ui.position.top = inst._convertPositionTo("relative", { top: t, left: 0 }).top - inst.margins.top;
+					ui.position.top = inst._convertPositionTo("relative", { top: t, left: 0 }).top;
 				}
 				if (bs) {
-					ui.position.top = inst._convertPositionTo("relative", { top: b - inst.helperProportions.height, left: 0 }).top - inst.margins.top;
+					ui.position.top = inst._convertPositionTo("relative", { top: b - inst.helperProportions.height, left: 0 }).top;
 				}
 				if (ls) {
-					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: l }).left - inst.margins.left;
+					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: l }).left;
 				}
 				if (rs) {
-					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: r - inst.helperProportions.width }).left - inst.margins.left;
+					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: r - inst.helperProportions.width }).left;
 				}
 			}
 
@@ -9003,7 +8832,7 @@ return $.ui.draggable;
 
 },{}],"jquery.ui.droppable":[function(require,module,exports){
 /*!
- * jQuery UI Droppable 1.11.1
+ * jQuery UI Droppable 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -9031,7 +8860,7 @@ return $.ui.draggable;
 }(function( $ ) {
 
 $.widget( "ui.droppable", {
-	version: "1.11.1",
+	version: "1.11.2",
 	widgetEventPrefix: "drop",
 	options: {
 		accept: "*",
@@ -9239,8 +9068,8 @@ $.ui.intersect = (function() {
 			return false;
 		}
 
-		var x1 = ( draggable.positionAbs || draggable.position.absolute ).left,
-			y1 = ( draggable.positionAbs || draggable.position.absolute ).top,
+		var x1 = ( draggable.positionAbs || draggable.position.absolute ).left + draggable.margins.left,
+			y1 = ( draggable.positionAbs || draggable.position.absolute ).top + draggable.margins.top,
 			x2 = x1 + draggable.helperProportions.width,
 			y2 = y1 + draggable.helperProportions.height,
 			l = droppable.offset.left,
@@ -9418,7 +9247,7 @@ return $.ui.droppable;
 
 },{}],"jquery.ui.mouse":[function(require,module,exports){
 /*!
- * jQuery UI Mouse 1.11.1
+ * jQuery UI Mouse 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -9448,7 +9277,7 @@ $( document ).mouseup( function() {
 });
 
 return $.widget("ui.mouse", {
-	version: "1.11.1",
+	version: "1.11.2",
 	options: {
 		cancel: "input,textarea,button,select,option",
 		distance: 1,
@@ -9488,6 +9317,8 @@ return $.widget("ui.mouse", {
 		if ( mouseHandled ) {
 			return;
 		}
+
+		this._mouseMoved = false;
 
 		// we may have missed mouseup (out of window)
 		(this._mouseStarted && this._mouseUp(event));
@@ -9542,13 +9373,23 @@ return $.widget("ui.mouse", {
 	},
 
 	_mouseMove: function(event) {
-		// IE mouseup check - mouseup happened when mouse was out of window
-		if ($.ui.ie && ( !document.documentMode || document.documentMode < 9 ) && !event.button) {
-			return this._mouseUp(event);
+		// Only check for mouseups outside the document if you've moved inside the document
+		// at least once. This prevents the firing of mouseup in the case of IE<9, which will
+		// fire a mousemove event if content is placed under the cursor. See #7778
+		// Support: IE <9
+		if ( this._mouseMoved ) {
+			// IE mouseup check - mouseup happened when mouse was out of window
+			if ($.ui.ie && ( !document.documentMode || document.documentMode < 9 ) && !event.button) {
+				return this._mouseUp(event);
 
-		// Iframe mouseup check - mouseup occurred in another document
-		} else if ( !event.which ) {
-			return this._mouseUp( event );
+			// Iframe mouseup check - mouseup occurred in another document
+			} else if ( !event.which ) {
+				return this._mouseUp( event );
+			}
+		}
+
+		if ( event.which || event.button ) {
+			this._mouseMoved = true;
 		}
 
 		if (this._mouseStarted) {
@@ -9607,7 +9448,7 @@ return $.widget("ui.mouse", {
 
 },{}],"jquery.ui.sortable":[function(require,module,exports){
 /*!
- * jQuery UI Sortable 1.11.1
+ * jQuery UI Sortable 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -9634,7 +9475,7 @@ return $.widget("ui.mouse", {
 }(function( $ ) {
 
 return $.widget("ui.sortable", $.ui.mouse, {
-	version: "1.11.1",
+	version: "1.11.2",
 	widgetEventPrefix: "sort",
 	ready: false,
 	options: {
@@ -10519,6 +10360,10 @@ return $.widget("ui.sortable", $.ui.mouse, {
 			}
 
 			if(this.currentContainer === this.containers[innermostIndex]) {
+				if ( !this.currentContainer.containerCache.over ) {
+					this.containers[ innermostIndex ]._trigger( "over", event, this._uiHash() );
+					this.currentContainer.containerCache.over = 1;
+				}
 				return;
 			}
 
@@ -10857,18 +10702,6 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		}
 
 		this.dragging = false;
-		if(this.cancelHelperRemoval) {
-			if(!noPropagation) {
-				this._trigger("beforeStop", event, this._uiHash());
-				for (i=0; i < delayedTriggers.length; i++) {
-					delayedTriggers[i].call(this, event);
-				} //Trigger all delayed events
-				this._trigger("stop", event, this._uiHash());
-			}
-
-			this.fromOutside = false;
-			return false;
-		}
 
 		if(!noPropagation) {
 			this._trigger("beforeStop", event, this._uiHash());
@@ -10877,10 +10710,12 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		//$(this.placeholder[0]).remove(); would have been the jQuery way - unfortunately, it unbinds ALL events from the original node!
 		this.placeholder[0].parentNode.removeChild(this.placeholder[0]);
 
-		if(this.helper[0] !== this.currentItem[0]) {
-			this.helper.remove();
+		if ( !this.cancelHelperRemoval ) {
+			if ( this.helper[ 0 ] !== this.currentItem[ 0 ] ) {
+				this.helper.remove();
+			}
+			this.helper = null;
 		}
-		this.helper = null;
 
 		if(!noPropagation) {
 			for (i=0; i < delayedTriggers.length; i++) {
@@ -10890,7 +10725,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		}
 
 		this.fromOutside = false;
-		return true;
+		return !this.cancelHelperRemoval;
 
 	},
 
@@ -10919,7 +10754,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 
 },{}],"jquery.ui.widget":[function(require,module,exports){
 /*!
- * jQuery UI Widget 1.11.1
+ * jQuery UI Widget 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -10956,7 +10791,7 @@ $.cleanData = (function( orig ) {
 				}
 
 			// http://bugs.jquery.com/ticket/8235
-			} catch( e ) {}
+			} catch ( e ) {}
 		}
 		orig( elems );
 	};
@@ -11174,10 +11009,6 @@ $.Widget.prototype = {
 		this.element = $( element );
 		this.uuid = widget_uuid++;
 		this.eventNamespace = "." + this.widgetName + this.uuid;
-		this.options = $.widget.extend( {},
-			this.options,
-			this._getCreateOptions(),
-			options );
 
 		this.bindings = $();
 		this.hoverable = $();
@@ -11199,6 +11030,11 @@ $.Widget.prototype = {
 				element.document || element );
 			this.window = $( this.document[0].defaultView || this.document[0].parentWindow );
 		}
+
+		this.options = $.widget.extend( {},
+			this.options,
+			this._getCreateOptions(),
+			options );
 
 		this._create();
 		this._trigger( "create", null, this._getCreateEventData() );
@@ -11362,8 +11198,14 @@ $.Widget.prototype = {
 	},
 
 	_off: function( element, eventName ) {
-		eventName = (eventName || "").split( " " ).join( this.eventNamespace + " " ) + this.eventNamespace;
+		eventName = (eventName || "").split( " " ).join( this.eventNamespace + " " ) +
+			this.eventNamespace;
 		element.unbind( eventName ).undelegate( eventName );
+
+		// Clear the stack to avoid memory leaks (#10056)
+		this.bindings = $( this.bindings.not( element ).get() );
+		this.focusable = $( this.focusable.not( element ).get() );
+		this.hoverable = $( this.hoverable.not( element ).get() );
 	},
 
 	_delay: function( handler, delay ) {

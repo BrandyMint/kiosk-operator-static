@@ -3,6 +3,9 @@ window.OperatorCategoriesViewActions =
   loadCategories: (options) ->
     OperatorCategoriesService.loadCategories options
 
+  reorderCategories: (options) ->
+    OperatorCategoriesService.reorderCategories options
+
   reloadCategory: (options) ->
     OperatorCategoriesService.reloadCategory options
 

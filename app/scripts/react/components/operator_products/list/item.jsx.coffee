@@ -8,14 +8,15 @@ window.OperatorProducts_ListItem = React.createClass
 
   render: ->
    `<tr data-category-id={ this.props.product.category_id }
-        data-product-id={ this.props.product.id }
-        onClick={ this.handleClick }>
+        data-product-id={ this.props.product.id }>
       <td className="adm-categories-goods-cover"
           data-title="Товар">
         <ProductThumb product={ this.props.product } />
       </td>
       <td className="adm-categories-goods-content">
-        { this.props.product.title }
+        <a href={ Routes.edit_operator_product_url(this.props.product.id) }>
+          { this.props.product.title }
+        </a>
       </td>
       <td className="adm-categories-goods-price"
           data-title="Сумма">
@@ -28,6 +29,5 @@ window.OperatorProducts_ListItem = React.createClass
     </tr>`
 
   handleClick: (e) ->
-    unless @state.isDragged
-      e.stopPropagation()
-      ModalService.show Routes.edit_operator_product_url @props.product.id
+    # unless @state.isDragged
+    #   ModalController.show Routes.edit_operator_product_url @props.product.id

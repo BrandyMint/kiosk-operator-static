@@ -1,6 +1,7 @@
 require './libs'
 require './routes/api'
 require './routes/routes'
+require './legacy'
 require './app'
 
 # /*==========  Dispatchers  ==========*/
@@ -15,16 +16,14 @@ require './react/stores/_base'
 require './react/stores/operator_categories'
 require './react/stores/operator_products'
 
-# /*==========  Resources  ==========*/
-
-# require './resources/categories'
-# require './resources/products'
-
 # /*==========  Services  ==========*/
 
 require './react/services/operator_categories'
 require './react/services/operator_products'
-# require './services/modal_service'
+require './react/services/thumbor'
+
+# /*==========  Controllers  ==========*/
+require './react/controllers/modal'
 
 # /*==========  Actions  ==========*/
 
@@ -35,21 +34,21 @@ require './react/actions/server/operator_products'
 
 # /*==========  Mixins  ==========*/
 
-# require './mixins/dragging'
-# require './mixins/images_form_mixin'
+require './react/mixins/images_form'
+require './react/mixins/unmount'
 require './react/mixins/product_draggable'
 require './react/mixins/category_droppable'
-# require './mixins/component_manipulations'
+require './react/mixins/component_manipulations'
 
 # /*==========  Components  ==========*/
 
 require './react/components/common/spinner'
 require './react/components/common/money'
+require './react/components/common/images_form_thumbs'
 
 require './react/components/product/thumb'
 require './react/components/product/state'
-
-# require './components/images_form_thumbs'
+require './react/components/product/status_toggle'
 
 require './react/components/operator_categories/operator_categories'
 require './react/components/operator_categories/loaded'
@@ -71,16 +70,8 @@ require './react/components/operator_products/loading_error'
 require './react/components/operator_products/list/list'
 require './react/components/operator_products/list/item'
 require './react/components/operator_products/list/item_drag'
-# require './components/operator_products/list/product_state'
-# require './components/product_status_toggle'
 
-# require './components/modal'
-
-# require './components/super_select'
-# require './components/product_images'
-
-# Не используется
-#require './components/images_form'
+require './react/components/modal/modal'
 
 # /*==========  Helpers  ==========*/
 require './react/helpers/app'

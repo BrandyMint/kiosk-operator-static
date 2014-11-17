@@ -5,10 +5,10 @@ window.OperatorCategories_Loaded = React.createClass
   propTypes:
     parentCategory:       React.PropTypes.object.isRequired
     currentCategory:      React.PropTypes.object.isRequired
+    productQuery:         React.PropTypes.string
+    productState:         React.PropTypes.string
     includeSubcategories: React.PropTypes.bool.isRequired
     onCategorySelect:     React.PropTypes.func.isRequired
-    # productQuery:         React.PropTypes.string
-    # productState:         React.PropTypes.string
 
   render: ->
     currentCategory      = @props.currentCategory
@@ -19,6 +19,8 @@ window.OperatorCategories_Loaded = React.createClass
         categoriesContent = `<OperatorCategories_OneCategory
                                  parentCategory={ this.props.parentCategory }
                                  currentCategory={ currentCategory }
+                                 productQuery={ this.props.productQuery }
+                                 productState={ this.props.productState }
                                  includeSubcategories={ this.props.includeSubcategories }
                                  onCategorySelect={ this.props.onCategorySelect } />`
 
@@ -27,6 +29,8 @@ window.OperatorCategories_Loaded = React.createClass
                                  firstCategory={ this.props.parentCategory }
                                  secondCategory={ currentCategory }
                                  currentCategory={ currentCategory }
+                                 productQuery={ this.props.productQuery }
+                                 productState={ this.props.productState }
                                  includeSubcategories={ this.props.includeSubcategories }
                                  onCategorySelect={ this.props.onCategorySelect } />`
 
@@ -36,6 +40,8 @@ window.OperatorCategories_Loaded = React.createClass
                                  firstCategory={ this.props.parentCategory }
                                  secondCategory={ secondCategory }
                                  currentCategory={ currentCategory }
+                                 productQuery={ this.props.productQuery }
+                                 productState={ this.props.productState }
                                  includeSubcategories={ this.props.includeSubcategories }
                                  onCategorySelect={ this.props.onCategorySelect } />`
 

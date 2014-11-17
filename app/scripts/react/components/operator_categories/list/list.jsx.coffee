@@ -17,14 +17,14 @@ window.OperatorCategories_List = React.createClass
   componentDidMount: ->
     OperatorCategoriesStore.addChangeListener @_onStoreChange
 
-    # $(@refs.list.getDOMNode()).sortable {
-    #   scope: 'categoriesReorder'
-    #   placeholder: 'adm-categories-item __dropzone'
-    #   forcePlaceholderSize: true
-    #   revert: DRAG_REVERT
-    #   delay: DRAG_DELAY
-    #   stop: @handleDrop
-    # }
+    $(@refs.list.getDOMNode()).sortable {
+      scope: 'categoriesReorder'
+      placeholder: 'adm-categories-item __dropzone'
+      forcePlaceholderSize: true
+      revert: DRAG_REVERT
+      delay: DRAG_DELAY
+      stop: @handleDrop
+    }
 
   componentWillReceiveProps: (nextProps) ->
     @setState
@@ -70,19 +70,24 @@ window.OperatorCategories_List = React.createClass
     else
       false
 
-  # handleDrop: (evt, ui) ->
-  #   # Считываем нужные параметры перед завершением drag&drop, затем отменяем его.
-  #   # Если не отменить, ui.sortable сам меняет порядок элементов в DOM,
-  #   # что вступает в конфликт с рендерингом React, и всё ломается.
-  #   srcId = parseInt ui.item.attr('data-objectid')
-  #   insertIdx = ui.item.index()
-  #   $(@refs.list.getDOMNode()).sortable 'cancel'
-  #   OperatorCategoriesService.reorderCategories srcId, insertIdx
+  handleDrop: (evt, ui) ->
+    # Считываем нужные параметры перед завершением drag&drop, затем отменяем его.
+    # Если не отменить, ui.sortable сам меняет порядок элементов в DOM,
+    # что вступает в конфликт с рендерингом React, и всё ломается.
+    srcId = parseInt ui.item.attr('data-objectid')
+    insertIdx = ui.item.index()
+    $(@refs.list.getDOMNode()).sortable 'cancel'
+
+    OperatorCategoriesViewActions.reorderCategories {
+      categoryId: srcId
+      insertIdx:  insertIdx
+    }
 
   handleTotalCountClick: (e) ->
     e.preventDefault()
     @props.onCategorySelect @props.parentCategory
 
   _onStoreChange: ->
+    console.log 'store changed'
     @setState
       categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent @state.parentCategory

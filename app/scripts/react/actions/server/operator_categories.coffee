@@ -5,6 +5,11 @@ window.OperatorCategoriesServerActions =
       type: 'categoriesLoaded'
       categories: categories
 
+  reorderCategories: (newPositions) ->
+    OperatorCategoriesDispatcher.handleServerAction
+      type: 'categoriesReordered'
+      newPositions: newPositions
+
   receiveCategory: (category) ->
     OperatorCategoriesDispatcher.handleServerAction
       type: 'categoryLoaded'

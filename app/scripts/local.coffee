@@ -1,6 +1,7 @@
 # Here we can require local settings
 require './dist'
 require './local/gon'
+require './local/routes'
 
 mockOperator = require './data/operator.json'
 console.log 'Залогинен оператор:', mockOperator

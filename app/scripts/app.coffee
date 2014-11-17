@@ -1,8 +1,3 @@
-# require './legacy'
-# require './requester'
-# require './thumbor_service'
-# require './app_helpers'
-
 window.KioskOperatorApp =
   start: ({ vendor_key, operator }) ->
     console.log "KioskOperatorApp start for vendor: #{vendor_key}, operator: #{operator.name}"

@@ -9,6 +9,26 @@ window.OperatorCategoriesService =
         OperatorCategoriesServerActions.receiveCategories categories
         success?(categories)
 
+  reorderCategories: ({categoryId, insertIdx}) ->
+    #TODO: refactor
+    newPositions = OperatorCategoriesStore.getReorderedPositions categoryId, insertIdx
+
+    if newPositions.length
+      OperatorCategoriesServerActions.reorderCategories newPositions
+      @updateCategories newPositions, (err, response) ->
+        console.error(err) if err # todo
+
+  updateCategories: (data, callback) ->
+    #TODO: refactor
+    #TODO: Очень грубая замена. Надо бы делать хотя бы async.parallel
+    done = _.after data.length, ->
+      callback()
+    that = @
+    _.each data, (i) ->
+      that.updateCategory
+        category: i
+        success: done
+
   reloadCategory: ({categoryId}) ->
     Requester.request
       url: ApiRoutes.operator_category_url categoryId
@@ -31,14 +51,6 @@ window.OperatorCategoriesService =
       success: (category) ->
         OperatorCategoriesServerActions.createCategory category
         success?(category)
-
-  # updateSingleCategory: ({category, success, error}) ->
-  #   @updateCategory
-  #     category: category
-  #     success:  ->
-  #       OperatorCategoriesServerActions.categoryUpdated category
-  #       success category
-  #     error: error
 
   updateCategory: ({category, success, error}) ->
     Requester.request
@@ -63,25 +75,3 @@ window.OperatorCategoriesService =
       success: (response) ->
         OperatorCategoriesServerActions.deleteCategory category
         success?(response)
-
-  # reorderCategories: (categoryId, insertIdx) ->
-  #   positionChanges = OperatorCategoriesStore.getReorderedPositions categoryId, insertIdx
-  #   if positionChanges.length
-  #     OperatorCategoriesActions.reorderCategories positionChanges
-  #     @updateCategories positionChanges, (err, response) ->
-  #       if err
-  #         console.error err # todo
-
-  # updateCategories: (data, callback) ->
-  #   # todo. Очень грубая замена. Надо бы делать хотя бы async.parallel
-  #   done = _.after data.length, ->
-  #     callback()
-  #   that = @
-  #   _.each data, (i) ->
-  #     that.updateCategory
-  #       category: i
-  #       success: done
-
-  # mockMode: false
-  # mockLatency: 500
-  # mockData: []

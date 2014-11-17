@@ -13,6 +13,8 @@ $plain-input-text-color: #000
 
 %plain-input-padding
   padding:
+    top: 6px
+    bottom: 6px
     left: $plain-input-padding
     right: $plain-input-padding
 
@@ -122,10 +124,6 @@ input
     //::-webkit-input-placeholder
     color: $text-color
   +placeholder($plain-input-placeholder-color)
-
-input[type="checkbox"]
-  display: none
-
 
 .checkbox
   font-weight: normal

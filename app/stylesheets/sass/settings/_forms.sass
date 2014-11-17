@@ -117,12 +117,11 @@ $plain-input-text-color: #000
     &:first-child
       padding-left: $plain-input-padding
 
-
 input
   //&[value=""]
     // libsass doesn't understand pseudoselectors
     //::-webkit-input-placeholder
-    color: $text-color
+  color: $text-color
   +placeholder($plain-input-placeholder-color)
 
 .checkbox
@@ -150,10 +149,6 @@ input
 
 .checkbox
   padding-left: 0px
-
-
-input[type="radio"]
-  display: none
 
 .radio
   font:

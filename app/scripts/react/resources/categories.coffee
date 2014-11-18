@@ -2,6 +2,14 @@
 
 window.CategoriesResource =
 
+  index: ({success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_categories_url()
+      error: (xhr, status, err) ->
+        error?(err || status)
+      success: (categories) ->
+        success?(categories)
+
   delete: ({category, success, error}) ->
     $.ajax
       dataType: 'json'

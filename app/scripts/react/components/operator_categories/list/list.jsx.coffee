@@ -88,6 +88,5 @@ window.OperatorCategories_List = React.createClass
     @props.onCategorySelect @props.parentCategory
 
   _onStoreChange: ->
-    console.log 'store changed'
     @setState
       categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent @state.parentCategory

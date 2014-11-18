@@ -28,6 +28,7 @@ require './react/services/operator_products'
 require './react/services/thumbor'
 
 # /*==========  Controllers  ==========*/
+
 require './react/controllers/modal'
 
 # /*==========  Actions  ==========*/

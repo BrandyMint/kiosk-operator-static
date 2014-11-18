@@ -1,14 +1,5 @@
 window.OperatorCategoriesService =
 
-  loadCategories: ({success, error}) ->
-    Requester.request
-      url: ApiRoutes.operator_categories_url()
-      error: (xhr, status, err) ->
-        error?(err || status)
-      success: (categories) ->
-        OperatorCategoriesServerActions.receiveCategories categories
-        success?(categories)
-
   reorderCategories: ({categoryId, insertIdx}) ->
     #TODO: refactor
     newPositions = OperatorCategoriesStore.getReorderedPositions categoryId, insertIdx
@@ -25,53 +16,11 @@ window.OperatorCategoriesService =
       callback()
     that = @
     _.each data, (i) ->
-      that.updateCategory
-        category: i
+      CategoriesResource.update {
+        categoryId: i.id
+        data:
+          name:      i.name
+          position:  i.position
+          parent_id: i.parent_id
         success: done
-
-  reloadCategory: ({categoryId}) ->
-    Requester.request
-      url: ApiRoutes.operator_category_url categoryId
-      error: (xhr, status, err) ->
-        error?(err || status)
-      success: (category) ->
-        OperatorCategoriesServerActions.receiveCategory category
-        success?(category)
-
-  createCategory: ({name, parentId, success, error}) ->
-    Requester.request
-      url: ApiRoutes.operator_categories_url()
-      method: 'POST'
-      data:
-        name:      name
-        parent_id: parentId
-        position:  OperatorCategoriesStore.getCategoryPosition(parent_id: parentId)
-      error: (xhr, status, err) ->
-        error?(err || status)
-      success: (category) ->
-        OperatorCategoriesServerActions.createCategory category
-        success?(category)
-
-  updateCategory: ({category, success, error}) ->
-    Requester.request
-      url: ApiRoutes.operator_category_url category.id
-      method: 'PUT'
-      data:
-        name:      category.name
-        position:  category.position
-        parent_id: category.parent_id
-      error: (xhr, status, err) ->
-        error?(err || status)
-      success: (category) ->
-        OperatorCategoriesServerActions.updateCategory category
-        success?(category)
-
-  deleteCategory: ({category, error}) ->
-    Requester.request
-      url: ApiRoutes.operator_category_url category.id
-      method: 'DELETE'
-      error: (xhr, status, err) ->
-        error?(err || status)
-      success: (response) ->
-        OperatorCategoriesServerActions.deleteCategory category
-        success?(response)
+      }

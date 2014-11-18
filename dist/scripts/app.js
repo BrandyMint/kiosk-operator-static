@@ -447,23 +447,84 @@ window.OperatorProductsServerActions = {
 
 },{}],8:[function(require,module,exports){
 window.OperatorCategoriesViewActions = {
-  loadCategories: function(options) {
-    return OperatorCategoriesService.loadCategories(options);
+  loadCategories: function(_arg) {
+    var error, success;
+    success = _arg.success, error = _arg.error;
+    return CategoriesResource.index({
+      success: function(categories) {
+        OperatorCategoriesServerActions.receiveCategories(categories);
+        return typeof success === "function" ? success(categories) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
   },
   reorderCategories: function(options) {
     return OperatorCategoriesService.reorderCategories(options);
   },
-  reloadCategory: function(options) {
-    return OperatorCategoriesService.reloadCategory(options);
+  reloadCategory: function(_arg) {
+    var categoryId;
+    categoryId = _arg.categoryId;
+    return CategoriesResource.get({
+      categoryId: categoryId,
+      success: function(category) {
+        return OperatorCategoriesServerActions.receiveCategory(category);
+      }
+    });
   },
-  createCategory: function(options) {
-    return OperatorCategoriesService.createCategory(options);
+  createCategory: function(_arg) {
+    var error, name, parentId, success;
+    name = _arg.name, parentId = _arg.parentId, success = _arg.success, error = _arg.error;
+    return CategoriesResource.create({
+      data: {
+        name: name,
+        parent_id: parentId,
+        position: OperatorCategoriesStore.getCategoryPosition({
+          parent_id: parentId
+        })
+      },
+      success: function(category) {
+        OperatorCategoriesServerActions.createCategory(category);
+        return typeof success === "function" ? success(category) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
   },
-  updateCategory: function(options) {
-    return OperatorCategoriesService.updateCategory(options);
+  updateCategory: function(_arg) {
+    var category, error, success;
+    category = _arg.category, success = _arg.success, error = _arg.error;
+    return CategoriesResource.update({
+      categoryId: category.id,
+      data: {
+        name: category.name,
+        position: category.position,
+        parent_id: category.parent_id
+      },
+      success: function(category) {
+        OperatorCategoriesServerActions.updateCategory(category);
+        return typeof success === "function" ? success(category) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
   },
-  deleteCategory: function(options) {
-    return OperatorCategoriesService.deleteCategory(options);
+  deleteCategory: function(_arg) {
+    var category, error;
+    category = _arg.category, error = _arg.error;
+    return CategoriesResource["delete"]({
+      categoryId: category.id,
+      success: function(response) {
+        OperatorCategoriesServerActions.deleteCategory(category);
+        return typeof success === "function" ? success(response) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
   }
 };
 
@@ -1130,7 +1191,6 @@ window.OperatorCategories_List = React.createClass({displayName: 'OperatorCatego
     return this.props.onCategorySelect(this.props.parentCategory);
   },
   _onStoreChange: function() {
-    console.log('store changed');
     return this.setState({
       categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(this.state.parentCategory)
     });
@@ -2243,34 +2303,73 @@ window.UnmountMixin = {
 
 },{}],47:[function(require,module,exports){
 window.CategoriesResource = {
-  "delete": function(_arg) {
-    var category, error, success;
-    category = _arg.category, success = _arg.success, error = _arg.error;
-    return $.ajax({
-      dataType: 'json',
-      url: ApiRoutes.operator_category_url(category.id),
-      method: 'delete',
-      error: function(xhr, status, err) {
-        return error(err || status);
+  index: function(_arg) {
+    var error, success;
+    success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_categories_url(),
+      success: function(categories) {
+        return typeof success === "function" ? success(categories) : void 0;
       },
-      success: function(response) {
-        OperatorCategoriesServerActions.deleteCategory(category);
-        return typeof success === "function" ? success() : void 0;
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
       }
     });
   },
   get: function(_arg) {
-    var error, id, success;
-    id = _arg.id, success = _arg.success, error = _arg.error;
-    return $.ajax({
-      dataType: 'json',
-      url: ApiRoutes.operator_category_url(id),
-      method: 'get',
-      error: function(xhr, status, err) {
-        return error(err || status);
+    var categoryId, error, success;
+    categoryId = _arg.categoryId, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_category_url(categoryId),
+      success: function(category) {
+        return typeof success === "function" ? success(category) : void 0;
       },
-      success: function(data) {
-        return success(data);
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
+  },
+  create: function(_arg) {
+    var data, error, success;
+    data = _arg.data, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_categories_url(),
+      method: 'POST',
+      data: data,
+      success: function(category) {
+        return typeof success === "function" ? success(category) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
+  },
+  update: function(_arg) {
+    var categoryId, data, error, success;
+    data = _arg.data, categoryId = _arg.categoryId, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_category_url(categoryId),
+      method: 'PUT',
+      data: data,
+      success: function(category) {
+        return typeof success === "function" ? success(category) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
+  },
+  "delete": function(_arg) {
+    var categoryId, error, success;
+    categoryId = _arg.categoryId, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_category_url(categoryId),
+      method: 'DELETE',
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      },
+      success: function(response) {
+        return typeof success === "function" ? success(response) : void 0;
       }
     });
   }
@@ -2364,20 +2463,6 @@ window.ProductsResource = {
 
 },{}],49:[function(require,module,exports){
 window.OperatorCategoriesService = {
-  loadCategories: function(_arg) {
-    var error, success;
-    success = _arg.success, error = _arg.error;
-    return Requester.request({
-      url: ApiRoutes.operator_categories_url(),
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      },
-      success: function(categories) {
-        OperatorCategoriesServerActions.receiveCategories(categories);
-        return typeof success === "function" ? success(categories) : void 0;
-      }
-    });
-  },
   reorderCategories: function(_arg) {
     var categoryId, insertIdx, newPositions;
     categoryId = _arg.categoryId, insertIdx = _arg.insertIdx;
@@ -2398,81 +2483,15 @@ window.OperatorCategoriesService = {
     });
     that = this;
     return _.each(data, function(i) {
-      return that.updateCategory({
-        category: i,
+      return CategoriesResource.update({
+        categoryId: i.id,
+        data: {
+          name: i.name,
+          position: i.position,
+          parent_id: i.parent_id
+        },
         success: done
       });
-    });
-  },
-  reloadCategory: function(_arg) {
-    var categoryId;
-    categoryId = _arg.categoryId;
-    return Requester.request({
-      url: ApiRoutes.operator_category_url(categoryId),
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      },
-      success: function(category) {
-        OperatorCategoriesServerActions.receiveCategory(category);
-        return typeof success === "function" ? success(category) : void 0;
-      }
-    });
-  },
-  createCategory: function(_arg) {
-    var error, name, parentId, success;
-    name = _arg.name, parentId = _arg.parentId, success = _arg.success, error = _arg.error;
-    return Requester.request({
-      url: ApiRoutes.operator_categories_url(),
-      method: 'POST',
-      data: {
-        name: name,
-        parent_id: parentId,
-        position: OperatorCategoriesStore.getCategoryPosition({
-          parent_id: parentId
-        })
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      },
-      success: function(category) {
-        OperatorCategoriesServerActions.createCategory(category);
-        return typeof success === "function" ? success(category) : void 0;
-      }
-    });
-  },
-  updateCategory: function(_arg) {
-    var category, error, success;
-    category = _arg.category, success = _arg.success, error = _arg.error;
-    return Requester.request({
-      url: ApiRoutes.operator_category_url(category.id),
-      method: 'PUT',
-      data: {
-        name: category.name,
-        position: category.position,
-        parent_id: category.parent_id
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      },
-      success: function(category) {
-        OperatorCategoriesServerActions.updateCategory(category);
-        return typeof success === "function" ? success(category) : void 0;
-      }
-    });
-  },
-  deleteCategory: function(_arg) {
-    var category, error;
-    category = _arg.category, error = _arg.error;
-    return Requester.request({
-      url: ApiRoutes.operator_category_url(category.id),
-      method: 'DELETE',
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      },
-      success: function(response) {
-        OperatorCategoriesServerActions.deleteCategory(category);
-        return typeof success === "function" ? success(response) : void 0;
-      }
     });
   }
 };

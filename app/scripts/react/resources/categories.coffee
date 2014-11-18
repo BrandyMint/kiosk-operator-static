@@ -1,26 +1,46 @@
-#TODO: Refactor
-
 window.CategoriesResource =
 
-  delete: ({category, success, error}) ->
-    $.ajax
-      dataType: 'json'
-      url:      ApiRoutes.operator_category_url category.id
-      method:   'delete'
+  index: ({success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_categories_url()
+      success: (categories) ->
+        success?(categories)
       error: (xhr, status, err) ->
-        error err || status
-      success: (response) ->
-        OperatorCategoriesServerActions.deleteCategory category
-        success?()
+        error?(err || status)
 
-  # Пока непонятно, зачем этот маршрут в API, так как getCategories даёт
-  # полную информацию по всем категориям
-  get: ({id, success, error}) ->
-    $.ajax
-      dataType: 'json'
-      url:      ApiRoutes.operator_category_url id
-      method:   'get'
+  get: ({categoryId, success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_category_url categoryId
+      success: (category) ->
+        success?(category)
       error: (xhr, status, err) ->
-        error err || status
-      success: (data) ->
-        success data
+        error?(err || status)
+
+  create: ({data, success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_categories_url()
+      method: 'POST'
+      data: data
+      success: (category) ->
+        success?(category)
+      error: (xhr, status, err) ->
+        error?(err || status)
+
+  update: ({data, categoryId, success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_category_url categoryId
+      method: 'PUT'
+      data: data
+      success: (category) ->
+        success?(category)
+      error: (xhr, status, err) ->
+        error?(err || status)
+
+  delete: ({categoryId, success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_category_url categoryId
+      method: 'DELETE'
+      error: (xhr, status, err) ->
+        error?(err || status)
+      success: (response) ->
+        success?(response)

@@ -7,16 +7,16 @@ window.OperatorProducts_ListItem = React.createClass
     product: React.PropTypes.object.isRequired
 
   render: ->
-   `<tr data-category-id={ this.props.product.category_id }
-        data-product-id={ this.props.product.id }>
+   `<tr className="adm-categories-goods-item"
+        data-category-id={ this.props.product.category_id }
+        data-product-id={ this.props.product.id }
+        onClick={ this.handleClick }>
       <td className="adm-categories-goods-cover"
           data-title="Товар">
         <ProductThumb product={ this.props.product } />
       </td>
       <td className="adm-categories-goods-content">
-        <a href={ Routes.edit_operator_product_url(this.props.product.id) }>
-          { this.props.product.title }
-        </a>
+        { this.props.product.title }
       </td>
       <td className="adm-categories-goods-price"
           data-title="Сумма">
@@ -29,5 +29,6 @@ window.OperatorProducts_ListItem = React.createClass
     </tr>`
 
   handleClick: (e) ->
+    window.location = Routes.edit_operator_product_url @props.product.id
     # unless @state.isDragged
     #   ModalController.show Routes.edit_operator_product_url @props.product.id

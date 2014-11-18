@@ -1404,16 +1404,16 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
     product: React.PropTypes.object.isRequired
   },
   render: function() {
-    return React.DOM.tr({'data-category-id':  this.props.product.category_id, 
-        'data-product-id':  this.props.product.id}, 
+    return React.DOM.tr({className: "adm-categories-goods-item", 
+        'data-category-id':  this.props.product.category_id, 
+        'data-product-id':  this.props.product.id, 
+        onClick:  this.handleClick}, 
       React.DOM.td({className: "adm-categories-goods-cover", 
           'data-title': "Товар"}, 
         ProductThumb({product:  this.props.product})
       ), 
       React.DOM.td({className: "adm-categories-goods-content"}, 
-        React.DOM.a({href:  Routes.edit_operator_product_url(this.props.product.id) }, 
-           this.props.product.title
-        )
+         this.props.product.title
       ), 
       React.DOM.td({className: "adm-categories-goods-price", 
           'data-title': "Сумма"}, 
@@ -1425,7 +1425,9 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
       )
     );
   },
-  handleClick: function(e) {}
+  handleClick: function(e) {
+    return window.location = Routes.edit_operator_product_url(this.props.product.id);
+  }
 });
 
 

@@ -11473,50 +11473,54 @@ ul.pagination {
     display: block; }
 
 /* line 214, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+.adm-categories-goods-item {
+  cursor: pointer; }
+
+/* line 217, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
 .adm-categories-goods-cover {
   width: 50px;
   padding-right: 16px; }
 
-/* line 220, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+/* line 223, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
 .adm-categories-goods-price {
   width: 100px; }
 
-/* line 223, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+/* line 226, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
 .adm-categories-goods-status {
   width: 140px; }
 
-/* line 226, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+/* line 229, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
 .adm-categories-goods-draghelper {
   background: #ffc;
   padding: 10px; }
 
 @media screen and (max-width: 991px) {
-  /* line 233, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+  /* line 236, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
   .adm-categories-header-col.__right {
     text-align: left; }
-  /* line 236, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+  /* line 239, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
   .adm-categories-grid-col {
     width: auto;
     min-height: 0;
     float: none;
     border-top: 1px solid #e8e8e8; }
-    /* line 241, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+    /* line 244, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
     .adm-categories-grid-col:first-child {
       border-top: none; }
-    /* line 243, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+    /* line 246, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
     .adm-categories-grid-col:before {
       display: none; }
-  /* line 247, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+  /* line 250, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
   .adm-categories-header .adm-categories-search-form {
     width: 100%;
     margin-top: 20px;
     margin-bottom: 0;
     display: block;
     float: none; }
-    /* line 254, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+    /* line 257, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
     .adm-categories-header .adm-categories-search-form + .adm-dropdown {
       margin-top: 20px; }
-  /* line 258, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+  /* line 261, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
   .adm-categories-item .adm-btn-edit-category {
     right: 10px; }
   /* line 6, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/tables */
@@ -11550,7 +11554,7 @@ ul.pagination {
       width: 45%;
       padding-right: 10px;
       content: attr(data-title); }
-  /* line 264, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
+  /* line 267, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/adm-categories */
   .adm-categories-goods tbody tr:first-child {
     border-top: none; } }
 

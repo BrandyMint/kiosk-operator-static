@@ -16,6 +16,11 @@ require './react/stores/_base'
 require './react/stores/operator_categories'
 require './react/stores/operator_products'
 
+# /*==========  Resources  ==========*/
+
+require './react/resources/categories'
+require './react/resources/products'
+
 # /*==========  Services  ==========*/
 
 require './react/services/operator_categories'
@@ -48,6 +53,7 @@ require './react/components/common/images_form_thumbs'
 
 require './react/components/product/thumb'
 require './react/components/product/state'
+require './react/components/product/images'
 require './react/components/product/status_toggle'
 
 require './react/components/operator_categories/operator_categories'

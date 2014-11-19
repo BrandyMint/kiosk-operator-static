@@ -1,7 +1,3 @@
-# /*==========================================
-# =            Build Scripts Task            =
-# ==========================================*/
-
 browserify     = require 'browserify'
 watchify       = require 'watchify'
 gulp           = require 'gulp'
@@ -45,8 +41,9 @@ gulp.task 'vendorScripts', ['clean'], ->
              .on 'end', ->
                bundleLogger.end vendorConfig.outputName
 
-  bundler = watchify bundler
-  bundler.on 'update', bundle
+  if global.isWatching
+    bundler = watchify bundler
+    bundler.on 'update', bundle
 
   return bundle()
 
@@ -84,7 +81,8 @@ gulp.task 'localScripts', ['clean'], ->
              .on 'end', ->
                bundleLogger.end localConfig.outputName
 
-  bundler = watchify bundler
-  bundler.on 'update', bundle
+  if global.isWatching
+    bundler = watchify bundler
+    bundler.on 'update', bundle
 
   return bundle()

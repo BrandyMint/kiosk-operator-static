@@ -1,7 +1,3 @@
-# /*===================================
-# =            Images Task            =
-# ===================================*/
-
 gulp         = require 'gulp'
 handleErrors = require '../util/handleErrors'
 config       = require('../config').images

@@ -11,5 +11,5 @@ gulp.task 'dist', ['clean'], ->
 gulp.task 'build', ['clean'], (cb) ->
   runSequence ['vendorScripts', 'localScripts', 'html', 'haml', 'sass', 'fonts', 'images'], cb
 
-gulp.task 'server', ['build'], ->
+gulp.task 'server', ['setWatch', 'build'], ->
   gulp.start 'watch'

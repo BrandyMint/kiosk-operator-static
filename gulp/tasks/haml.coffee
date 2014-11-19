@@ -1,7 +1,3 @@
-# /*=================================
-# =            Haml Task            =
-# =================================*/
-
 gulp        = require 'gulp'
 include     = require 'gulp-file-include'
 haml        = require 'gulp-haml-coffee'

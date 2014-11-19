@@ -1,7 +1,3 @@
-# /*==================================
-# =            Clean Task            =
-# ==================================*/
-
 gulp   = require 'gulp'
 del    = require 'del'
 config = require('../config').clean

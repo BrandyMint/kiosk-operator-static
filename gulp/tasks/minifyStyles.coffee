@@ -1,7 +1,3 @@
-# /*=========================================
-# =            MinifyStyles Task            =
-# =========================================*/
-
 gulp         = require 'gulp'
 rename       = require 'gulp-rename'
 minifyCSS    = require 'gulp-minify-css'

@@ -16,7 +16,16 @@ window.ProductDraggable =
         top: -5
         left: -15
       helper: ->
-        $ React.renderComponentToString OperatorProducts_ListItemDrag(product: that.props.product)
+        if DragStateStore.isMultipleSelected()
+          stringComponent = React.renderComponentToString OperatorProducts_ListItemsDrag {
+            products: DragStateStore.getSelectedProducts()
+          }
+        else
+          stringComponent = React.renderComponentToString OperatorProducts_ListItemDrag {
+            product: that.props.product
+          }
+
+        $(stringComponent)
       start: (e) =>
         DragStateDispatcher.handleViewAction {
           type: 'productBecameDraggable'

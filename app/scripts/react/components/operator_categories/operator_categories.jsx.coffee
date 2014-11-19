@@ -55,6 +55,10 @@ window.OperatorCategories = React.createClass
       currentCategory: category
       includeSubcategories: includeSubcategories
     }
+    #TODO: store currentCategory in individual store
+    DragStateDispatcher.handleViewAction {
+      type: 'currentCategoryChanged'
+    }
 
   _onStoreChange: ->
     rootCategory = OperatorCategoriesStore.getRootCategory()

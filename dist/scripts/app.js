@@ -5846,7 +5846,7 @@ module.exports = invariant;
 
 },{}],"jquery.autosize":[function(require,module,exports){
 /*!
-	Autosize 1.18.15
+	Autosize 1.18.14
 	license: MIT
 	http://www.jacklmoore.com/autosize
 */
@@ -5931,7 +5931,7 @@ module.exports = invariant;
 			}
 
 			// IE8 and lower return 'auto', which parses to NaN, if no min-height is set.
-			minHeight = Math.max(parseFloat($ta.css('minHeight')) - boxOffset || 0, $ta.height());
+			minHeight = Math.max(parseInt($ta.css('minHeight'), 10) - boxOffset || 0, $ta.height());
 
 			$ta.css({
 				overflow: 'hidden',
@@ -5950,17 +5950,17 @@ module.exports = invariant;
 			function setWidth() {
 				var width;
 				var style = window.getComputedStyle ? window.getComputedStyle(ta, null) : false;
-
+				
 				if (style) {
 
 					width = ta.getBoundingClientRect().width;
 
 					if (width === 0 || typeof width !== 'number') {
-						width = parseFloat(style.width);
+						width = parseInt(style.width,10);
 					}
 
 					$.each(['paddingLeft', 'paddingRight', 'borderLeftWidth', 'borderRightWidth'], function(i,val){
-						width -= parseFloat(style[val]);
+						width -= parseInt(style[val],10);
 					});
 				} else {
 					width = $ta.width();
@@ -5975,7 +5975,7 @@ module.exports = invariant;
 				mirrored = ta;
 				mirror.className = options.className;
 				mirror.id = options.id;
-				maxHeight = parseFloat($ta.css('maxHeight'));
+				maxHeight = parseInt($ta.css('maxHeight'), 10);
 
 				// mirror is a duplicate textarea located off-screen that
 				// is automatically updated to contain the same text as the
@@ -5985,7 +5985,7 @@ module.exports = invariant;
 				$.each(typographyStyles, function(i,val){
 					styles[val] = $ta.css(val);
 				});
-
+				
 				$(mirror).css(styles).attr('wrap', $ta.attr('wrap'));
 
 				setWidth();
@@ -6013,8 +6013,8 @@ module.exports = invariant;
 				}
 
 				if (!ta.value && options.placeholder) {
-					// If the textarea is empty, copy the placeholder text into
-					// the mirror control and use that for sizing so that we
+					// If the textarea is empty, copy the placeholder text into 
+					// the mirror control and use that for sizing so that we 
 					// don't end up with placeholder getting trimmed.
 					mirror.value = ($ta.attr("placeholder") || '');
 				} else {
@@ -6023,7 +6023,7 @@ module.exports = invariant;
 
 				mirror.value += options.append || '';
 				mirror.style.overflowY = ta.style.overflowY;
-				original = parseFloat(ta.style.height);
+				original = parseInt(ta.style.height,10);
 
 				// Setting scrollTop to zero is needed in IE8 and lower for the next step to be accurately applied
 				mirror.scrollTop = 0;

@@ -1,7 +1,3 @@
-# /*==================================
-# =            Fonts Task            =
-# ==================================*/
-
 gulp         = require 'gulp'
 flatten      = require 'gulp-flatten'
 handleErrors = require '../util/handleErrors'

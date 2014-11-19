@@ -1,7 +1,3 @@
-# /*========================================
-# =            BrowserSync Task            =
-# ========================================*/
-
 gulp        = require 'gulp'
 browserSync = require 'browser-sync'
 config      = require('../config').browserSync

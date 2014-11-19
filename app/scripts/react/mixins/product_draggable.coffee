@@ -5,6 +5,7 @@ window.ProductDraggable =
 
   componentDidMount: ->
     that = @
+
     $(@getDOMNode()).draggable {
       scope: 'productsToCategories'
       addClasses: false
@@ -16,13 +17,21 @@ window.ProductDraggable =
         left: -15
       helper: ->
         $ React.renderComponentToString OperatorProducts_ListItemDrag(product: that.props.product)
-      start: (e) ->
-        that.setState(isDragged: true)
+      start: (e) =>
+        DragStateDispatcher.handleViewAction {
+          type: 'productBecameDraggable'
+          product: @props.product
+        }
+        @setState(isDragged: true)
       stop: (e) ->
         # Небольшой хак для помощи в предотвращении срабатывания клика после drop.
         # В целом правильнее было бы сначала повесить событие drag, потом click,
         # но в Реактовской инфраструктуре это выглядело бы кривовато.
         setTimeout ->
+          DragStateDispatcher.handleViewAction {
+            type: 'productBecameStatic'
+            product: that.props.product
+          }
           that.setState(isDragged: false)
         , 0
     }

@@ -9,12 +9,14 @@ require './app'
 require './react/dispatchers/_base'
 require './react/dispatchers/operator_categories'
 require './react/dispatchers/operator_products'
+require './react/dispatchers/drag_state'
 
 # /*==========  Stores  ==========*/
 
 require './react/stores/_base'
 require './react/stores/operator_categories'
 require './react/stores/operator_products'
+require './react/stores/drag_state'
 
 # /*==========  Resources  ==========*/
 

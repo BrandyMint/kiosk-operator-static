@@ -1,5 +1,6 @@
 ###* @jsx React.DOM ###
 
+SWITCH_CATEGORY_TIMEOUT = 200
 VIEW_STATE = 'view'
 EDIT_STATE = 'edit'
 
@@ -12,7 +13,15 @@ window.OperatorCategories_ListItemManager = React.createClass
     onCategorySelect: React.PropTypes.func.isRequired
 
   getInitialState: ->
-    currentState: VIEW_STATE
+    _.extend {}, @getStateFromStore(), {
+      currentState: VIEW_STATE
+    }
+
+  componentDidMount: ->
+    DragStateStore.addChangeListener @_onStoreChange
+
+  componentWillUnmount: ->
+    DragStateStore.removeChangeListener @_onStoreChange
 
   render: ->
     item = @getItem()
@@ -20,15 +29,20 @@ window.OperatorCategories_ListItemManager = React.createClass
       'adm-categories-item': true
       'selected': @props.isActive
       '__edit': @isEditState()
+      '__droptarget-active': @isDropTarget()
     }
 
     return `<div className={ managerClasses }
                  data-objectid={ this.props.category.id }
-                 onClick={ this.handleItemClick }>
+                 onClick={ this.handleItemClick }
+                 onMouseEnter={ this.handleMouseEnter }
+                 onMouseLeave={ this.handleMouseLeave }>
               { item }
             </div>`
 
   isEditState: -> @state.currentState is EDIT_STATE
+  isDropTarget: ->
+    @state.isDroppable && !@props.isActive
 
   activateViewState: -> @setState(currentState: VIEW_STATE)
   activateEditState: -> @setState(currentState: EDIT_STATE)
@@ -56,3 +70,21 @@ window.OperatorCategories_ListItemManager = React.createClass
       category: @props.category
       includeSubcategories: true
     }
+
+  handleMouseEnter: ->
+    if @isDropTarget()
+      @timeout = setTimeout (=>
+        @props.onCategorySelect {
+          category: @props.category
+          includeSubcategories: true
+        }
+      ), SWITCH_CATEGORY_TIMEOUT
+
+  handleMouseLeave: ->
+    clearTimeout @timeout if @timeout
+
+  getStateFromStore: ->
+    isDroppable: DragStateStore.isDragged()
+
+  _onStoreChange: ->
+    @setState @getStateFromStore()

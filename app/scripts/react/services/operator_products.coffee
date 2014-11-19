@@ -33,3 +33,11 @@ window.OperatorProductsService =
         OperatorProductsServerActions.moveProduct
           productId:  productId
           categoryId: oldCategoryId
+
+  changeProductsCategory: ({products, newCategoryId, oldCategoryId}) ->
+    for product in products
+      @changeProductCategory {
+        productId: product.id
+        newCategoryId: newCategoryId
+        oldCategoryId: oldCategoryId
+      }

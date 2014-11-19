@@ -147,7 +147,7 @@
 .adm-categories-item-name
   @include inline-valign-middle
   @include text-overflow
-  max-width: 75%
+  max-width: 90%
   margin-right: 4px
 
 .adm-categories-item-counter
@@ -220,6 +220,16 @@
   &.__selected
     background-color: lighten($adm-categories-item-active-bg, 30%)
 
+.adm-categories-goods-modifications
+  list-style: none
+  padding-left: 0
+  color: grey
+  font-size: 10px
+
+.adm-categories-goods-modifications-item
+  &.__not-synced
+    color: red
+
 .adm-categories-goods-cover
   width: 50px
   padding-right: 16px
@@ -228,9 +238,6 @@
 
 .adm-categories-goods-price
   width: 100px
-
-.adm-categories-goods-status
-  width: 140px
 
 // Дрэг-хэлпер (app/scripts/react/components/operator-products/list_row_drag_helper.js.jsx.coffee)
 .adm-categories-goods-draghelper

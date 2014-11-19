@@ -17,27 +17,33 @@ window.OperatorProductsService =
         # TODO Пейджирование
         success?(response.products)
 
-  changeProductCategory: ({productId, newCategoryId, oldCategoryId}) ->
+  changeProductCategory: ({productId, newCategoryId, oldCategoryId, success}) ->
     Requester.request
       url: ApiRoutes.operator_product_url productId
       method: 'PUT'
       data:
         category_id: newCategoryId
       error: (xhr, status, err) ->
-
+        error?(err || status)
       success: ->
-        #TODO: Dispose from 2 additional GET requests. Proccess changes on the front
-        OperatorCategoriesViewActions.reloadCategory(categoryId: newCategoryId)
-        OperatorCategoriesViewActions.reloadCategory(categoryId: oldCategoryId)
-
+        success?()
         OperatorProductsServerActions.moveProduct
           productId:  productId
           categoryId: oldCategoryId
 
   changeProductsCategory: ({products, newCategoryId, oldCategoryId}) ->
+    completedRequests = 0
+
     for product in products
       @changeProductCategory {
         productId: product.id
         newCategoryId: newCategoryId
         oldCategoryId: oldCategoryId
+        success: ->
+          completedRequests++
+
+          # Reload changed categories when all requests will complete
+          if completedRequests == products.length
+            OperatorCategoriesViewActions.reloadCategory(categoryId: newCategoryId)
+            OperatorCategoriesViewActions.reloadCategory(categoryId: oldCategoryId)
       }

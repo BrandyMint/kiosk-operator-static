@@ -1,10 +1,19 @@
 BaseStore = require './_base'
 
-_draggedProducts = []
+_draggedProducts  = []
+_selectedProducts = []
 
 window.DragStateStore = _.extend new BaseStore(), {
 
   isDragged: -> _draggedProducts.length > 0
+
+  isMultipleSelected: -> _selectedProducts.length > 1
+
+  isSelectedProductExists: (product) ->
+    for _selectedProduct in _selectedProducts when _selectedProduct.id == product.id
+      return true
+
+    false
 
   isDraggedProductExists: (product) ->
     for _draggedProduct in _draggedProducts when _draggedProduct.id == product.id
@@ -13,12 +22,10 @@ window.DragStateStore = _.extend new BaseStore(), {
     false
 
   pushDraggedProduct: (product) ->
-    console.log 'добавляем', product
     unless @isDraggedProductExists product
       _draggedProducts.push product
 
   deleteDraggedProduct: (product) ->
-    console.log 'удаляем', product
     clonedDraggedProducts = _draggedProducts[..]
 
     for clonedDraggedProduct, i in clonedDraggedProducts when clonedDraggedProduct.id == product.id
@@ -27,7 +34,25 @@ window.DragStateStore = _.extend new BaseStore(), {
 
     _draggedProducts = clonedDraggedProducts
 
-  getDraggedProducts: -> _draggedProducts
+  pushSelectedProduct: (product) ->
+    unless @isSelectedProductExists product
+      _selectedProducts.push product
+
+  deleteSelectedProduct: (product) ->
+    clonedSelectedProducts = _selectedProducts[..]
+
+    for clonedSelectedProduct, i in clonedSelectedProducts when clonedSelectedProduct.id == product.id
+      clonedSelectedProducts.splice i, 1
+      break
+
+    _selectedProducts = clonedSelectedProducts
+
+  resetProducts: ->
+    _draggedProducts  = []
+    _selectedProducts = []
+
+  getDraggedProducts:  -> _draggedProducts
+  getSelectedProducts: -> _selectedProducts
 
 }
 
@@ -42,4 +67,17 @@ DragStateDispatcher.register (payload) ->
     when 'productBecameStatic'
       DragStateStore.deleteDraggedProduct action.product
       DragStateStore.emitChange()
+      break
+    when 'productBecameSelected'
+      DragStateStore.pushSelectedProduct action.product
+      break
+    when 'productBecameUnselected'
+      DragStateStore.deleteSelectedProduct action.product
+      break
+    when 'productsMoved'
+      DragStateStore.resetProducts()
+      break
+    when 'currentCategoryChanged'
+      #TODO: Need handle this event from other dispatcher
+      DragStateStore.resetProducts() unless DragStateStore.isDragged()
       break

@@ -14,10 +14,21 @@ window.CategoryDroppable =
     }
 
   handleProductDrop: (e, ui) ->
-    OperatorProductsService.changeProductsCategory {
-      products: DragStateStore.getDraggedProducts()
-      newCategoryId: @props.category.id
-      oldCategoryId: parseInt ui.draggable.attr 'data-category-id'
+    if DragStateStore.isMultipleSelected()
+      OperatorProductsService.changeProductsCategory {
+        products: DragStateStore.getSelectedProducts()
+        newCategoryId: @props.category.id
+        oldCategoryId: parseInt ui.draggable.attr 'data-category-id'
+      }
+    else
+      OperatorProductsService.changeProductsCategory {
+        products: DragStateStore.getDraggedProducts()
+        newCategoryId: @props.category.id
+        oldCategoryId: parseInt ui.draggable.attr 'data-category-id'
+      }
+
+    DragStateDispatcher.handleViewAction {
+      type: 'productsMoved'
     }
 
   componentWillUnmount: ->

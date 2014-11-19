@@ -79,8 +79,10 @@ require './react/components/operator_products/loading_error'
 require './react/components/operator_products/list/list'
 require './react/components/operator_products/list/item'
 require './react/components/operator_products/list/item_drag'
+require './react/components/operator_products/list/items_drag'
 
 require './react/components/modal/modal'
 
 # /*==========  Helpers  ==========*/
 require './react/helpers/app'
+require './react/helpers/event'

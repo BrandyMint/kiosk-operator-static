@@ -2,9 +2,9 @@
 
 #TODO: i18n
 TITLES =
-  published:   'Опубликован'
-  has_errors:  'Есть ошибки'
-  unpublished: 'Снят с публикации'
+  published:   'OK'
+  has_errors:  'Ошибки'
+  unpublished: 'Снят'
   archive:     'Архив'
 
 window.ProductState = React.createClass

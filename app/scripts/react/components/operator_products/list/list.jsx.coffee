@@ -23,13 +23,6 @@ window.OperatorProducts_List = React.createClass
 
     return `<div className = "adm-categories-content">
               <table className="adm-categories-goods">
-                <thead>
-                  <tr>
-                    <td colSpan="2">Товар</td>
-                    <td className="adm-categories-goods-price">Цена</td>
-                    <td className="adm-categories-goods-status">Статус</td>
-                  </tr>
-                </thead>
                 <tbody>{ products }</tbody>
               </table>
             </div>`

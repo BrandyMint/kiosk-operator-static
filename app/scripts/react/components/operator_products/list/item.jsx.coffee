@@ -27,7 +27,8 @@ window.OperatorProducts_ListItem = React.createClass
                 <ProductThumb product={ this.props.product } />
               </td>
               <td className="adm-categories-goods-content">
-                { this.props.product.title }
+                <span>{ this.props.product.title }</span>
+                <ProductModificationList modifications={ this.props.product.items } />
               </td>
               <td className="adm-categories-goods-price"
                   data-title="Сумма">

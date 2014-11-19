@@ -15,11 +15,15 @@ require('./react/dispatchers/operator_categories');
 
 require('./react/dispatchers/operator_products');
 
+require('./react/dispatchers/drag_state');
+
 require('./react/stores/_base');
 
 require('./react/stores/operator_categories');
 
 require('./react/stores/operator_products');
+
+require('./react/stores/drag_state');
 
 require('./react/resources/categories');
 
@@ -103,13 +107,17 @@ require('./react/components/operator_products/list/item');
 
 require('./react/components/operator_products/list/item_drag');
 
+require('./react/components/operator_products/list/items_drag');
+
 require('./react/components/modal/modal');
 
 require('./react/helpers/app');
 
+require('./react/helpers/event');
 
 
-},{"./app":2,"./legacy":3,"./libs":4,"./react/actions/server/operator_categories":6,"./react/actions/server/operator_products":7,"./react/actions/view/operator_categories":8,"./react/actions/view/operator_products":9,"./react/components/common/images_form_thumbs":10,"./react/components/common/money":11,"./react/components/common/spinner":12,"./react/components/modal/modal":13,"./react/components/operator_categories/list/create_form":14,"./react/components/operator_categories/list/items/item":15,"./react/components/operator_categories/list/items/item_edit":16,"./react/components/operator_categories/list/items/item_manager":17,"./react/components/operator_categories/list/items/with_subcategories":18,"./react/components/operator_categories/list/items/without_category":19,"./react/components/operator_categories/list/list":20,"./react/components/operator_categories/loaded":21,"./react/components/operator_categories/loading":22,"./react/components/operator_categories/loading_error":23,"./react/components/operator_categories/one_category":24,"./react/components/operator_categories/operator_categories":25,"./react/components/operator_categories/two_categories":26,"./react/components/operator_products/list/item":27,"./react/components/operator_products/list/item_drag":28,"./react/components/operator_products/list/list":29,"./react/components/operator_products/loading":30,"./react/components/operator_products/loading_error":31,"./react/components/operator_products/operator_products":32,"./react/components/product/images":33,"./react/components/product/state":34,"./react/components/product/status_toggle":35,"./react/components/product/thumb":36,"./react/controllers/modal":37,"./react/dispatchers/_base":38,"./react/dispatchers/operator_categories":39,"./react/dispatchers/operator_products":40,"./react/helpers/app":41,"./react/mixins/category_droppable":42,"./react/mixins/component_manipulations":43,"./react/mixins/images_form":44,"./react/mixins/product_draggable":45,"./react/mixins/unmount":46,"./react/resources/categories":47,"./react/resources/products":48,"./react/services/operator_categories":49,"./react/services/operator_products":50,"./react/services/thumbor":51,"./react/stores/_base":52,"./react/stores/operator_categories":53,"./react/stores/operator_products":54,"./routes/api":55,"./routes/routes":56}],2:[function(require,module,exports){
+
+},{"./app":2,"./legacy":3,"./libs":4,"./react/actions/server/operator_categories":6,"./react/actions/server/operator_products":7,"./react/actions/view/operator_categories":8,"./react/actions/view/operator_products":9,"./react/components/common/images_form_thumbs":10,"./react/components/common/money":11,"./react/components/common/spinner":12,"./react/components/modal/modal":13,"./react/components/operator_categories/list/create_form":14,"./react/components/operator_categories/list/items/item":15,"./react/components/operator_categories/list/items/item_edit":16,"./react/components/operator_categories/list/items/item_manager":17,"./react/components/operator_categories/list/items/with_subcategories":18,"./react/components/operator_categories/list/items/without_category":19,"./react/components/operator_categories/list/list":20,"./react/components/operator_categories/loaded":21,"./react/components/operator_categories/loading":22,"./react/components/operator_categories/loading_error":23,"./react/components/operator_categories/one_category":24,"./react/components/operator_categories/operator_categories":25,"./react/components/operator_categories/two_categories":26,"./react/components/operator_products/list/item":27,"./react/components/operator_products/list/item_drag":28,"./react/components/operator_products/list/items_drag":29,"./react/components/operator_products/list/list":30,"./react/components/operator_products/loading":31,"./react/components/operator_products/loading_error":32,"./react/components/operator_products/operator_products":33,"./react/components/product/images":34,"./react/components/product/state":35,"./react/components/product/status_toggle":36,"./react/components/product/thumb":37,"./react/controllers/modal":38,"./react/dispatchers/_base":39,"./react/dispatchers/drag_state":40,"./react/dispatchers/operator_categories":41,"./react/dispatchers/operator_products":42,"./react/helpers/app":43,"./react/helpers/event":44,"./react/mixins/category_droppable":45,"./react/mixins/component_manipulations":46,"./react/mixins/images_form":47,"./react/mixins/product_draggable":48,"./react/mixins/unmount":49,"./react/resources/categories":50,"./react/resources/products":51,"./react/services/operator_categories":52,"./react/services/operator_products":53,"./react/services/thumbor":54,"./react/stores/_base":55,"./react/stores/drag_state":56,"./react/stores/operator_categories":57,"./react/stores/operator_products":58,"./routes/api":59,"./routes/routes":60}],2:[function(require,module,exports){
 window.KioskOperatorApp = {
   start: function(_arg) {
     var operator, vendor_key;
@@ -344,7 +352,7 @@ require('typeahead');
 
 
 
-},{"./libs/requester":5,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":57,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],5:[function(require,module,exports){
+},{"./libs/requester":5,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":61,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],5:[function(require,module,exports){
 var Requester,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -942,7 +950,9 @@ window.OperatorCategories_ListItemEdit = React.createClass({displayName: 'Operat
 },{}],17:[function(require,module,exports){
 
 /** @jsx React.DOM */
-var EDIT_STATE, VIEW_STATE;
+var EDIT_STATE, SWITCH_CATEGORY_TIMEOUT, VIEW_STATE;
+
+SWITCH_CATEGORY_TIMEOUT = 200;
 
 VIEW_STATE = 'view';
 
@@ -956,9 +966,15 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
     onCategorySelect: React.PropTypes.func.isRequired
   },
   getInitialState: function() {
-    return {
+    return _.extend({}, this.getStateFromStore(), {
       currentState: VIEW_STATE
-    };
+    });
+  },
+  componentDidMount: function() {
+    return DragStateStore.addChangeListener(this._onStoreChange);
+  },
+  componentWillUnmount: function() {
+    return DragStateStore.removeChangeListener(this._onStoreChange);
   },
   render: function() {
     var item, managerClasses;
@@ -966,16 +982,22 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
     managerClasses = React.addons.classSet({
       'adm-categories-item': true,
       'selected': this.props.isActive,
-      '__edit': this.isEditState()
+      '__edit': this.isEditState(),
+      '__droptarget-active': this.isDropTarget()
     });
     return React.DOM.div({className: managerClasses, 
                  'data-objectid':  this.props.category.id, 
-                 onClick:  this.handleItemClick}, 
+                 onClick:  this.handleItemClick, 
+                 onMouseEnter:  this.handleMouseEnter, 
+                 onMouseLeave:  this.handleMouseLeave}, 
               item 
             );
   },
   isEditState: function() {
     return this.state.currentState === EDIT_STATE;
+  },
+  isDropTarget: function() {
+    return this.state.isDroppable && !this.props.isActive;
   },
   activateViewState: function() {
     return this.setState({
@@ -1012,6 +1034,31 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
       category: this.props.category,
       includeSubcategories: true
     });
+  },
+  handleMouseEnter: function() {
+    if (this.isDropTarget()) {
+      return this.timeout = setTimeout(((function(_this) {
+        return function() {
+          return _this.props.onCategorySelect({
+            category: _this.props.category,
+            includeSubcategories: true
+          });
+        };
+      })(this)), SWITCH_CATEGORY_TIMEOUT);
+    }
+  },
+  handleMouseLeave: function() {
+    if (this.timeout) {
+      return clearTimeout(this.timeout);
+    }
+  },
+  getStateFromStore: function() {
+    return {
+      isDroppable: DragStateStore.isDragged()
+    };
+  },
+  _onStoreChange: function() {
+    return this.setState(this.getStateFromStore());
   }
 });
 
@@ -1389,9 +1436,12 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
   handleCategorySelect: function(_arg) {
     var category, includeSubcategories;
     category = _arg.category, includeSubcategories = _arg.includeSubcategories;
-    return this.setState({
+    this.setState({
       currentCategory: category,
       includeSubcategories: includeSubcategories
+    });
+    return DragStateDispatcher.handleViewAction({
+      type: 'currentCategoryChanged'
     });
   },
   _onStoreChange: function() {
@@ -1458,35 +1508,83 @@ window.OperatorCategories_TwoCategories = React.createClass({displayName: 'Opera
 },{}],27:[function(require,module,exports){
 
 /** @jsx React.DOM */
+var SELECTED_STATE, UNSELECTED_STATE;
+
+SELECTED_STATE = 'selected';
+
+UNSELECTED_STATE = 'unselected';
+
 window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProducts_ListItem',
   mixins: [ProductDraggable],
   propTypes: {
     product: React.PropTypes.object.isRequired
   },
+  getInitialState: function() {
+    return {
+      currentState: UNSELECTED_STATE
+    };
+  },
   render: function() {
-    return React.DOM.tr({className: "adm-categories-goods-item", 
-        'data-category-id':  this.props.product.category_id, 
-        'data-product-id':  this.props.product.id, 
-        onClick:  this.handleClick}, 
-      React.DOM.td({className: "adm-categories-goods-cover", 
-          'data-title': "Товар"}, 
-        ProductThumb({product:  this.props.product})
-      ), 
-      React.DOM.td({className: "adm-categories-goods-content"}, 
-         this.props.product.title
-      ), 
-      React.DOM.td({className: "adm-categories-goods-price", 
-          'data-title': "Сумма"}, 
-        Money({money:  this.props.product.price})
-      ), 
-      React.DOM.td({className: "adm-categories-goods-status", 
-          'data-title': "Статус"}, 
-        ProductState({state:  this.props.product.state})
-      )
-    );
+    var productClasses;
+    productClasses = React.addons.classSet({
+      'adm-categories-goods-item': true,
+      '__selected': this.isSelectedState()
+    });
+    return React.DOM.tr({className: productClasses, 
+                'data-category-id':  this.props.product.category_id, 
+                'data-product-id':  this.props.product.id, 
+                onClick:  this.handleClick}, 
+              React.DOM.td({className: "adm-categories-goods-cover", 
+                  'data-title': "Товар"}, 
+                ProductThumb({product:  this.props.product})
+              ), 
+              React.DOM.td({className: "adm-categories-goods-content"}, 
+                 this.props.product.title
+              ), 
+              React.DOM.td({className: "adm-categories-goods-price", 
+                  'data-title': "Сумма"}, 
+                Money({money:  this.props.product.price})
+              ), 
+              React.DOM.td({className: "adm-categories-goods-status", 
+                  'data-title': "Статус"}, 
+                ProductState({state:  this.props.product.state})
+              )
+            );
+  },
+  isSelectedState: function() {
+    return this.state.currentState === SELECTED_STATE;
+  },
+  activateSelectedState: function() {
+    return this.setState({
+      currentState: SELECTED_STATE
+    });
+  },
+  activateUnselectedState: function() {
+    return this.setState({
+      currentState: UNSELECTED_STATE
+    });
+  },
+  toggleSelectedState: function() {
+    if (this.isSelectedState()) {
+      this.activateUnselectedState();
+      return DragStateDispatcher.handleViewAction({
+        type: 'productBecameUnselected',
+        product: this.props.product
+      });
+    } else {
+      this.activateSelectedState();
+      return DragStateDispatcher.handleViewAction({
+        type: 'productBecameSelected',
+        product: this.props.product
+      });
+    }
   },
   handleClick: function(e) {
-    return window.location = Routes.edit_operator_product_url(this.props.product.id);
+    if (EventHelpers.isAnyServiceKey(e)) {
+      return this.toggleSelectedState();
+    } else {
+      return window.location = Routes.edit_operator_product_url(this.props.product.id);
+    }
   }
 });
 
@@ -1526,6 +1624,43 @@ window.OperatorProducts_ListItemDrag = React.createClass({displayName: 'Operator
 
 
 },{}],29:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorProducts_ListItemsDrag = React.createClass({displayName: 'OperatorProducts_ListItemsDrag',
+  propTypes: {
+    products: React.PropTypes.object.isRequired
+  },
+  render: function() {
+    var products;
+    products = this.props.products.map(function(product) {
+      return React.DOM.tr(null, 
+        React.DOM.td({className: "adm-categories-goods-cover", 
+            'data-title': "Товар"}, 
+          ProductThumb({product: product })
+        ), 
+        React.DOM.td({className: "adm-categories-goods-content"}, 
+           product.title
+        )
+      );
+    });
+    return React.DOM.span({className: "adm-categories-goods-draghelper"}, 
+              React.DOM.table(null, 
+                React.DOM.tbody(null, 
+                  products 
+                )
+              ), 
+              React.DOM.hr(null), 
+              React.DOM.i(null, "Перетащите товары в категорию")
+            );
+  },
+  imageUrl: function() {
+    return AppHelpers.productImageUrl(this.props.product);
+  }
+});
+
+
+
+},{}],30:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts_List',
@@ -1574,7 +1709,7 @@ window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts
 
 
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_Loading = React.createClass({displayName: 'OperatorProducts_Loading',
@@ -1587,7 +1722,7 @@ window.OperatorProducts_Loading = React.createClass({displayName: 'OperatorProdu
 
 
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_LoadingError = React.createClass({displayName: 'OperatorProducts_LoadingError',
@@ -1603,7 +1738,7 @@ window.OperatorProducts_LoadingError = React.createClass({displayName: 'Operator
 
 
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var ERROR_STATE, LOADED_STATE, LOADING_STATE;
@@ -1696,7 +1831,7 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
 
 
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var ProductImages_Image, ProductImages_List, ProductImages_Placeholder;
@@ -1806,7 +1941,7 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
 
 
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var TITLES;
@@ -1836,7 +1971,7 @@ window.ProductState = React.createClass({displayName: 'ProductState',
 
 
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -1966,7 +2101,7 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
 
 
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductThumb = React.createClass({displayName: 'ProductThumb',
@@ -1996,7 +2131,7 @@ window.ProductThumb = React.createClass({displayName: 'ProductThumb',
 
 
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 window.ModalController = {
   show: function(url) {
     var container;
@@ -2014,7 +2149,7 @@ window.ModalController = {
 
 
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 var BaseDispatcher,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2048,7 +2183,16 @@ module.exports = BaseDispatcher;
 
 
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
+var BaseDispatcher;
+
+BaseDispatcher = require('./_base');
+
+window.DragStateDispatcher = new BaseDispatcher();
+
+
+
+},{"./_base":39}],41:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -2057,7 +2201,7 @@ window.OperatorCategoriesDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":38}],40:[function(require,module,exports){
+},{"./_base":39}],42:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -2066,7 +2210,7 @@ window.OperatorProductsDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":38}],41:[function(require,module,exports){
+},{"./_base":39}],43:[function(require,module,exports){
 window.AppHelpers = {
   reselectAndFocus: function(node) {
     var value, valueLength;
@@ -2083,16 +2227,23 @@ window.AppHelpers = {
 
 
 
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
+window.EventHelpers = {
+  isAnyServiceKey: function(e) {
+    return e.shiftKey || e.ctrlKey || e.altKey || e.metaKey;
+  }
+};
+
+
+
+},{}],45:[function(require,module,exports){
 window.CategoryDroppable = {
   componentDidMount: function() {
     var that;
     that = this;
     return $(this.getDOMNode()).droppable({
       scope: 'productsToCategories',
-      activeClass: '__droptarget-active',
       addClasses: false,
-      hoverClass: '__droptarget-hover',
       tolerance: 'pointer',
       drop: this.handleProductDrop,
       accept: _.throttle(function(productNode) {
@@ -2103,17 +2254,31 @@ window.CategoryDroppable = {
     });
   },
   handleProductDrop: function(e, ui) {
-    return OperatorProductsViewActions.changeProductCategory({
-      productId: parseInt(ui.draggable.attr('data-product-id')),
-      newCategoryId: this.props.category.id,
-      oldCategoryId: parseInt(ui.draggable.attr('data-category-id'))
+    if (DragStateStore.isMultipleSelected()) {
+      OperatorProductsService.changeProductsCategory({
+        products: DragStateStore.getSelectedProducts(),
+        newCategoryId: this.props.category.id,
+        oldCategoryId: parseInt(ui.draggable.attr('data-category-id'))
+      });
+    } else {
+      OperatorProductsService.changeProductsCategory({
+        products: DragStateStore.getDraggedProducts(),
+        newCategoryId: this.props.category.id,
+        oldCategoryId: parseInt(ui.draggable.attr('data-category-id'))
+      });
+    }
+    return DragStateDispatcher.handleViewAction({
+      type: 'productsMoved'
     });
+  },
+  componentWillUnmount: function() {
+    return $(this.getDOMNode()).droppable('destroy');
   }
 };
 
 
 
-},{}],43:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 window.ComponentManipulationsMixin = {
   safeUpdate: function(func) {
     if (!this._isUnmounted()) {
@@ -2132,7 +2297,7 @@ window.ComponentManipulationsMixin = {
 
 
 
-},{}],44:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var ACCEPT_FILE_TYPES, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
 
 ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
@@ -2245,7 +2410,7 @@ window.ImagesFormMixin = {
 
 
 
-},{}],45:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 window.ProductDraggable = {
   getInitialState: function() {
     return {
@@ -2266,17 +2431,35 @@ window.ProductDraggable = {
         left: -15
       },
       helper: function() {
-        return $(React.renderComponentToString(OperatorProducts_ListItemDrag({
-          product: that.props.product
-        })));
+        var stringComponent;
+        if (DragStateStore.isMultipleSelected()) {
+          stringComponent = React.renderComponentToString(OperatorProducts_ListItemsDrag({
+            products: DragStateStore.getSelectedProducts()
+          }));
+        } else {
+          stringComponent = React.renderComponentToString(OperatorProducts_ListItemDrag({
+            product: that.props.product
+          }));
+        }
+        return $(stringComponent);
       },
-      start: function(e) {
-        return that.setState({
-          isDragged: true
-        });
-      },
+      start: (function(_this) {
+        return function(e) {
+          DragStateDispatcher.handleViewAction({
+            type: 'productBecameDraggable',
+            product: _this.props.product
+          });
+          return _this.setState({
+            isDragged: true
+          });
+        };
+      })(this),
       stop: function(e) {
         return setTimeout(function() {
+          DragStateDispatcher.handleViewAction({
+            type: 'productBecameStatic',
+            product: that.props.product
+          });
           return that.setState({
             isDragged: false
           });
@@ -2288,7 +2471,7 @@ window.ProductDraggable = {
 
 
 
-},{}],46:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 window.UnmountMixin = {
   unmount: function() {
     return _.defer((function(_this) {
@@ -2301,7 +2484,7 @@ window.UnmountMixin = {
 
 
 
-},{}],47:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 window.CategoriesResource = {
   index: function(_arg) {
     var error, success;
@@ -2377,7 +2560,7 @@ window.CategoriesResource = {
 
 
 
-},{}],48:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 window.ProductsResource = {
   deleteImage: function(_arg) {
     var image_id;
@@ -2461,7 +2644,7 @@ window.ProductsResource = {
 
 
 
-},{}],49:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 window.OperatorCategoriesService = {
   reorderCategories: function(_arg) {
     var categoryId, insertIdx, newPositions;
@@ -2498,7 +2681,7 @@ window.OperatorCategoriesService = {
 
 
 
-},{}],50:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 window.OperatorProductsService = {
   loadProducts: function(_arg) {
     var data, error, success;
@@ -2522,34 +2705,59 @@ window.OperatorProductsService = {
     });
   },
   changeProductCategory: function(_arg) {
-    var newCategoryId, oldCategoryId, productId;
-    productId = _arg.productId, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId;
+    var newCategoryId, oldCategoryId, productId, success;
+    productId = _arg.productId, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId, success = _arg.success;
     return Requester.request({
       url: ApiRoutes.operator_product_url(productId),
       method: 'PUT',
       data: {
         category_id: newCategoryId
       },
-      error: function(xhr, status, err) {},
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      },
       success: function() {
-        OperatorCategoriesViewActions.reloadCategory({
-          categoryId: newCategoryId
-        });
-        OperatorCategoriesViewActions.reloadCategory({
-          categoryId: oldCategoryId
-        });
+        if (typeof success === "function") {
+          success();
+        }
         return OperatorProductsServerActions.moveProduct({
           productId: productId,
           categoryId: oldCategoryId
         });
       }
     });
+  },
+  changeProductsCategory: function(_arg) {
+    var completedRequests, newCategoryId, oldCategoryId, product, products, _i, _len, _results;
+    products = _arg.products, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId;
+    completedRequests = 0;
+    _results = [];
+    for (_i = 0, _len = products.length; _i < _len; _i++) {
+      product = products[_i];
+      _results.push(this.changeProductCategory({
+        productId: product.id,
+        newCategoryId: newCategoryId,
+        oldCategoryId: oldCategoryId,
+        success: function() {
+          completedRequests++;
+          if (completedRequests === products.length) {
+            OperatorCategoriesViewActions.reloadCategory({
+              categoryId: newCategoryId
+            });
+            return OperatorCategoriesViewActions.reloadCategory({
+              categoryId: oldCategoryId
+            });
+          }
+        }
+      }));
+    }
+    return _results;
   }
 };
 
 
 
-},{}],51:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 window.ThumborService = {
   thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
   image_url: function(url, style) {
@@ -2569,7 +2777,7 @@ window.ThumborService = {
 
 
 
-},{}],52:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var BaseStore, CHANGE_EVENT,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2603,7 +2811,122 @@ module.exports = BaseStore;
 
 
 
-},{}],53:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
+var BaseStore, _draggedProducts, _selectedProducts;
+
+BaseStore = require('./_base');
+
+_draggedProducts = [];
+
+_selectedProducts = [];
+
+window.DragStateStore = _.extend(new BaseStore(), {
+  isDragged: function() {
+    return _draggedProducts.length > 0;
+  },
+  isMultipleSelected: function() {
+    return _selectedProducts.length > 1;
+  },
+  isSelectedProductExists: function(product) {
+    var _i, _len, _selectedProduct;
+    for (_i = 0, _len = _selectedProducts.length; _i < _len; _i++) {
+      _selectedProduct = _selectedProducts[_i];
+      if (_selectedProduct.id === product.id) {
+        return true;
+      }
+    }
+    return false;
+  },
+  isDraggedProductExists: function(product) {
+    var _draggedProduct, _i, _len;
+    for (_i = 0, _len = _draggedProducts.length; _i < _len; _i++) {
+      _draggedProduct = _draggedProducts[_i];
+      if (_draggedProduct.id === product.id) {
+        return true;
+      }
+    }
+    return false;
+  },
+  pushDraggedProduct: function(product) {
+    if (!this.isDraggedProductExists(product)) {
+      return _draggedProducts.push(product);
+    }
+  },
+  deleteDraggedProduct: function(product) {
+    var clonedDraggedProduct, clonedDraggedProducts, i, _i, _len;
+    clonedDraggedProducts = _draggedProducts.slice(0);
+    for (i = _i = 0, _len = clonedDraggedProducts.length; _i < _len; i = ++_i) {
+      clonedDraggedProduct = clonedDraggedProducts[i];
+      if (!(clonedDraggedProduct.id === product.id)) {
+        continue;
+      }
+      clonedDraggedProducts.splice(i, 1);
+      break;
+    }
+    return _draggedProducts = clonedDraggedProducts;
+  },
+  pushSelectedProduct: function(product) {
+    if (!this.isSelectedProductExists(product)) {
+      return _selectedProducts.push(product);
+    }
+  },
+  deleteSelectedProduct: function(product) {
+    var clonedSelectedProduct, clonedSelectedProducts, i, _i, _len;
+    clonedSelectedProducts = _selectedProducts.slice(0);
+    for (i = _i = 0, _len = clonedSelectedProducts.length; _i < _len; i = ++_i) {
+      clonedSelectedProduct = clonedSelectedProducts[i];
+      if (!(clonedSelectedProduct.id === product.id)) {
+        continue;
+      }
+      clonedSelectedProducts.splice(i, 1);
+      break;
+    }
+    return _selectedProducts = clonedSelectedProducts;
+  },
+  resetProducts: function() {
+    _draggedProducts = [];
+    return _selectedProducts = [];
+  },
+  getDraggedProducts: function() {
+    return _draggedProducts;
+  },
+  getSelectedProducts: function() {
+    return _selectedProducts;
+  }
+});
+
+DragStateDispatcher.register(function(payload) {
+  var action;
+  action = payload.action;
+  switch (action.type) {
+    case 'productBecameDraggable':
+      DragStateStore.pushDraggedProduct(action.product);
+      DragStateStore.emitChange();
+      break;
+    case 'productBecameStatic':
+      DragStateStore.deleteDraggedProduct(action.product);
+      DragStateStore.emitChange();
+      break;
+    case 'productBecameSelected':
+      DragStateStore.pushSelectedProduct(action.product);
+      break;
+    case 'productBecameUnselected':
+      DragStateStore.deleteSelectedProduct(action.product);
+      break;
+    case 'productsMoved':
+      DragStateStore.resetProducts();
+      break;
+    case 'currentCategoryChanged':
+      if (!DragStateStore.isDragged()) {
+        DragStateStore.resetProducts();
+      }
+      break;
+  }
+});
+
+
+
+},{"./_base":55}],57:[function(require,module,exports){
 var BaseStore, _categories, _getNewPositions;
 
 BaseStore = require('./_base');
@@ -2839,7 +3162,7 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(fu
 
 
 
-},{"./_base":52}],54:[function(require,module,exports){
+},{"./_base":55}],58:[function(require,module,exports){
 var BaseStore, _products;
 
 BaseStore = require('./_base');
@@ -2900,7 +3223,7 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
 
 
 
-},{"./_base":52}],55:[function(require,module,exports){
+},{"./_base":55}],59:[function(require,module,exports){
 window.ApiRoutes = {
   operator_product_image_delete_url: function(id) {
     return gon.api_root_url + '/v1/operator/products/images/' + id;
@@ -2924,7 +3247,7 @@ window.ApiRoutes = {
 
 
 
-},{}],56:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 window.Routes = {
   products_image_delete_path: function(id) {
     return gon.root_url + '/products/images/' + id;
@@ -2942,7 +3265,7 @@ window.Routes = {
 
 
 
-},{}],57:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -2954,7 +3277,7 @@ window.Routes = {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":58}],58:[function(require,module,exports){
+},{"./lib/Dispatcher":62}],62:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -3206,7 +3529,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":59}],59:[function(require,module,exports){
+},{"./invariant":63}],63:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -5846,7 +6169,7 @@ module.exports = invariant;
 
 },{}],"jquery.autosize":[function(require,module,exports){
 /*!
-	Autosize 1.18.14
+	Autosize 1.18.15
 	license: MIT
 	http://www.jacklmoore.com/autosize
 */
@@ -5931,7 +6254,7 @@ module.exports = invariant;
 			}
 
 			// IE8 and lower return 'auto', which parses to NaN, if no min-height is set.
-			minHeight = Math.max(parseInt($ta.css('minHeight'), 10) - boxOffset || 0, $ta.height());
+			minHeight = Math.max(parseFloat($ta.css('minHeight')) - boxOffset || 0, $ta.height());
 
 			$ta.css({
 				overflow: 'hidden',
@@ -5950,17 +6273,17 @@ module.exports = invariant;
 			function setWidth() {
 				var width;
 				var style = window.getComputedStyle ? window.getComputedStyle(ta, null) : false;
-				
+
 				if (style) {
 
 					width = ta.getBoundingClientRect().width;
 
 					if (width === 0 || typeof width !== 'number') {
-						width = parseInt(style.width,10);
+						width = parseFloat(style.width);
 					}
 
 					$.each(['paddingLeft', 'paddingRight', 'borderLeftWidth', 'borderRightWidth'], function(i,val){
-						width -= parseInt(style[val],10);
+						width -= parseFloat(style[val]);
 					});
 				} else {
 					width = $ta.width();
@@ -5975,7 +6298,7 @@ module.exports = invariant;
 				mirrored = ta;
 				mirror.className = options.className;
 				mirror.id = options.id;
-				maxHeight = parseInt($ta.css('maxHeight'), 10);
+				maxHeight = parseFloat($ta.css('maxHeight'));
 
 				// mirror is a duplicate textarea located off-screen that
 				// is automatically updated to contain the same text as the
@@ -5985,7 +6308,7 @@ module.exports = invariant;
 				$.each(typographyStyles, function(i,val){
 					styles[val] = $ta.css(val);
 				});
-				
+
 				$(mirror).css(styles).attr('wrap', $ta.attr('wrap'));
 
 				setWidth();
@@ -6013,8 +6336,8 @@ module.exports = invariant;
 				}
 
 				if (!ta.value && options.placeholder) {
-					// If the textarea is empty, copy the placeholder text into 
-					// the mirror control and use that for sizing so that we 
+					// If the textarea is empty, copy the placeholder text into
+					// the mirror control and use that for sizing so that we
 					// don't end up with placeholder getting trimmed.
 					mirror.value = ($ta.attr("placeholder") || '');
 				} else {
@@ -6023,7 +6346,7 @@ module.exports = invariant;
 
 				mirror.value += options.append || '';
 				mirror.style.overflowY = ta.style.overflowY;
-				original = parseInt(ta.style.height,10);
+				original = parseFloat(ta.style.height);
 
 				// Setting scrollTop to zero is needed in IE8 and lower for the next step to be accurately applied
 				mirror.scrollTop = 0;

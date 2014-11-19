@@ -1965,7 +1965,7 @@ window.ProductModificationList = React.createClass({displayName: 'ProductModific
 /** @jsx React.DOM */
 window.ProductModificationListItem = React.createClass({displayName: 'ProductModificationListItem',
   propTypes: {
-    modification: React.PropTypes.array.isRequired
+    modification: React.PropTypes.object.isRequired
   },
   render: function() {
     var count, itemClasses, quantityUnit, title;

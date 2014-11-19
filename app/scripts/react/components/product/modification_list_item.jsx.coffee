@@ -3,7 +3,7 @@
 window.ProductModificationListItem = React.createClass
 
   propTypes:
-    modification: React.PropTypes.array.isRequired
+    modification: React.PropTypes.object.isRequired
 
   render: ->
     title        = @props.modification.title

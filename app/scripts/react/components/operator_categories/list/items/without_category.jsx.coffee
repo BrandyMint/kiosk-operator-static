@@ -14,6 +14,7 @@ window.OperatorCategories_ListItemWithoutCategory = React.createClass
     totalCount = @props.category.products_count
     itemClasses = React.addons.classSet {
       'adm-categories-item': true
+      '__muted': true
       'selected': @props.isActive
     }
 

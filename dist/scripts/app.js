@@ -73,6 +73,8 @@ require('./react/components/product/modification_list');
 
 require('./react/components/product/modification_list_item');
 
+require('./react/components/product/total_items_quantity');
+
 require('./react/components/operator_categories/operator_categories');
 
 require('./react/components/operator_categories/loaded');
@@ -121,7 +123,7 @@ require('./react/helpers/event');
 
 
 
-},{"./app":2,"./legacy":3,"./libs":4,"./react/actions/server/operator_categories":6,"./react/actions/server/operator_products":7,"./react/actions/view/operator_categories":8,"./react/actions/view/operator_products":9,"./react/components/common/images_form_thumbs":10,"./react/components/common/money":11,"./react/components/common/spinner":12,"./react/components/modal/modal":13,"./react/components/operator_categories/list/create_form":14,"./react/components/operator_categories/list/items/item":15,"./react/components/operator_categories/list/items/item_edit":16,"./react/components/operator_categories/list/items/item_manager":17,"./react/components/operator_categories/list/items/with_subcategories":18,"./react/components/operator_categories/list/items/without_category":19,"./react/components/operator_categories/list/list":20,"./react/components/operator_categories/loaded":21,"./react/components/operator_categories/loading":22,"./react/components/operator_categories/loading_error":23,"./react/components/operator_categories/one_category":24,"./react/components/operator_categories/operator_categories":25,"./react/components/operator_categories/two_categories":26,"./react/components/operator_products/list/item":27,"./react/components/operator_products/list/item_drag":28,"./react/components/operator_products/list/items_drag":29,"./react/components/operator_products/list/list":30,"./react/components/operator_products/loading":31,"./react/components/operator_products/loading_error":32,"./react/components/operator_products/operator_products":33,"./react/components/product/images":34,"./react/components/product/modification_list":35,"./react/components/product/modification_list_item":36,"./react/components/product/state":37,"./react/components/product/status_toggle":38,"./react/components/product/thumb":39,"./react/controllers/modal":40,"./react/dispatchers/_base":41,"./react/dispatchers/drag_state":42,"./react/dispatchers/operator_categories":43,"./react/dispatchers/operator_products":44,"./react/helpers/app":45,"./react/helpers/event":46,"./react/mixins/category_droppable":47,"./react/mixins/component_manipulations":48,"./react/mixins/images_form":49,"./react/mixins/product_draggable":50,"./react/mixins/unmount":51,"./react/resources/categories":52,"./react/resources/products":53,"./react/services/operator_categories":54,"./react/services/operator_products":55,"./react/services/thumbor":56,"./react/stores/_base":57,"./react/stores/drag_state":58,"./react/stores/operator_categories":59,"./react/stores/operator_products":60,"./routes/api":61,"./routes/routes":62}],2:[function(require,module,exports){
+},{"./app":2,"./legacy":3,"./libs":4,"./react/actions/server/operator_categories":6,"./react/actions/server/operator_products":7,"./react/actions/view/operator_categories":8,"./react/actions/view/operator_products":9,"./react/components/common/images_form_thumbs":10,"./react/components/common/money":11,"./react/components/common/spinner":12,"./react/components/modal/modal":13,"./react/components/operator_categories/list/create_form":14,"./react/components/operator_categories/list/items/item":15,"./react/components/operator_categories/list/items/item_edit":16,"./react/components/operator_categories/list/items/item_manager":17,"./react/components/operator_categories/list/items/with_subcategories":18,"./react/components/operator_categories/list/items/without_category":19,"./react/components/operator_categories/list/list":20,"./react/components/operator_categories/loaded":21,"./react/components/operator_categories/loading":22,"./react/components/operator_categories/loading_error":23,"./react/components/operator_categories/one_category":24,"./react/components/operator_categories/operator_categories":25,"./react/components/operator_categories/two_categories":26,"./react/components/operator_products/list/item":27,"./react/components/operator_products/list/item_drag":28,"./react/components/operator_products/list/items_drag":29,"./react/components/operator_products/list/list":30,"./react/components/operator_products/loading":31,"./react/components/operator_products/loading_error":32,"./react/components/operator_products/operator_products":33,"./react/components/product/images":34,"./react/components/product/modification_list":35,"./react/components/product/modification_list_item":36,"./react/components/product/state":37,"./react/components/product/status_toggle":38,"./react/components/product/thumb":39,"./react/components/product/total_items_quantity":40,"./react/controllers/modal":41,"./react/dispatchers/_base":42,"./react/dispatchers/drag_state":43,"./react/dispatchers/operator_categories":44,"./react/dispatchers/operator_products":45,"./react/helpers/app":46,"./react/helpers/event":47,"./react/mixins/category_droppable":48,"./react/mixins/component_manipulations":49,"./react/mixins/images_form":50,"./react/mixins/product_draggable":51,"./react/mixins/unmount":52,"./react/resources/categories":53,"./react/resources/products":54,"./react/services/operator_categories":55,"./react/services/operator_products":56,"./react/services/thumbor":57,"./react/stores/_base":58,"./react/stores/drag_state":59,"./react/stores/operator_categories":60,"./react/stores/operator_products":61,"./routes/api":62,"./routes/routes":63}],2:[function(require,module,exports){
 window.KioskOperatorApp = {
   start: function(_arg) {
     var operator, vendor_key;
@@ -356,7 +358,7 @@ require('typeahead');
 
 
 
-},{"./libs/requester":5,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":63,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],5:[function(require,module,exports){
+},{"./libs/requester":5,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":64,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],5:[function(require,module,exports){
 var Requester,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -1548,7 +1550,8 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
               ), 
               React.DOM.td({className: "adm-categories-goods-price", 
                   'data-title': "Сумма"}, 
-                Money({money:  this.props.product.price})
+                Money({money:  this.props.product.price}), 
+                ProductTotalItemsQuantity({product:  this.props.product})
               ), 
               React.DOM.td({className: "adm-categories-goods-status", 
                   'data-title': "Статус"}, 
@@ -2178,6 +2181,29 @@ window.ProductThumb = React.createClass({displayName: 'ProductThumb',
 
 
 },{}],40:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.ProductTotalItemsQuantity = React.createClass({displayName: 'ProductTotalItemsQuantity',
+  propTypes: {
+    product: React.PropTypes.object.isRequired
+  },
+  render: function() {
+    var content, quantity, quantityUnit;
+    quantity = parseInt(this.props.product.total_items_quantity);
+    quantityUnit = this.props.product.quantity_unit.short;
+    if (quantity > 0) {
+      content = "" + quantity + " " + quantityUnit;
+    } else {
+      content = '&mdash;';
+    }
+    return React.DOM.span({className: "adm-categories-goods-total-quantity", 
+                  dangerouslySetInnerHTML: { __html: content}});
+  }
+});
+
+
+
+},{}],41:[function(require,module,exports){
 window.ModalController = {
   show: function(url) {
     var container;
@@ -2195,7 +2221,7 @@ window.ModalController = {
 
 
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 var BaseDispatcher,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2229,7 +2255,7 @@ module.exports = BaseDispatcher;
 
 
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -2238,7 +2264,7 @@ window.DragStateDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":41}],43:[function(require,module,exports){
+},{"./_base":42}],44:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -2247,7 +2273,7 @@ window.OperatorCategoriesDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":41}],44:[function(require,module,exports){
+},{"./_base":42}],45:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -2256,7 +2282,7 @@ window.OperatorProductsDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":41}],45:[function(require,module,exports){
+},{"./_base":42}],46:[function(require,module,exports){
 window.AppHelpers = {
   reselectAndFocus: function(node) {
     var value, valueLength;
@@ -2273,7 +2299,7 @@ window.AppHelpers = {
 
 
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 window.EventHelpers = {
   isAnyServiceKey: function(e) {
     return e.shiftKey || e.ctrlKey || e.altKey || e.metaKey;
@@ -2282,7 +2308,7 @@ window.EventHelpers = {
 
 
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 window.CategoryDroppable = {
   componentDidMount: function() {
     var that;
@@ -2324,7 +2350,7 @@ window.CategoryDroppable = {
 
 
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 window.ComponentManipulationsMixin = {
   safeUpdate: function(func) {
     if (!this._isUnmounted()) {
@@ -2343,7 +2369,7 @@ window.ComponentManipulationsMixin = {
 
 
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 var ACCEPT_FILE_TYPES, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
 
 ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
@@ -2456,7 +2482,7 @@ window.ImagesFormMixin = {
 
 
 
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 window.ProductDraggable = {
   getInitialState: function() {
     return {
@@ -2517,7 +2543,7 @@ window.ProductDraggable = {
 
 
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 window.UnmountMixin = {
   unmount: function() {
     return _.defer((function(_this) {
@@ -2530,7 +2556,7 @@ window.UnmountMixin = {
 
 
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 window.CategoriesResource = {
   index: function(_arg) {
     var error, success;
@@ -2606,7 +2632,7 @@ window.CategoriesResource = {
 
 
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 window.ProductsResource = {
   deleteImage: function(_arg) {
     var image_id;
@@ -2690,7 +2716,7 @@ window.ProductsResource = {
 
 
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 window.OperatorCategoriesService = {
   reorderCategories: function(_arg) {
     var categoryId, insertIdx, newPositions;
@@ -2727,7 +2753,7 @@ window.OperatorCategoriesService = {
 
 
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 window.OperatorProductsService = {
   loadProducts: function(_arg) {
     var data, error, success;
@@ -2803,7 +2829,7 @@ window.OperatorProductsService = {
 
 
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 window.ThumborService = {
   thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
   image_url: function(url, style) {
@@ -2823,7 +2849,7 @@ window.ThumborService = {
 
 
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 var BaseStore, CHANGE_EVENT,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2857,7 +2883,7 @@ module.exports = BaseStore;
 
 
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 var BaseStore, _draggedProducts, _selectedProducts;
 
 BaseStore = require('./_base');
@@ -2972,7 +2998,7 @@ DragStateDispatcher.register(function(payload) {
 
 
 
-},{"./_base":57}],59:[function(require,module,exports){
+},{"./_base":58}],60:[function(require,module,exports){
 var BaseStore, _categories, _getNewPositions;
 
 BaseStore = require('./_base');
@@ -3208,7 +3234,7 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(fu
 
 
 
-},{"./_base":57}],60:[function(require,module,exports){
+},{"./_base":58}],61:[function(require,module,exports){
 var BaseStore, _products;
 
 BaseStore = require('./_base');
@@ -3269,7 +3295,7 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
 
 
 
-},{"./_base":57}],61:[function(require,module,exports){
+},{"./_base":58}],62:[function(require,module,exports){
 window.ApiRoutes = {
   operator_product_image_delete_url: function(id) {
     return gon.api_root_url + '/v1/operator/products/images/' + id;
@@ -3293,7 +3319,7 @@ window.ApiRoutes = {
 
 
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 window.Routes = {
   products_image_delete_path: function(id) {
     return gon.root_url + '/products/images/' + id;
@@ -3311,7 +3337,7 @@ window.Routes = {
 
 
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -3323,7 +3349,7 @@ window.Routes = {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":64}],64:[function(require,module,exports){
+},{"./lib/Dispatcher":65}],65:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -3575,7 +3601,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":65}],65:[function(require,module,exports){
+},{"./invariant":66}],66:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.

@@ -60,6 +60,7 @@ require './react/components/product/images'
 require './react/components/product/status_toggle'
 require './react/components/product/modification_list'
 require './react/components/product/modification_list_item'
+require './react/components/product/total_items_quantity'
 
 require './react/components/operator_categories/operator_categories'
 require './react/components/operator_categories/loaded'

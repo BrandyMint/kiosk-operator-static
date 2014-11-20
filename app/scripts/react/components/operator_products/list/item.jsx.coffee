@@ -33,6 +33,7 @@ window.OperatorProducts_ListItem = React.createClass
               <td className="adm-categories-goods-price"
                   data-title="Сумма">
                 <Money money={ this.props.product.price } />
+                <ProductTotalItemsQuantity product={ this.props.product } />
               </td>
               <td className="adm-categories-goods-status"
                   data-title="Статус">

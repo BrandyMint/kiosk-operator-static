@@ -31,7 +31,9 @@ window.OperatorCategories_ListItemEdit = React.createClass
                       type="text"
                       className="adm-categories-item-field"
                       defaultValue={ this.state.categoryName }
-                      onKeyDown={ this.handleKeydown } />
+                      onKeyDown={ this.handleKeydown }
+                      onClick={ this.handleClick }
+                      onBlur={ this.props.onEditFinish } />
                   <span
                       className="adm-categories-item-remove"
                       onClick={ this.handleDeleteClick } />
@@ -79,6 +81,9 @@ window.OperatorCategories_ListItemEdit = React.createClass
       OperatorCategoriesViewActions.deleteCategory
         category: @props.category
         error:    @activateErrorState
+
+  handleClick: (e) ->
+    e.stopPropagation()
 
   handleKeydown: (e) ->
     switch e.key

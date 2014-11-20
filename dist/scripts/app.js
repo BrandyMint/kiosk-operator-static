@@ -123,10 +123,855 @@ require('./react/helpers/event');
 
 
 
-},{"./app":2,"./legacy":3,"./libs":4,"./react/actions/server/operator_categories":6,"./react/actions/server/operator_products":7,"./react/actions/view/operator_categories":8,"./react/actions/view/operator_products":9,"./react/components/common/images_form_thumbs":10,"./react/components/common/money":11,"./react/components/common/spinner":12,"./react/components/modal/modal":13,"./react/components/operator_categories/list/create_form":14,"./react/components/operator_categories/list/items/item":15,"./react/components/operator_categories/list/items/item_edit":16,"./react/components/operator_categories/list/items/item_manager":17,"./react/components/operator_categories/list/items/with_subcategories":18,"./react/components/operator_categories/list/items/without_category":19,"./react/components/operator_categories/list/list":20,"./react/components/operator_categories/loaded":21,"./react/components/operator_categories/loading":22,"./react/components/operator_categories/loading_error":23,"./react/components/operator_categories/one_category":24,"./react/components/operator_categories/operator_categories":25,"./react/components/operator_categories/two_categories":26,"./react/components/operator_products/list/item":27,"./react/components/operator_products/list/item_drag":28,"./react/components/operator_products/list/items_drag":29,"./react/components/operator_products/list/list":30,"./react/components/operator_products/loading":31,"./react/components/operator_products/loading_error":32,"./react/components/operator_products/operator_products":33,"./react/components/product/images":34,"./react/components/product/modification_list":35,"./react/components/product/modification_list_item":36,"./react/components/product/state":37,"./react/components/product/status_toggle":38,"./react/components/product/thumb":39,"./react/components/product/total_items_quantity":40,"./react/controllers/modal":41,"./react/dispatchers/_base":42,"./react/dispatchers/drag_state":43,"./react/dispatchers/operator_categories":44,"./react/dispatchers/operator_products":45,"./react/helpers/app":46,"./react/helpers/event":47,"./react/mixins/category_droppable":48,"./react/mixins/component_manipulations":49,"./react/mixins/images_form":50,"./react/mixins/product_draggable":51,"./react/mixins/unmount":52,"./react/resources/categories":53,"./react/resources/products":54,"./react/services/operator_categories":55,"./react/services/operator_products":56,"./react/services/thumbor":57,"./react/stores/_base":58,"./react/stores/drag_state":59,"./react/stores/operator_categories":60,"./react/stores/operator_products":61,"./routes/api":62,"./routes/routes":63}],2:[function(require,module,exports){
+},{"./app":6,"./legacy":7,"./libs":8,"./react/actions/server/operator_categories":10,"./react/actions/server/operator_products":11,"./react/actions/view/operator_categories":12,"./react/actions/view/operator_products":13,"./react/components/common/images_form_thumbs":14,"./react/components/common/money":15,"./react/components/common/spinner":16,"./react/components/modal/modal":17,"./react/components/operator_categories/list/create_form":18,"./react/components/operator_categories/list/items/item":19,"./react/components/operator_categories/list/items/item_edit":20,"./react/components/operator_categories/list/items/item_manager":21,"./react/components/operator_categories/list/items/with_subcategories":22,"./react/components/operator_categories/list/items/without_category":23,"./react/components/operator_categories/list/list":24,"./react/components/operator_categories/loaded":25,"./react/components/operator_categories/loading":26,"./react/components/operator_categories/loading_error":27,"./react/components/operator_categories/one_category":28,"./react/components/operator_categories/operator_categories":29,"./react/components/operator_categories/two_categories":30,"./react/components/operator_products/list/item":31,"./react/components/operator_products/list/item_drag":32,"./react/components/operator_products/list/items_drag":33,"./react/components/operator_products/list/list":34,"./react/components/operator_products/loading":35,"./react/components/operator_products/loading_error":36,"./react/components/operator_products/operator_products":37,"./react/components/product/images":38,"./react/components/product/modification_list":39,"./react/components/product/modification_list_item":40,"./react/components/product/state":41,"./react/components/product/status_toggle":42,"./react/components/product/thumb":43,"./react/components/product/total_items_quantity":44,"./react/controllers/modal":45,"./react/dispatchers/_base":46,"./react/dispatchers/drag_state":47,"./react/dispatchers/operator_categories":48,"./react/dispatchers/operator_products":49,"./react/helpers/app":50,"./react/helpers/event":51,"./react/mixins/category_droppable":52,"./react/mixins/component_manipulations":53,"./react/mixins/images_form":54,"./react/mixins/product_draggable":55,"./react/mixins/unmount":56,"./react/resources/categories":57,"./react/resources/products":58,"./react/services/operator_categories":59,"./react/services/operator_products":60,"./react/services/thumbor":61,"./react/stores/_base":62,"./react/stores/drag_state":63,"./react/stores/operator_categories":64,"./react/stores/operator_products":65,"./routes/api":66,"./routes/routes":67}],2:[function(require,module,exports){
+/**
+binds a function to a context
+
+@method bind
+@param {Function} func
+@param {Object} context
+@return {Function}
+@private
+**/
+var bind = function (func, context) {
+  return function () {
+    func.apply(context, Array.prototype.slice.call(arguments));
+  };
+};
+
+/**
+@method each
+@param {Array} arr
+@param {Function} iterator
+@private
+**/
+var each = function (arr, iterator, context) {
+  context = context || this;
+
+  for (var i = 0, len = arr.length; i < len; i++) {
+    iterator.call(context, arr[i], i);
+  }
+};
+
+/**
+@method merge
+@return {Object}
+@private
+**/
+var merge = function () {
+  var result = {},
+      arr = Array.prototype.slice.call(arguments, 0);
+
+  each(arr, function (obj) {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        result[key] = obj[key];
+      }
+    }
+  });
+
+  return result;
+};
+
+/**
+@method addEvent
+@param {Any} host
+@param {String} eventName
+@param {Function} handler
+@param {Any} [context]
+@private
+**/
+var addEvent = function (host, eventName, handler, context) {
+  host.addEventListener(eventName, bind(handler, context), false);
+};
+
+/**
+@method isArray
+@param {Object} o
+@return {Boolean}
+@private
+**/
+var isArray = function (o) {
+  return Array.isArray(o);
+};
+
+/**
+@method isPlainObject
+@param {any} val
+@return {Boolean}
+@private
+**/
+var isPlainObject = function (val) {
+  return (!!val) && (val.constructor === Object);
+};
+
+/**
+@method isString
+@param {Any} val
+@return {Boolean}
+@private
+**/
+var isString = function (val) {
+  return typeof val === 'string';
+};
+
+module.exports = {
+  bind: bind,
+  each: each,
+  merge: merge,
+  addEvent: addEvent,
+  isArray: isArray,
+  isPlainObject: isPlainObject,
+  isString: isString
+};
+
+},{}],3:[function(require,module,exports){
+var helpers = require('./helpers'),
+    Request = require('./request'),
+    Route   = require('./route');
+
+// helpers
+var each      = helpers.each,
+    addEvent  = helpers.addEvent,
+    isArray   = helpers.isArray;
+
+/**
+@class Navigator
+@constructor
+@private
+**/
+var Navigator = function () {
+  this._routes  = null;
+  this._exits   = [];
+  this._silent  = false;
+  this._dispatchingStarted = false;
+};
+
+Navigator.prototype = {
+
+  /**
+  @method setup
+  @param {Object} options
+  **/
+  setup: function (options) {
+    options = options || {};
+
+    for (var k in options) {
+      if (options.hasOwnProperty(k)) {
+        this[k] = options[k];
+      }
+    }
+
+    this._attachEvents();
+  },
+
+  /**
+  @method setRoutes
+  @param {Object} routes a configuration of routes and targets
+  **/
+  setRoutes: function (routes) {
+    this._routes = routes;
+  },
+
+  /**
+  @method createRouteForURI
+  @param {String} uri
+  @return {Request}
+  **/
+  createRouteForURI: function (uri) {
+    return new Route(this._routes, uri);
+  },
+
+  /**
+  @method createRequest
+  @param {String} uri
+  @param {String|Null} queryString
+  @param {String} matchedRoute
+  @return {Request}
+  **/
+  createRequest: function (uri, queryString, matchedRoute) {
+    this._request = new Request({
+      uri: uri,
+      queryString: queryString,
+      matchedRoute: matchedRoute
+    });
+
+    return this._request;
+  },
+
+  /**
+  @method getCurrentRequest
+  @return {Request}
+  **/
+  getCurrentRequest: function () {
+    return this._request;
+  },
+
+  /**
+  @method getCurrentPathname
+  @return {String}
+  **/
+  getCurrentPathname: function () {
+    if (this.pushStateEnabled) {
+      return this._removeURIRoot(location.pathname);
+    }
+    else {
+      return location.hash.replace('#', '').split('?')[0];
+    }
+  },
+
+  /**
+  @method getCurrentURI
+  @return {String}
+  **/
+  getCurrentURI: function () {
+    if (this.pushStateEnabled) {
+      return this._removeURIRoot(location.pathname) + location.search;
+    }
+    else {
+      return location.hash.replace('#', '');
+    }
+  },
+
+  /**
+  @method getQueryString
+  @return {String|Null}
+  **/
+  getQueryString: function () {
+    var uri, queryString;
+
+    if (this.pushStateEnabled) {
+      return location.search || null;
+    }
+    else {
+      queryString = this.getCurrentURI().split('?')[1];
+
+      if (queryString) {
+        return '?' + queryString;
+      }
+      else {
+        return null;
+      }
+    }
+  },
+
+  /**
+  @method dispatch
+  **/
+  dispatch: function () {
+    var uri         = this.getCurrentPathname(),
+        route       = this.createRouteForURI(uri),
+        queryString = this.getQueryString(),
+        request     = this.createRequest(uri, queryString, route.matchedRoute);
+
+    this._invokeExits(request);
+
+    // temporary action array that can be halted
+    this._actions = route.actions;
+    this._invokeActions(request, route.options);
+
+    // collect exits of the current matching route
+    this._exits = route.exits;
+
+    if (!this._dispatchingStarted) {
+      this._dispatchingStarted = true;
+    }
+  },
+
+  /**
+  @method onURIChange
+  **/
+  onURIChange: function () {
+    if (!this._silent) {
+      this.dispatch();
+    }
+
+    this._silent = false;
+  },
+
+  /**
+  @method onPopState
+  @param {Event}
+  **/
+  onPopState: function (ev) {
+    // Some browsers fire 'popstate' on the initial page load with a null state
+    // object. We always want manual control over the initial page dispatch, so
+    // prevent any popStates from changing the url until we have started
+    // dispatching.
+    if (this._dispatchingStarted) {
+      this.onURIChange();
+    }
+  },
+
+  /**
+  @method onClick
+  @param {Event} ev
+  **/
+  onClick: function (ev) {
+    var target = ev.target,
+        matchesSelector = this._matchesSelector(target),
+        pathname,
+        uri;
+
+    if (ev.metaKey || ev.ctrlKey) return;
+
+    // Sub optimal. It itererates through all ancestors on every single click :/
+    while (target) {
+      if (this._matchesSelector(target)) {
+        break;
+      }
+
+      target = target.parentNode;
+    }
+
+    if (!target) return;
+
+    ev.preventDefault();
+
+    pathname = target.pathname;
+
+    // Some browsers drop the leading slash
+    // from an `a` tag's href location.
+    if ( pathname.charAt(0) !== '/' ) pathname = '/' + pathname;
+
+    uri = pathname.replace(this.root, '');
+
+    this.navigate(uri);
+  },
+
+  /**
+  @method navigate
+  @param {String} uri
+  @param {Object} [options]
+  **/
+  navigate: function (uri, options) {
+    options = options || {};
+
+    var request     = this.getCurrentRequest();
+    var namedParams = options.namedParams;
+    var queryParams = options.queryParams;
+
+    if (!namedParams && request) {
+      namedParams = request.namedParams;
+    }
+
+    // halt any previous action invocations
+    this._actions = [];
+
+    if (queryParams) {
+      uri += this.serializeQueryParams(queryParams);
+    }
+
+    if (namedParams) {
+      for (var p in namedParams) {
+        if (namedParams.hasOwnProperty(p)) {
+          uri = uri.replace(':' + p, encodeURIComponent(namedParams[p]));
+        }
+      }
+    }
+
+    if (options.silent) {
+      this._silent = true;
+    }
+
+    if (this.pushStateEnabled) {
+      uri = this._removeURIRoot(uri);
+
+      uri = this.root + uri;
+
+      if (options.replace) {
+        history.replaceState('navigate', '', uri);
+      }
+      else {
+        history.pushState('navigate', '', uri);
+      }
+
+      this.onURIChange();
+    }
+    else {
+      if (options.replace) location.replace('#' + uri);
+      else location.hash = uri;
+    }
+  },
+
+  /**
+  @method refresh
+  **/
+  refresh: function () {
+    this.dispatch();
+  },
+
+  /**
+  @method _attachEvents
+  @protected
+  **/
+  _attachEvents: function () {
+    var pushStateEnabled = this.pushStateEnabled;
+
+    if (pushStateEnabled) {
+      addEvent(window, 'popstate', this.onPopState, this);
+    }
+    else {
+      addEvent(window, 'hashchange', this.onURIChange, this);
+    }
+
+    addEvent(document, 'click', this.onClick, this);
+  },
+
+  /**
+  @method _matchesSelector
+  @param {DOMNode} node
+  @protected
+  **/
+  _matchesSelector: function (node) {
+    var nodeList = document.querySelectorAll(this.linkSelector),
+        contains = false,
+        i;
+
+    for ( i = 0; i < nodeList.length; i++ ) {
+      if (!contains) contains = ( node === nodeList[i] );
+      else break;
+    }
+
+    return contains;
+  },
+
+  /**
+  pop of any exits function and invoke them
+
+  @method _invokeExits
+  @param {Request} request
+  @protected
+  **/
+  _invokeExits: function (request) {
+    var exit, target, method;
+
+    while(this._exits.length) {
+      exit = this._exits.pop();
+      target = exit.target;
+      method = exit.method;
+
+      if (!(method in target)) {
+        throw new Error("Can't call exit " + method + ' on target for uri ' + request.uri);
+      }
+
+      target[method].call(target);
+    }
+  },
+
+  /**
+  invoke all actions with request and options
+
+  @method _invokeActions
+  @param {Request} request
+  @param {Object} options
+  @protected
+  **/
+  _invokeActions: function (request, options) {
+    var action, target, method;
+
+    while (this._actions.length) {
+      action = this._actions.shift();
+      target = action.target;
+      method = action.method;
+
+     if (!(method in target)) {
+        throw new Error("Can't call action " + method + ' on target for uri ' + request.uri);
+      }
+
+      target[method].call(target, request, options);
+    }
+  },
+
+  /**
+  @method _removeURIRoot
+  @param {String} uri '/partners/s/foo-bar'
+  @return {String} uri '/s/foo-bar'
+  **/
+  _removeURIRoot: function (uri) {
+    var rootRegex = new RegExp('^' + this.root);
+
+    return uri.replace(rootRegex, '');
+  },
+
+  /**
+  @method serializeQueryParams
+  @param {Object} queryParams
+  @return {String} queryString "?foo=bar&baz[]=boo&baz=[]oob"
+  **/
+  serializeQueryParams: function (queryParams) {
+    var queryString = [],
+        val;
+
+    for (var key in queryParams) {
+      if (queryParams.hasOwnProperty(key)) {
+        val = queryParams[key];
+
+        if (isArray(val)) {
+          each(val, function (item) {
+            queryString.push(encodeURIComponent(key) + '[]=' + encodeURIComponent(item));
+          });
+        }
+        else {
+          queryString.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
+        }
+      }
+    }
+
+    queryString = '?' + queryString.join('&');
+
+    return queryString;
+  }
+
+};
+
+module.exports = Navigator;
+
+},{"./helpers":2,"./request":4,"./route":5}],4:[function(require,module,exports){
+var helpers = require('./helpers'),
+    each = helpers.each,
+    merge = helpers.merge,
+    isArray = helpers.isArray;
+
+/**
+@class Request
+@constructor
+**/
+var Request = function (options) {
+  this.namedParams  = {};
+  this.queryParams  = {};
+  this.params       = {};
+
+  this.uri          = options.uri;
+  this.queryString  = options.queryString;
+  this.matchedRoute = options.matchedRoute;
+
+  this._extractNamedParamsFromURI();
+  this._extractQueryParamsFromQueryString();
+  this._mergeParams();
+};
+
+Request.prototype = {
+  /**
+  @method _extractNamedParamsFromURI
+  @private
+  **/
+  _extractNamedParamsFromURI: function () {
+    var uriParts = this.uri.split('/'),
+        routeParts = this.matchedRoute.split('/'),
+        params = {};
+
+    each(routeParts, function (part, i) {
+      var key;
+
+      if (part.indexOf(':') === 0) {
+        key = part.replace(':', '');
+
+        params[key] = decodeURIComponent( uriParts[i] );
+      }
+    });
+
+    this.namedParams = params;
+  },
+
+  /**
+  Splits the query string by '&'. Splits each part by '='.
+  Passes the key and value for each part to _applyQueryParam
+
+  @method _extractQueryParamsFromQueryString
+  @private
+  **/
+  _extractQueryParamsFromQueryString: function () {
+    var parts;
+
+    if (!this.queryString) return;
+
+    parts = this.queryString.replace('?','').split('&');
+
+    each(parts, function (part) {
+      var key = decodeURIComponent( part.split('=')[0] ),
+          val = decodeURIComponent( part.split('=')[1] );
+
+      if ( part.indexOf( '=' ) === -1 ) return;
+      this._applyQueryParam( key, val );
+
+    }, this);
+
+  },
+
+  /**
+  Update the queryParams property with a new key and value.
+  Values for keys with the [] notation are put into arrays
+  or pushed into an existing array for that key.
+
+  @method _applyQueryParam
+  @param {String} key
+  @param {String} val
+  **/
+  _applyQueryParam: function (key, val) {
+    if ( key.indexOf( '[]' ) !== -1 ) {
+      key = key.replace( '[]', '' );
+
+      if (isArray(this.queryParams[key])) {
+        this.queryParams[key].push(val);
+      }
+      else {
+        this.queryParams[key] = [val];
+      }
+    }
+    else {
+      this.queryParams[key] = val;
+    }
+  },
+
+  /**
+  @method _mergeParams
+  @private
+  **/
+  _mergeParams: function () {
+    this.params = merge(this.namedParams, this.queryParams);
+  }
+};
+
+module.exports = Request;
+
+},{"./helpers":2}],5:[function(require,module,exports){
+var helpers = require('./helpers'),
+    merge = helpers.merge,
+    isString = helpers.isString,
+    isPlainObject = helpers.isPlainObject;
+
+/**
+Contains the properties for a route
+After attempting to match a uri to the Routes map
+
+@class Route
+@constructor
+@private
+**/
+var Route = function (routes, uri) {
+  this.uri          = uri;
+  this.matchedRoute = '';
+  this.targets      = [];
+  this.actions      = [];
+  this.exits        = [];
+  this.options      = {};
+
+  this.match(routes);
+
+  this.uri = uri;
+};
+
+Route.prototype = {
+
+  /**
+  Matches the uri from the routes map.
+
+  @method match
+  @param {String} routeLevel
+  @return {Object}
+  **/
+  match: function (routeLevel) {
+    var value, action, target;
+
+    if (routeLevel.target) {
+      this.targets.push(routeLevel.target);
+    }
+
+    if (this.targets.length) {
+      target = this.targets[this.targets.length - 1];
+    }
+
+    action = {
+      target: target,
+      method: null
+    };
+
+    for (var key in routeLevel) {
+      if (routeLevel.hasOwnProperty(key)) {
+        value = routeLevel[key];
+
+        if (this.isFragment(key) && this.isFragmentInURI(key)) {
+          this.updateMatchedRoute(key);
+          this.removeFragmentFromURI(key);
+
+          if (this.isActionDescriptor(value)) {
+
+            // Check that if this fragment is a namedParam,
+            // we never override a regular fragment.
+            if (!this.isNamedParam(key) || !action.method) {
+              if (isString(value)) {
+                action.method = value;
+              }
+              else {
+                action.method = value.method;
+
+                if (value.exit) {
+                  this.exits.unshift({
+                    method: value.exit,
+                    target: routeLevel.target
+                  });
+                }
+
+                if (value.options) {
+                  this.mergeOptions(value.options);
+                }
+              }
+
+              // Adding the action
+              this.actions.push(action);
+            }
+          }
+          else if (value.hasOwnProperty('options')) {
+            this.mergeOptions(value.options);
+          }
+
+          if (isPlainObject(value)) {
+            // recurse
+            this.match(value);
+          }
+        }
+      }
+    }
+  },
+
+  /**
+  @method mergeOptions
+  @param {Object} options
+  **/
+  mergeOptions: function (options) {
+    this.options = merge(this.options, options);
+  },
+
+  /**
+  appends the matched fragment to the matched route
+
+  @method updateMatchedRoute
+  @param {String} fragment
+  **/
+  updateMatchedRoute: function (fragment) {
+    if (fragment !== '/' && fragment !== '/*') {
+      this.matchedRoute += fragment;
+    }
+  },
+
+  /**
+  removes matched fragments from the beginning of the uri
+
+  @method removeFragmentFromURI
+  @param {String} fragment
+  **/
+  removeFragmentFromURI: function (fragment) {
+    var uri = this.uri,
+        uriParts, subFrags;
+
+    if (fragment !== '/' && fragment !== '/*') {
+      if (this.includesNamedParam(fragment)) {
+        uriParts = uri.split('/'),
+        subFrags = fragment.split('/');
+
+        subFrags.forEach(function (f, i) {
+          if (f.indexOf(':') === 0) {
+            uri = uri.replace('/' + uriParts[i], '');
+          }
+          else if (f) {
+            uri = uri.replace('/' + f, '');
+          }
+        });
+      }
+      else {
+        uri = uri.replace(fragment, '');
+      }
+    }
+
+    this.uri = uri;
+  },
+
+  /**
+  @method isFragmentInURI
+  @param {Any} fragment
+  @return {Boolean}
+  **/
+  isFragmentInURI: function (fragment) {
+    var uri = this.uri,
+        uriParts, subFrags;
+
+    if (uri === '/' || uri === '') {
+      return fragment === '/' || fragment === '/*';
+    }
+
+    if ( fragment === '/' ) {
+      return false;
+    }
+    else if ( fragment === '/*' ) {
+      return true;
+    }
+    // includes vs is named param
+    else if (this.includesNamedParam(fragment)) {
+      uriParts = uri.split('/'),
+      subFrags = fragment.split('/');
+
+      if (subFrags.length === 2) {
+        return true;
+      }
+
+      return subFrags.map(function (f, i) {
+        if (f.indexOf(':') === 0) {
+          return true;
+        }
+        else {
+          return uriParts[i].indexOf(f) !== -1;
+        }
+      }).reduce(function (a, b) { return a && b; });
+    }
+    else {
+      return uri.indexOf(fragment) === 0;
+    }
+  },
+
+  /**
+  @method includesNamedParam
+  @param {String} fragment
+  @return {Boolean}
+  **/
+  includesNamedParam: function (fragment) {
+    return fragment.indexOf('/:') !== -1;
+  },
+
+  /**
+  @method isFragment
+  @param {Any} key
+  @return {Boolean}
+  **/
+  isFragment: function (key) {
+    return key.indexOf('/') === 0;
+  },
+
+  /**
+  @method isActionDescriptor
+  @param {Any} val
+  @return {Boolean}
+  **/
+  isActionDescriptor: function (val) {
+    return isString(val) || isPlainObject(val) && val.method;
+  },
+
+  /**
+  @method isNamedParam
+  @param {String} fragment
+  @return {Boolean}
+  **/
+  isNamedParam: function (fragment) {
+    return fragment.indexOf('/:') === 0;
+  }
+};
+
+module.exports = Route;
+
+},{"./helpers":2}],6:[function(require,module,exports){
 window.KioskOperatorApp = {
   start: function(_arg) {
-    var operator, vendor_key;
+    var OperatorRouteTarget, operator, vendor_key;
     vendor_key = _arg.vendor_key, operator = _arg.operator;
     console.log("KioskOperatorApp start for vendor: " + vendor_key + ", operator: " + operator.name);
     $.ajaxSetup({
@@ -135,9 +980,19 @@ window.KioskOperatorApp = {
         crossDomain: true
       },
       headers: {
-        "X-Vendor-Key": vendor_key
+        'X-Vendor-Key': vendor_key
       }
     });
+    OperatorRouteTarget = {
+      categories: function(req) {}
+    };
+    Aviator.setRoutes({
+      '/operator': {
+        target: OperatorRouteTarget,
+        '/categories': 'categories'
+      }
+    });
+    Aviator.dispatch();
     window.EB.emit('start');
     return ReactUjs.initialize();
   },
@@ -148,7 +1003,7 @@ window.KioskOperatorApp = {
 
 
 
-},{}],3:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 $(function() {
   var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, modalClick, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
   modalClick = function(event) {
@@ -309,7 +1164,7 @@ $(function() {
 
 
 
-},{}],4:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var Requester;
 
 window._ = require('lodash');
@@ -356,9 +1211,11 @@ require('bootstrapSass');
 
 require('typeahead');
 
+require('aviator');
 
 
-},{"./libs/requester":5,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":64,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],5:[function(require,module,exports){
+
+},{"./libs/requester":9,"aviator":undefined,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":68,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],9:[function(require,module,exports){
 var Requester,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -395,7 +1252,7 @@ module.exports = Requester;
 
 
 
-},{}],6:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 window.OperatorCategoriesServerActions = {
   receiveCategories: function(categories) {
     return OperatorCategoriesDispatcher.handleServerAction({
@@ -437,7 +1294,7 @@ window.OperatorCategoriesServerActions = {
 
 
 
-},{}],7:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 window.OperatorProductsServerActions = {
   receiveProducts: function(categoryId, products) {
     return OperatorProductsDispatcher.handleServerAction({
@@ -459,7 +1316,7 @@ window.OperatorProductsServerActions = {
 
 
 
-},{}],8:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 window.OperatorCategoriesViewActions = {
   loadCategories: function(_arg) {
     var error, success;
@@ -544,7 +1401,7 @@ window.OperatorCategoriesViewActions = {
 
 
 
-},{}],9:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 window.OperatorProductsViewActions = {
   loadProducts: function(options) {
     return OperatorProductsService.loadProducts(options);
@@ -556,7 +1413,7 @@ window.OperatorProductsViewActions = {
 
 
 
-},{}],10:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
@@ -589,7 +1446,7 @@ window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
 
 
 
-},{}],11:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.Money = React.createClass({displayName: 'Money',
@@ -607,7 +1464,7 @@ window.Money = React.createClass({displayName: 'Money',
 
 
 
-},{}],12:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.Spinner = React.createClass({displayName: 'Spinner',
@@ -634,7 +1491,7 @@ window.Spinner = React.createClass({displayName: 'Spinner',
 
 
 
-},{}],13:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var LOADED_STATE, LOADING_STATE;
@@ -712,7 +1569,7 @@ window.ModalComponent = React.createClass({displayName: 'ModalComponent',
 
 
 
-},{}],14:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var CREATE_STATE, ERROR_MESSAGE, ERROR_STATE, INPUT_STATE, PLACEHOLDER;
@@ -814,7 +1671,7 @@ window.OperatorCategories_CreateForm = React.createClass({displayName: 'Operator
 
 
 
-},{}],15:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_ListItem = React.createClass({displayName: 'OperatorCategories_ListItem',
@@ -844,7 +1701,7 @@ window.OperatorCategories_ListItem = React.createClass({displayName: 'OperatorCa
 
 
 
-},{}],16:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var ERROR_MESSAGE, ERROR_STATE, INPUT_STATE, UPDATE_STATE;
@@ -953,7 +1810,7 @@ window.OperatorCategories_ListItemEdit = React.createClass({displayName: 'Operat
 
 
 
-},{}],17:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var EDIT_STATE, SWITCH_CATEGORY_TIMEOUT, VIEW_STATE;
@@ -1070,7 +1927,7 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
 
 
 
-},{}],18:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var TITLE;
@@ -1110,7 +1967,7 @@ window.OperatorCategories_ListItemWithSubcategories = React.createClass({display
 
 
 
-},{}],19:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var TITLE;
@@ -1151,7 +2008,7 @@ window.OperatorCategories_ListItemWithoutCategory = React.createClass({displayNa
 
 
 
-},{}],20:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var DRAG_DELAY, DRAG_REVERT;
@@ -1253,7 +2110,7 @@ window.OperatorCategories_List = React.createClass({displayName: 'OperatorCatego
 
 
 
-},{}],21:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCategories_Loaded',
@@ -1306,7 +2163,7 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
 
 
 
-},{}],22:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_Loading = React.createClass({displayName: 'OperatorCategories_Loading',
@@ -1324,7 +2181,7 @@ window.OperatorCategories_Loading = React.createClass({displayName: 'OperatorCat
 
 
 
-},{}],23:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_LoadingError = React.createClass({displayName: 'OperatorCategories_LoadingError',
@@ -1339,7 +2196,7 @@ window.OperatorCategories_LoadingError = React.createClass({displayName: 'Operat
 
 
 
-},{}],24:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_OneCategory = React.createClass({displayName: 'OperatorCategories_OneCategory',
@@ -1373,7 +2230,7 @@ window.OperatorCategories_OneCategory = React.createClass({displayName: 'Operato
 
 
 
-},{}],25:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var ERROR_STATE, LOADED_STATE, LOADING_STATE;
@@ -1387,7 +2244,8 @@ ERROR_STATE = 'error';
 window.OperatorCategories = React.createClass({displayName: 'OperatorCategories',
   propTypes: {
     productState: React.PropTypes.string,
-    productQuery: React.PropTypes.string
+    productQuery: React.PropTypes.string,
+    categoryId: React.PropTypes.number
   },
   getInitialState: function() {
     return {
@@ -1447,6 +2305,11 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
       currentCategory: category,
       includeSubcategories: includeSubcategories
     });
+    Aviator.navigate('', {
+      queryParams: {
+        category_id: category.id
+      }
+    });
     return DragStateDispatcher.handleViewAction({
       type: 'currentCategoryChanged'
     });
@@ -1454,12 +2317,16 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
   _onStoreChange: function() {
     var currentCategory, rootCategory;
     rootCategory = OperatorCategoriesStore.getRootCategory();
-    if (OperatorCategoriesStore.isCategoryExists(this.state.currentCategory)) {
-      currentCategory = this.state.currentCategory;
-    } else if (this.state.currentCategory && this.state.currentCategory.parent_id) {
-      currentCategory = OperatorCategoriesStore.getCategoryById(this.state.currentCategory.parent_id);
+    if (OperatorCategoriesStore.getCategoryById(this.props.categoryId)) {
+      currentCategory = OperatorCategoriesStore.getCategoryById(this.props.categoryId);
     } else {
-      currentCategory = rootCategory;
+      if (OperatorCategoriesStore.isCategoryExists(this.state.currentCategory)) {
+        currentCategory = this.state.currentCategory;
+      } else if (this.state.currentCategory && this.state.currentCategory.parent_id) {
+        currentCategory = OperatorCategoriesStore.getCategoryById(this.state.currentCategory.parent_id);
+      } else {
+        currentCategory = rootCategory;
+      }
     }
     return this.setState({
       currentCategory: currentCategory,
@@ -1470,7 +2337,7 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
 
 
 
-},{}],26:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_TwoCategories = React.createClass({displayName: 'OperatorCategories_TwoCategories',
@@ -1512,7 +2379,7 @@ window.OperatorCategories_TwoCategories = React.createClass({displayName: 'Opera
 
 
 
-},{}],27:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var SELECTED_STATE, UNSELECTED_STATE;
@@ -1599,7 +2466,7 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
 
 
 
-},{}],28:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_ListItemDrag = React.createClass({displayName: 'OperatorProducts_ListItemDrag',
@@ -1632,7 +2499,7 @@ window.OperatorProducts_ListItemDrag = React.createClass({displayName: 'Operator
 
 
 
-},{}],29:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_ListItemsDrag = React.createClass({displayName: 'OperatorProducts_ListItemsDrag',
@@ -1669,7 +2536,7 @@ window.OperatorProducts_ListItemsDrag = React.createClass({displayName: 'Operato
 
 
 
-},{}],30:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts_List',
@@ -1711,7 +2578,7 @@ window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts
 
 
 
-},{}],31:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_Loading = React.createClass({displayName: 'OperatorProducts_Loading',
@@ -1724,7 +2591,7 @@ window.OperatorProducts_Loading = React.createClass({displayName: 'OperatorProdu
 
 
 
-},{}],32:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_LoadingError = React.createClass({displayName: 'OperatorProducts_LoadingError',
@@ -1740,7 +2607,7 @@ window.OperatorProducts_LoadingError = React.createClass({displayName: 'Operator
 
 
 
-},{}],33:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var ERROR_STATE, LOADED_STATE, LOADING_STATE;
@@ -1833,7 +2700,7 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
 
 
 
-},{}],34:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var ProductImages_Image, ProductImages_List, ProductImages_Placeholder;
@@ -1943,7 +2810,7 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
 
 
 
-},{}],35:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductModificationList = React.createClass({displayName: 'ProductModificationList',
@@ -1964,7 +2831,7 @@ window.ProductModificationList = React.createClass({displayName: 'ProductModific
 
 
 
-},{}],36:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductModificationListItem = React.createClass({displayName: 'ProductModificationListItem',
@@ -1991,7 +2858,7 @@ window.ProductModificationListItem = React.createClass({displayName: 'ProductMod
 
 
 
-},{}],37:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var TITLES;
@@ -2021,7 +2888,7 @@ window.ProductState = React.createClass({displayName: 'ProductState',
 
 
 
-},{}],38:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -2151,7 +3018,7 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
 
 
 
-},{}],39:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductThumb = React.createClass({displayName: 'ProductThumb',
@@ -2181,7 +3048,7 @@ window.ProductThumb = React.createClass({displayName: 'ProductThumb',
 
 
 
-},{}],40:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductTotalItemsQuantity = React.createClass({displayName: 'ProductTotalItemsQuantity',
@@ -2195,7 +3062,7 @@ window.ProductTotalItemsQuantity = React.createClass({displayName: 'ProductTotal
     if (quantity > 0) {
       content = "" + quantity + " " + quantityUnit;
     } else {
-      content = '&mdash;';
+      content = 'Нет в наличии';
     }
     return React.DOM.span({className: "adm-categories-goods-total-quantity", 
                   dangerouslySetInnerHTML: { __html: content}});
@@ -2204,7 +3071,7 @@ window.ProductTotalItemsQuantity = React.createClass({displayName: 'ProductTotal
 
 
 
-},{}],41:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 window.ModalController = {
   show: function(url) {
     var container;
@@ -2222,7 +3089,7 @@ window.ModalController = {
 
 
 
-},{}],42:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 var BaseDispatcher,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2256,7 +3123,7 @@ module.exports = BaseDispatcher;
 
 
 
-},{}],43:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -2265,7 +3132,7 @@ window.DragStateDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":42}],44:[function(require,module,exports){
+},{"./_base":46}],48:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -2274,7 +3141,7 @@ window.OperatorCategoriesDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":42}],45:[function(require,module,exports){
+},{"./_base":46}],49:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -2283,7 +3150,7 @@ window.OperatorProductsDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":42}],46:[function(require,module,exports){
+},{"./_base":46}],50:[function(require,module,exports){
 window.AppHelpers = {
   reselectAndFocus: function(node) {
     var value, valueLength;
@@ -2300,7 +3167,7 @@ window.AppHelpers = {
 
 
 
-},{}],47:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 window.EventHelpers = {
   isAnyServiceKey: function(e) {
     return e.shiftKey || e.ctrlKey || e.altKey || e.metaKey;
@@ -2309,7 +3176,7 @@ window.EventHelpers = {
 
 
 
-},{}],48:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 window.CategoryDroppable = {
   componentDidMount: function() {
     var that;
@@ -2351,7 +3218,7 @@ window.CategoryDroppable = {
 
 
 
-},{}],49:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 window.ComponentManipulationsMixin = {
   safeUpdate: function(func) {
     if (!this._isUnmounted()) {
@@ -2370,7 +3237,7 @@ window.ComponentManipulationsMixin = {
 
 
 
-},{}],50:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var ACCEPT_FILE_TYPES, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
 
 ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
@@ -2483,7 +3350,7 @@ window.ImagesFormMixin = {
 
 
 
-},{}],51:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 window.ProductDraggable = {
   getInitialState: function() {
     return {
@@ -2544,7 +3411,7 @@ window.ProductDraggable = {
 
 
 
-},{}],52:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 window.UnmountMixin = {
   unmount: function() {
     return _.defer((function(_this) {
@@ -2557,7 +3424,7 @@ window.UnmountMixin = {
 
 
 
-},{}],53:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 window.CategoriesResource = {
   index: function(_arg) {
     var error, success;
@@ -2633,7 +3500,7 @@ window.CategoriesResource = {
 
 
 
-},{}],54:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 window.ProductsResource = {
   deleteImage: function(_arg) {
     var image_id;
@@ -2717,7 +3584,7 @@ window.ProductsResource = {
 
 
 
-},{}],55:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 window.OperatorCategoriesService = {
   reorderCategories: function(_arg) {
     var categoryId, insertIdx, newPositions;
@@ -2754,7 +3621,7 @@ window.OperatorCategoriesService = {
 
 
 
-},{}],56:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 window.OperatorProductsService = {
   loadProducts: function(_arg) {
     var data, error, success;
@@ -2830,7 +3697,7 @@ window.OperatorProductsService = {
 
 
 
-},{}],57:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 window.ThumborService = {
   thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
   image_url: function(url, style) {
@@ -2850,7 +3717,7 @@ window.ThumborService = {
 
 
 
-},{}],58:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 var BaseStore, CHANGE_EVENT,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -2884,7 +3751,7 @@ module.exports = BaseStore;
 
 
 
-},{}],59:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 var BaseStore, _draggedProducts, _selectedProducts;
 
 BaseStore = require('./_base');
@@ -2999,7 +3866,7 @@ DragStateDispatcher.register(function(payload) {
 
 
 
-},{"./_base":58}],60:[function(require,module,exports){
+},{"./_base":62}],64:[function(require,module,exports){
 var BaseStore, _categories, _getNewPositions;
 
 BaseStore = require('./_base');
@@ -3235,7 +4102,7 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(fu
 
 
 
-},{"./_base":58}],61:[function(require,module,exports){
+},{"./_base":62}],65:[function(require,module,exports){
 var BaseStore, _products;
 
 BaseStore = require('./_base');
@@ -3296,7 +4163,7 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
 
 
 
-},{"./_base":58}],62:[function(require,module,exports){
+},{"./_base":62}],66:[function(require,module,exports){
 window.ApiRoutes = {
   operator_product_image_delete_url: function(id) {
     return gon.api_root_url + '/v1/operator/products/images/' + id;
@@ -3320,7 +4187,7 @@ window.ApiRoutes = {
 
 
 
-},{}],63:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 window.Routes = {
   products_image_delete_path: function(id) {
     return gon.root_url + '/products/images/' + id;
@@ -3338,7 +4205,7 @@ window.Routes = {
 
 
 
-},{}],64:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -3350,7 +4217,7 @@ window.Routes = {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":65}],65:[function(require,module,exports){
+},{"./lib/Dispatcher":69}],69:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -3602,7 +4469,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":66}],66:[function(require,module,exports){
+},{"./invariant":70}],70:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -3657,7 +4524,140 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-},{}],"bootstrapSass":[function(require,module,exports){
+},{}],"aviator":[function(require,module,exports){
+// Modules
+var Navigator = require('./navigator');
+
+
+/**
+Only expose a tiny API to keep internal routing safe
+
+@singleton Aviator
+**/
+window.Aviator = {
+
+  /**
+  @property pushStateEnabled
+  @type {Boolean}
+  @default true if the browser supports pushState
+  **/
+  pushStateEnabled: ('pushState' in window.history),
+
+  /**
+  @property linkSelector
+  @type {String}
+  @default 'a.navigate'
+  **/
+  linkSelector: 'a.navigate',
+
+  /**
+  the root of the uri from which routing will append to
+
+  @property root
+  @type {String}
+  @default ''
+  **/
+  root: '',
+
+  /**
+  @property _navigator
+  @type {Navigator}
+
+  @private
+  **/
+  _navigator: new Navigator(),
+
+  /**
+  @method setRoutes
+  @param {Object} routes
+  **/
+  setRoutes: function (routes) {
+    this._navigator.setRoutes(routes);
+  },
+
+  /**
+  dispatches routes to targets and sets up event handlers
+
+  @method dispatch
+  **/
+  dispatch: function () {
+    var navigator = this._navigator;
+
+    navigator.setup({
+      pushStateEnabled: this.pushStateEnabled,
+      linkSelector:     this.linkSelector,
+      root:             this.root
+    });
+
+    navigator.dispatch();
+  },
+
+  /**
+  @method navigate
+  @param {String} uri to navigate to
+  @param {Object} [options]
+  **/
+  navigate: function (uri, options) {
+    this._navigator.navigate(uri, options);
+  },
+
+
+  /**
+  @method serializeQueryParams
+  @param {Object} queryParams
+  @return {String} queryString "?foo=bar&baz[]=boo&baz=[]oob"
+  **/
+  serializeQueryParams: function (queryParams) {
+    return this._navigator.serializeQueryParams(queryParams);
+  },
+
+  /**
+  @method getCurrentRequest
+  @return {String}
+  **/
+  getCurrentRequest: function () {
+    return this._navigator.getCurrentRequest();
+  },
+
+  /**
+  @method getCurrentURI
+  @return {String}
+  **/
+  getCurrentURI: function () {
+    return this._navigator.getCurrentURI();
+  },
+
+  /**
+  @method refresh
+  **/
+  refresh: function () {
+    this._navigator.refresh();
+  },
+
+  /**
+  @method rewriteRouteTo
+  @param {String} newRoute
+  @return {Object}
+  **/
+  rewriteRouteTo: function (newRoute) {
+    var target = {
+      rewrite: function (request) {
+        Aviator.navigate(newRoute, {
+          namedParams: request.namedParams,
+          replace: true
+        });
+      }
+    };
+
+    return {
+      target: target,
+      '/': 'rewrite'
+    };
+  }
+
+};
+
+},{"./navigator":3}],"bootstrapSass":[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.2.0
  * http://getbootstrap.com/javascript/#affix

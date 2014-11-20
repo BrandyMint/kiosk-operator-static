@@ -13,7 +13,8 @@
     "jquery-autosize": "~1.18.13",
     "compass-mixins": "~1.0.1",
     "font-awesome": "~4.1.0",
-    "typeahead.js": "~0.10.5"
+    "typeahead.js": "~0.10.5",
+    "aviator": "~0.4.2"
   },
   "devDependencies": {
     "modernizr": "~2.8.2",

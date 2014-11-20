@@ -9,6 +9,7 @@ window.OperatorCategories = React.createClass
   propTypes:
     productState: React.PropTypes.string
     productQuery: React.PropTypes.string
+    categoryId:   React.PropTypes.number
 
   getInitialState: ->
     currentState:         LOADING_STATE
@@ -55,6 +56,7 @@ window.OperatorCategories = React.createClass
       currentCategory: category
       includeSubcategories: includeSubcategories
     }
+    Aviator.navigate '', queryParams: { category_id: category.id }
     #TODO: store currentCategory in individual store
     DragStateDispatcher.handleViewAction {
       type: 'currentCategoryChanged'
@@ -63,12 +65,15 @@ window.OperatorCategories = React.createClass
   _onStoreChange: ->
     rootCategory = OperatorCategoriesStore.getRootCategory()
 
-    if OperatorCategoriesStore.isCategoryExists @state.currentCategory
-      currentCategory = @state.currentCategory
-    else if @state.currentCategory && @state.currentCategory.parent_id
-      currentCategory = OperatorCategoriesStore.getCategoryById @state.currentCategory.parent_id
+    if OperatorCategoriesStore.getCategoryById @props.categoryId
+      currentCategory = OperatorCategoriesStore.getCategoryById @props.categoryId
     else
-      currentCategory = rootCategory
+      if OperatorCategoriesStore.isCategoryExists @state.currentCategory
+        currentCategory = @state.currentCategory
+      else if @state.currentCategory && @state.currentCategory.parent_id
+        currentCategory = OperatorCategoriesStore.getCategoryById @state.currentCategory.parent_id
+      else
+        currentCategory = rootCategory
 
     @setState {
       currentCategory: currentCategory

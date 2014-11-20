@@ -25,3 +25,4 @@ require 'jquery.role'
 require('react-mixin-manager')(window.React)
 require 'bootstrapSass'
 require 'typeahead'
+require 'aviator'

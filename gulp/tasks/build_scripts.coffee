@@ -29,6 +29,7 @@ gulp.task 'vendorScripts', ['clean'], ->
     .require '../scripts/libs/react_ujs',                              { expose: 'reactUjs' }
     .require './eventEmitter/EventEmitter',                            { expose: 'eventEmitter' }
     .require './typeahead.js/dist/typeahead.bundle',                   { expose: 'typeahead' }
+    .require './aviator/src/main',                                     { expose: 'aviator' }
 
   bundle = ->
     bundleLogger.start vendorConfig.outputName
@@ -69,6 +70,7 @@ gulp.task 'localScripts', ['clean'], ->
     .external 'reactUjs'
     .external 'eventEmitter'
     .external 'typeahead'
+    .external 'aviator'
 
   bundle = ->
     bundleLogger.start localConfig.outputName

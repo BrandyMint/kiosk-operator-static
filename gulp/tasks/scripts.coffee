@@ -30,6 +30,7 @@ gulp.task 'scripts', ->
     .require './scripts/libs/react_ujs',                                                { expose: 'reactUjs' }
     .require './bower_components/eventEmitter/EventEmitter',                            { expose: 'eventEmitter' }
     .require './bower_components/typeahead.js/dist/typeahead.bundle',                   { expose: 'typeahead' }
+    .require './bower_components/aviator/src/main',                                     { expose: 'aviator' }
 
   bundle = ->
     bundleLogger.start config.outputName

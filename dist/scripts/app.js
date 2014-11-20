@@ -1128,6 +1128,7 @@ window.OperatorCategories_ListItemWithoutCategory = React.createClass({displayNa
     totalCount = this.props.category.products_count;
     itemClasses = React.addons.classSet({
       'adm-categories-item': true,
+      '__muted': true,
       'selected': this.props.isActive
     });
     return React.DOM.div({className: itemClasses, 

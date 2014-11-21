@@ -8,7 +8,8 @@ window.OperatorProductsService =
         query: data.productQuery
         state: data.productState
         include_subcategories: data.includeSubcategories
-        per_page: 1000
+        per_page: 40
+        page: data.page
       }
       error: (xhr, status, err) ->
         error?(err || status)

@@ -20,12 +20,16 @@ window.OperatorProducts = React.createClass
   getInitialState: ->
     currentState: LOADING_STATE
     products:     null
+    page:         1
 
   componentDidMount: ->
     @loadProducts @props.categoryId, @props.includeSubcategories
 
   componentWillReceiveProps: (nextProps) ->
-    @loadProducts nextProps.categoryId, nextProps.includeSubcategories
+    # Category is changed
+    if nextProps.categoryId != @props.categoryId
+      @setState(page: 1)
+      @loadProducts nextProps.categoryId, nextProps.includeSubcategories
 
   render: ->
     switch @state.currentState
@@ -47,7 +51,6 @@ window.OperatorProducts = React.createClass
 
   loadProducts: (categoryId, includeSubcategories) ->
     @activateLoadingState()
-    #TODO: safeUpdateState
 
     OperatorProductsViewActions.loadProducts {
       data: {
@@ -57,6 +60,22 @@ window.OperatorProducts = React.createClass
         includeSubcategories: includeSubcategories
       }
       success: @activateLoadedState
+      error: (errMsg) =>
+        @setState {
+          currentState: ERROR_STATE
+          errorMessage: errMsg
+        }
+    }
+
+  loadMoreProducts: ->
+    OperatorProductsViewActions.loadMoreProducts {
+      data: {
+        categoryId:           @props.categoryId
+        productQuery:         @props.productQuery
+        productState:         @props.productState
+        includeSubcategories: @props.includeSubcategories
+        page:                 @state.page
+      }
       error: (errMsg) =>
         @setState {
           currentState: ERROR_STATE

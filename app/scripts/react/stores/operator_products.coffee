@@ -15,6 +15,16 @@ window.OperatorProductsStore = _.extend new BaseStore(), {
   replaceProducts: (categoryId, products) ->
     _products[categoryId] = products
 
+  pushProducts: (categoryId, products) ->
+    _products[categoryId] ||= []
+    clonedProducts = _products[categoryId][..]
+
+    for product in products
+      unless @isProductExists categoryId, product
+        clonedProducts.push product
+
+    _products[categoryId] = clonedProducts
+
   removeProduct: (categoryId, productId) ->
     return unless @isProductExists(categoryId, productId)
 
@@ -38,6 +48,10 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register (paylo
     when 'productsLoaded'
       #TODO: pushProducts instead of replaceProducts
       OperatorProductsStore.replaceProducts action.categoryId, action.products
+      OperatorProductsStore.emitChange()
+      break
+    when 'moreProductsLoaded'
+      OperatorProductsStore.pushProducts action.categoryId, action.products
       OperatorProductsStore.emitChange()
       break
     when 'productMoved'

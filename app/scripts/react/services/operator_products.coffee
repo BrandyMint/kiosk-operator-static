@@ -8,31 +8,32 @@ window.OperatorProductsService =
         query:                 data.productQuery
         state:                 data.productState
         include_subcategories: data.includeSubcategories
-        per_page:              20
+        page:                  1
+        per_page:              30
       }
       error: (xhr, status, err) ->
         error?(err || status)
       success: (response) ->
         OperatorProductsServerActions.receiveProducts data.categoryId, response.products
         # TODO Пейджирование
-        success?(response.products)
+        success?(response)
 
   loadMoreProducts: ({data, success, error}) ->
     Requester.request
       url: ApiRoutes.operator_products_by_category_url()
       data: {
         category_id:           data.categoryId
-        page:                  data.page
         query:                 data.productQuery
         state:                 data.productState
         include_subcategories: data.includeSubcategories
-        per_page:              20
+        page:                  data.page
+        per_page:              30
       }
       error: (xhr, status, err) ->
         error?(err || status)
       success: (response) ->
         OperatorProductsServerActions.receiveMoreProducts data.categoryId, response.products
-        success?(response.products)
+        success?(response)
 
   changeProductCategory: ({productId, newCategoryId, oldCategoryId, success}) ->
     Requester.request

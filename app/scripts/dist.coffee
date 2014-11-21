@@ -47,6 +47,7 @@ require './react/mixins/unmount'
 require './react/mixins/product_draggable'
 require './react/mixins/category_droppable'
 require './react/mixins/component_manipulations'
+require './react/components/operator_products/mixins/load_more_products'
 
 # /*==========  Components  ==========*/
 

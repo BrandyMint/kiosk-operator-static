@@ -8,4 +8,5 @@ window.gon =
  # localStorage.setItem('api_root_url', 'http://kaskad.3001.vkontraste.ru/api')
  api_root_url: localStorage.getItem('api_root_url') || ''
 
- thumbor_url: 'http://thumbor.kiiiosk.ru'
+ # Если null значит брать напрямую
+ thumbor_url: null # 'http://thumbor.kiiiosk.ru'

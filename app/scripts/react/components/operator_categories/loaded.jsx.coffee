@@ -14,35 +14,28 @@ window.OperatorCategories_Loaded = React.createClass
     currentCategory      = @props.currentCategory
     currentCategoryLevel = OperatorCategoriesStore.getCategoryLevel currentCategory
 
-    switch currentCategoryLevel
-      when 0
-        categoriesContent = `<OperatorCategories_OneCategory
-                                 parentCategory={ this.props.parentCategory }
-                                 currentCategory={ currentCategory }
-                                 productQuery={ this.props.productQuery }
-                                 productState={ this.props.productState }
-                                 includeSubcategories={ this.props.includeSubcategories }
-                                 onCategorySelect={ this.props.onCategorySelect } />`
-
-      when 1
-        categoriesContent = `<OperatorCategories_TwoCategories
-                                 firstCategory={ this.props.parentCategory }
-                                 secondCategory={ currentCategory }
-                                 currentCategory={ currentCategory }
-                                 productQuery={ this.props.productQuery }
-                                 productState={ this.props.productState }
-                                 includeSubcategories={ this.props.includeSubcategories }
-                                 onCategorySelect={ this.props.onCategorySelect } />`
-
-      when 2
-        secondCategory = OperatorCategoriesStore.getCategoryById currentCategory.parent_id
-        categoriesContent = `<OperatorCategories_TwoCategories
-                                 firstCategory={ this.props.parentCategory }
-                                 secondCategory={ secondCategory }
-                                 currentCategory={ currentCategory }
-                                 productQuery={ this.props.productQuery }
-                                 productState={ this.props.productState }
-                                 includeSubcategories={ this.props.includeSubcategories }
-                                 onCategorySelect={ this.props.onCategorySelect } />`
+    if currentCategoryLevel == 0
+      categoriesContent = `<OperatorCategories_OneCategory
+                               parentCategory={ this.props.parentCategory }
+                               currentCategory={ currentCategory }
+                               includeSubcategories={ this.props.includeSubcategories }
+                               onCategorySelect={ this.props.onCategorySelect } />`
+    else
+      categoriesContent = `<OperatorCategories_TwoCategories
+                               parentCategory={ this.props.parentCategory }
+                               currentCategory={ currentCategory }
+                               includeSubcategories={ this.props.includeSubcategories }
+                               onCategorySelect={ this.props.onCategorySelect } />`
 
     categoriesContent
+
+    return `<div className="adm-categories-grid">
+              { categoriesContent }
+              <div className="adm-categories-grid-col __wide">
+                <OperatorProducts
+                    categoryId={ this.props.currentCategory.id }
+                    productState={ this.props.productState }
+                    productQuery={ this.props.productQuery }
+                    includeSubcategories={ this.props.includeSubcategories } />
+              </div>
+            </div>`

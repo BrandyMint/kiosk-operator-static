@@ -30,11 +30,13 @@ window.OperatorProducts = React.createClass
   render: ->
     switch @state.currentState
       when LOADED_STATE
-        productsContent = `<OperatorProducts_List categoryId={ this.props.categoryId } />`
+        productsContent = `<OperatorProducts_List
+                               categoryId={ this.props.categoryId } />`
       when LOADING_STATE
         productsContent = `<OperatorProducts_Loading />`
       when ERROR_STATE
-        productsContent = `<OperatorProducts_LoadingError message={ this.state.errorMessage } />`
+        productsContent = `<OperatorProducts_LoadingError
+                               message={ this.state.errorMessage } />`
       else console.warn 'Unknown currentState of OperatorProducts component', @state.currentState
 
     productsContent

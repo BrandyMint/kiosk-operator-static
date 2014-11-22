@@ -1,7 +1,6 @@
 ###* @jsx React.DOM ###
 
 window.OperatorProducts_List = React.createClass
-  mixins: [React.addons.PureRenderMixin]
 
   propTypes:
     categoryId: React.PropTypes.number.isRequired
@@ -11,6 +10,9 @@ window.OperatorProducts_List = React.createClass
 
   componentDidMount: ->
     OperatorProductsStore.addChangeListener @_onStoreChange
+
+  shouldComponentUpdate: (nextProps, nextState) ->
+    @state.products.length != nextState.products.length
 
   componentWillUnmount: ->
     OperatorProductsStore.removeChangeListener @_onStoreChange

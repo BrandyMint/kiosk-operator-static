@@ -3,7 +3,7 @@
 window.OperatorProducts_ListItemsDrag = React.createClass
 
   propTypes:
-    products: React.PropTypes.object.isRequired
+    products: React.PropTypes.array.isRequired
 
   render: ->
     products = @props.products.map (product) ->

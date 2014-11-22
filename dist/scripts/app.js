@@ -55,6 +55,8 @@ require('./react/mixins/category_droppable');
 
 require('./react/mixins/component_manipulations');
 
+require('./react/components/operator_products/mixins/load_more_products');
+
 require('./react/components/common/spinner');
 
 require('./react/components/common/money');
@@ -123,7 +125,7 @@ require('./react/helpers/event');
 
 
 
-},{"./app":6,"./legacy":7,"./libs":8,"./react/actions/server/operator_categories":10,"./react/actions/server/operator_products":11,"./react/actions/view/operator_categories":12,"./react/actions/view/operator_products":13,"./react/components/common/images_form_thumbs":14,"./react/components/common/money":15,"./react/components/common/spinner":16,"./react/components/modal/modal":17,"./react/components/operator_categories/list/create_form":18,"./react/components/operator_categories/list/items/item":19,"./react/components/operator_categories/list/items/item_edit":20,"./react/components/operator_categories/list/items/item_manager":21,"./react/components/operator_categories/list/items/with_subcategories":22,"./react/components/operator_categories/list/items/without_category":23,"./react/components/operator_categories/list/list":24,"./react/components/operator_categories/loaded":25,"./react/components/operator_categories/loading":26,"./react/components/operator_categories/loading_error":27,"./react/components/operator_categories/one_category":28,"./react/components/operator_categories/operator_categories":29,"./react/components/operator_categories/two_categories":30,"./react/components/operator_products/list/item":31,"./react/components/operator_products/list/item_drag":32,"./react/components/operator_products/list/items_drag":33,"./react/components/operator_products/list/list":34,"./react/components/operator_products/loading":35,"./react/components/operator_products/loading_error":36,"./react/components/operator_products/operator_products":37,"./react/components/product/images":38,"./react/components/product/modification_list":39,"./react/components/product/modification_list_item":40,"./react/components/product/state":41,"./react/components/product/status_toggle":42,"./react/components/product/thumb":43,"./react/components/product/total_items_quantity":44,"./react/controllers/modal":45,"./react/dispatchers/_base":46,"./react/dispatchers/drag_state":47,"./react/dispatchers/operator_categories":48,"./react/dispatchers/operator_products":49,"./react/helpers/app":50,"./react/helpers/event":51,"./react/mixins/category_droppable":52,"./react/mixins/component_manipulations":53,"./react/mixins/images_form":54,"./react/mixins/product_draggable":55,"./react/mixins/unmount":56,"./react/resources/categories":57,"./react/resources/products":58,"./react/services/operator_categories":59,"./react/services/operator_products":60,"./react/services/thumbor":61,"./react/stores/_base":62,"./react/stores/drag_state":63,"./react/stores/operator_categories":64,"./react/stores/operator_products":65,"./routes/api":66,"./routes/routes":67}],2:[function(require,module,exports){
+},{"./app":6,"./legacy":7,"./libs":8,"./react/actions/server/operator_categories":10,"./react/actions/server/operator_products":11,"./react/actions/view/operator_categories":12,"./react/actions/view/operator_products":13,"./react/components/common/images_form_thumbs":14,"./react/components/common/money":15,"./react/components/common/spinner":16,"./react/components/modal/modal":17,"./react/components/operator_categories/list/create_form":18,"./react/components/operator_categories/list/items/item":19,"./react/components/operator_categories/list/items/item_edit":20,"./react/components/operator_categories/list/items/item_manager":21,"./react/components/operator_categories/list/items/with_subcategories":22,"./react/components/operator_categories/list/items/without_category":23,"./react/components/operator_categories/list/list":24,"./react/components/operator_categories/loaded":25,"./react/components/operator_categories/loading":26,"./react/components/operator_categories/loading_error":27,"./react/components/operator_categories/one_category":28,"./react/components/operator_categories/operator_categories":29,"./react/components/operator_categories/two_categories":30,"./react/components/operator_products/list/item":31,"./react/components/operator_products/list/item_drag":32,"./react/components/operator_products/list/items_drag":33,"./react/components/operator_products/list/list":34,"./react/components/operator_products/loading":35,"./react/components/operator_products/loading_error":36,"./react/components/operator_products/mixins/load_more_products":37,"./react/components/operator_products/operator_products":38,"./react/components/product/images":39,"./react/components/product/modification_list":40,"./react/components/product/modification_list_item":41,"./react/components/product/state":42,"./react/components/product/status_toggle":43,"./react/components/product/thumb":44,"./react/components/product/total_items_quantity":45,"./react/controllers/modal":46,"./react/dispatchers/_base":47,"./react/dispatchers/drag_state":48,"./react/dispatchers/operator_categories":49,"./react/dispatchers/operator_products":50,"./react/helpers/app":51,"./react/helpers/event":52,"./react/mixins/category_droppable":53,"./react/mixins/component_manipulations":54,"./react/mixins/images_form":55,"./react/mixins/product_draggable":56,"./react/mixins/unmount":57,"./react/resources/categories":58,"./react/resources/products":59,"./react/services/operator_categories":60,"./react/services/operator_products":61,"./react/services/thumbor":62,"./react/stores/_base":63,"./react/stores/drag_state":64,"./react/stores/operator_categories":65,"./react/stores/operator_products":66,"./routes/api":67,"./routes/routes":68}],2:[function(require,module,exports){
 /**
 binds a function to a context
 
@@ -1215,7 +1217,7 @@ require('aviator');
 
 
 
-},{"./libs/requester":9,"aviator":undefined,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":68,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],9:[function(require,module,exports){
+},{"./libs/requester":9,"aviator":undefined,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":69,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],9:[function(require,module,exports){
 var Requester,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -1299,6 +1301,13 @@ window.OperatorProductsServerActions = {
   receiveProducts: function(categoryId, products) {
     return OperatorProductsDispatcher.handleServerAction({
       type: 'productsLoaded',
+      categoryId: categoryId,
+      products: products
+    });
+  },
+  receiveMoreProducts: function(categoryId, products) {
+    return OperatorProductsDispatcher.handleServerAction({
+      type: 'moreProductsLoaded',
       categoryId: categoryId,
       products: products
     });
@@ -1405,6 +1414,9 @@ window.OperatorCategoriesViewActions = {
 window.OperatorProductsViewActions = {
   loadProducts: function(options) {
     return OperatorProductsService.loadProducts(options);
+  },
+  loadMoreProducts: function(options) {
+    return OperatorProductsService.loadMoreProducts(options);
   },
   changeProductCategory: function(options) {
     return OperatorProductsService.changeProductCategory(options);
@@ -2128,41 +2140,33 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
     onCategorySelect: React.PropTypes.func.isRequired
   },
   render: function() {
-    var categoriesContent, currentCategory, currentCategoryLevel, secondCategory;
+    var categoriesContent, currentCategory, currentCategoryLevel;
     currentCategory = this.props.currentCategory;
     currentCategoryLevel = OperatorCategoriesStore.getCategoryLevel(currentCategory);
-    switch (currentCategoryLevel) {
-      case 0:
-        categoriesContent = OperatorCategories_OneCategory({
-                                 parentCategory:  this.props.parentCategory, 
-                                 currentCategory: currentCategory, 
-                                 productQuery:  this.props.productQuery, 
-                                 productState:  this.props.productState, 
-                                 includeSubcategories:  this.props.includeSubcategories, 
-                                 onCategorySelect:  this.props.onCategorySelect});
-        break;
-      case 1:
-        categoriesContent = OperatorCategories_TwoCategories({
-                                 firstCategory:  this.props.parentCategory, 
-                                 secondCategory: currentCategory, 
-                                 currentCategory: currentCategory, 
-                                 productQuery:  this.props.productQuery, 
-                                 productState:  this.props.productState, 
-                                 includeSubcategories:  this.props.includeSubcategories, 
-                                 onCategorySelect:  this.props.onCategorySelect});
-        break;
-      case 2:
-        secondCategory = OperatorCategoriesStore.getCategoryById(currentCategory.parent_id);
-        categoriesContent = OperatorCategories_TwoCategories({
-                                 firstCategory:  this.props.parentCategory, 
-                                 secondCategory: secondCategory, 
-                                 currentCategory: currentCategory, 
-                                 productQuery:  this.props.productQuery, 
-                                 productState:  this.props.productState, 
-                                 includeSubcategories:  this.props.includeSubcategories, 
-                                 onCategorySelect:  this.props.onCategorySelect});
+    if (currentCategoryLevel === 0) {
+      categoriesContent = OperatorCategories_OneCategory({
+                               parentCategory:  this.props.parentCategory, 
+                               currentCategory: currentCategory, 
+                               includeSubcategories:  this.props.includeSubcategories, 
+                               onCategorySelect:  this.props.onCategorySelect});
+    } else {
+      categoriesContent = OperatorCategories_TwoCategories({
+                               parentCategory:  this.props.parentCategory, 
+                               currentCategory: currentCategory, 
+                               includeSubcategories:  this.props.includeSubcategories, 
+                               onCategorySelect:  this.props.onCategorySelect});
     }
-    return categoriesContent;
+    categoriesContent;
+    return React.DOM.div({className: "adm-categories-grid"}, 
+              categoriesContent, 
+              React.DOM.div({className: "adm-categories-grid-col __wide"}, 
+                OperatorProducts({
+                    categoryId:  this.props.currentCategory.id, 
+                    productState:  this.props.productState, 
+                    productQuery:  this.props.productQuery, 
+                    includeSubcategories:  this.props.includeSubcategories})
+              )
+            );
   }
 });
 
@@ -2208,27 +2212,16 @@ window.OperatorCategories_OneCategory = React.createClass({displayName: 'Operato
   propTypes: {
     parentCategory: React.PropTypes.object.isRequired,
     currentCategory: React.PropTypes.object.isRequired,
-    productQuery: React.PropTypes.string,
-    productState: React.PropTypes.string,
     includeSubcategories: React.PropTypes.bool.isRequired,
     onCategorySelect: React.PropTypes.func.isRequired
   },
   render: function() {
-    return React.DOM.div({className: "adm-categories-grid"}, 
-      React.DOM.div({className: "adm-categories-grid-col"}, 
-        OperatorCategories_List({
-            parentCategory:  this.props.parentCategory, 
-            currentCategory:  this.props.currentCategory, 
-            includeSubcategories:  this.props.includeSubcategories, 
-            onCategorySelect:  this.props.onCategorySelect})
-      ), 
-      React.DOM.div({className: "adm-categories-grid-col __wide"}, 
-        OperatorProducts({
-            categoryId:  this.props.currentCategory.id, 
-            productState:  this.props.productState, 
-            productQuery:  this.props.productQuery, 
-            includeSubcategories:  this.props.includeSubcategories})
-      )
+    return React.DOM.div({className: "adm-categories-grid-col"}, 
+      OperatorCategories_List({
+          parentCategory:  this.props.parentCategory, 
+          currentCategory:  this.props.currentCategory, 
+          includeSubcategories:  this.props.includeSubcategories, 
+          onCategorySelect:  this.props.onCategorySelect})
     );
   }
 });
@@ -2347,38 +2340,36 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
 /** @jsx React.DOM */
 window.OperatorCategories_TwoCategories = React.createClass({displayName: 'OperatorCategories_TwoCategories',
   propTypes: {
-    firstCategory: React.PropTypes.object.isRequired,
-    secondCategory: React.PropTypes.object.isRequired,
+    parentCategory: React.PropTypes.object.isRequired,
     currentCategory: React.PropTypes.object.isRequired,
-    productQuery: React.PropTypes.string,
-    productState: React.PropTypes.string,
     includeSubcategories: React.PropTypes.bool.isRequired,
     onCategorySelect: React.PropTypes.func.isRequired
   },
   render: function() {
-    return React.DOM.div({className: "adm-categories-grid"}, 
-      React.DOM.div({className: "adm-categories-grid-col"}, 
-        OperatorCategories_List({
-            parentCategory:  this.props.firstCategory, 
-            currentCategory:  this.props.currentCategory, 
-            includeSubcategories:  this.props.includeSubcategories, 
-            onCategorySelect:  this.props.onCategorySelect})
-      ), 
-      React.DOM.div({className: "adm-categories-grid-col"}, 
-         OperatorCategories_List({
-             parentCategory:  this.props.secondCategory, 
-             currentCategory:  this.props.currentCategory, 
-             includeSubcategories:  this.props.includeSubcategories, 
-             onCategorySelect:  this.props.onCategorySelect})
-      ), 
-      React.DOM.div({className: "adm-categories-grid-col __wide"}, 
-        OperatorProducts({
-            categoryId:  this.props.currentCategory.id, 
-            productState:  this.props.productState, 
-            productQuery:  this.props.productQuery, 
-            includeSubcategories:  this.props.includeSubcategories})
-      )
-    );
+    var currentCategory, currentCategoryLevel, secondCategory;
+    currentCategory = this.props.currentCategory;
+    currentCategoryLevel = OperatorCategoriesStore.getCategoryLevel(currentCategory);
+    if (currentCategoryLevel === 1) {
+      secondCategory = currentCategory;
+    } else {
+      secondCategory = OperatorCategoriesStore.getCategoryById(currentCategory.parent_id);
+    }
+    return React.DOM.span(null, 
+              React.DOM.div({className: "adm-categories-grid-col"}, 
+                OperatorCategories_List({
+                    parentCategory:  this.props.parentCategory, 
+                    currentCategory:  this.props.currentCategory, 
+                    includeSubcategories:  this.props.includeSubcategories, 
+                    onCategorySelect:  this.props.onCategorySelect})
+              ), 
+              React.DOM.div({className: "adm-categories-grid-col"}, 
+                 OperatorCategories_List({
+                     parentCategory: secondCategory, 
+                     currentCategory:  this.props.currentCategory, 
+                     includeSubcategories:  this.props.includeSubcategories, 
+                     onCategorySelect:  this.props.onCategorySelect})
+              )
+            );
   }
 });
 
@@ -2509,7 +2500,7 @@ window.OperatorProducts_ListItemDrag = React.createClass({displayName: 'Operator
 /** @jsx React.DOM */
 window.OperatorProducts_ListItemsDrag = React.createClass({displayName: 'OperatorProducts_ListItemsDrag',
   propTypes: {
-    products: React.PropTypes.object.isRequired
+    products: React.PropTypes.array.isRequired
   },
   render: function() {
     var products;
@@ -2545,7 +2536,6 @@ window.OperatorProducts_ListItemsDrag = React.createClass({displayName: 'Operato
 
 /** @jsx React.DOM */
 window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts_List',
-  mixins: [React.addons.PureRenderMixin],
   propTypes: {
     categoryId: React.PropTypes.number.isRequired
   },
@@ -2554,6 +2544,9 @@ window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts
   },
   componentDidMount: function() {
     return OperatorProductsStore.addChangeListener(this._onStoreChange);
+  },
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return this.state.products.length !== nextState.products.length;
   },
   componentWillUnmount: function() {
     return OperatorProductsStore.removeChangeListener(this._onStoreChange);
@@ -2613,9 +2606,36 @@ window.OperatorProducts_LoadingError = React.createClass({displayName: 'Operator
 
 
 },{}],37:[function(require,module,exports){
+var THRESHOLD;
+
+THRESHOLD = 1000;
+
+window.LoadMoreProductsMixin = {
+  componentDidMount: function() {
+    return $(window).on('scroll', this.handleScroll);
+  },
+  componentWillUnmount: function() {
+    return $(window).off('scroll', this.handleScroll);
+  },
+  handleScroll: function() {
+    var isNearBottom;
+    if (!this.isLoadingMoreState() && !this.state.isAllProductsLoaded) {
+      isNearBottom = $(window).scrollTop() + $(window).height() > $(document).height() - THRESHOLD;
+      if (isNearBottom) {
+        return this.loadMoreProducts();
+      }
+    }
+  }
+};
+
+
+
+},{}],38:[function(require,module,exports){
 
 /** @jsx React.DOM */
-var ERROR_STATE, LOADED_STATE, LOADING_STATE;
+var ERROR_STATE, LOADED_STATE, LOADING_MORE_STATE, LOADING_STATE;
+
+LOADING_MORE_STATE = 'loading_more_state';
 
 LOADING_STATE = 'loading';
 
@@ -2624,7 +2644,7 @@ LOADED_STATE = 'loaded';
 ERROR_STATE = 'error';
 
 window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [React.addons.PureRenderMixin, LoadMoreProductsMixin],
   propTypes: {
     categoryId: React.PropTypes.number.isRequired,
     productState: React.PropTypes.string,
@@ -2640,31 +2660,48 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
   getInitialState: function() {
     return {
       currentState: LOADING_STATE,
-      products: null
+      products: null,
+      page: 1,
+      isAllProductsLoaded: false
     };
   },
   componentDidMount: function() {
     return this.loadProducts(this.props.categoryId, this.props.includeSubcategories);
   },
   componentWillReceiveProps: function(nextProps) {
-    return this.loadProducts(nextProps.categoryId, nextProps.includeSubcategories);
+    if (nextProps.categoryId !== this.props.categoryId) {
+      this.setState({
+        page: 1,
+        isAllProductsLoaded: false
+      });
+      return this.loadProducts(nextProps.categoryId, nextProps.includeSubcategories);
+    }
   },
   render: function() {
     var productsContent;
     switch (this.state.currentState) {
       case LOADED_STATE:
-        productsContent = OperatorProducts_List({categoryId:  this.props.categoryId});
+        productsContent = OperatorProducts_List({
+                               categoryId:  this.props.categoryId});
         break;
       case LOADING_STATE:
         productsContent = OperatorProducts_Loading(null);
         break;
+      case LOADING_MORE_STATE:
+        productsContent = OperatorProducts_List({
+                               categoryId:  this.props.categoryId});
+        break;
       case ERROR_STATE:
-        productsContent = OperatorProducts_LoadingError({message:  this.state.errorMessage});
+        productsContent = OperatorProducts_LoadingError({
+                               message:  this.state.errorMessage});
         break;
       default:
         console.warn('Unknown currentState of OperatorProducts component', this.state.currentState);
     }
     return productsContent;
+  },
+  isLoadingMoreState: function() {
+    return this.state.currentState === LOADING_MORE_STATE;
   },
   activateErrorState: function() {
     return this.setState({
@@ -2674,6 +2711,11 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
   activateLoadingState: function() {
     return this.setState({
       currentState: LOADING_STATE
+    });
+  },
+  activateLoadingMoreState: function() {
+    return this.setState({
+      currentState: LOADING_MORE_STATE
     });
   },
   activateLoadedState: function() {
@@ -2690,7 +2732,44 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
         productState: this.props.productState,
         includeSubcategories: includeSubcategories
       },
-      success: this.activateLoadedState,
+      success: (function(_this) {
+        return function(response) {
+          return _this.setState({
+            currentState: LOADED_STATE,
+            page: response.page,
+            isAllProductsLoaded: response.products.length === 0
+          });
+        };
+      })(this),
+      error: (function(_this) {
+        return function(errMsg) {
+          return _this.setState({
+            currentState: ERROR_STATE,
+            errorMessage: errMsg
+          });
+        };
+      })(this)
+    });
+  },
+  loadMoreProducts: function() {
+    this.activateLoadingMoreState();
+    return OperatorProductsViewActions.loadMoreProducts({
+      data: {
+        categoryId: this.props.categoryId,
+        productQuery: this.props.productQuery,
+        productState: this.props.productState,
+        includeSubcategories: this.props.includeSubcategories,
+        page: this.state.page + 1
+      },
+      success: (function(_this) {
+        return function(response) {
+          return _this.setState({
+            currentState: LOADED_STATE,
+            page: response.page,
+            isAllProductsLoaded: response.products.length === 0
+          });
+        };
+      })(this),
       error: (function(_this) {
         return function(errMsg) {
           return _this.setState({
@@ -2705,7 +2784,7 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
 
 
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var ProductImages_Image, ProductImages_List, ProductImages_Placeholder;
@@ -2815,7 +2894,7 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
 
 
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductModificationList = React.createClass({displayName: 'ProductModificationList',
@@ -2836,7 +2915,7 @@ window.ProductModificationList = React.createClass({displayName: 'ProductModific
 
 
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductModificationListItem = React.createClass({displayName: 'ProductModificationListItem',
@@ -2863,7 +2942,7 @@ window.ProductModificationListItem = React.createClass({displayName: 'ProductMod
 
 
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var TITLES;
@@ -2893,7 +2972,7 @@ window.ProductState = React.createClass({displayName: 'ProductState',
 
 
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -3023,7 +3102,7 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
 
 
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductThumb = React.createClass({displayName: 'ProductThumb',
@@ -3053,7 +3132,7 @@ window.ProductThumb = React.createClass({displayName: 'ProductThumb',
 
 
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductTotalItemsQuantity = React.createClass({displayName: 'ProductTotalItemsQuantity',
@@ -3076,7 +3155,7 @@ window.ProductTotalItemsQuantity = React.createClass({displayName: 'ProductTotal
 
 
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 window.ModalController = {
   show: function(url) {
     var container;
@@ -3094,7 +3173,7 @@ window.ModalController = {
 
 
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var BaseDispatcher,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3128,7 +3207,7 @@ module.exports = BaseDispatcher;
 
 
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -3137,7 +3216,7 @@ window.DragStateDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":46}],48:[function(require,module,exports){
+},{"./_base":47}],49:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -3146,7 +3225,7 @@ window.OperatorCategoriesDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":46}],49:[function(require,module,exports){
+},{"./_base":47}],50:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -3155,7 +3234,7 @@ window.OperatorProductsDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":46}],50:[function(require,module,exports){
+},{"./_base":47}],51:[function(require,module,exports){
 window.AppHelpers = {
   reselectAndFocus: function(node) {
     var value, valueLength;
@@ -3172,7 +3251,7 @@ window.AppHelpers = {
 
 
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 window.EventHelpers = {
   isAnyServiceKey: function(e) {
     return e.shiftKey || e.ctrlKey || e.altKey || e.metaKey;
@@ -3181,7 +3260,7 @@ window.EventHelpers = {
 
 
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 window.CategoryDroppable = {
   componentDidMount: function() {
     var that;
@@ -3223,7 +3302,7 @@ window.CategoryDroppable = {
 
 
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 window.ComponentManipulationsMixin = {
   safeUpdate: function(func) {
     if (!this._isUnmounted()) {
@@ -3242,7 +3321,7 @@ window.ComponentManipulationsMixin = {
 
 
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var ACCEPT_FILE_TYPES, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
 
 ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
@@ -3355,7 +3434,7 @@ window.ImagesFormMixin = {
 
 
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 window.ProductDraggable = {
   getInitialState: function() {
     return {
@@ -3416,7 +3495,7 @@ window.ProductDraggable = {
 
 
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 window.UnmountMixin = {
   unmount: function() {
     return _.defer((function(_this) {
@@ -3429,7 +3508,7 @@ window.UnmountMixin = {
 
 
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 window.CategoriesResource = {
   index: function(_arg) {
     var error, success;
@@ -3505,7 +3584,7 @@ window.CategoriesResource = {
 
 
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 window.ProductsResource = {
   deleteImage: function(_arg) {
     var image_id;
@@ -3589,7 +3668,7 @@ window.ProductsResource = {
 
 
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 window.OperatorCategoriesService = {
   reorderCategories: function(_arg) {
     var categoryId, insertIdx, newPositions;
@@ -3626,7 +3705,7 @@ window.OperatorCategoriesService = {
 
 
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 window.OperatorProductsService = {
   loadProducts: function(_arg) {
     var data, error, success;
@@ -3638,14 +3717,37 @@ window.OperatorProductsService = {
         query: data.productQuery,
         state: data.productState,
         include_subcategories: data.includeSubcategories,
-        per_page: 1000
+        page: 1,
+        per_page: 30
       },
       error: function(xhr, status, err) {
         return typeof error === "function" ? error(err || status) : void 0;
       },
       success: function(response) {
         OperatorProductsServerActions.receiveProducts(data.categoryId, response.products);
-        return typeof success === "function" ? success(response.products) : void 0;
+        return typeof success === "function" ? success(response) : void 0;
+      }
+    });
+  },
+  loadMoreProducts: function(_arg) {
+    var data, error, success;
+    data = _arg.data, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_products_by_category_url(),
+      data: {
+        category_id: data.categoryId,
+        query: data.productQuery,
+        state: data.productState,
+        include_subcategories: data.includeSubcategories,
+        page: data.page,
+        per_page: 30
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      },
+      success: function(response) {
+        OperatorProductsServerActions.receiveMoreProducts(data.categoryId, response.products);
+        return typeof success === "function" ? success(response) : void 0;
       }
     });
   },
@@ -3702,7 +3804,7 @@ window.OperatorProductsService = {
 
 
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 window.ThumborService = {
   thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
   image_url: function(url, style) {
@@ -3722,7 +3824,7 @@ window.ThumborService = {
 
 
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 var BaseStore, CHANGE_EVENT,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3756,7 +3858,7 @@ module.exports = BaseStore;
 
 
 
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 var BaseStore, _draggedProducts, _selectedProducts;
 
 BaseStore = require('./_base');
@@ -3871,7 +3973,7 @@ DragStateDispatcher.register(function(payload) {
 
 
 
-},{"./_base":62}],64:[function(require,module,exports){
+},{"./_base":63}],65:[function(require,module,exports){
 var BaseStore, _categories, _getNewPositions;
 
 BaseStore = require('./_base');
@@ -4107,7 +4209,7 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(fu
 
 
 
-},{"./_base":62}],65:[function(require,module,exports){
+},{"./_base":63}],66:[function(require,module,exports){
 var BaseStore, _products;
 
 BaseStore = require('./_base');
@@ -4128,6 +4230,18 @@ window.OperatorProductsStore = _.extend(new BaseStore(), {
   },
   replaceProducts: function(categoryId, products) {
     return _products[categoryId] = products;
+  },
+  pushProducts: function(categoryId, products) {
+    var clonedProducts, product, _i, _len;
+    _products[categoryId] || (_products[categoryId] = []);
+    clonedProducts = _products[categoryId].slice(0);
+    for (_i = 0, _len = products.length; _i < _len; _i++) {
+      product = products[_i];
+      if (!this.isProductExists(categoryId, product)) {
+        clonedProducts.push(product);
+      }
+    }
+    return _products[categoryId] = clonedProducts;
   },
   removeProduct: function(categoryId, productId) {
     var clonedProduct, clonedProducts, i, _i, _len;
@@ -4159,6 +4273,10 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
       OperatorProductsStore.replaceProducts(action.categoryId, action.products);
       OperatorProductsStore.emitChange();
       break;
+    case 'moreProductsLoaded':
+      OperatorProductsStore.pushProducts(action.categoryId, action.products);
+      OperatorProductsStore.emitChange();
+      break;
     case 'productMoved':
       OperatorProductsStore.removeProduct(action.categoryId, action.productId);
       OperatorProductsStore.emitChange();
@@ -4168,7 +4286,7 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
 
 
 
-},{"./_base":62}],66:[function(require,module,exports){
+},{"./_base":63}],67:[function(require,module,exports){
 window.ApiRoutes = {
   operator_product_image_delete_url: function(id) {
     return gon.api_root_url + '/v1/operator/products/images/' + id;
@@ -4192,7 +4310,7 @@ window.ApiRoutes = {
 
 
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 window.Routes = {
   products_image_delete_path: function(id) {
     return gon.root_url + '/products/images/' + id;
@@ -4210,7 +4328,7 @@ window.Routes = {
 
 
 
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -4222,7 +4340,7 @@ window.Routes = {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":69}],69:[function(require,module,exports){
+},{"./lib/Dispatcher":70}],70:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -4474,7 +4592,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":70}],70:[function(require,module,exports){
+},{"./invariant":71}],71:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.

@@ -7,9 +7,8 @@ ERROR_STATE   = 'error'
 window.OperatorCategories = React.createClass
 
   propTypes:
-    productState: React.PropTypes.string
-    productQuery: React.PropTypes.string
-    categoryId:   React.PropTypes.number
+    productsFilter: React.PropTypes.object
+    categoryId:     React.PropTypes.number
 
   getInitialState: ->
     currentState:         LOADING_STATE
@@ -21,6 +20,8 @@ window.OperatorCategories = React.createClass
 
   componentDidMount: ->
     OperatorCategoriesViewActions.loadCategories {
+      data:
+        filter: @props.productsFilter
       success: @activateLoadedState
       error:   @activateErrorState
     }
@@ -36,8 +37,7 @@ window.OperatorCategories = React.createClass
         categoriesContent = `<OperatorCategories_Loaded
                                  parentCategory={ this.state.rootCategory }
                                  currentCategory={ this.state.currentCategory }
-                                 productQuery={ this.props.productQuery }
-                                 productState={ this.props.productState }
+                                 productsFilter={ this.props.productsFilter }
                                  includeSubcategories={ this.state.includeSubcategories }
                                  onCategorySelect={ this.handleCategorySelect } />`
       when LOADING_STATE

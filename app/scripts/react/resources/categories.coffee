@@ -1,8 +1,9 @@
 window.CategoriesResource =
 
-  index: ({success, error}) ->
+  index: ({data, success, error}) ->
     Requester.request
       url: ApiRoutes.operator_categories_url()
+      data: data
       success: (categories) ->
         success?(categories)
       error: (xhr, status, err) ->

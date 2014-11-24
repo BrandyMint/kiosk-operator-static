@@ -10,13 +10,8 @@ window.OperatorProducts = React.createClass
 
   propTypes:
     categoryId:           React.PropTypes.number.isRequired
-    productState:         React.PropTypes.string
-    productQuery:         React.PropTypes.string
+    productsFilter:       React.PropTypes.object
     includeSubcategories: React.PropTypes.bool.isRequired
-
-  getDefaultProps: ->
-    productState: null
-    productQuery: null
 
   getInitialState: ->
     currentState:        LOADING_STATE
@@ -67,8 +62,7 @@ window.OperatorProducts = React.createClass
     OperatorProductsViewActions.loadProducts {
       data: {
         categoryId:           categoryId
-        productQuery:         @props.productQuery
-        productState:         @props.productState
+        filter:               @props.productsFilter
         includeSubcategories: includeSubcategories
       }
       success: (response) =>
@@ -90,8 +84,7 @@ window.OperatorProducts = React.createClass
     OperatorProductsViewActions.loadMoreProducts {
       data: {
         categoryId:           @props.categoryId
-        productQuery:         @props.productQuery
-        productState:         @props.productState
+        filter:               @props.productsFilter
         includeSubcategories: @props.includeSubcategories
         page:                 @state.page + 1
       }

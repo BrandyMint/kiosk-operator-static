@@ -3,6 +3,7 @@
 LOADING_MORE_STATE = 'loading_more_state'
 LOADING_STATE      = 'loading'
 LOADED_STATE       = 'loaded'
+EMPTY_STATE        = 'empty'
 ERROR_STATE        = 'error'
 
 window.OperatorProducts = React.createClass
@@ -37,19 +38,18 @@ window.OperatorProducts = React.createClass
       @loadProducts nextProps.categoryId, nextProps.includeSubcategories
 
   render: ->
-    switch @state.currentState
+    productsContent = switch @state.currentState
       when LOADED_STATE
-        productsContent = `<OperatorProducts_List
-                               categoryId={ this.props.categoryId } />`
+        `<OperatorProducts_List categoryId={ this.props.categoryId } />`
       when LOADING_STATE
-        productsContent = `<OperatorProducts_Loading />`
+        `<OperatorProducts_Loading />`
       when LOADING_MORE_STATE
         #TODO: Display spinner at the end of products list
-        productsContent = `<OperatorProducts_List
-                               categoryId={ this.props.categoryId } />`
+        `<OperatorProducts_List categoryId={ this.props.categoryId } />`
+      when EMPTY_STATE
+        `<OperatorProducts_Empty />`
       when ERROR_STATE
-        productsContent = `<OperatorProducts_LoadingError
-                               message={ this.state.errorMessage } />`
+        `<OperatorProducts_LoadingError message={ this.state.errorMessage } />`
       else console.warn 'Unknown currentState of OperatorProducts component', @state.currentState
 
     productsContent
@@ -65,15 +65,16 @@ window.OperatorProducts = React.createClass
     @activateLoadingState()
 
     OperatorProductsViewActions.loadProducts {
-      data: {
+      data:
         categoryId:           categoryId
         productQuery:         @props.productQuery
         productState:         @props.productState
         includeSubcategories: includeSubcategories
-      }
       success: (response) =>
+        currentState = if response.total_count == 0 then EMPTY_STATE else LOADED_STATE
+
         @setState {
-          currentState: LOADED_STATE
+          currentState: currentState
           page: response.page
           isAllProductsLoaded: response.products.length == 0
         }
@@ -88,13 +89,12 @@ window.OperatorProducts = React.createClass
     @activateLoadingMoreState()
 
     OperatorProductsViewActions.loadMoreProducts {
-      data: {
+      data:
         categoryId:           @props.categoryId
         productQuery:         @props.productQuery
         productState:         @props.productState
         includeSubcategories: @props.includeSubcategories
         page:                 @state.page + 1
-      }
       success: (response) =>
         @setState {
           currentState: LOADED_STATE

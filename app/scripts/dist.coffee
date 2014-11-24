@@ -78,6 +78,7 @@ require './react/components/operator_categories/list/items/with_subcategories'
 require './react/components/operator_categories/list/create_form'
 
 require './react/components/operator_products/operator_products'
+require './react/components/operator_products/empty'
 require './react/components/operator_products/loading'
 require './react/components/operator_products/loading_error'
 require './react/components/operator_products/list/list'

@@ -7,5 +7,5 @@ window.OperatorProducts_LoadingError = React.createClass
 
   render: ->
    `<div className="adm-categories-content">
-      Ошибка загрузки { this.props.message }
+      Ошибка загрузки { this.props.message }.
     </div>`

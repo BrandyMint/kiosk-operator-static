@@ -6,9 +6,10 @@ DRAG_REVERT = 100
 window.OperatorCategories_List = React.createClass
 
   propTypes:
-    parentCategory:   React.PropTypes.object
-    currentCategory:  React.PropTypes.object
-    onCategorySelect: React.PropTypes.func.isRequired
+    parentCategory:       React.PropTypes.object
+    currentCategory:      React.PropTypes.object
+    includeSubcategories: React.PropTypes.bool
+    onCategorySelect:     React.PropTypes.func.isRequired
 
   getInitialState: ->
     parentCategory:   @props.parentCategory

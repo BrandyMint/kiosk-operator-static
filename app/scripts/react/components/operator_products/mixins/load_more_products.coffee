@@ -1,4 +1,5 @@
-THRESHOLD = 1000
+windowHeight = $(window).height()
+THRESHOLD    = windowHeight * 2
 
 window.LoadMoreProductsMixin =
 
@@ -10,6 +11,6 @@ window.LoadMoreProductsMixin =
 
   handleScroll: ->
     if !@isLoadingMoreState() && !@state.isAllProductsLoaded
-      isNearBottom = $(window).scrollTop() + $(window).height() > $(document).height() - THRESHOLD
+      isNearBottom = $(window).scrollTop() + windowHeight > $(document).height() - THRESHOLD
 
       @loadMoreProducts() if isNearBottom

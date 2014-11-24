@@ -3,6 +3,7 @@ MAX_FILE_SIZE       = 10*1000*1000
 MAX_NUMBER_OF_FILES = 6
 
 window.ImagesFormMixin =
+
   componentDidMount: ->
     $form = $(@getDOMNode()).closest 'form'
 

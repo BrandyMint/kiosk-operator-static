@@ -1,6 +1,6 @@
 ###* @jsx React.DOM ###
 
-LOADING_MORE_STATE = 'loading_more_state'
+LOADING_MORE_STATE = 'loadingMoreState'
 LOADING_STATE      = 'loading'
 LOADED_STATE       = 'loaded'
 ERROR_STATE        = 'error'
@@ -28,6 +28,8 @@ window.OperatorProducts = React.createClass
     @loadProducts @props.categoryId, @props.includeSubcategories
 
   componentWillReceiveProps: (nextProps) ->
+    @xhr.abort() if @xhr?
+
     # Category is changed
     if nextProps.categoryId != @props.categoryId
       @setState {
@@ -35,6 +37,10 @@ window.OperatorProducts = React.createClass
         isAllProductsLoaded: false
       }
       @loadProducts nextProps.categoryId, nextProps.includeSubcategories
+
+  componentWillUnmount: ->
+    @xhr.abort() if @xhr?
+    @xhr = null
 
   render: ->
     switch @state.currentState
@@ -64,7 +70,7 @@ window.OperatorProducts = React.createClass
   loadProducts: (categoryId, includeSubcategories) ->
     @activateLoadingState()
 
-    OperatorProductsViewActions.loadProducts {
+    @xhr = OperatorProductsViewActions.loadProducts {
       data: {
         categoryId:           categoryId
         productQuery:         @props.productQuery
@@ -78,16 +84,17 @@ window.OperatorProducts = React.createClass
           isAllProductsLoaded: response.products.length == 0
         }
       error: (errMsg) =>
-        @setState {
-          currentState: ERROR_STATE
-          errorMessage: errMsg
-        }
+        unless errMsg is 'abort'
+          @setState {
+            currentState: ERROR_STATE
+            errorMessage: errMsg
+          }
     }
 
   loadMoreProducts: ->
     @activateLoadingMoreState()
 
-    OperatorProductsViewActions.loadMoreProducts {
+    @xhr = OperatorProductsViewActions.loadMoreProducts {
       data: {
         categoryId:           @props.categoryId
         productQuery:         @props.productQuery
@@ -102,8 +109,9 @@ window.OperatorProducts = React.createClass
           isAllProductsLoaded: response.products.length == 0
         }
       error: (errMsg) =>
-        @setState {
-          currentState: ERROR_STATE
-          errorMessage: errMsg
-        }
+        unless errMsg is 'abort'
+          @setState {
+            currentState: ERROR_STATE
+            errorMessage: errMsg
+          }
     }

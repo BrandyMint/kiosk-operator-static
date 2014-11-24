@@ -13,6 +13,7 @@ window.OperatorCategories_OneCategory = React.createClass
       <OperatorCategories_List
           parentCategory={ this.props.parentCategory }
           currentCategory={ this.props.currentCategory }
+          productsFilter={ this.props.productsFilter }
           includeSubcategories={ this.props.includeSubcategories }
           onCategorySelect={ this.props.onCategorySelect } />
     </div>`

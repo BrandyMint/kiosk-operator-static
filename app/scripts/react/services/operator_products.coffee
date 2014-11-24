@@ -5,8 +5,7 @@ window.OperatorProductsService =
       url: ApiRoutes.operator_products_by_category_url()
       data: {
         category_id:           data.categoryId
-        query:                 data.productQuery
-        state:                 data.productState
+        filter:                data.filter
         include_subcategories: data.includeSubcategories
         page:                  1
         per_page:              30
@@ -23,8 +22,7 @@ window.OperatorProductsService =
       url: ApiRoutes.operator_products_by_category_url()
       data: {
         category_id:           data.categoryId
-        query:                 data.productQuery
-        state:                 data.productState
+        filter:                data.filter
         include_subcategories: data.includeSubcategories
         page:                  data.page
         per_page:              30

@@ -12,10 +12,9 @@ window.OperatorCategories_TwoCategories = React.createClass
     currentCategory      = @props.currentCategory
     currentCategoryLevel = OperatorCategoriesStore.getCategoryLevel currentCategory
 
-    if currentCategoryLevel == 1
-      secondCategory = currentCategory
-    else
-      secondCategory = OperatorCategoriesStore.getCategoryById currentCategory.parent_id
+    secondCategory = switch
+      when currentCategoryLevel == 1 then currentCategory
+      else OperatorCategoriesStore.getCategoryById currentCategory.parent_id
 
     return `<span>
               <div className="adm-categories-grid-col">

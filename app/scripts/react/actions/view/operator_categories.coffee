@@ -1,7 +1,8 @@
 window.OperatorCategoriesViewActions =
 
-  loadCategories: ({success, error}) ->
+  loadCategories: ({data, success, error}) ->
     CategoriesResource.index {
+      data: data
       success: (categories) ->
         OperatorCategoriesServerActions.receiveCategories categories
         success?(categories)

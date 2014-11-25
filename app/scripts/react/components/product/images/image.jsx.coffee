@@ -1,26 +1,75 @@
 ###* @jsx React.DOM ###
 
-ProductImages_Image = React.createClass
+LOADING_STATE = 'loading'
+LOADED_STATE  = 'loaded'
+
+module.exports = ProductImages_Image = React.createClass
+  mixins: [ComponentManipulationsMixin]
 
   propTypes:
-    image:         React.PropTypes.object.isRequired
-    onRemoveImage: React.PropTypes.func.isRequired
+    image:          React.PropTypes.object.isRequired
+    fieldName:      React.PropTypes.string
+    onImagePreload: React.PropTypes.func.isRequired
+    onImageDelete:  React.PropTypes.func.isRequired
+
+  componentDidMount: ->
+    @preloadImage() if @isLoadingState()
+
+  getDefaultProps: ->
+    fieldName: 'product[image_ids][]'
+
+  getInitialState: ->
+    currentState: if @props.image.id? then LOADED_STATE else LOADING_STATE
+    image: @props.image
 
   render: ->
-    `<div className="products__new-form-image-thumb-block">
-       <img src={ this.props.image.src }
-            className="products__new-form-image-thumb" />
-       <div className="products__new-form-image-thumb-remove"
-            onClick={ this.handleRemoveClick } />
-       <div className="products__new-form-image-thumb-update"
-            onClick={ this.handleRotateClick } />
-     </div>`
+    if @isLoadingState()
+      spinner = `<div className="products__new-form-image-thumb-preload">
+                   <Spinner className="fa-2x" />
+                 </div>`
+
+    return `<div className="products__new-form-image-thumb-block">
+              <img src={ this.state.image.src }
+                   className="products__new-form-image-thumb" />
+
+              { spinner }
+
+              <div className="products__new-form-image-thumb-remove"
+                   onClick={ this.props.onImageDelete } />
+              <div className="products__new-form-image-thumb-update"
+                   onClick={ this.handleRotateClick } />
+
+              <input name={ this.props.fieldName }
+                     value={ this.props.image.id }
+                     type="hidden" />
+            </div>`
+
+  isLoadingState: -> @state.currentState is LOADING_STATE
+
+  activateLoadedState: -> @setState(currentState: LOADED_STATE)
+
+  preloadImage: ->
+    file = @props.image.file
+
+    return console.warn 'Missing file object for preloading product image' unless file
+
+    formData = new FormData()
+    formData.append 'image', file
+
+    ProductImagesViewActions.preloadImage {
+      file: file
+      success: (data) =>
+        @activateLoadedState()
+
+        @props.onImagePreload {
+          id:   data.id
+          uuid: @props.image.uuid
+          src:  data.url
+        }
+      error: (data) =>
+        console.warn data
+    }
 
   handleRotateClick: ->
     # TODO image rotate
     alert 'Функция временно не доступна'
-
-  handleRemoveClick: ->
-    @props.onRemoveImage @props.image
-
-module.exports = ProductImages_Image

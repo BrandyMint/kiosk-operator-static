@@ -2,11 +2,6 @@
 
 window.ProductsResource =
 
-  deleteImage: ({image_id}) ->
-    $.ajax
-      url:    ApiRoutes.operator_product_image_delete_url(image_id)
-      method: 'delete'
-
   publish: ({id, success, error}) ->
     $.ajax
       dataType: 'json'

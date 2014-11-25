@@ -1,13 +1,13 @@
 ###* @jsx React.DOM ###
 
-ProductImages_Placeholder = React.createClass
+FileUploadMixin = require './mixins/file_upload'
 
-  propTypes:
-    fieldName: React.PropTypes.string.isRequired
+module.exports = ProductImages_Placeholder = React.createClass
+  mixins: [FileUploadMixin]
 
   render: ->
     `<div className="products__new-form-image-thumb-block">
-      <input name={ this.props.fieldName }
+      <input ref="fileInput"
              type="file"
              accept="image/*"
              multiple={ true }
@@ -16,5 +16,3 @@ ProductImages_Placeholder = React.createClass
        <div className="products__new-form-image-thumb-empty" />
        <div className="products__new-form-image-thumb-add" />
      </div>`
-
-module.exports = ProductImages_Placeholder

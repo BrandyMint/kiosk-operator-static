@@ -28,6 +28,7 @@ require './react/resources/products'
 require './react/services/operator_categories'
 require './react/services/operator_products'
 require './react/services/thumbor'
+require './react/services/uuid'
 
 # /*==========  Controllers  ==========*/
 
@@ -37,6 +38,7 @@ require './react/controllers/modal'
 
 require './react/actions/view/operator_categories'
 require './react/actions/view/operator_products'
+require './react/actions/view/product_images'
 require './react/actions/server/operator_categories'
 require './react/actions/server/operator_products'
 
@@ -47,7 +49,6 @@ require './react/mixins/product_draggable'
 require './react/mixins/category_droppable'
 require './react/mixins/component_manipulations'
 require './react/components/operator_products/mixins/load_more_products'
-require './react/components/product/images/mixins/images_form'
 
 # /*==========  Components  ==========*/
 

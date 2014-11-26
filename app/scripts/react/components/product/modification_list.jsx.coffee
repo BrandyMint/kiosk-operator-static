@@ -6,9 +6,13 @@ window.ProductModificationList = React.createClass
     modifications: React.PropTypes.array.isRequired
 
   render: ->
-    modificationList = @props.modifications.map (modification) ->
-     `<ProductModificationListItem modification={ modification }
-                                   key={ modification.id } />`
+    modificationList = @props.modifications
+      .filter (modification) ->
+        modification.is_archived is false
+      .map (modification) ->
+        `<ProductModificationListItem
+             modification={ modification }
+             key={ modification.id } />`
 
     return `<ul className="adm-categories-goods-modifications">
               { modificationList }

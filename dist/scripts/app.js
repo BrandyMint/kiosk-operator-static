@@ -35,17 +35,19 @@ require('./react/services/operator_products');
 
 require('./react/services/thumbor');
 
+require('./react/services/uuid');
+
 require('./react/controllers/modal');
 
 require('./react/actions/view/operator_categories');
 
 require('./react/actions/view/operator_products');
 
+require('./react/actions/view/product_images');
+
 require('./react/actions/server/operator_categories');
 
 require('./react/actions/server/operator_products');
-
-require('./react/mixins/images_form');
 
 require('./react/mixins/unmount');
 
@@ -57,9 +59,11 @@ require('./react/mixins/component_manipulations');
 
 require('./react/components/operator_products/mixins/load_more_products');
 
+require('./react/components/common/money');
+
 require('./react/components/common/spinner');
 
-require('./react/components/common/money');
+require('./react/components/common/super_select');
 
 require('./react/components/common/images_form_thumbs');
 
@@ -67,7 +71,7 @@ require('./react/components/product/thumb');
 
 require('./react/components/product/state');
 
-require('./react/components/product/images');
+require('./react/components/product/images/images');
 
 require('./react/components/product/status_toggle');
 
@@ -127,7 +131,7 @@ require('./react/helpers/event');
 
 
 
-},{"./app":6,"./legacy":7,"./libs":8,"./react/actions/server/operator_categories":10,"./react/actions/server/operator_products":11,"./react/actions/view/operator_categories":12,"./react/actions/view/operator_products":13,"./react/components/common/images_form_thumbs":14,"./react/components/common/money":15,"./react/components/common/spinner":16,"./react/components/modal/modal":17,"./react/components/operator_categories/list/create_form":18,"./react/components/operator_categories/list/items/item":19,"./react/components/operator_categories/list/items/item_edit":20,"./react/components/operator_categories/list/items/item_manager":21,"./react/components/operator_categories/list/items/with_subcategories":22,"./react/components/operator_categories/list/items/without_category":23,"./react/components/operator_categories/list/list":24,"./react/components/operator_categories/loaded":25,"./react/components/operator_categories/loading":26,"./react/components/operator_categories/loading_error":27,"./react/components/operator_categories/one_category":28,"./react/components/operator_categories/operator_categories":29,"./react/components/operator_categories/two_categories":30,"./react/components/operator_products/empty":31,"./react/components/operator_products/list/item":32,"./react/components/operator_products/list/item_drag":33,"./react/components/operator_products/list/items_drag":34,"./react/components/operator_products/list/list":35,"./react/components/operator_products/loading":36,"./react/components/operator_products/loading_error":37,"./react/components/operator_products/mixins/load_more_products":38,"./react/components/operator_products/operator_products":39,"./react/components/product/images":40,"./react/components/product/modification_list":41,"./react/components/product/modification_list_item":42,"./react/components/product/state":43,"./react/components/product/status_toggle":44,"./react/components/product/thumb":45,"./react/components/product/total_items_quantity":46,"./react/controllers/modal":47,"./react/dispatchers/_base":48,"./react/dispatchers/drag_state":49,"./react/dispatchers/operator_categories":50,"./react/dispatchers/operator_products":51,"./react/helpers/app":52,"./react/helpers/event":53,"./react/mixins/category_droppable":54,"./react/mixins/component_manipulations":55,"./react/mixins/images_form":56,"./react/mixins/product_draggable":57,"./react/mixins/unmount":58,"./react/resources/categories":59,"./react/resources/products":60,"./react/services/operator_categories":61,"./react/services/operator_products":62,"./react/services/thumbor":63,"./react/stores/_base":64,"./react/stores/drag_state":65,"./react/stores/operator_categories":66,"./react/stores/operator_products":67,"./routes/api":68,"./routes/routes":69}],2:[function(require,module,exports){
+},{"./app":6,"./legacy":7,"./libs":8,"./react/actions/server/operator_categories":10,"./react/actions/server/operator_products":11,"./react/actions/view/operator_categories":12,"./react/actions/view/operator_products":13,"./react/actions/view/product_images":14,"./react/components/common/images_form_thumbs":15,"./react/components/common/money":16,"./react/components/common/spinner":17,"./react/components/common/super_select":18,"./react/components/modal/modal":19,"./react/components/operator_categories/list/create_form":20,"./react/components/operator_categories/list/items/item":21,"./react/components/operator_categories/list/items/item_edit":22,"./react/components/operator_categories/list/items/item_manager":23,"./react/components/operator_categories/list/items/with_subcategories":24,"./react/components/operator_categories/list/items/without_category":25,"./react/components/operator_categories/list/list":26,"./react/components/operator_categories/loaded":27,"./react/components/operator_categories/loading":28,"./react/components/operator_categories/loading_error":29,"./react/components/operator_categories/one_category":30,"./react/components/operator_categories/operator_categories":31,"./react/components/operator_categories/two_categories":32,"./react/components/operator_products/empty":33,"./react/components/operator_products/list/item":34,"./react/components/operator_products/list/item_drag":35,"./react/components/operator_products/list/items_drag":36,"./react/components/operator_products/list/list":37,"./react/components/operator_products/loading":38,"./react/components/operator_products/loading_error":39,"./react/components/operator_products/mixins/load_more_products":40,"./react/components/operator_products/operator_products":41,"./react/components/product/images/images":43,"./react/components/product/modification_list":47,"./react/components/product/modification_list_item":48,"./react/components/product/state":49,"./react/components/product/status_toggle":50,"./react/components/product/thumb":51,"./react/components/product/total_items_quantity":52,"./react/controllers/modal":53,"./react/dispatchers/_base":54,"./react/dispatchers/drag_state":55,"./react/dispatchers/operator_categories":56,"./react/dispatchers/operator_products":57,"./react/helpers/app":58,"./react/helpers/event":59,"./react/mixins/category_droppable":60,"./react/mixins/component_manipulations":61,"./react/mixins/product_draggable":62,"./react/mixins/unmount":63,"./react/resources/categories":64,"./react/resources/products":65,"./react/services/operator_categories":66,"./react/services/operator_products":67,"./react/services/thumbor":68,"./react/services/uuid":69,"./react/stores/_base":70,"./react/stores/drag_state":71,"./react/stores/operator_categories":72,"./react/stores/operator_products":73,"./routes/api":74,"./routes/routes":75}],2:[function(require,module,exports){
 /**
 binds a function to a context
 
@@ -1219,7 +1223,7 @@ require('aviator');
 
 
 
-},{"./libs/requester":9,"aviator":undefined,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":70,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],9:[function(require,module,exports){
+},{"./libs/requester":9,"aviator":undefined,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":76,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],9:[function(require,module,exports){
 var Requester,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -1429,6 +1433,35 @@ window.OperatorProductsViewActions = {
 
 
 },{}],14:[function(require,module,exports){
+window.ProductImagesViewActions = {
+  preloadImage: function(_arg) {
+    var error, file, formData, success;
+    file = _arg.file, success = _arg.success, error = _arg.error;
+    formData = new FormData();
+    formData.append('image', file);
+    return Requester.request({
+      url: ApiRoutes.operator_products_images_url(),
+      method: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: (function(_this) {
+        return function(data) {
+          return typeof success === "function" ? success(data) : void 0;
+        };
+      })(this),
+      error: (function(_this) {
+        return function(data) {
+          return typeof error === "function" ? error(data) : void 0;
+        };
+      })(this)
+    });
+  }
+};
+
+
+
+},{}],15:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
@@ -1461,7 +1494,7 @@ window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
 
 
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.Money = React.createClass({displayName: 'Money',
@@ -1479,7 +1512,7 @@ window.Money = React.createClass({displayName: 'Money',
 
 
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.Spinner = React.createClass({displayName: 'Spinner',
@@ -1506,7 +1539,117 @@ window.Spinner = React.createClass({displayName: 'Spinner',
 
 
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.SuperSelect = React.createClass({displayName: 'SuperSelect',
+  propTypes: {
+    name: React.PropTypes.string.isRequired,
+    options: React.PropTypes.array.isRequired,
+    value: React.PropTypes.string,
+    placeholder: React.PropTypes.string
+  },
+  getInitialState: function() {
+    return {
+      value: this.props.value,
+      inFocus: false
+    };
+  },
+  getDefaultProps: function() {
+    return {
+      placeholder: 'Новая категория',
+      typeaheadOptions: {
+        minLength: 0,
+        hint: true,
+        highlight: true
+      }
+    };
+  },
+  componentDidMount: function() {
+    var node;
+    node = $(this.refs.input.getDOMNode());
+    return node.typeahead(this.props.typeaheadOptions, {
+      name: 'categories',
+      displayKey: 'name',
+      source: this.substringMatcher
+    });
+  },
+  componentWillUnmount: function() {
+    return this.$input().typeahead('destroy');
+  },
+  render: function() {
+    var closeButton, placeholder;
+    if (this.showCloseButton()) {
+      closeButton = this.closeButton();
+    }
+    if (!this.state.inFocus) {
+      placeholder = this.props.placeholder;
+    }
+    console.log('render value', this.state.value);
+    return React.DOM.div({className: "form-group login__form-group--icon-right"}, 
+        React.DOM.input({ref: "input", 
+               onFocus:  this.onFocus, 
+               onBlur:  this.onBlur, 
+               name: this.props.name, 
+               value: this.state.value, 
+               className: "form-control", 
+               onChange: this.change, 
+               placeholder: placeholder, 
+               type: "text"}), 
+        closeButton 
+    );
+  },
+  onFocus: function() {
+    this.setState({
+      inFocus: true
+    });
+    return this.$input().typeahead('open');
+  },
+  onBlur: function() {
+    return this.setState({
+      inFocus: false
+    });
+  },
+  substringMatcher: function(q, cb) {
+    var matches, substrRegex;
+    matches = [];
+    substrRegex = new RegExp(q, 'i');
+    $.each(this.props.options, function(i, str) {
+      return matches.push({
+        name: str
+      });
+    });
+    return cb(matches);
+  },
+  $input: function() {
+    return $(this.refs.input.getDOMNode());
+  },
+  change: function(e) {
+    this.setState({
+      value: this.$input().val()
+    });
+    return e;
+  },
+  showCloseButton: function() {
+    var _ref, _ref1;
+    return (_ref = ((_ref1 = this.state.value) != null ? _ref1.length : void 0) > 0) != null ? _ref : {
+      "true": false
+    };
+  },
+  closeButton: function() {
+    return React.DOM.a({className: "login__form-input-btn--right", onClick: this.clear}, "×");
+  },
+  clear: function() {
+    this.setState({
+      value: ''
+    });
+    return this.$input().typeahead('val', '');
+  }
+});
+
+
+
+},{}],19:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var LOADED_STATE, LOADING_STATE;
@@ -1584,7 +1727,7 @@ window.ModalComponent = React.createClass({displayName: 'ModalComponent',
 
 
 
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var CREATE_STATE, ERROR_MESSAGE, ERROR_STATE, INPUT_STATE, PLACEHOLDER;
@@ -1686,7 +1829,7 @@ window.OperatorCategories_CreateForm = React.createClass({displayName: 'Operator
 
 
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_ListItem = React.createClass({displayName: 'OperatorCategories_ListItem',
@@ -1716,7 +1859,7 @@ window.OperatorCategories_ListItem = React.createClass({displayName: 'OperatorCa
 
 
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var ERROR_MESSAGE, ERROR_STATE, INPUT_STATE, UPDATE_STATE;
@@ -1830,7 +1973,7 @@ window.OperatorCategories_ListItemEdit = React.createClass({displayName: 'Operat
 
 
 
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var EDIT_STATE, SWITCH_CATEGORY_TIMEOUT, VIEW_STATE;
@@ -1947,7 +2090,7 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
 
 
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var TITLE;
@@ -1987,7 +2130,7 @@ window.OperatorCategories_ListItemWithSubcategories = React.createClass({display
 
 
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var TITLE;
@@ -2028,7 +2171,7 @@ window.OperatorCategories_ListItemWithoutCategory = React.createClass({displayNa
 
 
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var DRAG_DELAY, DRAG_REVERT;
@@ -2131,7 +2274,7 @@ window.OperatorCategories_List = React.createClass({displayName: 'OperatorCatego
 
 
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCategories_Loaded',
@@ -2176,7 +2319,7 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
 
 
 
-},{}],26:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_Loading = React.createClass({displayName: 'OperatorCategories_Loading',
@@ -2194,7 +2337,7 @@ window.OperatorCategories_Loading = React.createClass({displayName: 'OperatorCat
 
 
 
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_LoadingError = React.createClass({displayName: 'OperatorCategories_LoadingError',
@@ -2209,7 +2352,7 @@ window.OperatorCategories_LoadingError = React.createClass({displayName: 'Operat
 
 
 
-},{}],28:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_OneCategory = React.createClass({displayName: 'OperatorCategories_OneCategory',
@@ -2233,7 +2376,7 @@ window.OperatorCategories_OneCategory = React.createClass({displayName: 'Operato
 
 
 
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var ERROR_STATE, LOADED_STATE, LOADING_STATE;
@@ -2341,7 +2484,7 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
 
 
 
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorCategories_TwoCategories = React.createClass({displayName: 'OperatorCategories_TwoCategories',
@@ -2384,7 +2527,7 @@ window.OperatorCategories_TwoCategories = React.createClass({displayName: 'Opera
 
 
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_Empty = React.createClass({displayName: 'OperatorProducts_Empty',
@@ -2397,7 +2540,7 @@ window.OperatorProducts_Empty = React.createClass({displayName: 'OperatorProduct
 
 
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var SELECTED_STATE, UNSELECTED_STATE;
@@ -2484,7 +2627,7 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
 
 
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_ListItemDrag = React.createClass({displayName: 'OperatorProducts_ListItemDrag',
@@ -2517,7 +2660,7 @@ window.OperatorProducts_ListItemDrag = React.createClass({displayName: 'Operator
 
 
 
-},{}],34:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_ListItemsDrag = React.createClass({displayName: 'OperatorProducts_ListItemsDrag',
@@ -2554,7 +2697,7 @@ window.OperatorProducts_ListItemsDrag = React.createClass({displayName: 'Operato
 
 
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts_List',
@@ -2598,7 +2741,7 @@ window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts
 
 
 
-},{}],36:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_Loading = React.createClass({displayName: 'OperatorProducts_Loading',
@@ -2611,7 +2754,7 @@ window.OperatorProducts_Loading = React.createClass({displayName: 'OperatorProdu
 
 
 
-},{}],37:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.OperatorProducts_LoadingError = React.createClass({displayName: 'OperatorProducts_LoadingError',
@@ -2627,7 +2770,7 @@ window.OperatorProducts_LoadingError = React.createClass({displayName: 'Operator
 
 
 
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var THRESHOLD, windowHeight;
 
 windowHeight = $(window).height();
@@ -2654,7 +2797,7 @@ window.LoadMoreProductsMixin = {
 
 
 
-},{}],39:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var EMPTY_STATE, ERROR_STATE, LOADED_STATE, LOADING_MORE_STATE, LOADING_STATE;
@@ -2813,84 +2956,214 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
 
 
 
-},{}],40:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 
 /** @jsx React.DOM */
-var ProductImages_Image, ProductImages_List, ProductImages_Placeholder;
+var LOADED_STATE, LOADING_STATE, ProductImages_Image;
+
+LOADING_STATE = 'loading';
+
+LOADED_STATE = 'loaded';
+
+module.exports = ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
+  mixins: [ComponentManipulationsMixin],
+  propTypes: {
+    image: React.PropTypes.object.isRequired,
+    fieldName: React.PropTypes.string,
+    onImagePreload: React.PropTypes.func.isRequired,
+    onImageDelete: React.PropTypes.func.isRequired
+  },
+  componentDidMount: function() {
+    if (this.isLoadingState()) {
+      return this.preloadImage();
+    }
+  },
+  getDefaultProps: function() {
+    return {
+      fieldName: 'product[image_attributes][]'
+    };
+  },
+  getInitialState: function() {
+    return {
+      currentState: this.props.image.id != null ? LOADED_STATE : LOADING_STATE,
+      image: this.props.image
+    };
+  },
+  render: function() {
+    var spinner;
+    if (this.isLoadingState()) {
+      spinner = React.DOM.div({className: "products__new-form-image-thumb-preload"}, 
+                   Spinner({className: "fa-2x"})
+                 );
+    }
+    return React.DOM.div({className: "products__new-form-image-thumb-block"}, 
+              React.DOM.img({src:  this.state.image.src, 
+                   className: "products__new-form-image-thumb"}), 
+
+              spinner, 
+
+              React.DOM.div({className: "products__new-form-image-thumb-remove", 
+                   onClick:  this.props.onImageDelete}), 
+              React.DOM.div({className: "products__new-form-image-thumb-update", 
+                   onClick:  this.handleRotateClick}), 
+
+              React.DOM.input({name:  this.props.fieldName, 
+                     value:  this.props.image.id, 
+                     type: "hidden"})
+            );
+  },
+  isLoadingState: function() {
+    return this.state.currentState === LOADING_STATE;
+  },
+  activateLoadedState: function() {
+    return this.setState({
+      currentState: LOADED_STATE
+    });
+  },
+  preloadImage: function() {
+    var file, formData;
+    file = this.props.image.file;
+    if (!file) {
+      return console.warn('Missing file object for preloading product image');
+    }
+    formData = new FormData();
+    formData.append('image', file);
+    return ProductImagesViewActions.preloadImage({
+      file: file,
+      success: (function(_this) {
+        return function(data) {
+          _this.activateLoadedState();
+          return _this.props.onImagePreload({
+            id: data.id,
+            uuid: _this.props.image.uuid,
+            src: data.url
+          });
+        };
+      })(this),
+      error: (function(_this) {
+        return function(data) {
+          return console.warn(data);
+        };
+      })(this)
+    });
+  },
+  handleRotateClick: function() {
+    return alert('Функция временно не доступна');
+  }
+});
+
+
+
+},{}],43:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var ProductImages_List, ProductImages_Placeholder;
+
+ProductImages_Placeholder = require('./placeholder');
+
+ProductImages_List = require('./list');
 
 window.ProductImages = React.createClass({displayName: 'ProductImages',
-  mixins: [ImagesFormMixin],
   propTypes: {
-    productId: React.PropTypes.number.isRequired,
-    fieldName: React.PropTypes.string.isRequired,
-    images: React.PropTypes.array.isRequired
+    images: React.PropTypes.array.isRequired,
+    fieldName: React.PropTypes.string.isRequired
+  },
+  getDefaultProps: function() {
+    return {
+      images: [
+        {
+          id: 4682,
+          src: 'assets/product-1-square.png?1'
+        }, {
+          id: 4681,
+          src: 'assets/product-2-square.png?1'
+        }, {
+          id: 4680,
+          src: 'assets/product-3-square.png?1'
+        }
+      ]
+    };
   },
   getInitialState: function() {
     return {
       images: this.props.images
     };
   },
-  getDefaultProps: function() {
-    return {
-      savingUrl: '/..',
-      images: [
-        {
-          id: null,
-          src: 'assets/product-1-square.png?1'
-        }, {
-          id: null,
-          src: 'assets/product-2-square.png?1'
-        }, {
-          id: null,
-          src: 'assets/product-3-square.png?1'
-        }
-      ]
-    };
-  },
   render: function() {
-    return React.DOM.div({className: "__small products__new-form-images-list"}, 
-      ProductImages_Placeholder({fieldName:  this.props.fieldName}), 
+    return React.DOM.div({className: "products__new-form-images-list __small"}, 
+      ProductImages_Placeholder({onImagesAdd:  this.pushImages}), 
       ProductImages_List({
           images:  this.state.images, 
-          productId:  this.props.productId, 
-          callbackRemove:  this.removeImage})
+          fieldName:  this.props.fieldName, 
+          onImagePreload:  this.updateImage, 
+          onImageDelete:  this.deleteImage})
     );
-  }
-});
-
-ProductImages_Placeholder = React.createClass({displayName: 'ProductImages_Placeholder',
-  propTypes: {
-    fieldName: React.PropTypes.string.isRequired
   },
-  render: function() {
-    return React.DOM.div({className: "products__new-form-image-thumb-block"}, 
-      React.DOM.input({
-          id: "image", 
-          className: "form-upload__input products__new-form-image-input", 
-          type: "file", 
-          accept: "image/*", 
-          multiple: true, 
-          name:  this.props.fieldName}), 
-       React.DOM.div({className: "products__new-form-image-thumb-empty"}), 
-       React.DOM.div({className: "products__new-form-image-thumb-add"})
-     );
+  updateImage: function(oldImage, data) {
+    var newImage, newImages, _i, _len;
+    newImages = this.state.images.slice(0);
+    for (_i = 0, _len = newImages.length; _i < _len; _i++) {
+      newImage = newImages[_i];
+      if (!(newImage === oldImage)) {
+        continue;
+      }
+      _.extend(newImage, data);
+      break;
+    }
+    return this.setState({
+      images: newImages
+    });
+  },
+  pushImages: function(images) {
+    var newImages;
+    newImages = this.state.images.concat(images);
+    return this.setState({
+      images: newImages
+    });
+  },
+  deleteImage: function(image) {
+    var i, newImage, newImages, _i, _len;
+    newImages = this.state.images.slice(0);
+    for (i = _i = 0, _len = newImages.length; _i < _len; i = ++_i) {
+      newImage = newImages[i];
+      if (!(newImage === image)) {
+        continue;
+      }
+      newImages.splice(i, 1);
+      break;
+    }
+    return this.setState({
+      images: newImages
+    });
   }
 });
 
-ProductImages_List = React.createClass({displayName: 'ProductImages_List',
+
+
+},{"./list":44,"./placeholder":46}],44:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var ProductImages_Image, ProductImages_List;
+
+ProductImages_Image = require('./image');
+
+module.exports = ProductImages_List = React.createClass({displayName: 'ProductImages_List',
   propTypes: {
-    productId: React.PropTypes.number.isRequired,
     images: React.PropTypes.array.isRequired,
-    callbackRemove: React.PropTypes.func.isRequired
+    fieldName: React.PropTypes.string,
+    onImagePreload: React.PropTypes.func.isRequired,
+    onImageDelete: React.PropTypes.func.isRequired
   },
   render: function() {
-    var callbackRemove, images;
-    callbackRemove = this.props.callbackRemove;
+    var images, that;
+    that = this;
     images = this.props.images.map(function(image) {
       return ProductImages_Image({
-          image: image, 
-          callbackRemove: callbackRemove, 
-          key:  image.id || image.src});
+           image: image, 
+           fieldName:  that.props.fieldName, 
+           onImagePreload:  that.props.onImagePreload.bind(null, image), 
+           onImageDelete:  that.props.onImageDelete.bind(null, image), 
+           key:  image.uuid || image.id});
     });
     return React.DOM.div({className: "products__new-form-images-list-list"}, 
               images 
@@ -2898,32 +3171,80 @@ ProductImages_List = React.createClass({displayName: 'ProductImages_List',
   }
 });
 
-ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
+
+
+},{"./image":42}],45:[function(require,module,exports){
+var ACCEPT_FILE_TYPES, FileUploadMixin, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
+
+ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
+
+MAX_FILE_SIZE = 10 * 1000 * 1000;
+
+MAX_NUMBER_OF_FILES = 6;
+
+module.exports = FileUploadMixin = {
   propTypes: {
-    image: React.PropTypes.object.isRequired,
-    callbackRemove: React.PropTypes.func.isRequired
+    onImagesAdd: React.PropTypes.func.isRequired
   },
+  componentDidMount: function() {
+    var $fileInput;
+    $fileInput = $(this.refs.fileInput.getDOMNode());
+    $fileInput.on('fileuploadadd', this.addFilesToForm);
+    return $fileInput.fileupload({
+      acceptFileTypes: ACCEPT_FILE_TYPES,
+      maxFileSize: MAX_FILE_SIZE,
+      maxNumberOfFiles: MAX_NUMBER_OF_FILES,
+      singleFileUploads: false,
+      autoUpload: false,
+      replaceFileInput: false,
+      pasteZone: null
+    });
+  },
+  componentWillUnmount: function() {
+    return $fileInput.off('fileuploadadd', this.addFilesToForm);
+  },
+  addFilesToForm: function(e, data) {
+    var images;
+    images = data.files.map(function(file) {
+      return {
+        id: null,
+        uuid: UuidService.generate(),
+        src: window.URL.createObjectURL(file),
+        file: file
+      };
+    });
+    return this.props.onImagesAdd(images);
+  }
+};
+
+
+
+},{}],46:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var FileUploadMixin, ProductImages_Placeholder;
+
+FileUploadMixin = require('./mixins/file_upload');
+
+module.exports = ProductImages_Placeholder = React.createClass({displayName: 'ProductImages_Placeholder',
+  mixins: [FileUploadMixin],
   render: function() {
     return React.DOM.div({className: "products__new-form-image-thumb-block"}, 
-       React.DOM.img({className: "products__new-form-image-thumb", 
-            src:  this.props.image.src}), 
-       React.DOM.div({className: "products__new-form-image-thumb-remove", 
-            onClick:  this.handleRemove}), 
-       React.DOM.div({className: "products__new-form-image-thumb-update", 
-            onClick:  this.handleRotate})
+      React.DOM.input({ref: "fileInput", 
+             type: "file", 
+             accept: "image/*", 
+             multiple: true, 
+             id: "image", 
+             className: "form-upload__input products__new-form-image-input"}), 
+       React.DOM.div({className: "products__new-form-image-thumb-empty"}), 
+       React.DOM.div({className: "products__new-form-image-thumb-add"})
      );
-  },
-  handleRotate: function() {
-    return alert("Функция временно не доступна");
-  },
-  handleRemove: function() {
-    return this.props.callbackRemove(this.props.image);
   }
 });
 
 
 
-},{}],41:[function(require,module,exports){
+},{"./mixins/file_upload":45}],47:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductModificationList = React.createClass({displayName: 'ProductModificationList',
@@ -2944,7 +3265,7 @@ window.ProductModificationList = React.createClass({displayName: 'ProductModific
 
 
 
-},{}],42:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductModificationListItem = React.createClass({displayName: 'ProductModificationListItem',
@@ -2971,7 +3292,7 @@ window.ProductModificationListItem = React.createClass({displayName: 'ProductMod
 
 
 
-},{}],43:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var TITLES;
@@ -3001,7 +3322,7 @@ window.ProductState = React.createClass({displayName: 'ProductState',
 
 
 
-},{}],44:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 
 /** @jsx React.DOM */
 
@@ -3131,7 +3452,7 @@ window.ProductStatusToggle = React.createClass({displayName: 'ProductStatusToggl
 
 
 
-},{}],45:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductThumb = React.createClass({displayName: 'ProductThumb',
@@ -3161,7 +3482,7 @@ window.ProductThumb = React.createClass({displayName: 'ProductThumb',
 
 
 
-},{}],46:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 
 /** @jsx React.DOM */
 window.ProductTotalItemsQuantity = React.createClass({displayName: 'ProductTotalItemsQuantity',
@@ -3184,7 +3505,7 @@ window.ProductTotalItemsQuantity = React.createClass({displayName: 'ProductTotal
 
 
 
-},{}],47:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 window.ModalController = {
   show: function(url) {
     var container;
@@ -3202,7 +3523,7 @@ window.ModalController = {
 
 
 
-},{}],48:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var BaseDispatcher,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3236,7 +3557,7 @@ module.exports = BaseDispatcher;
 
 
 
-},{}],49:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -3245,7 +3566,7 @@ window.DragStateDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":48}],50:[function(require,module,exports){
+},{"./_base":54}],56:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -3254,7 +3575,7 @@ window.OperatorCategoriesDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":48}],51:[function(require,module,exports){
+},{"./_base":54}],57:[function(require,module,exports){
 var BaseDispatcher;
 
 BaseDispatcher = require('./_base');
@@ -3263,7 +3584,7 @@ window.OperatorProductsDispatcher = new BaseDispatcher();
 
 
 
-},{"./_base":48}],52:[function(require,module,exports){
+},{"./_base":54}],58:[function(require,module,exports){
 window.AppHelpers = {
   reselectAndFocus: function(node) {
     var value, valueLength;
@@ -3280,7 +3601,7 @@ window.AppHelpers = {
 
 
 
-},{}],53:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 window.EventHelpers = {
   isAnyServiceKey: function(e) {
     return e.shiftKey || e.ctrlKey || e.altKey || e.metaKey;
@@ -3289,7 +3610,7 @@ window.EventHelpers = {
 
 
 
-},{}],54:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 window.CategoryDroppable = {
   componentDidMount: function() {
     var that;
@@ -3331,7 +3652,7 @@ window.CategoryDroppable = {
 
 
 
-},{}],55:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 window.ComponentManipulationsMixin = {
   safeUpdate: function(func) {
     if (!this._isUnmounted()) {
@@ -3350,120 +3671,7 @@ window.ComponentManipulationsMixin = {
 
 
 
-},{}],56:[function(require,module,exports){
-var ACCEPT_FILE_TYPES, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
-
-ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
-
-MAX_FILE_SIZE = 10 * 1000 * 1000;
-
-MAX_NUMBER_OF_FILES = 6;
-
-window.ImagesFormMixin = {
-  componentDidMount: function() {
-    var $form, ffu;
-    $form = $(this.getDOMNode()).closest('form');
-    this.fileUploader = null;
-    return ffu = $form.fileupload({
-      acceptFileTypes: ACCEPT_FILE_TYPES,
-      maxFileSize: MAX_FILE_SIZE,
-      maxNumberOfFiles: MAX_NUMBER_OF_FILES,
-      multipart: true,
-      singleFileUploads: false,
-      autoUpload: false,
-      replaceFileInput: false,
-      pasteZone: null,
-      start: (function(_this) {
-        return function() {
-          return _this.setState({
-            isInserting: false
-          });
-        };
-      })(this),
-      stop: (function(_this) {
-        return function() {
-          return _this.setState({
-            uploadingProgress: 0
-          });
-        };
-      })(this),
-      fail: (function(_this) {
-        return function(e, data) {
-          return NotifyController.errorResponse(data);
-        };
-      })(this),
-      done: (function(_this) {
-        return function(e, data) {
-          return _this.props.doneCallback(data.jqXHR.responseJSON);
-        };
-      })(this),
-      dragover: (function(_this) {
-        return function(e, data) {
-          return _this.dragOver();
-        };
-      })(this),
-      progressall: (function(_this) {
-        return function(e, data) {
-          var progress;
-          progress = parseInt(data.loaded / data.total * 100, 10);
-          return _this.setState({
-            uploadingProgress: progress
-          });
-        };
-      })(this),
-      add: this.addFileToForm,
-      formData: (function(_this) {
-        return function(form) {
-          return _this.serializeArray(_this.data());
-        };
-      })(this)
-    });
-  },
-  serializeArray: function(data) {
-    return _.keys(data).map(function(key) {
-      return {
-        name: key,
-        value: data[key]
-      };
-    });
-  },
-  addFileToForm: function(e, data) {
-    var images;
-    if ((this.fileUploader != null) && this.fileUploader !== data) {
-      console.warn('new file uploader', data, this.fileUploader);
-    }
-    this.fileUploader = data;
-    if (data.files.length === 0) {
-      return;
-    }
-    images = data.files.map(function(file) {
-      var image;
-      image = new Image();
-      image.src = window.URL.createObjectURL(file);
-      return image;
-    });
-    return this.setState({
-      images: images,
-      isInserting: false
-    });
-  },
-  removeImage: function(image) {
-    this.setState({
-      images: _.reject(this.state.images, function(i) {
-        return i === image;
-      })
-    });
-    if (image.id) {
-      return ProductsResource.deleteImage({
-        image_id: image.id
-      });
-    }
-  }
-};
-
-
-
-},{}],57:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 window.ProductDraggable = {
   getInitialState: function() {
     return {
@@ -3524,7 +3732,7 @@ window.ProductDraggable = {
 
 
 
-},{}],58:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 window.UnmountMixin = {
   unmount: function() {
     return _.defer((function(_this) {
@@ -3537,7 +3745,7 @@ window.UnmountMixin = {
 
 
 
-},{}],59:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 window.CategoriesResource = {
   index: function(_arg) {
     var data, error, success;
@@ -3614,16 +3822,8 @@ window.CategoriesResource = {
 
 
 
-},{}],60:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 window.ProductsResource = {
-  deleteImage: function(_arg) {
-    var image_id;
-    image_id = _arg.image_id;
-    return $.ajax({
-      url: ApiRoutes.operator_product_image_delete_url(image_id),
-      method: 'delete'
-    });
-  },
   publish: function(_arg) {
     var error, id, success;
     id = _arg.id, success = _arg.success, error = _arg.error;
@@ -3698,7 +3898,7 @@ window.ProductsResource = {
 
 
 
-},{}],61:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 window.OperatorCategoriesService = {
   reorderCategories: function(_arg) {
     var categoryId, insertIdx, newPositions;
@@ -3735,7 +3935,7 @@ window.OperatorCategoriesService = {
 
 
 
-},{}],62:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 window.OperatorProductsService = {
   loadProducts: function(_arg) {
     var data, error, success;
@@ -3832,7 +4032,7 @@ window.OperatorProductsService = {
 
 
 
-},{}],63:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 window.ThumborService = {
   thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
   image_url: function(url, style) {
@@ -3852,7 +4052,20 @@ window.ThumborService = {
 
 
 
-},{}],64:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
+window.UuidService = {
+  generate: function() {
+    var s4;
+    s4 = function() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    };
+    return "" + (s4() + s4()) + "-" + (s4()) + "-" + (s4()) + "-" + (s4()) + "-" + (s4() + s4() + s4());
+  }
+};
+
+
+
+},{}],70:[function(require,module,exports){
 var BaseStore, CHANGE_EVENT,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -3886,7 +4099,7 @@ module.exports = BaseStore;
 
 
 
-},{}],65:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 var BaseStore, _draggedProducts, _selectedProducts;
 
 BaseStore = require('./_base');
@@ -4001,7 +4214,7 @@ DragStateDispatcher.register(function(payload) {
 
 
 
-},{"./_base":64}],66:[function(require,module,exports){
+},{"./_base":70}],72:[function(require,module,exports){
 var BaseStore, _categories, _getNewPositions;
 
 BaseStore = require('./_base');
@@ -4237,7 +4450,7 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(fu
 
 
 
-},{"./_base":64}],67:[function(require,module,exports){
+},{"./_base":70}],73:[function(require,module,exports){
 var BaseStore, _products;
 
 BaseStore = require('./_base');
@@ -4314,10 +4527,13 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
 
 
 
-},{"./_base":64}],68:[function(require,module,exports){
+},{"./_base":70}],74:[function(require,module,exports){
 window.ApiRoutes = {
   operator_product_image_delete_url: function(id) {
     return gon.api_root_url + '/v1/operator/products/images/' + id;
+  },
+  operator_products_images_url: function() {
+    return gon.api_root_url + '/v1/operator/products/images';
   },
   operator_categories_url: function() {
     return gon.api_root_url + '/v1/operator/categories';
@@ -4338,7 +4554,7 @@ window.ApiRoutes = {
 
 
 
-},{}],69:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 window.Routes = {
   products_image_delete_path: function(id) {
     return gon.root_url + '/products/images/' + id;
@@ -4356,7 +4572,7 @@ window.Routes = {
 
 
 
-},{}],70:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -4368,7 +4584,7 @@ window.Routes = {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":71}],71:[function(require,module,exports){
+},{"./lib/Dispatcher":77}],77:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -4620,7 +4836,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":72}],72:[function(require,module,exports){
+},{"./invariant":78}],78:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.

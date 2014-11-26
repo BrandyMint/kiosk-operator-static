@@ -15,7 +15,9 @@
       .adm-layout-main
         .adm-layout-main-inner
           .adm-form-item
-            %form.simple_form.products__new-form
+            %form.simple_form.products__new-form( action="http://wannabe.3001.vkontraste.ru/operator/products/3354" method="post" accept-charset="UTF-8")
+              %div( style: 'display: none' )
+                %input( name="_method" type="hidden" value="patch" )
               %header.adm-form-item-header
                 .row
                   .col-md-4
@@ -29,10 +31,11 @@
                     Невозможно опубликовать товар. Проверьте поля, выделенные красным
                   .form-group
                     %label.control-label Фотографии
-                    %div( data-react-class="ProductImages" data-react-props='{"productId": 1924, "fieldName": "images[]"}')
+                    %div( data-react-class="ProductImages" data-react-props='{"productId": 1924, "fieldName": "product[image_ids][]"}')
+
                   .form-group
                     %label.control-label Название товара
-                    %textarea.form-control.form-control-text-large{placeholder: 'Например, велосипед городской'}
+                    %textarea#product_title.text.optional.form-control.form-control-text-large{ name: 'product[title]', placeholder: 'Например, велосипед городской'}
                   .row
                     .col-sm-6
                       .form-group

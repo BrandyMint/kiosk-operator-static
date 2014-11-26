@@ -28,6 +28,7 @@ require './react/resources/products'
 require './react/services/operator_categories'
 require './react/services/operator_products'
 require './react/services/thumbor'
+require './react/services/uuid'
 
 # /*==========  Controllers  ==========*/
 
@@ -37,12 +38,12 @@ require './react/controllers/modal'
 
 require './react/actions/view/operator_categories'
 require './react/actions/view/operator_products'
+require './react/actions/view/product_images'
 require './react/actions/server/operator_categories'
 require './react/actions/server/operator_products'
 
 # /*==========  Mixins  ==========*/
 
-require './react/mixins/images_form'
 require './react/mixins/unmount'
 require './react/mixins/product_draggable'
 require './react/mixins/category_droppable'
@@ -51,13 +52,14 @@ require './react/components/operator_products/mixins/load_more_products'
 
 # /*==========  Components  ==========*/
 
-require './react/components/common/spinner'
 require './react/components/common/money'
+require './react/components/common/spinner'
+require './react/components/common/super_select'
 require './react/components/common/images_form_thumbs'
 
 require './react/components/product/thumb'
 require './react/components/product/state'
-require './react/components/product/images'
+require './react/components/product/images/images'
 require './react/components/product/status_toggle'
 require './react/components/product/modification_list'
 require './react/components/product/modification_list_item'

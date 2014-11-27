@@ -2,7 +2,7 @@
 
 FileUploadMixin = require './mixins/file_upload'
 
-module.exports = ProductImages_Placeholder = React.createClass
+ProductImages_Placeholder = React.createClass
   mixins: [FileUploadMixin]
 
   render: ->
@@ -16,3 +16,5 @@ module.exports = ProductImages_Placeholder = React.createClass
        <div className="products__new-form-image-thumb-empty" />
        <div className="products__new-form-image-thumb-add" />
      </div>`
+
+module.exports = ProductImages_Placeholder

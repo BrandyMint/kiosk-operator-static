@@ -1,8 +1,10 @@
 ###* @jsx React.DOM ###
 
-ProductImages_Image = require './image'
+ProductImages_Image       = require './image'
+ProductImageSortableMixin = require './mixins/sortable'
 
-module.exports = ProductImages_List = React.createClass
+ProductImages_List = React.createClass
+  mixins: [ProductImageSortableMixin]
 
   propTypes:
     images:         React.PropTypes.array.isRequired
@@ -12,14 +14,19 @@ module.exports = ProductImages_List = React.createClass
 
   render: ->
     that = @
-    images = @props.images.map (image) ->
-      `<ProductImages_Image
-           image={ image }
-           fieldName={ that.props.fieldName }
-           onImagePreload={ that.props.onImagePreload.bind(null, image) }
-           onImageDelete={ that.props.onImageDelete.bind(null, image) }
-           key={ image.uuid || image.id } />`
+    images = @props.images
+      .sort (a, b) -> a.position - b.position
+      .map (image) ->
+        `<ProductImages_Image
+             image={ image }
+             fieldName={ that.props.fieldName }
+             onImagePreload={ that.props.onImagePreload.bind(null, image) }
+             onImageDelete={ that.props.onImageDelete.bind(null, image) }
+             key={ image.uuid || image.id } />`
 
-    return `<div className="products__new-form-images-list-list">
+    return `<div ref="list"
+                 className="products__new-form-images-list-list">
               { images }
             </div>`
+
+module.exports = ProductImages_List

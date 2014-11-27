@@ -2,7 +2,7 @@ ACCEPT_FILE_TYPES   = /(\.|\/)(gif|jpe?g|png)$/i
 MAX_FILE_SIZE       = 10 * 1000 * 1000
 MAX_NUMBER_OF_FILES = 6
 
-module.exports = FileUploadMixin =
+FileUploadMixin =
 
   propTypes:
     onImagesAdd: React.PropTypes.func.isRequired
@@ -34,3 +34,5 @@ module.exports = FileUploadMixin =
       }
 
     @props.onImagesAdd images
+
+module.exports = FileUploadMixin

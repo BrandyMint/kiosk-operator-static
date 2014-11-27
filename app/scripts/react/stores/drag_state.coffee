@@ -63,21 +63,15 @@ DragStateDispatcher.register (payload) ->
     when 'productBecameDraggable'
       DragStateStore.pushDraggedProduct action.product
       DragStateStore.emitChange()
-      break
     when 'productBecameStatic'
       DragStateStore.deleteDraggedProduct action.product
       DragStateStore.emitChange()
-      break
     when 'productBecameSelected'
       DragStateStore.pushSelectedProduct action.product
-      break
     when 'productBecameUnselected'
       DragStateStore.deleteSelectedProduct action.product
-      break
     when 'productsMoved'
       DragStateStore.resetProducts()
-      break
     when 'currentCategoryChanged'
       #TODO: Need handle this event from other dispatcher
       DragStateStore.resetProducts() unless DragStateStore.isDragged()
-      break

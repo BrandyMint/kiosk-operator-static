@@ -2,7 +2,7 @@ ACCEPT_FILE_TYPES   = /(\.|\/)(gif|jpe?g|png)$/i
 MAX_FILE_SIZE       = 10 * 1000 * 1000
 MAX_NUMBER_OF_FILES = 6
 
-module.exports = FileUploadMixin =
+FileUploadMixin =
 
   propTypes:
     onImagesAdd: React.PropTypes.func.isRequired
@@ -11,6 +11,10 @@ module.exports = FileUploadMixin =
     $fileInput = $(@refs.fileInput.getDOMNode())
 
     $fileInput.on 'fileuploadadd', @addFilesToForm
+    $fileInput.on 'fileuploaddrop', @activateViewState
+
+    $(window).on 'dragover',  @activateDropzoneState
+    $(window).on 'dragleave', @activateViewState
 
     $fileInput.fileupload
       acceptFileTypes:   ACCEPT_FILE_TYPES
@@ -22,7 +26,11 @@ module.exports = FileUploadMixin =
       pasteZone:         null
 
   componentWillUnmount: ->
-    $fileInput.off 'fileuploadadd', @addFilesToForm
+    $fileInput.off 'fileuploadadd',  @addFilesToForm
+    $fileInput.off 'fileuploaddrop', @activateViewState
+
+    $(window).off 'dragover',  @activateDropzoneState
+    $(window).off 'dragleave', @activateViewState
 
   addFilesToForm: (e, data) ->
     images = data.files.map (file) ->
@@ -34,3 +42,5 @@ module.exports = FileUploadMixin =
       }
 
     @props.onImagesAdd images
+
+module.exports = FileUploadMixin

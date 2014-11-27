@@ -123,6 +123,7 @@ $products-form-images-list-padding: 12px
   height: 100%
   position: absolute
   top: 0
+  left: 0
   opacity: 0
   cursor: pointer
   z-index: $zindex-products-new-form-image-input
@@ -176,6 +177,13 @@ $products-form-images-list-padding: 12px
 .products__new-form-image-thumb-empty
   @extend .products__new-form-image-thumb
   padding-bottom: 97%
+
+  &.__dropzone
+    border-width: 1px
+    border-color: $blue
+    border-style: dashed
+    cursor: pointer
+    +transition(color 0.2s ease, background 0.2s ease)
 
 .products__new-form-image-thumb-remove
   display: none

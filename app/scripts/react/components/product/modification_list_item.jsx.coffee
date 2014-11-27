@@ -9,7 +9,7 @@ window.ProductModificationListItem = React.createClass
     title        = @props.modification.title
     count        = @props.modification.count
     quantityUnit = @props.modification.quantity_unit.short
-    itemClasses = React.addons.classSet {
+    itemClasses  = React.addons.classSet {
       'adm-categories-goods-modifications-item': true
       '__not-synced': !@isSynced()
     }

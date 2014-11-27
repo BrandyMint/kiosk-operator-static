@@ -3,7 +3,7 @@
 LOADING_STATE = 'loading'
 LOADED_STATE  = 'loaded'
 
-module.exports = ProductImages_Image = React.createClass
+ProductImages_Image = React.createClass
   mixins: [ComponentManipulationsMixin]
 
   propTypes:
@@ -15,9 +15,6 @@ module.exports = ProductImages_Image = React.createClass
   componentDidMount: ->
     @preloadImage() if @isLoadingState()
 
-  getDefaultProps: ->
-    fieldName: 'product[image_ids][]'
-
   getInitialState: ->
     currentState: if @props.image.id? then LOADED_STATE else LOADING_STATE
     image: @props.image
@@ -28,7 +25,8 @@ module.exports = ProductImages_Image = React.createClass
                    <Spinner className="fa-2x" />
                  </div>`
 
-    return `<div className="products__new-form-image-thumb-block">
+    return `<div data-id={ this.props.image.id }
+                 className="products__new-form-image-thumb-block">
               <img src={ this.state.image.src }
                    className="products__new-form-image-thumb" />
 
@@ -73,3 +71,5 @@ module.exports = ProductImages_Image = React.createClass
   handleRotateClick: ->
     # TODO image rotate
     alert 'Функция временно не доступна'
+
+module.exports = ProductImages_Image

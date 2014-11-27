@@ -11,11 +11,12 @@ window.OperatorProducts_List = React.createClass
   componentDidMount: ->
     OperatorProductsStore.addChangeListener @_onStoreChange
 
-  shouldComponentUpdate: (nextProps, nextState) ->
-    @state.products.length != nextState.products.length
+    $(window).on 'drop dragover', @handleWindowEvents
 
   componentWillUnmount: ->
     OperatorProductsStore.removeChangeListener @_onStoreChange
+
+    $(window).off 'drop dragover', @handleWindowEvents
 
   render: ->
     products = @state.products.map (product) ->
@@ -31,6 +32,9 @@ window.OperatorProducts_List = React.createClass
 
   getStateFromStore: ->
     products: OperatorProductsStore.getProducts @props.categoryId
+
+  handleWindowEvents: (e) ->
+    e.preventDefault()
 
   _onStoreChange: ->
     @setState @getStateFromStore()

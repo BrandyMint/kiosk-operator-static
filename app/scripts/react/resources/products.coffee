@@ -2,6 +2,28 @@
 
 window.ProductsResource =
 
+  index: ({data, success, error}) ->
+    error ||= KioskOperatorApp.error_alert
+    data.per_page ||= 1000
+    Requester.request
+      dataType: 'json'
+      url:      ApiRoutes.operator_products_by_category_url()
+      method:   'get'
+      data: data
+      error: (xhr, status, err) ->
+        error err || status
+      success: (data) ->
+        # TODO Пейджирование
+        success data.products
+
+  get: ({productId, success, error}) ->
+    Requester.request
+      url: ApiRoutes.operator_product_url productId
+      success: (product) ->
+        success?(product)
+      error: (xhr, status, err) ->
+        error?(err || status)
+
   publish: ({id, success, error}) ->
     $.ajax
       dataType: 'json'
@@ -21,20 +43,6 @@ window.ProductsResource =
         if error then error err || status
       success: (data) ->
         if success then success data
-
-  index: ({data, success, error}) ->
-    error ||= KioskOperatorApp.error_alert
-    data.per_page ||= 1000
-    Requester.request
-      dataType: 'json'
-      url:      ApiRoutes.operator_products_by_category_url()
-      method:   'get'
-      data: data
-      error: (xhr, status, err) ->
-        error err || status
-      success: (data) ->
-        # TODO Пейджирование
-        success data.products
 
   update: ({id, data, success, error}) ->
     Requester.request

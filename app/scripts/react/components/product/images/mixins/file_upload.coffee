@@ -26,6 +26,8 @@ FileUploadMixin =
       pasteZone:         null
 
   componentWillUnmount: ->
+    $fileInput = $(@refs.fileInput.getDOMNode())
+
     $fileInput.off 'fileuploadadd',  @addFilesToForm
     $fileInput.off 'fileuploaddrop', @activateViewState
 

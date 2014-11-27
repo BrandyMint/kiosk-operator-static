@@ -21,7 +21,8 @@ window.OperatorProducts_ListItem = React.createClass
     return `<tr className={ productClasses }
                 data-category-id={ this.props.product.category_id }
                 data-product-id={ this.props.product.id }
-                onClick={ this.handleClick }>
+                onClick={ this.handleClick }
+                onDrop={ this.handleDrop }>
               <td className="adm-categories-goods-cover"
                   data-title="Товар">
                 <ProductThumb product={ this.props.product } />
@@ -59,6 +60,17 @@ window.OperatorProducts_ListItem = React.createClass
         type: 'productBecameSelected'
         product: @props.product
       }
+
+  handleDrop: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+
+    files = e.dataTransfer.files
+
+    ProductImagesViewActions.addProductImages {
+      files: files
+      productId: @props.product.id
+    }
 
   handleClick: (e) ->
     if EventHelpers.isAnyServiceKey(e)

@@ -11,6 +11,10 @@ FileUploadMixin =
     $fileInput = $(@refs.fileInput.getDOMNode())
 
     $fileInput.on 'fileuploadadd', @addFilesToForm
+    $fileInput.on 'fileuploaddrop', @activateViewState
+
+    $(window).on 'dragover',  @activateDropzoneState
+    $(window).on 'dragleave', @activateViewState
 
     $fileInput.fileupload
       acceptFileTypes:   ACCEPT_FILE_TYPES
@@ -22,7 +26,11 @@ FileUploadMixin =
       pasteZone:         null
 
   componentWillUnmount: ->
-    $fileInput.off 'fileuploadadd', @addFilesToForm
+    $fileInput.off 'fileuploadadd',  @addFilesToForm
+    $fileInput.off 'fileuploaddrop', @activateViewState
+
+    $(window).off 'dragover',  @activateDropzoneState
+    $(window).off 'dragleave', @activateViewState
 
   addFilesToForm: (e, data) ->
     images = data.files.map (file) ->

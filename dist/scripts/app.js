@@ -3164,6 +3164,9 @@ FileUploadMixin = {
     var $fileInput;
     $fileInput = $(this.refs.fileInput.getDOMNode());
     $fileInput.on('fileuploadadd', this.addFilesToForm);
+    $fileInput.on('fileuploaddrop', this.activateViewState);
+    $(window).on('dragover', this.activateDropzoneState);
+    $(window).on('dragleave', this.activateViewState);
     return $fileInput.fileupload({
       acceptFileTypes: ACCEPT_FILE_TYPES,
       maxFileSize: MAX_FILE_SIZE,
@@ -3175,7 +3178,10 @@ FileUploadMixin = {
     });
   },
   componentWillUnmount: function() {
-    return $fileInput.off('fileuploadadd', this.addFilesToForm);
+    $fileInput.off('fileuploadadd', this.addFilesToForm);
+    $fileInput.off('fileuploaddrop', this.activateViewState);
+    $(window).off('dragover', this.activateDropzoneState);
+    return $(window).off('dragleave', this.activateViewState);
   },
   addFilesToForm: function(e, data) {
     var images;
@@ -3413,23 +3419,50 @@ module.exports = ProductImageSortableMixin;
 },{}],48:[function(require,module,exports){
 
 /** @jsx React.DOM */
-var FileUploadMixin, ProductImages_Placeholder;
+var DROPZONE_STATE, FileUploadMixin, ProductImages_Placeholder, VIEW_STATE;
 
 FileUploadMixin = require('./mixins/file_upload');
 
+VIEW_STATE = 'view';
+
+DROPZONE_STATE = 'dropZone';
+
 ProductImages_Placeholder = React.createClass({displayName: 'ProductImages_Placeholder',
   mixins: [FileUploadMixin],
+  getInitialState: function() {
+    return {
+      currentState: VIEW_STATE
+    };
+  },
   render: function() {
+    var emptyThumbClasses;
+    emptyThumbClasses = React.addons.classSet({
+      'products__new-form-image-thumb-empty': true,
+      '__dropzone': this.isDropzoneState()
+    });
     return React.DOM.div({className: "products__new-form-image-thumb-block"}, 
-      React.DOM.input({ref: "fileInput", 
-             type: "file", 
-             accept: "image/*", 
-             multiple: true, 
-             id: "image", 
-             className: "form-upload__input products__new-form-image-input"}), 
-       React.DOM.div({className: "products__new-form-image-thumb-empty"}), 
-       React.DOM.div({className: "products__new-form-image-thumb-add"})
-     );
+              React.DOM.input({ref: "fileInput", 
+                     type: "file", 
+                     accept: "image/*", 
+                     multiple: true, 
+                     id: "image", 
+                     className: "form-upload__input products__new-form-image-input"}), 
+               React.DOM.div({className: emptyThumbClasses }), 
+               React.DOM.div({className: "products__new-form-image-thumb-add"})
+             );
+  },
+  isDropzoneState: function() {
+    return this.state.currentState === DROPZONE_STATE;
+  },
+  activateDropzoneState: function() {
+    return this.setState({
+      currentState: DROPZONE_STATE
+    });
+  },
+  activateViewState: function() {
+    return this.setState({
+      currentState: VIEW_STATE
+    });
   }
 });
 

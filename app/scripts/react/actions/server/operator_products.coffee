@@ -12,6 +12,11 @@ window.OperatorProductsServerActions =
       categoryId: categoryId
       products: products
 
+  updateProduct: (product) ->
+    OperatorProductsDispatcher.handleServerAction
+      type: 'productUpdated'
+      product: product
+
   moveProduct: ({productId, categoryId}) ->
     #TODO: increment newCategoryId counter without additional get request
     OperatorProductsDispatcher.handleServerAction

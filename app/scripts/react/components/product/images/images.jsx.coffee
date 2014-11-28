@@ -5,7 +5,7 @@ ProductImages_List        = require './list'
 ImagesMixin               = require './mixins/images'
 
 window.ProductImages = React.createClass
-  mixins: [ImagesMixin]
+  mixins: ['ReactActivitiesMixin', ImagesMixin]
 
   propTypes:
     images:    React.PropTypes.array.isRequired
@@ -28,6 +28,7 @@ window.ProductImages = React.createClass
       <ProductImages_List
           images={ this.state.images }
           fieldName={ this.props.fieldName }
+          activitiesHandler={ this.activitiesHandler }
           onImagesReorder={ this.updateImages }
           onImagePreload={ this.updateImage }
           onImageDelete={ this.deleteImage } />

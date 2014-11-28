@@ -22,6 +22,7 @@ window.ProductImagesViewActions =
         formData.append 'image', file
         formData.append 'product_id', productId
 
+        #TODO: ProductImagesResource.get
         xhr = Requester.request
           url: ApiRoutes.operator_products_images_url()
           method: 'POST'
@@ -37,5 +38,8 @@ window.ProductImagesViewActions =
       ProductsResource.get {
         productId: productId
         success: (product) ->
-          OperatorProductsServerActions.updateProduct product
+          OperatorProductsServerActions.updateProduct {
+            product:    product
+            categoryId: product.category_id
+          }
       }

@@ -1318,9 +1318,18 @@ window.OperatorProductsServerActions = {
       products: products
     });
   },
+  updateProduct: function(_arg) {
+    var categoryId, product;
+    categoryId = _arg.categoryId, product = _arg.product;
+    return OperatorProductsDispatcher.handleServerAction({
+      type: 'productUpdated',
+      product: product,
+      categoryId: categoryId
+    });
+  },
   moveProduct: function(_arg) {
     var categoryId, productId;
-    productId = _arg.productId, categoryId = _arg.categoryId;
+    categoryId = _arg.categoryId, productId = _arg.productId;
     return OperatorProductsDispatcher.handleServerAction({
       type: 'productMoved',
       categoryId: categoryId,
@@ -1455,6 +1464,48 @@ window.ProductImagesViewActions = {
           return typeof error === "function" ? error(data) : void 0;
         };
       })(this)
+    });
+  },
+  addProductImages: function(_arg) {
+    var error, file, files, formData, productId, success, xhr, xhrs, _i, _len;
+    files = _arg.files, productId = _arg.productId, success = _arg.success, error = _arg.error;
+    if (files.length) {
+      xhrs = [];
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        formData = new FormData();
+        formData.append('image', file);
+        formData.append('product_id', productId);
+        xhr = Requester.request({
+          url: ApiRoutes.operator_products_images_url(),
+          method: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: (function(_this) {
+            return function(data) {
+              return typeof success === "function" ? success(data) : void 0;
+            };
+          })(this),
+          error: (function(_this) {
+            return function(data) {
+              return typeof error === "function" ? error(data) : void 0;
+            };
+          })(this)
+        });
+        xhrs.push(xhr);
+      }
+    }
+    return $.when.apply($, xhrs).done(function() {
+      return ProductsResource.get({
+        productId: productId,
+        success: function(product) {
+          return OperatorProductsServerActions.updateProduct({
+            product: product,
+            categoryId: product.category_id
+          });
+        }
+      });
     });
   }
 };
@@ -2568,7 +2619,8 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
     return React.DOM.tr({className: productClasses, 
                 'data-category-id':  this.props.product.category_id, 
                 'data-product-id':  this.props.product.id, 
-                onClick:  this.handleClick}, 
+                onClick:  this.handleClick, 
+                onDrop:  this.handleDrop}, 
               React.DOM.td({className: "adm-categories-goods-cover", 
                   'data-title': "Товар"}, 
                 ProductThumb({product:  this.props.product})
@@ -2615,6 +2667,16 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
         product: this.props.product
       });
     }
+  },
+  handleDrop: function(e) {
+    var files;
+    e.preventDefault();
+    e.stopPropagation();
+    files = e.dataTransfer.files;
+    return ProductImagesViewActions.addProductImages({
+      files: files,
+      productId: this.props.product.id
+    });
   },
   handleClick: function(e) {
     if (EventHelpers.isAnyServiceKey(e)) {
@@ -2708,13 +2770,12 @@ window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts
     return this.getStateFromStore();
   },
   componentDidMount: function() {
-    return OperatorProductsStore.addChangeListener(this._onStoreChange);
-  },
-  shouldComponentUpdate: function(nextProps, nextState) {
-    return this.state.products.length !== nextState.products.length;
+    OperatorProductsStore.addChangeListener(this._onStoreChange);
+    return $(window).on('drop dragover', this.handleWindowEvents);
   },
   componentWillUnmount: function() {
-    return OperatorProductsStore.removeChangeListener(this._onStoreChange);
+    OperatorProductsStore.removeChangeListener(this._onStoreChange);
+    return $(window).off('drop dragover', this.handleWindowEvents);
   },
   render: function() {
     var products;
@@ -2733,6 +2794,9 @@ window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts
     return {
       products: OperatorProductsStore.getProducts(this.props.categoryId)
     };
+  },
+  handleWindowEvents: function(e) {
+    return e.preventDefault();
   },
   _onStoreChange: function() {
     return this.setState(this.getStateFromStore());
@@ -3178,6 +3242,8 @@ FileUploadMixin = {
     });
   },
   componentWillUnmount: function() {
+    var $fileInput;
+    $fileInput = $(this.refs.fileInput.getDOMNode());
     $fileInput.off('fileuploadadd', this.addFilesToForm);
     $fileInput.off('fileuploaddrop', this.activateViewState);
     $(window).off('dragover', this.activateDropzoneState);
@@ -4053,6 +4119,37 @@ window.CategoriesResource = {
 
 },{}],67:[function(require,module,exports){
 window.ProductsResource = {
+  index: function(_arg) {
+    var data, error, success;
+    data = _arg.data, success = _arg.success, error = _arg.error;
+    error || (error = KioskOperatorApp.error_alert);
+    data.per_page || (data.per_page = 1000);
+    return Requester.request({
+      dataType: 'json',
+      url: ApiRoutes.operator_products_by_category_url(),
+      method: 'get',
+      data: data,
+      error: function(xhr, status, err) {
+        return error(err || status);
+      },
+      success: function(data) {
+        return success(data.products);
+      }
+    });
+  },
+  get: function(_arg) {
+    var error, productId, success;
+    productId = _arg.productId, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_product_url(productId),
+      success: function(product) {
+        return typeof success === "function" ? success(product) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
+  },
   publish: function(_arg) {
     var error, id, success;
     id = _arg.id, success = _arg.success, error = _arg.error;
@@ -4088,24 +4185,6 @@ window.ProductsResource = {
         if (success) {
           return success(data);
         }
-      }
-    });
-  },
-  index: function(_arg) {
-    var data, error, success;
-    data = _arg.data, success = _arg.success, error = _arg.error;
-    error || (error = KioskOperatorApp.error_alert);
-    data.per_page || (data.per_page = 1000);
-    return Requester.request({
-      dataType: 'json',
-      url: ApiRoutes.operator_products_by_category_url(),
-      method: 'get',
-      data: data,
-      error: function(xhr, status, err) {
-        return error(err || status);
-      },
-      success: function(data) {
-        return success(data.products);
       }
     });
   },
@@ -4418,26 +4497,20 @@ DragStateDispatcher.register(function(payload) {
   switch (action.type) {
     case 'productBecameDraggable':
       DragStateStore.pushDraggedProduct(action.product);
-      DragStateStore.emitChange();
-      break;
+      return DragStateStore.emitChange();
     case 'productBecameStatic':
       DragStateStore.deleteDraggedProduct(action.product);
-      DragStateStore.emitChange();
-      break;
+      return DragStateStore.emitChange();
     case 'productBecameSelected':
-      DragStateStore.pushSelectedProduct(action.product);
-      break;
+      return DragStateStore.pushSelectedProduct(action.product);
     case 'productBecameUnselected':
-      DragStateStore.deleteSelectedProduct(action.product);
-      break;
+      return DragStateStore.deleteSelectedProduct(action.product);
     case 'productsMoved':
-      DragStateStore.resetProducts();
-      break;
+      return DragStateStore.resetProducts();
     case 'currentCategoryChanged':
       if (!DragStateStore.isDragged()) {
-        DragStateStore.resetProducts();
+        return DragStateStore.resetProducts();
       }
-      break;
   }
 });
 
@@ -4648,32 +4721,26 @@ OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(fu
   switch (action.type) {
     case 'categoriesLoaded':
       OperatorCategoriesStore.pushCategories(action.categories);
-      OperatorCategoriesStore.emitChange();
-      break;
+      return OperatorCategoriesStore.emitChange();
     case 'categoriesReordered':
       OperatorCategoriesStore.updatePositions(action.newPositions);
-      OperatorCategoriesStore.emitChange();
-      break;
+      return OperatorCategoriesStore.emitChange();
     case 'categoryLoaded':
       if (OperatorCategoriesStore.isCategoryExists(action.category)) {
         OperatorCategoriesStore.updateCategory(action.category);
       } else {
         OperatorCategoriesStore.pushCategories([action.category]);
       }
-      OperatorCategoriesStore.emitChange();
-      break;
+      return OperatorCategoriesStore.emitChange();
     case 'categoryCreated':
       OperatorCategoriesStore.pushCategories([action.category]);
-      OperatorCategoriesStore.emitChange();
-      break;
+      return OperatorCategoriesStore.emitChange();
     case 'categoryUpdated':
       OperatorCategoriesStore.updateCategory(action.category);
-      OperatorCategoriesStore.emitChange();
-      break;
+      return OperatorCategoriesStore.emitChange();
     case 'categoryDeleted':
       OperatorCategoriesStore.deleteCategory(action.category);
-      OperatorCategoriesStore.emitChange();
-      break;
+      return OperatorCategoriesStore.emitChange();
   }
 });
 
@@ -4713,6 +4780,19 @@ window.OperatorProductsStore = _.extend(new BaseStore(), {
     }
     return _products[categoryId] = clonedProducts;
   },
+  updateProduct: function(categoryId, data) {
+    var product, products, _i, _len;
+    products = this.getProducts(categoryId);
+    for (_i = 0, _len = products.length; _i < _len; _i++) {
+      product = products[_i];
+      if (!(product.id === data.id)) {
+        continue;
+      }
+      _.extend(product, data);
+      break;
+    }
+    return _products[categoryId] = products;
+  },
   removeProduct: function(categoryId, productId) {
     var clonedProduct, clonedProducts, i, _i, _len;
     if (!this.isProductExists(categoryId, productId)) {
@@ -4741,16 +4821,16 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
   switch (action.type) {
     case 'productsLoaded':
       OperatorProductsStore.replaceProducts(action.categoryId, action.products);
-      OperatorProductsStore.emitChange();
-      break;
+      return OperatorProductsStore.emitChange();
     case 'moreProductsLoaded':
       OperatorProductsStore.pushProducts(action.categoryId, action.products);
-      OperatorProductsStore.emitChange();
-      break;
+      return OperatorProductsStore.emitChange();
     case 'productMoved':
       OperatorProductsStore.removeProduct(action.categoryId, action.productId);
-      OperatorProductsStore.emitChange();
-      break;
+      return OperatorProductsStore.emitChange();
+    case 'productUpdated':
+      OperatorProductsStore.updateProduct(action.categoryId, action.product);
+      return OperatorProductsStore.emitChange();
   }
 });
 

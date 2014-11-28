@@ -39,21 +39,16 @@ window.OperatorProducts = React.createClass
     @xhr = null
 
   render: ->
-    productsContent = switch @state.currentState
-      when LOADED_STATE
-        `<OperatorProducts_List categoryId={ this.props.categoryId } />`
-      when LOADING_STATE
-        `<OperatorProducts_Loading />`
-      when LOADING_MORE_STATE
-        #TODO: Display spinner at the end of products list
-        `<OperatorProducts_List categoryId={ this.props.categoryId } />`
-      when EMPTY_STATE
-        `<OperatorProducts_Empty />`
-      when ERROR_STATE
-        `<OperatorProducts_LoadingError message={ this.state.errorMessage } />`
+    switch @state.currentState
+      when LOADED_STATE       then `<OperatorProducts_List
+                                        categoryId={ this.props.categoryId } />`
+      when LOADING_STATE      then `<OperatorProducts_Loading />`
+      when LOADING_MORE_STATE then `<OperatorProducts_List
+                                        categoryId={ this.props.categoryId } />`
+      when EMPTY_STATE        then `<OperatorProducts_Empty />`
+      when ERROR_STATE        then `<OperatorProducts_LoadingError
+                                        message={ this.state.errorMessage } />`
       else console.warn 'Unknown currentState of OperatorProducts component', @state.currentState
-
-    productsContent
 
   isLoadingMoreState: -> @state.currentState is LOADING_MORE_STATE
 

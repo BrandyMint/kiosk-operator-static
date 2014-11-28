@@ -1,5 +1,7 @@
 ###* @jsx React.DOM ###
 
+OperatorProducts_AddProductButton = require '../buttons/add_product'
+
 window.OperatorProducts_List = React.createClass
 
   propTypes:
@@ -24,7 +26,8 @@ window.OperatorProducts_List = React.createClass
             product={ product }
             key={ product.id } />`
 
-    return `<div className = "adm-categories-content">
+    return `<div className="adm-categories-content">
+              <OperatorProducts_AddProductButton />
               <table className="adm-categories-goods">
                 <tbody>{ products }</tbody>
               </table>

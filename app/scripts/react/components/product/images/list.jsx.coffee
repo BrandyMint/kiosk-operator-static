@@ -7,10 +7,11 @@ ProductImages_List = React.createClass
   mixins: [ProductImageSortableMixin]
 
   propTypes:
-    images:         React.PropTypes.array.isRequired
-    fieldName:      React.PropTypes.string
-    onImagePreload: React.PropTypes.func.isRequired
-    onImageDelete:  React.PropTypes.func.isRequired
+    images:            React.PropTypes.array.isRequired
+    fieldName:         React.PropTypes.string
+    activitiesHandler: React.PropTypes.object.isRequired
+    onImagePreload:    React.PropTypes.func.isRequired
+    onImageDelete:     React.PropTypes.func.isRequired
 
   render: ->
     that = @
@@ -20,6 +21,7 @@ ProductImages_List = React.createClass
         `<ProductImages_Image
              image={ image }
              fieldName={ that.props.fieldName }
+             activitiesHandler={ that.props.activitiesHandler }
              onImagePreload={ that.props.onImagePreload.bind(null, image) }
              onImageDelete={ that.props.onImageDelete.bind(null, image) }
              key={ image.uuid || image.id } />`

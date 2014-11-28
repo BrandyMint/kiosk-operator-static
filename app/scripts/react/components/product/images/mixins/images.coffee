@@ -3,6 +3,12 @@ ImagesMixin =
   propTypes:
     images: React.PropTypes.array.isRequired
 
+  componentDidMount: ->
+    $(window).on 'beforeunload', @handlePageClose
+
+  componentWillUnmount: ->
+    $(window).off 'beforeunload', @handlePageClose
+
   updateImages: (imagesData) ->
     newImages = @state.images[..]
 
@@ -48,5 +54,9 @@ ImagesMixin =
     @props.images.map (image, i) ->
       image.position = i
       image
+
+  handlePageClose: ->
+    if @hasActivities()
+      @state.activities + ' изображений ещё не загрузилось. Вы уверены, что хотите выйти?'
 
 module.exports = ImagesMixin

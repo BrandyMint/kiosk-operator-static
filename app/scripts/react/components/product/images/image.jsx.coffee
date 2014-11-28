@@ -4,7 +4,7 @@ LOADING_STATE = 'loading'
 LOADED_STATE  = 'loaded'
 
 ProductImages_Image = React.createClass
-  mixins: [ComponentManipulationsMixin]
+  mixins: ['ReactActivitiesUser', ComponentManipulationsMixin]
 
   propTypes:
     image:          React.PropTypes.object.isRequired
@@ -56,9 +56,9 @@ ProductImages_Image = React.createClass
 
     ProductImagesViewActions.preloadImage {
       file: file
+      beforeSend: => @incrementActivities()
       success: (data) =>
         @activateLoadedState()
-
         @props.onImagePreload {
           id:   data.id
           uuid: @props.image.uuid
@@ -66,6 +66,7 @@ ProductImages_Image = React.createClass
         }
       error: (data) =>
         console.warn data
+      complete: => @decrementActivities()
     }
 
   handleRotateClick: ->

@@ -1,6 +1,6 @@
 window.ProductImagesViewActions =
 
-  preloadImage: ({file, success, error}) ->
+  preloadImage: ({file, success, error, beforeSend, complete}) ->
     formData = new FormData()
     formData.append 'image', file
 
@@ -10,8 +10,10 @@ window.ProductImagesViewActions =
       data: formData
       contentType: false
       processData: false
+      beforeSend: beforeSend
       success: (data) => success?(data)
       error: (data) => error?(data)
+      complete: complete
 
   addProductImages: ({files, productId, success, error}) ->
     if files.length

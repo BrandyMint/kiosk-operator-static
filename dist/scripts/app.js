@@ -3316,17 +3316,22 @@ module.exports = FileUploadMixin;
 
 
 },{}],47:[function(require,module,exports){
-var ImagesMixin;
+var ImagesMixin, LOADING_IMAGES_MESSAGE, SAVE_BUTTON_TEXT;
+
+LOADING_IMAGES_MESSAGE = 'Идёт загрузка изображений..';
+
+SAVE_BUTTON_TEXT = 'Сохранить';
 
 ImagesMixin = {
   propTypes: {
     images: React.PropTypes.array.isRequired
   },
-  componentDidMount: function() {
-    return $(window).on('beforeunload', this.handlePageClose);
-  },
-  componentWillUnmount: function() {
-    return $(window).off('beforeunload', this.handlePageClose);
+  componentDidUpdate: function(prevProps, prevState) {
+    if (this.hasActivities()) {
+      return this._deactivateSubmitButton();
+    } else {
+      return this._activateSubmitButton();
+    }
   },
   updateImages: function(imagesData) {
     var imageData, newImage, newImages, _i, _j, _len, _len1;
@@ -3365,6 +3370,7 @@ ImagesMixin = {
     var image, lastImagePosition, newImages, _i, _len;
     newImages = this.state.images.slice(0);
     lastImagePosition = 0;
+    this._deactivateSubmitButton();
     if (newImages.length) {
       lastImagePosition = newImages[newImages.length - 1].position + 1;
     }
@@ -3399,6 +3405,21 @@ ImagesMixin = {
       image.position = i;
       return image;
     });
+  },
+  _activateSubmitButton: function() {
+    var $submitButton;
+    $submitButton = $('[data-button-save]');
+    return $submitButton.removeAttr('disabled').text(SAVE_BUTTON_TEXT);
+  },
+  _deactivateSubmitButton: function() {
+    var $submitButton;
+    $submitButton = $('[data-button-save]');
+    return $submitButton.attr('disabled', 'disabled').text(LOADING_IMAGES_MESSAGE);
+  },
+  handleFormSubmit: function(e) {
+    if (this.hasActivities()) {
+      return e.preventDefault();
+    }
   },
   handlePageClose: function() {
     if (this.hasActivities()) {

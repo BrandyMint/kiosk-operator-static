@@ -1,13 +1,14 @@
+#TODO: i18n
+LOADING_IMAGES_MESSAGE = 'Идёт загрузка изображений..'
+SAVE_BUTTON_TEXT       = 'Сохранить'
+
 ImagesMixin = 
 
   propTypes:
     images: React.PropTypes.array.isRequired
 
-  componentDidMount: ->
-    $(window).on 'beforeunload', @handlePageClose
-
-  componentWillUnmount: ->
-    $(window).off 'beforeunload', @handlePageClose
+  componentDidUpdate: (prevProps, prevState) ->
+    if @hasActivities() then @_deactivateSubmitButton() else @_activateSubmitButton()
 
   updateImages: (imagesData) ->
     newImages = @state.images[..]
@@ -32,6 +33,8 @@ ImagesMixin =
     newImages = @state.images[..]
     lastImagePosition = 0
 
+    @_deactivateSubmitButton()
+
     if newImages.length
       lastImagePosition = newImages[newImages.length - 1].position + 1
 
@@ -54,6 +57,21 @@ ImagesMixin =
     @props.images.map (image, i) ->
       image.position = i
       image
+
+  _activateSubmitButton: ->
+    $submitButton = $('[data-button-save]')
+    $submitButton
+      .removeAttr 'disabled'
+      .text SAVE_BUTTON_TEXT
+
+  _deactivateSubmitButton: ->
+    $submitButton = $('[data-button-save]')
+    $submitButton
+      .attr 'disabled', 'disabled'
+      .text LOADING_IMAGES_MESSAGE
+
+  handleFormSubmit: (e) ->
+    e.preventDefault() if @hasActivities()
 
   handlePageClose: ->
     if @hasActivities()

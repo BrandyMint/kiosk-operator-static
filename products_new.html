@@ -1,0 +1,271 @@
+
+<html>
+  <head>
+    <meta charset='utf-8'>
+  </head>
+</html>
+<title>Kiosk</title>
+<meta content='' name='description'>
+<meta content='width=device-width, initial-scale=1, user-scalable=no' name='viewport'>
+<link href='stylesheets/local.css' rel='stylesheet'>
+<link href='assets/favicon/favicon.ico' rel='shortcut icon'>
+<link href='assets/touch-icon-57.png' rel='apple-touch-icon' sizes='57x57'>
+<link href='assets/touch-icon-72.png' rel='apple-touch-icon' sizes='72x72'>
+<link href='assets/touch-icon-76.png' rel='apple-touch-icon' sizes='76x76'>
+<link href='assets/touch-icon-114.png' rel='apple-touch-icon' sizes='114x114'>
+<link href='assets/touch-icon-120.png' rel='apple-touch-icon' sizes='120x120'>
+<link href='assets/touch-icon-144.png' rel='apple-touch-icon' sizes='144x144'>
+<link href='assets/touch-icon-152.png' rel='apple-touch-icon' sizes='152x152'>
+<!-- Windows 8 Tiles -->
+<meta content='assets/touch-icon-144.png' name='msapplication-TileImage'>
+<meta content='#38b0aa' name='msapplication-TileColor'>
+<meta content='The MatriXFiles' name='application-name'>
+<!-- Internet Explorer 11 Tiles -->
+<meta content='assets/tile-70.png' name='msapplication-square70x70logo'>
+<meta content='assets/tile-150.png' name='msapplication-square150x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-wide310x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-square310x310logo'>
+<!-- For iPad landscape splash screen -->
+<link href='assets/apple-splash-screen-1024x748.png' rel='apple-touch-startup-image' sizes='1024x748'>
+<!-- For iPad portriat splash screen -->
+<link href='assets/apple-splash-screen-768x1004.png' rel='apple-touch-startup-image' sizes='768x1004'>
+<!-- For iPhone, iPod high resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-640x960.png' rel='apple-touch-startup-image' sizes='640x960'>
+<!-- For iPhone, iPod standard resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-320x480.png' rel='apple-touch-startup-image' sizes='320x480'>
+  <body>
+    <script src='scripts/bundle.js'></script>
+    <div class='app-left-sidebar'>
+      <ul class='left-sidebar__nav'>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-info-circle nav-link-icon-info left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Что делать?</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li class='active'>
+          <a class='left-sidebar__nav-link' href='products.html'>
+            <i class='fa fa-th-large nav-link-icon-products left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Товары</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href='orders.html'>
+            <i class='fa fa-shopping-cart nav-link-icon-orders left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Заказы</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-folder-open nav-link-icon-catalog left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Витрина</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-cog nav-link-icon-settings left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Настройка</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-briefcase nav-link-icon-shops left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Мои магазины</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-user nav-link-icon-user left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Олег С.</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class='app-header-navbar'>
+      <div class='container-fluid'>
+        <div class='col-lg-10 col-lg-offset-1'>
+          <h1 class='header-navbar__title pull-left'>Добавить товар</h1>
+          <h1 class='header-navbar__brand pull-right'>Field&amp;Rag</h1>
+          <div class='clearfix'></div>
+        </div>
+      </div>
+    </div>
+    <div class='app-main-content'>
+      <div class='container-fluid'>
+        <div class='col-lg-10 col-lg-offset-1'>
+          <div class='orders-list'>
+            <form class='products__new-form simple_form'>
+              <div class='row'>
+                <div class='col-md-8'>
+                  <div class='form-group'>
+                    <div data-react-class='ProductStatusToggle' data-react-props='{"product_id": 123}'></div>
+                  </div>
+                  <div class='form-alert form-alert-danger'>
+                    Невозможно опубликовать товар. Проверьте поля, выделенные красным
+                  </div>
+                  <div class='form-group'>
+                    <label>Название товара</label>
+                    <input class='form-control' type='text' placeholder='Например, велосипед городской'>
+                  </div>
+                  <div class='row'>
+                    <div class='col-sm-6'>
+                      <div class='form-group'>
+                        <label>Бренд</label>
+                        <input class='form-control' type='text' placeholder='Бренд'>
+                      </div>
+                    </div>
+                    <div class='col-sm-6'>
+                      <div class='form-group'>
+                        <label>Цена</label>
+                        <input class='form-control' type='text' placeholder='20 000'>
+                      </div>
+                    </div>
+                    <div class='col-sm-6'>
+                      <div class='form-group'>
+                        <label>Категория</label>
+                        <div data-react-class='SuperSelect' data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}'></div>
+                      </div>
+                    </div>
+                    <div class='col-sm-6'>
+                      <div class='form-group'>
+                        <label>Подкатегория</label>
+                        <div data-react-class='SuperSelect' data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}'></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='form-group' role='products__new-form-variants-add-block'>
+                    <div class='btn btn-add-fields' role='products__new-form-variants-add-block-btn'>
+                      Добавить варианты (размеры, цвета)
+                    </div>
+                  </div>
+                  <div role='products__new-form-variants-block'>
+                    <label>Варианты товара</label>
+                    <div class='form-block-group'>
+                      <div class='form-group'>
+                        <a class='active products__new-form-variant-type-btn' role='products__new-form-variant-type-btn'>Размер</a>
+                        <a class='products__new-form-variant-type-btn' role='products__new-form-variant-type-btn'>Цвет</a>
+                        <input class='products__new-form-custom-variant-input' type='text' placeholder='Другое' role='products__new-form-variant-type-input'>
+                      </div>
+                      <div class='row'>
+                        <div class='col-md-10'>
+                          <div class='row row-block-padding'>
+                            <div class='col-sm-4'>
+                              <label role='products__new-form-variant-type-label'>Размер</label>
+                            </div>
+                            <div class='col-sm-4'>
+                              <label>Количество</label>
+                            </div>
+                            <div class='col-sm-4'>
+                              <label>Артикул</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='row' role='products__new-form-variants-item'>
+                        <div class='col-md-12'></div>
+                        <div class='col-md-10'>
+                          <div class='row row-block-padding'>
+                            <div class='col-sm-4'>
+                              <input class='form-control' type='text' placeholder='Например, XL'>
+                            </div>
+                            <div class='col-sm-4'>
+                              <input class='form-control' type='text' placeholder='Например, 5'>
+                            </div>
+                            <div class='col-sm-4'>
+                              <input class='form-control' type='text' placeholder='Например, M001-11-00'>
+                            </div>
+                          </div>
+                          <br>
+                        </div>
+                        <div class='col-sm-2'>
+                          <a class='products__new-form-remove-variant-btn pull-right'></a>
+                          <div class='clearfix'></div>
+                        </div>
+                      </div>
+                      <div class='row' role='products__new-form-variants-place'></div>
+                      <div class='form-group'>
+                        <div class='btn-add-fields' role='products__new-form-variants-add'>
+                          Добавить ещё
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='form-group text'>
+                    <label>
+                      Описание
+                    </label>
+                    <textarea class='form-control' placeholder='Описание' required='required' role='autosize'></textarea>
+                  </div>
+                  <div class='form-group'>
+                    <label role='products__new-form-params-title'>Характеристики</label>
+                    <div class='hide row' role='products__new-form-params-item'>
+                      <div class='col-md-10'>
+                        <div class='row'>
+                          <div class='col-sm-6'>
+                            <div class='form-group-sm'>
+                              <input class='form-control' type='text' placeholder='Например, вес'>
+                            </div>
+                          </div>
+                          <div class='col-sm-6'>
+                            <div class='row-gutter-dash text-muted'>
+                              &mdash;
+                            </div>
+                            <div class='form-group-sm'>
+                              <input class='form-control' type='text' placeholder='11 грамм'>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class='col-sm-2'>
+                        <div class='form-group-sm'>
+                          <a class='products__new-form-remove-params-btn pull-right'></a>
+                          <div class='clearfix'></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class='row' role='products__new-form-params-place'></div>
+                    <div class='btn btn-add-fields' role='products__new-form-params-add'>
+                      Добавить характеристики
+                    </div>
+                  </div>
+                </div>
+                <div class='col-md-4'>
+                  <div data-react-class='ImagesForm' data-react-props='{"imageDeletePath": "/products/image", "fieldName": "images[]"}'></div>
+                  <div class='clearfix'></div>
+                  <hr>
+                  <div class='text-muted'>
+                    пример кнопки добавления фотографии:
+                  </div>
+                  <div class='products__new-form-images-list'>
+                    <div class='products__new-form-image-thumb-block'>
+                      <div class='products__new-form-image-thumb-empty'></div>
+                      <div class='products__new-form-image-thumb-add'></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class='row'>
+                <div class='col-md-8'>
+                  <div class='products__new-form-actions'>
+                    <button class='products__new-form-submit-btn pull-left' data-disable-with='Сохраняем...' type='submit'>
+                      Сохранить
+                    </button>
+                    <button class='products__new-form-remove-btn pull-right'>
+                      Удалить товар навсегда
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>

@@ -1,0 +1,211 @@
+
+<html>
+  <head>
+    <meta charset='utf-8'>
+  </head>
+</html>
+<title>Kiosk</title>
+<meta content='' name='description'>
+<meta content='width=device-width, initial-scale=1, user-scalable=no' name='viewport'>
+<link href='stylesheets/local.css' rel='stylesheet'>
+<link href='assets/favicon/favicon.ico' rel='shortcut icon'>
+<link href='assets/touch-icon-57.png' rel='apple-touch-icon' sizes='57x57'>
+<link href='assets/touch-icon-72.png' rel='apple-touch-icon' sizes='72x72'>
+<link href='assets/touch-icon-76.png' rel='apple-touch-icon' sizes='76x76'>
+<link href='assets/touch-icon-114.png' rel='apple-touch-icon' sizes='114x114'>
+<link href='assets/touch-icon-120.png' rel='apple-touch-icon' sizes='120x120'>
+<link href='assets/touch-icon-144.png' rel='apple-touch-icon' sizes='144x144'>
+<link href='assets/touch-icon-152.png' rel='apple-touch-icon' sizes='152x152'>
+<!-- Windows 8 Tiles -->
+<meta content='assets/touch-icon-144.png' name='msapplication-TileImage'>
+<meta content='#38b0aa' name='msapplication-TileColor'>
+<meta content='The MatriXFiles' name='application-name'>
+<!-- Internet Explorer 11 Tiles -->
+<meta content='assets/tile-70.png' name='msapplication-square70x70logo'>
+<meta content='assets/tile-150.png' name='msapplication-square150x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-wide310x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-square310x310logo'>
+<!-- For iPad landscape splash screen -->
+<link href='assets/apple-splash-screen-1024x748.png' rel='apple-touch-startup-image' sizes='1024x748'>
+<!-- For iPad portriat splash screen -->
+<link href='assets/apple-splash-screen-768x1004.png' rel='apple-touch-startup-image' sizes='768x1004'>
+<!-- For iPhone, iPod high resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-640x960.png' rel='apple-touch-startup-image' sizes='640x960'>
+<!-- For iPhone, iPod standard resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-320x480.png' rel='apple-touch-startup-image' sizes='320x480'>
+  <body>
+    <script src='scripts/bundle.js'></script>
+    <div class='app-left-sidebar'>
+      <ul class='left-sidebar__nav'>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-info-circle nav-link-icon-info left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Что делать?</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li class='active'>
+          <a class='left-sidebar__nav-link' href='products.html'>
+            <i class='fa fa-th-large nav-link-icon-products left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Товары</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href='orders.html'>
+            <i class='fa fa-shopping-cart nav-link-icon-orders left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Заказы</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-folder-open nav-link-icon-catalog left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Витрина</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-cog nav-link-icon-settings left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Настройка</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-briefcase nav-link-icon-shops left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Мои магазины</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-user nav-link-icon-user left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Олег С.</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class='app-header-navbar'>
+      <div class='container-fluid'>
+        <div class='col-lg-10 col-lg-offset-1'>
+          <h1 class='header-navbar__title pull-left'>Товары</h1>
+          <h1 class='header-navbar__brand pull-right'>Field&Rag</h1>
+          <form class='pull-right'>
+            <input class='form-control orders-list__search-input' type='search' placeholder='Найти название, номер, артикул'>
+          </form>
+          <div class='clearfix'></div>
+        </div>
+      </div>
+    </div>
+    <div class='app-main-content'>
+      <div class='container-fluid'>
+        <div class='col-lg-10 col-lg-offset-1'>
+          <div class='orders-list'>
+            <div class='orders-list__list'>
+              <form class='form-inline'>
+                <div class='form-group'>
+                  <span class='text-muted'>Категория</span>
+                  &nbsp;
+                  <select class='form-control'>
+                    <option selected='selected'>Все товары</option>
+                    <option>Категория 1</option>
+                    <option>Категория 2</option>
+                    <option>Категория 3</option>
+                    <option>Категория 4</option>
+                    <option>Категория 5</option>
+                  </select>
+                  &nbsp;
+                  &nbsp;
+                  <span class='text-muted'>
+                    Чтобы создать категорию, выберите её при создании товара
+                  </span>
+                </div>
+              </form>
+              <hr>
+              <div class='products__list'>
+                <div class='row'>
+                  <div class='col-md-4 col-sm-6'>
+                    <div class='products__list-item-new' role='jump' data-href='products_new.html'>
+                      <img class='products__list-item-new-image' src='assets/product-add.svg'>
+                      <span class='products__list-item-new-label'>
+                        Добавить
+                      </span>
+                    </div>
+                  </div>
+                  <div class='col-md-4 col-sm-6'>
+                    <div class='products__list-item'>
+                      <div class='products__list-item-notification'></div>
+                      <div class='products__list-item-image-block'>
+                        <img class='products__list-item-image' src='assets/product-square.png'>
+                      </div>
+                      <div class='products__list-item-title'>
+                        Мыльница с якорем
+                      </div>
+                      <div class='products__list-item-price'>
+                        900.-
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4 col-sm-6'>
+                    <div class='products__list-item'>
+                      <div class='products__list-item-image-block'>
+                        <img class='products__list-item-image' src='assets/product-square.png'>
+                      </div>
+                      <div class='products__list-item-title'>
+                        Мыльница с якорем
+                      </div>
+                      <div class='products__list-item-price'>
+                        900.-
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4 col-sm-6'>
+                    <div class='products__list-item'>
+                      <div class='products__list-item-image-block'>
+                        <img class='products__list-item-image' src='assets/product-square.png'>
+                      </div>
+                      <div class='products__list-item-title'>
+                        Мыльница с якорем
+                      </div>
+                      <div class='products__list-item-price'>
+                        900.-
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4 col-sm-6'>
+                    <div class='products__list-item'>
+                      <div class='products__list-item-image-block'>
+                        <img class='products__list-item-image' src='assets/product-square.png'>
+                      </div>
+                      <div class='products__list-item-title'>
+                        Мыльница с якорем
+                      </div>
+                      <div class='products__list-item-price'>
+                        900.-
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4 col-sm-6'>
+                    <div class='products__list-item'>
+                      <div class='products__list-item-image-block'>
+                        <img class='products__list-item-image' src='assets/product-square.png'>
+                      </div>
+                      <div class='products__list-item-title'>
+                        Мыльница с якорем
+                      </div>
+                      <div class='products__list-item-price'>
+                        900.-
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>

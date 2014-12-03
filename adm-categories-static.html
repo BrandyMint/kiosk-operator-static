@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+<title>Kiosk</title>
+<meta content='' name='description'>
+<meta content='width=device-width, initial-scale=1, user-scalable=no' name='viewport'>
+<link href='stylesheets/local.css' rel='stylesheet'>
+<link href='assets/favicon/favicon.ico' rel='shortcut icon'>
+<link href='assets/touch-icon-57.png' rel='apple-touch-icon' sizes='57x57'>
+<link href='assets/touch-icon-72.png' rel='apple-touch-icon' sizes='72x72'>
+<link href='assets/touch-icon-76.png' rel='apple-touch-icon' sizes='76x76'>
+<link href='assets/touch-icon-114.png' rel='apple-touch-icon' sizes='114x114'>
+<link href='assets/touch-icon-120.png' rel='apple-touch-icon' sizes='120x120'>
+<link href='assets/touch-icon-144.png' rel='apple-touch-icon' sizes='144x144'>
+<link href='assets/touch-icon-152.png' rel='apple-touch-icon' sizes='152x152'>
+<!-- Windows 8 Tiles -->
+<meta content='assets/touch-icon-144.png' name='msapplication-TileImage'>
+<meta content='#38b0aa' name='msapplication-TileColor'>
+<meta content='The MatriXFiles' name='application-name'>
+<!-- Internet Explorer 11 Tiles -->
+<meta content='assets/tile-70.png' name='msapplication-square70x70logo'>
+<meta content='assets/tile-150.png' name='msapplication-square150x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-wide310x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-square310x310logo'>
+<!-- For iPad landscape splash screen -->
+<link href='assets/apple-splash-screen-1024x748.png' rel='apple-touch-startup-image' sizes='1024x748'>
+<!-- For iPad portriat splash screen -->
+<link href='assets/apple-splash-screen-768x1004.png' rel='apple-touch-startup-image' sizes='768x1004'>
+<!-- For iPhone, iPod high resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-640x960.png' rel='apple-touch-startup-image' sizes='640x960'>
+<!-- For iPhone, iPod standard resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-320x480.png' rel='apple-touch-startup-image' sizes='320x480'>
+  </head>
+  <body class='adm-body'>
+    <!-- Topbar -->
+<div class='adm-topbar'>
+  <div class='adm-topbar-inner'>
+    <div class='adm-topbar-row'>
+      <div class='adm-topbar-left'>
+        <h1 class='adm-topbar-brand'>
+          Киоск
+        </h1>
+      </div>
+      <div class='adm-topbar-right'>
+        <div class='adm-topbar-item'>+7 905 716-14-51</div>
+        <div class='adm-topbar-item'>
+          <div class='adm-dropdown'>
+            <button class='adm-btn-settings' data-toggle='dropdown'>
+              <i class='adm-btn-settings-icon'></i>
+              <span class='sr-only'>Быстрые настройки</span>
+            </button>
+            <div class='__top-left adm-dropdown-popup'>
+              <ul class='adm-dropdown-popup-list'>
+                <li class='__active adm-dropdown-popup-item'>
+                  <a class='adm-dropdown-popup-link' href='#todo' title='Настроить выгрузку'>Настроить выгрузку</a>
+                </li>
+                <li class='adm-dropdown-popup-item'>
+                  <a class='adm-dropdown-popup-link' href='#todo' title='Другие настройки товаров'>Другие настройки товаров</a>
+                </li>
+                <li class='adm-dropdown-popup-item'>
+                  <a class='adm-dropdown-popup-link' href='#todo' title='Еще настройки'>Еще настройки</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Topbar -->
+    <!-- Layout -->
+    <div class='adm-layout'>
+      <!-- Layout Sidebar -->
+<div class='adm-layout-sidebar'>
+  <!-- Sidebar Nav -->
+  <nav class='adm-sidebar-nav'>
+    <ul class='adm-sidebar-nav-list'>
+      <li class='adm-sidebar-nav-item'>
+        <a class='adm-sidebar-nav-link' href='#todo'><i class='adm-sidebar-nav-icon adm-icon-panel'></i>Магазин Wannabe
+        </a>
+      </li>
+      <li class='adm-sidebar-nav-sep'></li>
+      <li class='adm-sidebar-nav-item'>
+        <a class='adm-sidebar-nav-link' href='adm-dashboard.html'><i class='adm-sidebar-nav-icon adm-icon-question-mark'></i>Дешборд
+        </a>
+      </li>
+      <li class='adm-sidebar-nav-item selected'>
+        <a class='adm-sidebar-nav-link' href='adm-categories.html'><i class='adm-sidebar-nav-icon adm-icon-folder'></i>Категории
+        </a>
+      </li>
+      <li class='adm-sidebar-nav-item'>
+        <a class='adm-sidebar-nav-link' href='adm-orders-list.html'><i class='adm-sidebar-nav-icon adm-icon-basket'></i>Заказы
+        </a>
+      </li>
+      <li class='adm-sidebar-nav-item'>
+        <a class='adm-sidebar-nav-link' href='adm-textpages.html'><i class='adm-sidebar-nav-icon adm-icon-layers'></i>Страницы
+        </a>
+      </li>
+      <li class='adm-sidebar-nav-item'>
+        <a class='adm-sidebar-nav-link' href='#todo'><i class='adm-sidebar-nav-icon adm-icon-cogwheel'></i>Настройки
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- end Sidebar Nav -->
+</div>
+<!-- end Layout Sidebar -->
+      <!-- Layout Main -->
+      <div class='adm-layout-main'>
+        <div class='adm-layout-main-inner'>
+          <!-- Categories -->
+          <div class='adm-categories'>
+            <header class='adm-categories-header'>
+              <div class='adm-categories-header-row'>
+                <div class='adm-categories-header-col'>
+                  <h1 class='adm-categories-header-title'>Категории</h1>
+                  <div class='adm-dropdown'>
+                    <button class='adm-btn-categories-settings' data-toggle='dropdown'>
+                      <i class='adm-btn-categories-settings-icon'></i>
+                      <span class='sr-only'>Настройки категорий</span>
+                    </button>
+                    <div class='__right adm-dropdown-popup'>
+                      <ul class='adm-dropdown-popup-list'>
+                        <li class='adm-dropdown-popup-item'>
+                          <a class='adm-dropdown-popup-link' href='#todo' title='Скрыть категории' role='switch-display-categories' data-title-hide='Скрыть категории' data-title-show='Показать категории'>Скрыть категории</a>
+                        </li>
+                        <li class='adm-dropdown-popup-item'>
+                          <a class='adm-dropdown-popup-link' href='#todo' title='Подкатегории включены'>Подкатегории включены</a>
+                        </li>
+                        <li class='__active adm-dropdown-popup-item'>
+                          <a class='adm-dropdown-popup-link' href='#todo' title='Настроить выгрузку'>Настроить выгрузку</a>
+                        </li>
+                        <li class='adm-dropdown-popup-item'>
+                          <a class='adm-dropdown-popup-link' href='#todo' title='Другие настройки товаров'>Другие настройки товаров</a>
+                        </li>
+                        <li class='adm-dropdown-popup-item'>
+                          <a class='adm-dropdown-popup-link' href='#todo' title='Еще настройки'>Еще настройки</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class='__right adm-categories-header-col'>
+                  <form class='adm-categories-search-form' action='?'>
+                    <input class='adm-categories-search-field form-control' type='text' placeholder='Поиск по товарам'>
+                  </form>
+                  <div class='adm-dropdown'>
+                    <a class='__any label' href='#todo' data-toggle='dropdown'>Все товары
+                      <i class='fa fa-angle-down'></i>
+                    </a>
+                    <ul class='adm-dropdown-menu-status'>
+                      <li class='adm-dropdown-menu-status-item'>
+                        <a class='__any adm-dropdown-menu-status-btn'>
+                          Все товары
+                        </a>
+                      </li>
+                      <li class='adm-dropdown-menu-status-item'>
+                        <a class='__published adm-dropdown-menu-status-btn'>
+                          Опубликованные
+                        </a>
+                      </li>
+                      <li class='adm-dropdown-menu-status-item'>
+                        <a class='__unpublished adm-dropdown-menu-status-btn'>
+                          В подготовке
+                        </a>
+                      </li>
+                      <li class='adm-dropdown-menu-status-item'>
+                        <a class='__has_errors adm-dropdown-menu-status-btn'>
+                          С ошибками
+                        </a>
+                      </li>
+                      <li class='adm-dropdown-menu-status-item'>
+                        <a class='__archive adm-dropdown-menu-status-btn'>
+                          Архив
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </header>
+            <div class='adm-categories-body'>
+              <div class='adm-categories-grid'>
+                <div class='adm-categories-grid-col' role='categories-list'>
+                  <div class='adm-categories-list'>
+                    <div class='adm-categories-item selected'>
+                      <span class='adm-categories-item-name'>Все товары</span>
+                      <span class='adm-categories-item-counter'>353</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Велосипеды</span>
+                      <span class='adm-categories-item-counter'>45</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Компоненты</span>
+                      <span class='adm-categories-item-counter'>5</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='__edit adm-categories-item'>
+                      <input class='adm-categories-item-field' type='text' value='Велозапчасти'>
+                      <span class='adm-categories-item-remove'></span>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Распродажа</span>
+                      <span class='adm-categories-item-counter'>21</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Все товары</span>
+                      <span class='adm-categories-item-counter'>353</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Велосипеды</span>
+                      <span class='adm-categories-item-counter'>45</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Компоненты</span>
+                      <span class='adm-categories-item-counter'>5</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Распродажа</span>
+                      <span class='adm-categories-item-counter'>21</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Велосипеды</span>
+                      <span class='adm-categories-item-counter'>45</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Компоненты</span>
+                      <span class='adm-categories-item-counter'>5</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Распродажа</span>
+                      <span class='adm-categories-item-counter'>21</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Велосипеды</span>
+                      <span class='adm-categories-item-counter'>45</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Компоненты</span>
+                      <span class='adm-categories-item-counter'>5</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Распродажа</span>
+                      <span class='adm-categories-item-counter'>21</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='__edit adm-categories-item'>
+                      <input class='adm-categories-item-field' type='text' placeholder='Новая категория'>
+                    </div>
+                    <div class='__muted adm-categories-item'>
+                      <span class='adm-categories-item-name'>Без категории</span>
+                      <span class='adm-categories-item-counter'>21</span>
+                    </div>
+                  </div>
+                </div>
+                <div class='adm-categories-grid-col' role='categories-list'>
+                  <div class='adm-categories-list'>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Все товары</span>
+                      <span class='adm-categories-item-counter'></span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Городские</span>
+                      <span class='adm-categories-item-counter'>5</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item selected'>
+                      <span class='adm-categories-item-name'>Складные</span>
+                      <span class='adm-categories-item-counter'>10</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='adm-categories-item'>
+                      <span class='adm-categories-item-name'>Триатлон</span>
+                      <span class='adm-categories-item-counter'>54</span>
+                      <button class='adm-btn-edit-category' title='Редактировать'>
+                        <span>
+                          Редактировать
+                        </span>
+                      </button>
+                    </div>
+                    <div class='__edit adm-categories-item'>
+                      <input class='adm-categories-item-field' type='text' placeholder='Новая подкатегория'>
+                    </div>
+                    <div class='__muted adm-categories-item'>
+                      <span class='adm-categories-item-name'>Без подкатегории</span>
+                      <span class='adm-categories-item-counter'>21</span>
+                    </div>
+                  </div>
+                </div>
+                <div class='__wide adm-categories-grid-col'>
+                  <div class='adm-categories-content'>
+                    <table class='adm-categories-goods'>
+                      <thead>
+                        <tr>
+                          <td colspan='2'>Товар</td>
+                          <td class='adm-categories-goods-price'>Цена</td>
+                          <td class='adm-categories-goods-status'>Статус</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr data-modal-url='modal-edit-product.html' ks-modal>
+                          <td class='adm-categories-goods-cover' data-title='Товар' role='modal-edit-product-toggle'>
+                            <!-- %a{:href => "#product", :title => "Мыльница с якорем"} -->
+                            <img src='assets/product-50x50-1.jpg' alt='Мыльница с якорем'>
+                          </td>
+                          <td class='adm-categories-goods-content' role='modal-edit-product-toggle'>
+                            <!-- %a{:href => "#product", :title => "Мыльница с якорем"} -->
+                            Мыльница с якорем
+                          </td>
+                          <td class='adm-categories-goods-price' data-title='Сумма' role='modal-edit-product-toggle'>
+                            <span class='nobr'>18 000 руб</span>
+                          </td>
+                          <td class='adm-categories-goods-status' data-title='Статус' role='modal-edit-product-toggle'>
+                            <span class='label label-success'>
+                              Опубликован
+                            </span>
+                          </td>
+                        </tr>
+                        <tr data-modal-url='modal-edit-product.html' ks-modal>
+                          <td class='adm-categories-goods-cover' data-title='Товар' role='modal-edit-product-toggle'>
+                            <!-- %a{:href => "#product", :title => "Табуретка"} -->
+                            <img src='assets/product-50x50-2.jpg' alt='Табуретка'>
+                          </td>
+                          <td class='adm-categories-goods-content' role='modal-edit-product-toggle'>
+                            <!-- %a{:href => "#product", :title => "Табуретка"} -->
+                            Табуретка
+                          </td>
+                          <td class='adm-categories-goods-price' data-title='Сумма' role='modal-edit-product-toggle'>
+                            <span class='nobr'>3 999 руб</span>
+                          </td>
+                          <td class='adm-categories-goods-status' data-title='Статус' role='modal-edit-product-toggle'>
+                            <span class='label label-success'>
+                              Опубликован
+                            </span>
+                          </td>
+                        </tr>
+                        <tr data-modal-url='modal-edit-product.html' ks-modal>
+                          <td class='adm-categories-goods-cover' data-title='Товар' role='modal-edit-product-toggle'>
+                            <!-- %a{:href => "#product", :title => "Табуретка"} -->
+                            <img src='assets/product-50x50-2.jpg' alt='Табуретка'>
+                          </td>
+                          <td class='adm-categories-goods-content' role='modal-edit-product-toggle'>
+                            <!-- %a{:href => "#product", :title => "Табуретка"} -->
+                            Табуретка
+                          </td>
+                          <td class='adm-categories-goods-price' data-title='Сумма' role='modal-edit-product-toggle'>
+                            <span class='nobr'>5 999 руб</span>
+                          </td>
+                          <td class='adm-categories-goods-status' data-title='Статус' role='modal-edit-product-toggle'>
+                            <span class='label label-warning'>
+                              Закончился
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <button class='adm-btn-add-goods'>
+                      <i class='adm-btn-add-goods-icon'></i>
+                      Добавить новый товар
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end Categories -->
+        </div>
+      </div>
+      <!-- end Layout Main -->
+    </div>
+    <!-- end Layout -->
+    <script src='scripts/vendor.js'></script>
+    <script src='scripts/local.js'></script>
+  </body>
+</html>

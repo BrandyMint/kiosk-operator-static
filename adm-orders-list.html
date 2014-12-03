@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+<title>Kiosk</title>
+<meta content='' name='description'>
+<meta content='width=device-width, initial-scale=1, user-scalable=no' name='viewport'>
+<link href='stylesheets/local.css' rel='stylesheet'>
+<link href='assets/favicon/favicon.ico' rel='shortcut icon'>
+<link href='assets/touch-icon-57.png' rel='apple-touch-icon' sizes='57x57'>
+<link href='assets/touch-icon-72.png' rel='apple-touch-icon' sizes='72x72'>
+<link href='assets/touch-icon-76.png' rel='apple-touch-icon' sizes='76x76'>
+<link href='assets/touch-icon-114.png' rel='apple-touch-icon' sizes='114x114'>
+<link href='assets/touch-icon-120.png' rel='apple-touch-icon' sizes='120x120'>
+<link href='assets/touch-icon-144.png' rel='apple-touch-icon' sizes='144x144'>
+<link href='assets/touch-icon-152.png' rel='apple-touch-icon' sizes='152x152'>
+<!-- Windows 8 Tiles -->
+<meta content='assets/touch-icon-144.png' name='msapplication-TileImage'>
+<meta content='#38b0aa' name='msapplication-TileColor'>
+<meta content='The MatriXFiles' name='application-name'>
+<!-- Internet Explorer 11 Tiles -->
+<meta content='assets/tile-70.png' name='msapplication-square70x70logo'>
+<meta content='assets/tile-150.png' name='msapplication-square150x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-wide310x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-square310x310logo'>
+<!-- For iPad landscape splash screen -->
+<link href='assets/apple-splash-screen-1024x748.png' rel='apple-touch-startup-image' sizes='1024x748'>
+<!-- For iPad portriat splash screen -->
+<link href='assets/apple-splash-screen-768x1004.png' rel='apple-touch-startup-image' sizes='768x1004'>
+<!-- For iPhone, iPod high resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-640x960.png' rel='apple-touch-startup-image' sizes='640x960'>
+<!-- For iPhone, iPod standard resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-320x480.png' rel='apple-touch-startup-image' sizes='320x480'>
+  </head>
+  <body class='adm-body'>
+    <!-- Topbar -->
+<div class='adm-topbar'>
+  <div class='adm-topbar-inner'>
+    <div class='adm-topbar-row'>
+      <div class='adm-topbar-left'>
+        <h1 class='adm-topbar-brand'>
+          Киоск
+        </h1>
+      </div>
+      <div class='adm-topbar-right'>
+        <div class='adm-topbar-item'>+7 905 716-14-51</div>
+        <div class='adm-topbar-item'>
+          <div class='adm-dropdown'>
+            <button class='adm-btn-settings' data-toggle='dropdown'>
+              <i class='adm-btn-settings-icon'></i>
+              <span class='sr-only'>Быстрые настройки</span>
+            </button>
+            <div class='__top-left adm-dropdown-popup'>
+              <ul class='adm-dropdown-popup-list'>
+                <li class='__active adm-dropdown-popup-item'>
+                  <a class='adm-dropdown-popup-link' href='#todo' title='Настроить выгрузку'>Настроить выгрузку</a>
+                </li>
+                <li class='adm-dropdown-popup-item'>
+                  <a class='adm-dropdown-popup-link' href='#todo' title='Другие настройки товаров'>Другие настройки товаров</a>
+                </li>
+                <li class='adm-dropdown-popup-item'>
+                  <a class='adm-dropdown-popup-link' href='#todo' title='Еще настройки'>Еще настройки</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Topbar -->
+    <!-- Layout -->
+    <div class='adm-layout'>
+      <!-- Layout Sidebar -->
+<div class='adm-layout-sidebar'>
+  <!-- Sidebar Nav -->
+  <nav class='adm-sidebar-nav'>
+    <ul class='adm-sidebar-nav-list'>
+      <li class='adm-sidebar-nav-item'>
+        <a class='adm-sidebar-nav-link' href='#todo'><i class='adm-sidebar-nav-icon adm-icon-panel'></i>Магазин Wannabe
+        </a>
+      </li>
+      <li class='adm-sidebar-nav-sep'></li>
+      <li class='adm-sidebar-nav-item'>
+        <a class='adm-sidebar-nav-link' href='adm-dashboard.html'><i class='adm-sidebar-nav-icon adm-icon-question-mark'></i>Дешборд
+        </a>
+      </li>
+      <li class='adm-sidebar-nav-item selected'>
+        <a class='adm-sidebar-nav-link' href='adm-categories.html'><i class='adm-sidebar-nav-icon adm-icon-folder'></i>Категории
+        </a>
+      </li>
+      <li class='adm-sidebar-nav-item'>
+        <a class='adm-sidebar-nav-link' href='adm-orders-list.html'><i class='adm-sidebar-nav-icon adm-icon-basket'></i>Заказы
+        </a>
+      </li>
+      <li class='adm-sidebar-nav-item'>
+        <a class='adm-sidebar-nav-link' href='adm-textpages.html'><i class='adm-sidebar-nav-icon adm-icon-layers'></i>Страницы
+        </a>
+      </li>
+      <li class='adm-sidebar-nav-item'>
+        <a class='adm-sidebar-nav-link' href='#todo'><i class='adm-sidebar-nav-icon adm-icon-cogwheel'></i>Настройки
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- end Sidebar Nav -->
+</div>
+<!-- end Layout Sidebar -->
+      <!-- Layout Main -->
+      <div class='adm-layout-main'>
+        <div class='adm-layout-main-inner'>
+          <!-- Section Header -->
+          <header class='adm-section-header'>
+            <h1 class='adm-section-header-title'>Заказы</h1>
+          </header>
+          <!-- end Section Header -->
+          <!-- Orders -->
+          <div class='adm-orders'>
+            <table class='adm-orders-table'>
+              <tbody>
+                <tr class='adm-orders-table-row' data-modal-url='modal-order.html' ks-modal tooltip title='Скоро прибудет курьер'>
+                  <td class='__cover adm-orders-table-cell' data-title='Товары'>
+                    <img src='assets&#47;product-60x60-3.jpg' alt='assets&#47;product-60x60-3.jpg'>
+                  </td><td class='__desc adm-orders-table-cell'>
+                    Стол компьютерный Rage, 
+                    Стул круглый, 
+                    Табурет, 
+                    Табурет, 
+                    Табурет, 
+                    Табурет
+                  </td><td class='__number adm-orders-table-cell' data-title='Номер заказа'>0001</td><td class='__location adm-orders-table-cell' data-title='Место доставки'>Москва</td><td class='__time adm-orders-table-cell' data-title='Время доставки'>Два часа назад</td><td class='__total adm-orders-table-cell' data-title='Сумма'>
+                    <span class='nobr'>15 800 руб.</span>
+                  </td><td class='__payment adm-orders-table-cell' data-title='Состояние по оплате'><span class='label label-default'>
+                      Не оплачен
+                    </span></td>
+                  <td class='__status adm-orders-table-cell' data-title='Состояние доставки'>
+                    <div class='dropdown inline-dropdown'>
+                      <span class='label label-info'>
+                        Доставка
+                      </span>
+                      <ul class='adm-dropdown-menu-status'>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__new adm-dropdown-menu-status-btn'>
+                            Новый
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__delivery adm-dropdown-menu-status-btn'>
+                            Доставка
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__cancelled adm-dropdown-menu-status-btn'>
+                            Отменён
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__paused adm-dropdown-menu-status-btn'>
+                            Пауза
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+                <tr class='adm-orders-table-row' data-modal-url='modal-order.html' ks-modal tooltip title='Оплачено'>
+                  <td class='__cover adm-orders-table-cell' data-title='Товары'>
+                    <img src='assets&#47;product-60x60-3.jpg' alt='assets&#47;product-60x60-3.jpg'>
+                  </td><td class='__desc adm-orders-table-cell'>
+                    Велосипед Linus
+                  </td><td class='__number adm-orders-table-cell' data-title='Номер заказа'>0002</td><td class='__location adm-orders-table-cell' data-title='Место доставки'>Москва</td><td class='__time adm-orders-table-cell' data-title='Время доставки'>Два часа назад</td><td class='__total adm-orders-table-cell' data-title='Сумма'>
+                    <span class='nobr'>15 800 руб.</span>
+                  </td><td class='__payment adm-orders-table-cell' data-title='Состояние по оплате'><span class='label label-default'>
+                      Не оплачен
+                    </span></td>
+                  <td class='__status adm-orders-table-cell' data-title='Состояние доставки'>
+                    <div class='dropdown inline-dropdown'>
+                      <span class='label label-success'>
+                        Новый
+                      </span>
+                      <ul class='adm-dropdown-menu-status'>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__new adm-dropdown-menu-status-btn'>
+                            Новый
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__delivery adm-dropdown-menu-status-btn'>
+                            Доставка
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__cancelled adm-dropdown-menu-status-btn'>
+                            Отменён
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__paused adm-dropdown-menu-status-btn'>
+                            Пауза
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+                <tr class='adm-orders-table-row' data-modal-url='modal-order.html' ks-modal tooltip title='Отказ клиента'>
+                  <td class='__cover adm-orders-table-cell' data-title='Товары'>
+                    <img src='assets&#47;product-60x60-3.jpg' alt='assets&#47;product-60x60-3.jpg'>
+                  </td><td class='__desc adm-orders-table-cell'>
+                    Стол компьютерный Rage
+                  </td><td class='__number adm-orders-table-cell' data-title='Номер заказа'>0001</td><td class='__location adm-orders-table-cell' data-title='Место доставки'>Москва</td><td class='__time adm-orders-table-cell' data-title='Время доставки'>Два часа назад</td><td class='__total adm-orders-table-cell' data-title='Сумма'>
+                    <span class='nobr'>15 800 руб.</span>
+                  </td><td class='__payment adm-orders-table-cell' data-title='Состояние по оплате'><span class='label label-default'>
+                      Не оплачен
+                    </span></td>
+                  <td class='__status adm-orders-table-cell' data-title='Состояние доставки'>
+                    <div class='dropdown inline-dropdown'>
+                      <span class='label label-warning'>
+                        Отменён
+                      </span>
+                      <ul class='adm-dropdown-menu-status'>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__new adm-dropdown-menu-status-btn'>
+                            Новый
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__delivery adm-dropdown-menu-status-btn'>
+                            Доставка
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__cancelled adm-dropdown-menu-status-btn'>
+                            Отменён
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__paused adm-dropdown-menu-status-btn'>
+                            Пауза
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+                <tr class='adm-orders-table-row' data-modal-url='modal-order.html' ks-modal tooltip title='На паузе'>
+                  <td class='__cover adm-orders-table-cell' data-title='Товары'>
+                    <img src='assets&#47;product-60x60-3.jpg' alt='assets&#47;product-60x60-3.jpg'>
+                  </td><td class='__desc adm-orders-table-cell'>
+                    Табурет
+                  </td><td class='__number adm-orders-table-cell' data-title='Номер заказа'>0004</td><td class='__location adm-orders-table-cell' data-title='Место доставки'>Москва</td><td class='__time adm-orders-table-cell' data-title='Время доставки'>Два часа назад</td><td class='__total adm-orders-table-cell' data-title='Сумма'>
+                    <span class='nobr'>15 800 руб.</span>
+                  </td><td class='__payment adm-orders-table-cell' data-title='Состояние по оплате'><span class='label label-default'>
+                      Не оплачен
+                    </span></td>
+                  <td class='__status adm-orders-table-cell' data-title='Состояние доставки'>
+                    <div class='dropdown inline-dropdown'>
+                      <span class='label label-waiting'>
+                        Пауза
+                      </span>
+                      <ul class='adm-dropdown-menu-status'>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__new adm-dropdown-menu-status-btn'>
+                            Новый
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__delivery adm-dropdown-menu-status-btn'>
+                            Доставка
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__cancelled adm-dropdown-menu-status-btn'>
+                            Отменён
+                          </a>
+                        </li>
+                        <li class='adm-dropdown-menu-status-item'>
+                          <a class='__paused adm-dropdown-menu-status-btn'>
+                            Пауза
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- end Orders -->
+        </div>
+      </div>
+      <!-- end Layout Main -->
+    </div>
+    <!-- end Layout -->
+    <script src='scripts/vendor.js'></script>
+    <script src='scripts/local.js'></script>
+  </body>
+</html>

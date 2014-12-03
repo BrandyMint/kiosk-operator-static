@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+<title>Kiosk</title>
+<meta content='' name='description'>
+<meta content='width=device-width, initial-scale=1, user-scalable=no' name='viewport'>
+<link href='stylesheets/local.css' rel='stylesheet'>
+<link href='assets/favicon/favicon.ico' rel='shortcut icon'>
+<link href='assets/touch-icon-57.png' rel='apple-touch-icon' sizes='57x57'>
+<link href='assets/touch-icon-72.png' rel='apple-touch-icon' sizes='72x72'>
+<link href='assets/touch-icon-76.png' rel='apple-touch-icon' sizes='76x76'>
+<link href='assets/touch-icon-114.png' rel='apple-touch-icon' sizes='114x114'>
+<link href='assets/touch-icon-120.png' rel='apple-touch-icon' sizes='120x120'>
+<link href='assets/touch-icon-144.png' rel='apple-touch-icon' sizes='144x144'>
+<link href='assets/touch-icon-152.png' rel='apple-touch-icon' sizes='152x152'>
+<!-- Windows 8 Tiles -->
+<meta content='assets/touch-icon-144.png' name='msapplication-TileImage'>
+<meta content='#38b0aa' name='msapplication-TileColor'>
+<meta content='The MatriXFiles' name='application-name'>
+<!-- Internet Explorer 11 Tiles -->
+<meta content='assets/tile-70.png' name='msapplication-square70x70logo'>
+<meta content='assets/tile-150.png' name='msapplication-square150x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-wide310x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-square310x310logo'>
+<!-- For iPad landscape splash screen -->
+<link href='assets/apple-splash-screen-1024x748.png' rel='apple-touch-startup-image' sizes='1024x748'>
+<!-- For iPad portriat splash screen -->
+<link href='assets/apple-splash-screen-768x1004.png' rel='apple-touch-startup-image' sizes='768x1004'>
+<!-- For iPhone, iPod high resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-640x960.png' rel='apple-touch-startup-image' sizes='640x960'>
+<!-- For iPhone, iPod standard resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-320x480.png' rel='apple-touch-startup-image' sizes='320x480'>
+  </head>
+  <body class='__landing adm-body'>
+    <!-- Layout -->
+    <div class='adm-layout'>
+      <!-- Auth -->
+      <div class='__welcome adm-auth' role='auth-box'>
+        <div class='adm-auth-buttons'>
+          <button class='adm-btn-auth-login' data-step='auth-second' role='auth-section-toggle'>Вход</button>
+        </div>
+        <button class='adm-btn-auth-back' role='auth-back-btn'>Назад</button>
+        <section class='__welcome adm-auth-section'>
+          <div class='adm-grid-full'>
+            <div class='adm-grid-full-middle'>
+              <div class='container'>
+                <div class='row'>
+                  <div class='col-sm-10 col-sm-offset-1'>
+                    <h1 class='adm-auth-title'>Киоск позволяет создать <span class="nobr">интернет-магазин</span> за несколько минут</h1>
+                    <button class='adm-btn-auth' data-step='start-poll' role='auth-section-toggle'>
+                      Начать
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class='__start-poll adm-auth-section'>
+          <div class='adm-grid-full'>
+            <div class='adm-grid-full-middle'>
+              <div class='container'>
+                <div class='row'>
+                  <div class='col-sm-10 col-sm-offset-1'>
+                    <h1 class='adm-auth-title'>Несколько вопросов перед&nbsp;тем, как начать</h1>
+                    <button class='adm-btn-auth' data-step='q1' role='auth-section-toggle'>
+                      Дальше
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class='__q1 adm-auth-section'>
+          <div class='adm-grid-full'>
+            <div class='adm-grid-full-middle'>
+              <div class='container'>
+                <form action='?'>
+                  <div class='adm-auth-step'>
+                    <div class='adm-auth-step-head'>Вопрос 1 из 6</div>
+                    <div class='adm-auth-step-desc'>Мы спрашиваем название, чтобы присвоить вам url, чуть позже вы сможете его поменять или привязать магазин к своему домену</div>
+                  </div>
+                  <div class='row'>
+                    <div class='col-sm-10 col-sm-offset-1'>
+                      <h1 class='adm-auth-title'>Как называется ваш магазин?</h1>
+                      <div class='row'>
+                        <div class='col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3'>
+                          <div class='form-group'>
+                            <input class='form-control' id='auth-shop-name' type='text' placeholder='Например, Crate&Barrel'>
+                          </div>
+                          <div class='adm-auth-form-actions'>
+                            <button class='adm-btn-auth' type='button' data-step='q2' role='auth-section-toggle'>
+                              Дальше
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class='__q2 adm-auth-section'>
+          <div class='adm-grid-full'>
+            <div class='adm-grid-full-middle'>
+              <div class='container'>
+                <form action='?'>
+                  <div class='adm-auth-step'>
+                    <div class='adm-auth-step-head'>Вопрос 2 из 6</div>
+                    <div class='adm-auth-step-desc'>Выбрать категорию необходимо для того, чтобы в дальнейшем было проще подключиться к платежной системе</div>
+                  </div>
+                  <div class='row'>
+                    <div class='col-sm-10 col-sm-offset-1'>
+                      <h1 class='adm-auth-title'>Что вы продаете?</h1>
+                      <div class='row'>
+                        <div class='col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3'>
+                          <div class='form-group'>
+                            <select class='form-control' id='auth-type-of-goods' type='text'>
+                              <option value='clothes'>Одежда</option>
+                              <option value='shoes'>Обувь</option>
+                              <option value='jewellery'>Украшения</option>
+                              <option value='electronics'>Электроника</option>
+                              <option value='cosmetics'>Косметика</option>
+                              <option value='accessories'>Аксессуары</option>
+                              <option value='for-children'>Товары для детей</option>
+                              <option value='food'>Пища</option>
+                              <option value='other'>Что-то другое</option>
+                            </select>
+                          </div>
+                          <div class='adm-auth-form-actions'>
+                            <button class='adm-btn-auth' type='button' data-step='q3' role='auth-section-toggle'>
+                              Дальше
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class='__q3 adm-auth-section'>
+          <div class='adm-grid-full'>
+            <div class='adm-grid-full-middle'>
+              <div class='container'>
+                <form action='?'>
+                  <div class='adm-auth-step'>
+                    <div class='adm-auth-step-head'>Вопрос 3 из 6</div>
+                    <div class='adm-auth-step-desc'>Количество заказов важно знать для того, чтобы лучше понимать потребности магазина. Мы спрашиваем среднее количество заказов</div>
+                  </div>
+                  <div class='row'>
+                    <div class='col-sm-10 col-sm-offset-1'>
+                      <h1 class='adm-auth-title'>Сколько у вас заказов в день?</h1>
+                      <div class='row'>
+                        <div class='col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3'>
+                          <div class='form-group'>
+                            <select class='form-control' id='auth-number-of-orders' type='text'>
+                              <option value='1-3'>1-3</option>
+                              <option value='3-5'>3-5</option>
+                              <option value='5-10'>5-10</option>
+                              <option value='more-10'>Больше 10</option>
+                            </select>
+                          </div>
+                          <div class='adm-auth-form-actions'>
+                            <button class='adm-btn-auth' type='button' data-step='q4' role='auth-section-toggle'>
+                              Дальше
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class='__q4 adm-auth-section'>
+          <div class='adm-grid-full'>
+            <div class='adm-grid-full-middle'>
+              <div class='container'>
+                <form action='?'>
+                  <div class='adm-auth-step'>
+                    <div class='adm-auth-step-head'>Вопрос 4 из 6</div>
+                    <div class='adm-auth-step-desc'>Если у вас еще нет оборота, то пишите, что его нет, все равно тариф будет определяться по фактическому обороту</div>
+                  </div>
+                  <div class='row'>
+                    <div class='col-sm-10 col-sm-offset-1'>
+                      <h1 class='adm-auth-title'>Ваш оборот в месяц</h1>
+                      <div class='row'>
+                        <div class='col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3'>
+                          <div class='form-group'>
+                            <select class='form-control' id='auth-number-of-orders' type='text'>
+                              <option value='none'>Нет</option>
+                              <option value='до 10 тысяч рублей'>до 10 тысяч рублей</option>
+                              <option value='10-50 тысяч рублей'>10-50 тысяч рублей</option>
+                              <option value='50-150 тысяч рублей'>50-150 тысяч рублей</option>
+                              <option value='150-500 тысяч рублей'>150-500 тысяч рублей</option>
+                              <option value='больше 500 тысяч'>Больше 500 тысяч</option>
+                            </select>
+                          </div>
+                          <div class='adm-auth-form-actions'>
+                            <button class='adm-btn-auth' type='button' data-step='q5' role='auth-section-toggle'>
+                              Дальше
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class='__q5 adm-auth-section'>
+          <div class='adm-grid-full'>
+            <div class='adm-grid-full-middle'>
+              <div class='container'>
+                <form action='?'>
+                  <div class='adm-auth-step'>
+                    <div class='adm-auth-step-head'>Вопрос 5 из 6</div>
+                    <div class='adm-auth-step-desc'>Буквально 5-6 слов – это информация, которую мы напишем в шапке магазина</div>
+                  </div>
+                  <div class='row'>
+                    <div class='col-sm-10 col-sm-offset-1'>
+                      <h1 class='adm-auth-title'>Кратко о магазине</h1>
+                      <div class='row'>
+                        <div class='col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3'>
+                          <div class='form-group'>
+                            <textarea class='form-control' placeholder='Например, интернет-магазин городских велосипедов'></textarea>
+                          </div>
+                          <div class='adm-auth-form-actions'>
+                            <button class='adm-btn-auth' type='button' data-step='q6' role='auth-section-toggle'>
+                              Дальше
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class='__q6 adm-auth-section'>
+          <div class='adm-grid-full'>
+            <div class='adm-grid-full-middle'>
+              <div class='container'>
+                <form action='?'>
+                  <div class='adm-auth-step'>
+                    <div class='adm-auth-step-head'>Вопрос 6 из 6</div>
+                    <div class='adm-auth-step-desc'>Физическое лицо не заключает договор, но при этом имеет ограничения в обороте – 600 тысяч рублей. ИП или ООО ограничений не имеет, меньший процент за прием платежей, но надо собрать документы и оформить договор</div>
+                  </div>
+                  <div class='row'>
+                    <div class='col-sm-10 col-sm-offset-1'>
+                      <h1 class='adm-auth-title'>Тип аккаунта</h1>
+                      <div class='row'>
+                        <div class='col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3'>
+                          <div class='form-group'>
+                            <select class='form-control' id='auth-account-type' type='text'>
+                              <option value='ИП'>ИП</option>
+                              <option value='ООО'>ООО</option>
+                              <option value='физическое лицо'>физическое лицо</option>
+                            </select>
+                          </div>
+                          <div class='adm-auth-form-actions'>
+                            <button class='adm-btn-auth' type='button' data-step='auth-first' role='auth-section-toggle'>
+                              Дальше
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class='__auth-first adm-auth-section'>
+          <div class='adm-grid-full'>
+            <div class='adm-grid-full-middle'>
+              <div class='container'>
+                <form action='?'>
+                  <div class='adm-auth-step'>
+                    <div class='adm-auth-step-desc'>Авторизация по номеру телефона – это просто и безопасно</div>
+                  </div>
+                  <h1 class='adm-auth-title'>Авторизация</h1>
+                  <div class='row'>
+                    <div class='col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3'>
+                      <div class='form-group'>
+                        <label class='control-label' for='auth-phone-number'>Номер телефона</label>
+                        <input class='form-control' id='auth-phone-number' type='text' value='+7'>
+                      </div>
+                      <div class='adm-auth-form-actions'>
+                        <button class='adm-btn-auth' type='button' data-step='auth-second' role='auth-section-toggle'>Выслать пин-код</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class='__auth-second adm-auth-section'>
+          <div class='adm-grid-full'>
+            <div class='adm-grid-full-middle'>
+              <div class='container'>
+                <form action='?'>
+                  <h1 class='adm-auth-title'>Авторизация</h1>
+                  <div class='row'>
+                    <div class='col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3'>
+                      <div class='form-group has-error'>
+                        <label class='control-label' for='auth-phone-number-confirm'>Номер телефона</label>
+                        <input class='form-control' id='auth-phone-number-confirm' type='text' value='+7'>
+                      </div>
+                      <div class='form-group has-error'>
+                        <label class='control-label' for='auth-pin-code'>Номер телефона</label>
+                        <input class='form-control' id='auth-pin-code' type='text' placeholder='Пин-код'>
+                      </div>
+                      <div class='adm-auth-form-actions'>
+                        <button class='adm-btn-auth'>Войти</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- end Auth -->
+        </section>
+      </div>
+    </div>
+    <!-- end Layout -->
+    <script src='scripts/vendor.js'></script>
+    <script src='scripts/local.js'></script>
+  </body>
+</html>

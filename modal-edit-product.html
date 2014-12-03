@@ -1,0 +1,188 @@
+<div class='modal-body'>
+  <div class='adm-form-item'>
+    <form class='products__new-form simple_form'>
+      <header class='adm-form-item-header'>
+        <div class='row'>
+          <div class='col-md-4'>
+            <h1 class='adm-section-header-title'>Добавить товар</h1>
+          </div>
+          <div class='col-md-8'>
+            <label class='toggle__block' role='product-toggle'>
+              <div class='pull-left toggle__block-label-checked'>
+                Товар на сайте
+              </div>
+              <div class='pull-left toggle__block-box'>
+                <input class='toggle__block-checkbox' type='checkbox'>
+                <div class='toggle__block-switch'></div>
+                <div class='toggle__block-track'></div>
+              </div>
+              <div class='pull-left toggle__block-label-unchecked'>
+                Скрыть товар
+              </div>
+              <div class='clearfix'></div>
+            </label>
+          </div>
+        </div>
+        <hr>
+      </header>
+      <div class='row'>
+        <div class='col-md-10'>
+          <div class='form-alert form-alert-danger'>
+            Невозможно опубликовать товар. Проверьте поля, выделенные красным
+          </div>
+          <div class='form-group'>
+            <label class='control-label'>Фотографии</label>
+            <div class='__small products__new-form-images-list'>
+              <div class='products__new-form-image-thumb-block'>
+                <div class='products__new-form-image-thumb-empty'></div>
+                <div class='products__new-form-image-thumb-add'></div>
+              </div>
+              <div class='products__new-form-image-thumb-block'>
+                <img class='products__new-form-image-thumb' src='assets/product-2-square.png' alt=''>
+                <div class='products__new-form-image-thumb-remove'></div>
+                <div class='products__new-form-image-thumb-update'></div>
+              </div>
+              <div class='products__new-form-image-thumb-block'>
+                <img class='products__new-form-image-thumb' src='assets/product-2-square.png' alt=''>
+                <div class='products__new-form-image-thumb-remove'></div>
+                <div class='products__new-form-image-thumb-update'></div>
+              </div>
+            </div>
+          </div>
+          <div class='form-group'>
+            <label class='control-label'>Название товара</label>
+            <textarea class='form-control form-control-text-large' placeholder='Например, велосипед городской'></textarea>
+          </div>
+          <div class='row'>
+            <div class='col-sm-6'>
+              <div class='form-group'>
+                <label class='control-label'>Бренд</label>
+                <input class='form-control' type='text' placeholder='Бренд'>
+              </div>
+            </div>
+            <div class='col-sm-6'>
+              <div class='form-group'>
+                <label class='control-label'>Цена</label>
+                <input class='form-control' type='text' placeholder='20 000'>
+              </div>
+            </div>
+            <div class='col-sm-6'>
+              <div class='form-group'>
+                <label class='control-label'>Категория</label>
+                <div data-react-class='SuperSelect' data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}'></div>
+              </div>
+            </div>
+            <div class='col-sm-6'>
+              <div class='form-group'>
+                <label class='control-label'>Подкатегория</label>
+                <div data-react-class='SuperSelect' data-react-props='{"name": "category_name", "value": "Кефир", "options":["Молоко", "Морепродукты", "Мопеды", "Брилианты", "Категория 2"]}'></div>
+              </div>
+            </div>
+          </div>
+          <div class='form-group'>
+            <label class='control-label'>Варианты товара</label>
+            <div class='form-block-group'>
+              <div class='form-group'>
+                <a class='active products__new-form-variant-type-btn' role='products__new-form-variant-type-btn'>Размер</a>
+                <a class='products__new-form-variant-type-btn' role='products__new-form-variant-type-btn'>Цвет</a>
+                <input class='products__new-form-custom-variant-input' type='text' placeholder='Другое' role='products__new-form-variant-type-input'>
+              </div>
+              <div class='row'>
+                <div class='col-md-11'>
+                  <div class='row row-block-padding'>
+                    <div class='col-sm-4 hidden-xs'>
+                      <label class='control-label' role='products__new-form-variant-type-label'>Размер</label>
+                    </div>
+                    <div class='col-sm-4 hidden-xs'>
+                      <label class='control-label'>Количество</label>
+                    </div>
+                    <div class='col-sm-4 hidden-xs'>
+                      <label class='control-label'>Артикул</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class='row' role='products__new-form-variants-item'>
+                <div class='col-md-12'></div>
+                <div class='col-md-11'>
+                  <div class='row row-block-padding'>
+                    <div class='col-sm-4'>
+                      <label class='control-label hidden-lg hidden-md hidden-sm'>Размер</label>
+                      <input class='form-control' type='text' placeholder='Например, XL'>
+                    </div>
+                    <div class='col-sm-4'>
+                      <label class='control-label hidden-lg hidden-md hidden-sm'>Количество</label>
+                      <input class='form-control' type='text' placeholder='Например, 5'>
+                    </div>
+                    <div class='col-sm-4'>
+                      <label class='control-label hidden-lg hidden-md hidden-sm'>Артикул</label>
+                      <input class='form-control' type='text' placeholder='Например, M001-11-00'>
+                    </div>
+                  </div>
+                  <br>
+                </div>
+                <div class='col-md-1'>
+                  <a class='products__new-form-remove-variant-btn pull-right'></a>
+                  <div class='clearfix'></div>
+                </div>
+              </div>
+              <div class='row' role='products__new-form-variants-place'></div>
+              <div class='form-group'>
+                <div class='btn-add-fields' role='products__new-form-variants-add'>
+                  Добавить ещё
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class='form-group text'>
+            <label class='control-label'>
+              Описание
+            </label>
+            <textarea class='form-control' placeholder='Описание' required='required' role='autosize'></textarea>
+          </div>
+          <div class='form-group'>
+            <label class='control-label'>Характеристики</label>
+            <div class='row'>
+              <div class='col-sm-6'>
+                <div class='form-group-sm'>
+                  <div class='form-control-fake'>Например, веc</div>
+                </div>
+              </div>
+              <div class='col-sm-6'>
+                <div class='row-gutter-dash text-muted'>
+                  &mdash;
+                </div>
+                <div class='form-group-sm'>
+                  <input class='form-control' type='text' placeholder='11 грамм'>
+                </div>
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-6'>
+                <div class='form-group-sm'>
+                  <div class='form-control-fake'>Например, вес</div>
+                </div>
+              </div>
+              <div class='col-sm-6'>
+                <div class='row-gutter-dash text-muted'>
+                  &mdash;
+                </div>
+                <div class='form-group-sm'>
+                  <input class='form-control' type='text' placeholder='11 грамм'>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class='adm-form-item-footer'>
+        <button class='adm-btn-submit' data-disable-with='Сохраняем...' type='submit'>
+          Сохранить
+        </button>
+        <button class='adm-btn-remove'>
+          Удалить товар навсегда
+        </button>
+      </footer>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,441 @@
+
+<html>
+  <head>
+    <meta charset='utf-8'>
+  </head>
+</html>
+<title>Kiosk</title>
+<meta content='' name='description'>
+<meta content='width=device-width, initial-scale=1, user-scalable=no' name='viewport'>
+<link href='stylesheets/local.css' rel='stylesheet'>
+<link href='assets/favicon/favicon.ico' rel='shortcut icon'>
+<link href='assets/touch-icon-57.png' rel='apple-touch-icon' sizes='57x57'>
+<link href='assets/touch-icon-72.png' rel='apple-touch-icon' sizes='72x72'>
+<link href='assets/touch-icon-76.png' rel='apple-touch-icon' sizes='76x76'>
+<link href='assets/touch-icon-114.png' rel='apple-touch-icon' sizes='114x114'>
+<link href='assets/touch-icon-120.png' rel='apple-touch-icon' sizes='120x120'>
+<link href='assets/touch-icon-144.png' rel='apple-touch-icon' sizes='144x144'>
+<link href='assets/touch-icon-152.png' rel='apple-touch-icon' sizes='152x152'>
+<!-- Windows 8 Tiles -->
+<meta content='assets/touch-icon-144.png' name='msapplication-TileImage'>
+<meta content='#38b0aa' name='msapplication-TileColor'>
+<meta content='The MatriXFiles' name='application-name'>
+<!-- Internet Explorer 11 Tiles -->
+<meta content='assets/tile-70.png' name='msapplication-square70x70logo'>
+<meta content='assets/tile-150.png' name='msapplication-square150x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-wide310x150logo'>
+<meta content='assets/tile-310.png' name='msapplication-square310x310logo'>
+<!-- For iPad landscape splash screen -->
+<link href='assets/apple-splash-screen-1024x748.png' rel='apple-touch-startup-image' sizes='1024x748'>
+<!-- For iPad portriat splash screen -->
+<link href='assets/apple-splash-screen-768x1004.png' rel='apple-touch-startup-image' sizes='768x1004'>
+<!-- For iPhone, iPod high resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-640x960.png' rel='apple-touch-startup-image' sizes='640x960'>
+<!-- For iPhone, iPod standard resolution portriat splash screen -->
+<link href='assets/apple-splash-screen-320x480.png' rel='apple-touch-startup-image' sizes='320x480'>
+  <body>
+    <script src='scripts/bundle.js'></script>
+    <div class='app-left-sidebar'>
+      <ul class='left-sidebar__nav'>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-info-circle nav-link-icon-info left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Что делать?</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href='products.html'>
+            <i class='fa fa-th-large nav-link-icon-products left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Товары</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li class='active'>
+          <a class='left-sidebar__nav-link' href='orders.html'>
+            <i class='fa fa-shopping-cart nav-link-icon-orders left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Заказы</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-folder-open nav-link-icon-catalog left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Витрина</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-cog nav-link-icon-settings left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Настройка</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-briefcase nav-link-icon-shops left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Мои магазины</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+        <li>
+          <a class='left-sidebar__nav-link' href=''>
+            <i class='fa fa-user nav-link-icon-user left-sidebar__nav-link-icon'></i>
+            <div class='left-sidebar__nav-link-title'>Олег С.</div>
+            <div class='clearfix'></div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class='app-header-navbar'>
+      <div class='container-fluid'>
+        <div class='col-lg-10 col-lg-offset-1'>
+          <h1 class='header-navbar__title pull-left'>Заказы</h1>
+          <h1 class='header-navbar__brand pull-right'>Field&Rag</h1>
+          <form class='pull-right'>
+            <input class='form-control orders-list__search-input' type='search' placeholder='Найти название, номер, город'>
+          </form>
+          <div class='clearfix'></div>
+        </div>
+      </div>
+    </div>
+    <div class='app-main-content'>
+      <div class='container-fluid'>
+        <div class='col-lg-10 col-lg-offset-1'>
+          <div class='orders-list'>
+            <div class='orders-list__list'>
+              <table class='orders-list__table table'>
+                <thead class='orders-list__table-header'>
+                  <td class='orders-list__table-header-cell orders-list__table-header-cell-status'>Статус</td>
+                  <td class='orders-list__table-header-cell orders-list__table-header-cell-number'>Номер</td>
+                  <td class='orders-list__table-header-cell orders-list__table-header-cell-content'>Что в заказе</td>
+                  <td class='orders-list__table-header-cell orders-list__table-header-cell-city'>Город</td>
+                  <td class='orders-list__table-header-cell orders-list__table-header-cell-time'>Когда</td>
+                  <td class='orders-list__table-header-cell orders-list__table-header-cell-total'>Стоимость</td>
+                </thead>
+                <tr class='orders-list__table-row'>
+                  <td class='orders-list__table-status orders-list__table-status-new'>
+                    <div class='dropdown' role='order-status-dropdown'>
+                      <a class='orders-list__modal-btn-new orders-list__table-status-btn' href='#' data-toggle='dropdown'>
+                        Новый
+                        &nbsp;
+                        <i class='fa fa-angle-down'></i>
+                      </a>
+                      <ul class='dropdown-menu orders-list__status-menu'>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-new'>
+                            Новый
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-delivery'>
+                            Доставка
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-cancelled'>
+                            Отменён
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-paused'>
+                            Пауза
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                  <td class='orders-list__table-number' role='orders-list__table-modal-btn'>
+                    0001
+                  </td>
+                  <td role='orders-list__table-modal-btn'>
+                    Стол компьтерный Rage
+                  </td>
+                  <td class='orders-list__table-location' role='orders-list__table-modal-btn'>
+                    Москва
+                  </td>
+                  <td class='orders-list__table-time' role='orders-list__table-modal-btn'>
+                    Два часа назад
+                  </td>
+                  <td role='orders-list__table-modal-btn'>
+                    <nobr>
+                      <span class='order-status-bullet order-status-bullet-new'></span>
+                      15 800 руб.
+                    </nobr>
+                  </td>
+                </tr>
+                <tr class='orders-list__table-row'>
+                  <td class='orders-list__table-status orders-list__table-status-delivery'>
+                    <div class='dropdown' role='order-status-dropdown'>
+                      <a class='orders-list__modal-btn-delivery orders-list__table-status-btn' href='#' data-toggle='dropdown'>
+                        Доставка
+                        &nbsp;
+                        <i class='fa fa-angle-down'></i>
+                      </a>
+                      <ul class='dropdown-menu orders-list__status-menu'>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-new'>
+                            Новый
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-delivery'>
+                            Доставка
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-cancelled'>
+                            Отменён
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-paused'>
+                            Пауза
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                  <td class='orders-list__table-number' role='orders-list__table-modal-btn'>
+                    0001
+                  </td>
+                  <td role='orders-list__table-modal-btn'>
+                    Стол компьтерный Rage
+                  </td>
+                  <td class='orders-list__table-location' role='orders-list__table-modal-btn'>
+                    Москва
+                  </td>
+                  <td class='orders-list__table-time' role='orders-list__table-modal-btn'>
+                    Два часа назад
+                  </td>
+                  <td role='orders-list__table-modal-btn'>
+                    <nobr>
+                      <span class='order-status-bullet order-status-bullet-delivery'></span>
+                      15 800 руб.
+                    </nobr>
+                  </td>
+                </tr>
+                <tr class='orders-list__table-row'>
+                  <td class='orders-list__table-status orders-list__table-status-cancelled'>
+                    <div class='dropdown' role='order-status-dropdown'>
+                      <a class='orders-list__modal-btn-cancelled orders-list__table-status-btn' href='#' data-toggle='dropdown'>
+                        Отменён
+                        &nbsp;
+                        <i class='fa fa-angle-down'></i>
+                      </a>
+                      <ul class='dropdown-menu orders-list__status-menu'>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-new'>
+                            Новый
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-delivery'>
+                            Доставка
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-cancelled'>
+                            Отменён
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-paused'>
+                            Пауза
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                  <td class='orders-list__table-number' role='orders-list__table-modal-btn'>
+                    0001
+                  </td>
+                  <td role='orders-list__table-modal-btn'>
+                    Стол компьтерный Rage
+                  </td>
+                  <td class='orders-list__table-location' role='orders-list__table-modal-btn'>
+                    Москва
+                  </td>
+                  <td class='orders-list__table-time' role='orders-list__table-modal-btn'>
+                    Два часа назад
+                  </td>
+                  <td role='orders-list__table-modal-btn'>
+                    <nobr>
+                      <span class='order-status-bullet order-status-bullet-cancelled'></span>
+                      15 800 руб.
+                    </nobr>
+                  </td>
+                </tr>
+                <tr class='orders-list__table-row'>
+                  <td class='orders-list__table-status orders-list__table-status-paused'>
+                    <div class='dropdown' role='order-status-dropdown'>
+                      <a class='orders-list__modal-btn-paused orders-list__table-status-btn' href='#' data-toggle='dropdown'>
+                        Пауза
+                        &nbsp;
+                        <i class='fa fa-angle-down'></i>
+                      </a>
+                      <ul class='dropdown-menu orders-list__status-menu'>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-new'>
+                            Новый
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-delivery'>
+                            Доставка
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-cancelled'>
+                            Отменён
+                          </a>
+                        </li>
+                        <li>
+                          <a class='orders-list__modal-btn orders-list__modal-btn-paused'>
+                            Пауза
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                  <td class='orders-list__table-number' role='orders-list__table-modal-btn'>
+                    0001
+                  </td>
+                  <td role='orders-list__table-modal-btn'>
+                    Стол компьтерный Rage
+                  </td>
+                  <td class='orders-list__table-location' role='orders-list__table-modal-btn'>
+                    Москва
+                  </td>
+                  <td class='orders-list__table-time' role='orders-list__table-modal-btn'>
+                    Два часа назад
+                  </td>
+                  <td role='orders-list__table-modal-btn'>
+                    <nobr>
+                      <span class='order-status-bullet order-status-bullet-paused'></span>
+                      15 800 руб.
+                    </nobr>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='fade modal orders-modal' aria-hidden='true' aria-labelledby='mySmallModalLabel' role='order-modal' tabindex='-1'>
+      <div class='modal-dialog'>
+        <div class='modal-content' role='modal-content'>
+          <div class='modal-header'>
+            <div class='pull-left'>
+              Заказ №0003
+            </div>
+            <div class='pull-right'>
+              <div class='dropdown'>
+                <a class='orders-list__modal-btn orders-list__modal-btn-new' href='#' data-toggle='dropdown'>
+                  Новый
+                  &nbsp;
+                  <i class='fa fa-angle-down'></i>
+                </a>
+                <ul class='dropdown-menu orders-list__dropdown-menu'>
+                  <li>
+                    <a class='orders-list__modal-btn orders-list__modal-btn-new'>
+                      Новый
+                    </a>
+                  </li>
+                  <li>
+                    <a class='orders-list__modal-btn orders-list__modal-btn-delivery'>
+                      Доставка
+                    </a>
+                  </li>
+                  <li>
+                    <a class='orders-list__modal-btn orders-list__modal-btn-cancelled'>
+                      Отменён
+                    </a>
+                  </li>
+                  <li>
+                    <a class='orders-list__modal-btn orders-list__modal-btn-paused'>
+                      Пауза
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class='clearfix'></div>
+          </div>
+          <div class='modal-body'>
+            <div class='row'>
+              <div class='col-md-3'>
+                Товары
+              </div>
+              <div class='col-md-9'>
+                <div class='media order-products__list-item'>
+                  <div class='pull-left'>
+                    <div class='media-object'>
+                      <img src='assets/product-thumb.png' width='34' height='34'>
+                    </div>
+                  </div>
+                  <div class='media-body'>
+                    Мыльница с якорем
+                  </div>
+                </div>
+                <div class='media order-products__list-item'>
+                  <div class='pull-left'>
+                    <div class='media-object'>
+                      <img src='assets/product-thumb.png' width='34' height='34'>
+                    </div>
+                  </div>
+                  <div class='media-body'>
+                    Мыльница с якорем
+                  </div>
+                </div>
+                <div class='media order-products__list-item'>
+                  <div class='pull-left'>
+                    <div class='media-object'>
+                      <img src='assets/product-thumb.png' width='34' height='34'>
+                    </div>
+                  </div>
+                  <div class='media-body'>
+                    Мыльница с якорем
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class='row'>
+              <div class='col-md-3'>
+                Покупатель
+              </div>
+              <div class='col-md-9'>
+                Лучинин Евгений Павлович, genue.luben@gmail.com,
+                <nobr>+7 (905) 716-14-51</nobr>
+              </div>
+            </div>
+            <hr>
+            <div class='row'>
+              <div class='col-md-3'>
+                Адрес
+              </div>
+              <div class='col-md-9'>
+                Москва, 123100, улица 1905 года, 5-39
+              </div>
+            </div>
+            <hr>
+            <div class='row'>
+              <div class='col-md-3'>
+                Стоимость
+              </div>
+              <div class='col-md-9'>
+                <span class='order-products__list-item-cost'>15 800 руб.</span>
+                &nbsp;&nbsp;
+                <span class='order-status-bullet order-status-bullet-new'></span>
+                Оплачено
+              </div>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>

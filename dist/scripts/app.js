@@ -3058,11 +3058,13 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
 },{}],43:[function(require,module,exports){
 
 /** @jsx React.DOM */
-var LOADED_STATE, LOADING_STATE, ProductImages_Image;
+var ERROR_STATE, LOADED_STATE, LOADING_STATE, ProductImages_Image;
 
 LOADING_STATE = 'loading';
 
 LOADED_STATE = 'loaded';
+
+ERROR_STATE = 'error';
 
 ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
   mixins: ['ReactActivitiesUser', ComponentManipulationsMixin],
@@ -3084,18 +3086,25 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
     };
   },
   render: function() {
-    var spinner;
-    if (this.isLoadingState()) {
-      spinner = React.DOM.div({className: "products__new-form-image-thumb-preload"}, 
-                   Spinner({className: "fa-2x"})
-                 );
-    }
+    var message;
+    message = (function() {
+      switch (this.state.currentState) {
+        case LOADING_STATE:
+          return React.DOM.div({className: "products__new-form-image-thumb-preload"}, 
+          Spinner({className: "fa-2x"})
+        );
+        case ERROR_STATE:
+          return React.DOM.div({className: "products__new-form-image-thumb-error"}, 
+          "Ошибка загрузки"
+        );
+      }
+    }).call(this);
     return React.DOM.div({'data-id':  this.props.image.id, 
                  className: "products__new-form-image-thumb-block"}, 
               React.DOM.img({src:  this.state.image.src, 
                    className: "products__new-form-image-thumb"}), 
 
-              spinner, 
+              message, 
 
               React.DOM.div({className: "products__new-form-image-thumb-remove", 
                    onClick:  this.props.onImageDelete}), 
@@ -3115,6 +3124,11 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
       currentState: LOADED_STATE
     });
   },
+  activateErrorState: function() {
+    return this.setState({
+      currentState: ERROR_STATE
+    });
+  },
   preloadImage: function() {
     var file, formData;
     file = this.props.image.file;
@@ -3125,11 +3139,6 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
     formData.append('image', file);
     return ProductImagesViewActions.preloadImage({
       file: file,
-      beforeSend: (function(_this) {
-        return function() {
-          return _this.incrementActivities();
-        };
-      })(this),
       success: (function(_this) {
         return function(data) {
           _this.activateLoadedState();
@@ -3141,8 +3150,13 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
         };
       })(this),
       error: (function(_this) {
-        return function(data) {
-          return console.warn(data);
+        return function() {
+          return _this.activateErrorState();
+        };
+      })(this),
+      beforeSend: (function(_this) {
+        return function() {
+          return _this.incrementActivities();
         };
       })(this),
       complete: (function(_this) {

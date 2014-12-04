@@ -2,6 +2,7 @@
 
 LOADING_STATE = 'loading'
 LOADED_STATE  = 'loaded'
+ERROR_STATE   = 'error'
 
 ProductImages_Image = React.createClass
   mixins: ['ReactActivitiesUser', ComponentManipulationsMixin]
@@ -20,17 +21,22 @@ ProductImages_Image = React.createClass
     image: @props.image
 
   render: ->
-    if @isLoadingState()
-      spinner = `<div className="products__new-form-image-thumb-preload">
-                   <Spinner className="fa-2x" />
-                 </div>`
+    message = switch @state.currentState
+      when LOADING_STATE
+       `<div className="products__new-form-image-thumb-preload">
+          <Spinner className="fa-2x" />
+        </div>`
+      when ERROR_STATE
+       `<div className="products__new-form-image-thumb-error">
+          Ошибка загрузки
+        </div>`
 
     return `<div data-id={ this.props.image.id }
                  className="products__new-form-image-thumb-block">
               <img src={ this.state.image.src }
                    className="products__new-form-image-thumb" />
 
-              { spinner }
+              { message }
 
               <div className="products__new-form-image-thumb-remove"
                    onClick={ this.props.onImageDelete } />
@@ -45,6 +51,7 @@ ProductImages_Image = React.createClass
   isLoadingState: -> @state.currentState is LOADING_STATE
 
   activateLoadedState: -> @setState(currentState: LOADED_STATE)
+  activateErrorState:  -> @setState(currentState: ERROR_STATE)
 
   preloadImage: ->
     file = @props.image.file
@@ -56,7 +63,6 @@ ProductImages_Image = React.createClass
 
     ProductImagesViewActions.preloadImage {
       file: file
-      beforeSend: => @incrementActivities()
       success: (data) =>
         @activateLoadedState()
         @props.onImagePreload {
@@ -64,9 +70,9 @@ ProductImages_Image = React.createClass
           uuid: @props.image.uuid
           src:  data.url
         }
-      error: (data) =>
-        console.warn data
-      complete: => @decrementActivities()
+      error:      => @activateErrorState()
+      beforeSend: => @incrementActivities()
+      complete:   => @decrementActivities()
     }
 
   handleRotateClick: ->

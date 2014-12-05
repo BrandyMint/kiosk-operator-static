@@ -15,7 +15,7 @@ ProductImages_Image = React.createClass
     onImageDelete:  React.PropTypes.func.isRequired
 
   getDefaultProps: ->
-    size: '120x120'
+    size: '150x150'
 
   componentDidMount: ->
     @preloadImage() if @isLoadingState()

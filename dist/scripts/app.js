@@ -7519,13 +7519,13 @@ window.Aviator = {
 
 },{}],"eventEmitter":[function(require,module,exports){
 /*!
- * EventEmitter v4.2.9 - git.io/ee
+ * EventEmitter v4.2.10 - git.io/ee
  * Oliver Caldwell
  * MIT license
  * @preserve
  */
 
-(function () {
+;(function () {
     'use strict';
 
     /**
@@ -8273,7 +8273,7 @@ window.Aviator = {
 
 },{}],"jquery.fileupload":[function(require,module,exports){
 /*
- * jQuery File Upload Plugin 5.42.0
+ * jQuery File Upload Plugin 5.42.1
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -9612,10 +9612,13 @@ window.Aviator = {
         _initDataAttributes: function () {
             var that = this,
                 options = this.options,
-                clone = $(this.element[0].cloneNode(false));
+                clone = $(this.element[0].cloneNode(false)),
+                data = clone.data();
+            // Avoid memory leaks:
+            clone.remove();
             // Initialize options set via HTML5 data-attributes:
             $.each(
-                clone.data(),
+                data,
                 function (key, value) {
                     var dataAttributeName = 'data-' +
                         // Convert camelCase to hyphen-ated key:

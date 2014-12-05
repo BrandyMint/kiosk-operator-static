@@ -4409,16 +4409,16 @@ window.OperatorProductsService = {
 },{}],72:[function(require,module,exports){
 window.ThumborService = {
   image_url: function(url, style) {
-    var fallbackImageUrl, imageUrl, thumborUrl;
+    var escapedImageUrl, fallbackImageUrl, imageUrl, thumborUrl;
     if (style == null) {
       style = '100x100';
     }
-    url = _.escape(url);
+    escapedImageUrl = encodeURIComponent(url);
+    fallbackImageUrl = encodeURIComponent(typeof gon !== "undefined" && gon !== null ? gon.fallback_product_thumb_url : void 0);
     thumborUrl = typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0;
-    fallbackImageUrl = typeof gon !== "undefined" && gon !== null ? gon.fallback_product_thumb_url : void 0;
     if ((url != null) && url !== '') {
       if (this.isExternalImage(url)) {
-        imageUrl = thumborUrl + ("/unsafe/" + style + "/") + url;
+        imageUrl = thumborUrl + ("/unsafe/" + style + "/") + escapedImageUrl;
       } else {
         imageUrl = url;
       }
@@ -4429,7 +4429,7 @@ window.ThumborService = {
   },
   isExternalImage: function(url) {
     var externalImageMatcher;
-    externalImageMatcher = new RegExp('^http:');
+    externalImageMatcher = new RegExp('^http');
     return externalImageMatcher.test(url);
   }
 };

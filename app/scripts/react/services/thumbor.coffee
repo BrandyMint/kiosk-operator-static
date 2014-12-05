@@ -1,13 +1,13 @@
 window.ThumborService =
 
   image_url: (url, style='100x100') ->
-    url = _.escape url
-    thumborUrl = gon?.thumbor_url
-    fallbackImageUrl = gon?.fallback_product_thumb_url
+    escapedImageUrl  = encodeURIComponent url
+    fallbackImageUrl = encodeURIComponent gon?.fallback_product_thumb_url
+    thumborUrl       = gon?.thumbor_url
 
     if url? && url != ''
       if @isExternalImage url
-        imageUrl = thumborUrl + "/unsafe/#{style}/" + url
+        imageUrl = thumborUrl + "/unsafe/#{style}/" + escapedImageUrl
       else
         imageUrl = url
     else
@@ -16,5 +16,5 @@ window.ThumborService =
     imageUrl
 
   isExternalImage: (url) ->
-    externalImageMatcher = new RegExp '^http:'
+    externalImageMatcher = new RegExp '^http'
     externalImageMatcher.test url

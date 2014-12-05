@@ -1,83 +1,110 @@
 ###* @jsx React.DOM ###
 
 #TODO: i18n
-PLACEHOLDER   = 'Новая категория'
-ERROR_MESSAGE = 'Ошибка создания категории.'
-
-INPUT_STATE   = 'input'
-CREATE_STATE  = 'create'
-ERROR_STATE   = 'error'
+PLACEHOLDER = 'Новая категория'
 
 window.OperatorCategories_CreateForm = React.createClass
 
   propTypes:
     parentCategory: React.PropTypes.object
 
-  getInitialState: ->
-    currentState: INPUT_STATE
-    categoryName: ''
-
   render: ->
-    switch @state.currentState
-      when INPUT_STATE
-        form = `<div className="adm-categories-item __edit">
-                  <input
-                      ref="input"
-                      type="text"
-                      className="adm-categories-item-field"
-                      placeholder={ PLACEHOLDER }
-                      onKeyDown={ this.handleKeyDown }
-                      onBlur={ this.restoreDefaultsAndBlur } />
-                </div>`
-      when CREATE_STATE
-        form = `<div className="adm-categories-item">
-                  <span className="adm-categories-item-name text-muted">
-                    { this.state.categoryName }
-                  </span>
-                  <span className="adm-categories-item-name">
-                    <Spinner />
-                  </span>
-                </div>`
-      when ERROR_STATE
-        form = `<div>{ ERROR_MESSAGE }</div>`
-      else console.warn 'Unknown currentState of OperatorCategories_CreateForm component', @state.currentState
+   `<div className="adm-categories-item __muted">
+      <span className="adm-categories-item-name"
+            onClick={ this.handleClick }>
+        { PLACEHOLDER }
+      </span>
+    </div>`
 
-    form
+  handleClick: ->
+    window.location = Routes.operator_categories_new_url @props.parentCategory.id
 
-  activateErrorState: -> @setState(currentState: ERROR_STATE)
+# /*===============================================
+# =            Previous component view            =
+# ===============================================*/
 
-  createCategory: ->
-    inputNode = @refs.input.getDOMNode()
-    categoryName = inputNode.value
-    parentId = if @props.parentCategory then @props.parentCategory.id else null
+# ###* @jsx React.DOM ###
 
-    @setState {
-      currentState: CREATE_STATE
-      categoryName: categoryName
-    }
+# #TODO: i18n
+# PLACEHOLDER   = 'Новая категория'
+# ERROR_MESSAGE = 'Ошибка создания категории.'
 
-    OperatorCategoriesViewActions.createCategory {
-      name:     categoryName
-      parentId: parentId
-      success:  @restoreDefaults
-      error:    @activateErrorState
-    }
+# INPUT_STATE   = 'input'
+# CREATE_STATE  = 'create'
+# ERROR_STATE   = 'error'
 
-  restoreDefaults: ->
-    @setState @getInitialState()
+# window.OperatorCategories_CreateForm = React.createClass
 
-  restoreDefaultsAndBlur: ->
-    inputNode = @refs.input.getDOMNode()
-    inputNode.value = ''
-    inputNode.blur()
+#   propTypes:
+#     parentCategory: React.PropTypes.object
 
-    @restoreDefaults()
+#   getInitialState: ->
+#     currentState: INPUT_STATE
+#     categoryName: ''
 
-  handleKeyDown: (e) ->
-    switch e.key
-      when 'Enter'
-        e.preventDefault()
-        @createCategory()
-      when 'Escape'
-        e.preventDefault()
-        @restoreDefaultsAndBlur()
+#   render: ->
+#     switch @state.currentState
+#       when INPUT_STATE
+#         form = `<div className="adm-categories-item __edit">
+#                   <input
+#                       ref="input"
+#                       type="text"
+#                       className="adm-categories-item-field"
+#                       placeholder={ PLACEHOLDER }
+#                       onKeyDown={ this.handleKeyDown }
+#                       onBlur={ this.restoreDefaultsAndBlur } />
+#                 </div>`
+#       when CREATE_STATE
+#         form = `<div className="adm-categories-item">
+#                   <span className="adm-categories-item-name text-muted">
+#                     { this.state.categoryName }
+#                   </span>
+#                   <span className="adm-categories-item-name">
+#                     <Spinner />
+#                   </span>
+#                 </div>`
+#       when ERROR_STATE
+#         form = `<div>{ ERROR_MESSAGE }</div>`
+#       else console.warn 'Unknown currentState of OperatorCategories_CreateForm component', @state.currentState
+
+#     form
+
+#   activateErrorState: -> @setState(currentState: ERROR_STATE)
+
+#   createCategory: ->
+#     inputNode = @refs.input.getDOMNode()
+#     categoryName = inputNode.value
+#     parentId = if @props.parentCategory then @props.parentCategory.id else null
+
+#     @setState {
+#       currentState: CREATE_STATE
+#       categoryName: categoryName
+#     }
+
+#     OperatorCategoriesViewActions.createCategory {
+#       name:     categoryName
+#       parentId: parentId
+#       success:  @restoreDefaults
+#       error:    @activateErrorState
+#     }
+
+#   restoreDefaults: ->
+#     @setState @getInitialState()
+
+#   restoreDefaultsAndBlur: ->
+#     inputNode = @refs.input.getDOMNode()
+#     inputNode.value = ''
+#     inputNode.blur()
+
+#     @restoreDefaults()
+
+#   handleKeyDown: (e) ->
+#     switch e.key
+#       when 'Enter'
+#         e.preventDefault()
+#         @createCategory()
+#       when 'Escape'
+#         e.preventDefault()
+#         @restoreDefaultsAndBlur()
+
+# /*-----  End of Previous component view  ------*/

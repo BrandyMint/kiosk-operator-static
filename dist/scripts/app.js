@@ -2960,9 +2960,15 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
   mixins: ['ReactActivitiesUser', ComponentManipulationsMixin],
   propTypes: {
     image: React.PropTypes.object.isRequired,
+    size: React.PropTypes.string,
     fieldName: React.PropTypes.string,
     onImagePreload: React.PropTypes.func.isRequired,
     onImageDelete: React.PropTypes.func.isRequired
+  },
+  getDefaultProps: function() {
+    return {
+      size: '120x120'
+    };
   },
   componentDidMount: function() {
     if (this.isLoadingState()) {
@@ -3058,7 +3064,7 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
   },
   _getImageUrl: function() {
     var _ref;
-    return ThumborService.image_url((_ref = this.state.image) != null ? _ref.src : void 0);
+    return ThumborService.image_url((_ref = this.state.image) != null ? _ref.src : void 0, this.props.size);
   },
   handleRotateClick: function() {
     return alert('Функция временно не доступна');

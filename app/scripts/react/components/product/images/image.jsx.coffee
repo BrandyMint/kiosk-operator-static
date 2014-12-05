@@ -33,7 +33,7 @@ ProductImages_Image = React.createClass
 
     return `<div data-id={ this.props.image.id }
                  className="products__new-form-image-thumb-block">
-              <img src={ this.state.image.src }
+              <img src={ this._getImageUrl() }
                    className="products__new-form-image-thumb" />
 
               { message }
@@ -74,6 +74,9 @@ ProductImages_Image = React.createClass
       beforeSend: => @incrementActivities()
       complete:   => @decrementActivities()
     }
+
+  _getImageUrl: ->
+    ThumborService.image_url @state.image?.src
 
   handleRotateClick: ->
     # TODO image rotate

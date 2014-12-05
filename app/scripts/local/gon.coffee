@@ -9,5 +9,5 @@ window.gon =
  api_root_url: localStorage.getItem('api_root_url') || ''
 
  # Если null значит брать напрямую
- thumbor_url: 'http://thumball.brandydev.ru/'
+ thumbor_url: 'http://thumball.brandydev.ru'
  thumbor_secret: null

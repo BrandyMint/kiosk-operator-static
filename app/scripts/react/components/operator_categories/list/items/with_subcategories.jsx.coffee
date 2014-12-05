@@ -11,7 +11,7 @@ window.OperatorCategories_ListItemWithSubcategories = React.createClass
     onCategorySelect: React.PropTypes.func.isRequired
 
   render: ->
-    totalCount = @props.category.deep_products_count
+    totalCount = @props.category.current_products_count
     itemClasses = React.addons.classSet {
       'adm-categories-item': true
       'selected': @props.isActive

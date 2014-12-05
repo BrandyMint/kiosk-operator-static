@@ -1825,7 +1825,7 @@ window.OperatorCategories_ListItem = React.createClass({displayName: 'OperatorCa
            this.props.category.name
         ), 
         React.DOM.span({className: "adm-categories-item-counter"}, 
-           this.props.category.deep_products_count
+           this.props.category.current_products_count
         )
       ), 
       React.DOM.button({
@@ -2052,7 +2052,7 @@ window.OperatorCategories_ListItemWithSubcategories = React.createClass({display
   },
   render: function() {
     var itemClasses, totalCount;
-    totalCount = this.props.category.deep_products_count;
+    totalCount = this.props.category.current_products_count;
     itemClasses = React.addons.classSet({
       'adm-categories-item': true,
       'selected': this.props.isActive
@@ -2092,7 +2092,7 @@ window.OperatorCategories_ListItemWithoutCategory = React.createClass({displayNa
   },
   render: function() {
     var itemClasses, totalCount;
-    totalCount = this.props.category.products_count;
+    totalCount = this.props.category.current_products_count;
     itemClasses = React.addons.classSet({
       'adm-categories-item': true,
       '__muted': true,

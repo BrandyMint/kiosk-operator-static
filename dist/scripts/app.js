@@ -2991,7 +2991,7 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
     }).call(this);
     return React.DOM.div({'data-id':  this.props.image.id, 
                  className: "products__new-form-image-thumb-block"}, 
-              React.DOM.img({src:  this.state.image.src, 
+              React.DOM.img({src:  this._getImageUrl(), 
                    className: "products__new-form-image-thumb"}), 
 
               message, 
@@ -3055,6 +3055,10 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
         };
       })(this)
     });
+  },
+  _getImageUrl: function() {
+    var _ref;
+    return ThumborService.image_url((_ref = this.state.image) != null ? _ref.src : void 0);
   },
   handleRotateClick: function() {
     return alert('Функция временно не доступна');
@@ -3745,17 +3749,13 @@ window.ProductThumb = React.createClass({displayName: 'ProductThumb',
     };
   },
   render: function() {
-    return React.DOM.img({src:  this.imageUrl(), 
+    return React.DOM.img({src:  this._getImageUrl(), 
           className: "adm-categories-goods-thumb", 
           alt:  this.props.product.title});
   },
-  imageUrl: function() {
+  _getImageUrl: function() {
     var _ref;
-    if ((_ref = this.props.product.image) != null ? _ref.url : void 0) {
-      return ThumborService.image_url(this.props.product.image.url, this.props.style);
-    } else {
-      return gon.fallback_product_thumb_url;
-    }
+    return ThumborService.image_url((_ref = this.props.product.image) != null ? _ref.url : void 0, this.props.style);
   }
 });
 
@@ -4408,19 +4408,29 @@ window.OperatorProductsService = {
 
 },{}],72:[function(require,module,exports){
 window.ThumborService = {
-  thumbor_url: typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0,
   image_url: function(url, style) {
+    var fallbackImageUrl, imageUrl, thumborUrl;
     if (style == null) {
-      style = "100x100";
+      style = '100x100';
     }
-    if (gon.env === 'static-development') {
-      return url;
-    }
-    if (this.thumbor_url) {
-      return this.thumbor_url + ("/unsafe/" + style + "/") + url;
+    url = _.escape(url);
+    thumborUrl = typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0;
+    fallbackImageUrl = typeof gon !== "undefined" && gon !== null ? gon.fallback_product_thumb_url : void 0;
+    if ((url != null) && url !== '') {
+      if (this.isExternalImage(url)) {
+        imageUrl = thumborUrl + ("/unsafe/" + style + "/") + url;
+      } else {
+        imageUrl = url;
+      }
     } else {
-      return url;
+      imageUrl = thumborUrl + ("/unsafe/" + style + "/") + fallbackImageUrl;
     }
+    return imageUrl;
+  },
+  isExternalImage: function(url) {
+    var externalImageMatcher;
+    externalImageMatcher = new RegExp('^http:');
+    return externalImageMatcher.test(url);
   }
 };
 
@@ -7519,13 +7529,13 @@ window.Aviator = {
 
 },{}],"eventEmitter":[function(require,module,exports){
 /*!
- * EventEmitter v4.2.10 - git.io/ee
+ * EventEmitter v4.2.9 - git.io/ee
  * Oliver Caldwell
  * MIT license
  * @preserve
  */
 
-;(function () {
+(function () {
     'use strict';
 
     /**
@@ -8273,7 +8283,7 @@ window.Aviator = {
 
 },{}],"jquery.fileupload":[function(require,module,exports){
 /*
- * jQuery File Upload Plugin 5.42.1
+ * jQuery File Upload Plugin 5.42.0
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -9612,13 +9622,10 @@ window.Aviator = {
         _initDataAttributes: function () {
             var that = this,
                 options = this.options,
-                clone = $(this.element[0].cloneNode(false)),
-                data = clone.data();
-            // Avoid memory leaks:
-            clone.remove();
+                clone = $(this.element[0].cloneNode(false));
             // Initialize options set via HTML5 data-attributes:
             $.each(
-                data,
+                clone.data(),
                 function (key, value) {
                     var dataAttributeName = 'data-' +
                         // Convert camelCase to hyphen-ated key:

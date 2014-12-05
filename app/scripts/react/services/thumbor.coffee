@@ -1,10 +1,20 @@
 window.ThumborService =
-  thumbor_url: gon?.thumbor_url
 
-  image_url:  (url, style="100x100") ->
-    return url if gon.env is 'static-development'
+  image_url: (url, style='100x100') ->
+    url = _.escape url
+    thumborUrl = gon?.thumbor_url
+    fallbackImageUrl = gon?.fallback_product_thumb_url
 
-    if @thumbor_url
-      @thumbor_url + "/unsafe/#{style}/" + url
+    if url? && url != ''
+      if @isExternalImage url
+        imageUrl = thumborUrl + "/unsafe/#{style}/" + url
+      else
+        imageUrl = url
     else
-      url
+      imageUrl = thumborUrl + "/unsafe/#{style}/" + fallbackImageUrl
+
+    imageUrl
+
+  isExternalImage: (url) ->
+    externalImageMatcher = new RegExp '^http:'
+    externalImageMatcher.test url

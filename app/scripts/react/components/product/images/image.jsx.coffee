@@ -9,9 +9,13 @@ ProductImages_Image = React.createClass
 
   propTypes:
     image:          React.PropTypes.object.isRequired
+    size:           React.PropTypes.string
     fieldName:      React.PropTypes.string
     onImagePreload: React.PropTypes.func.isRequired
     onImageDelete:  React.PropTypes.func.isRequired
+
+  getDefaultProps: ->
+    size: '150x150'
 
   componentDidMount: ->
     @preloadImage() if @isLoadingState()
@@ -76,7 +80,7 @@ ProductImages_Image = React.createClass
     }
 
   _getImageUrl: ->
-    ThumborService.image_url @state.image?.src
+    ThumborService.image_url @state.image?.src, @props.size
 
   handleRotateClick: ->
     # TODO image rotate

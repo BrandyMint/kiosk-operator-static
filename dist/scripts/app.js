@@ -2960,9 +2960,15 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
   mixins: ['ReactActivitiesUser', ComponentManipulationsMixin],
   propTypes: {
     image: React.PropTypes.object.isRequired,
+    size: React.PropTypes.string,
     fieldName: React.PropTypes.string,
     onImagePreload: React.PropTypes.func.isRequired,
     onImageDelete: React.PropTypes.func.isRequired
+  },
+  getDefaultProps: function() {
+    return {
+      size: '120x120'
+    };
   },
   componentDidMount: function() {
     if (this.isLoadingState()) {
@@ -3058,7 +3064,7 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
   },
   _getImageUrl: function() {
     var _ref;
-    return ThumborService.image_url((_ref = this.state.image) != null ? _ref.src : void 0);
+    return ThumborService.image_url((_ref = this.state.image) != null ? _ref.src : void 0, this.props.size);
   },
   handleRotateClick: function() {
     return alert('Функция временно не доступна');
@@ -4409,16 +4415,16 @@ window.OperatorProductsService = {
 },{}],72:[function(require,module,exports){
 window.ThumborService = {
   image_url: function(url, style) {
-    var fallbackImageUrl, imageUrl, thumborUrl;
+    var escapedImageUrl, fallbackImageUrl, imageUrl, thumborUrl;
     if (style == null) {
       style = '100x100';
     }
-    url = _.escape(url);
+    escapedImageUrl = encodeURIComponent(url);
+    fallbackImageUrl = encodeURIComponent(typeof gon !== "undefined" && gon !== null ? gon.fallback_product_thumb_url : void 0);
     thumborUrl = typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0;
-    fallbackImageUrl = typeof gon !== "undefined" && gon !== null ? gon.fallback_product_thumb_url : void 0;
     if ((url != null) && url !== '') {
       if (this.isExternalImage(url)) {
-        imageUrl = thumborUrl + ("/unsafe/" + style + "/") + url;
+        imageUrl = thumborUrl + ("/unsafe/" + style + "/") + escapedImageUrl;
       } else {
         imageUrl = url;
       }
@@ -4429,7 +4435,7 @@ window.ThumborService = {
   },
   isExternalImage: function(url) {
     var externalImageMatcher;
-    externalImageMatcher = new RegExp('^http:');
+    externalImageMatcher = new RegExp('^http');
     return externalImageMatcher.test(url);
   }
 };

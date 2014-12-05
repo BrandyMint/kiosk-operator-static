@@ -2967,7 +2967,7 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
   },
   getDefaultProps: function() {
     return {
-      size: '120x120'
+      size: '150x150'
     };
   },
   componentDidMount: function() {
@@ -4419,11 +4419,11 @@ window.ThumborService = {
     if (style == null) {
       style = '100x100';
     }
-    escapedImageUrl = encodeURIComponent(url);
     fallbackImageUrl = encodeURIComponent(typeof gon !== "undefined" && gon !== null ? gon.fallback_product_thumb_url : void 0);
     thumborUrl = typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0;
     if ((url != null) && url !== '') {
       if (this.isExternalImage(url)) {
+        escapedImageUrl = encodeURIComponent(url);
         imageUrl = thumborUrl + ("/unsafe/" + style + "/") + escapedImageUrl;
       } else {
         imageUrl = url;
@@ -7535,13 +7535,13 @@ window.Aviator = {
 
 },{}],"eventEmitter":[function(require,module,exports){
 /*!
- * EventEmitter v4.2.9 - git.io/ee
+ * EventEmitter v4.2.10 - git.io/ee
  * Oliver Caldwell
  * MIT license
  * @preserve
  */
 
-(function () {
+;(function () {
     'use strict';
 
     /**
@@ -8289,7 +8289,7 @@ window.Aviator = {
 
 },{}],"jquery.fileupload":[function(require,module,exports){
 /*
- * jQuery File Upload Plugin 5.42.0
+ * jQuery File Upload Plugin 5.42.1
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -9628,10 +9628,13 @@ window.Aviator = {
         _initDataAttributes: function () {
             var that = this,
                 options = this.options,
-                clone = $(this.element[0].cloneNode(false));
+                clone = $(this.element[0].cloneNode(false)),
+                data = clone.data();
+            // Avoid memory leaks:
+            clone.remove();
             // Initialize options set via HTML5 data-attributes:
             $.each(
-                clone.data(),
+                data,
                 function (key, value) {
                     var dataAttributeName = 'data-' +
                         // Convert camelCase to hyphen-ated key:

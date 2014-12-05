@@ -1787,100 +1787,24 @@ window.ModalComponent = React.createClass({displayName: 'ModalComponent',
 },{}],20:[function(require,module,exports){
 
 /** @jsx React.DOM */
-var CREATE_STATE, ERROR_MESSAGE, ERROR_STATE, INPUT_STATE, PLACEHOLDER;
+var PLACEHOLDER;
 
 PLACEHOLDER = 'Новая категория';
-
-ERROR_MESSAGE = 'Ошибка создания категории.';
-
-INPUT_STATE = 'input';
-
-CREATE_STATE = 'create';
-
-ERROR_STATE = 'error';
 
 window.OperatorCategories_CreateForm = React.createClass({displayName: 'OperatorCategories_CreateForm',
   propTypes: {
     parentCategory: React.PropTypes.object
   },
-  getInitialState: function() {
-    return {
-      currentState: INPUT_STATE,
-      categoryName: ''
-    };
-  },
   render: function() {
-    var form;
-    switch (this.state.currentState) {
-      case INPUT_STATE:
-        form = React.DOM.div({className: "adm-categories-item __edit"}, 
-                  React.DOM.input({
-                      ref: "input", 
-                      type: "text", 
-                      className: "adm-categories-item-field", 
-                      placeholder: PLACEHOLDER, 
-                      onKeyDown:  this.handleKeyDown, 
-                      onBlur:  this.restoreDefaultsAndBlur})
-                );
-        break;
-      case CREATE_STATE:
-        form = React.DOM.div({className: "adm-categories-item"}, 
-                  React.DOM.span({className: "adm-categories-item-name text-muted"}, 
-                     this.state.categoryName
-                  ), 
-                  React.DOM.span({className: "adm-categories-item-name"}, 
-                    Spinner(null)
-                  )
-                );
-        break;
-      case ERROR_STATE:
-        form = React.DOM.div(null, ERROR_MESSAGE );
-        break;
-      default:
-        console.warn('Unknown currentState of OperatorCategories_CreateForm component', this.state.currentState);
-    }
-    return form;
+    return React.DOM.div({className: "adm-categories-item __muted"}, 
+      React.DOM.span({className: "adm-categories-item-name", 
+            onClick:  this.handleClick}, 
+        PLACEHOLDER 
+      )
+    );
   },
-  activateErrorState: function() {
-    return this.setState({
-      currentState: ERROR_STATE
-    });
-  },
-  createCategory: function() {
-    var categoryName, inputNode, parentId;
-    inputNode = this.refs.input.getDOMNode();
-    categoryName = inputNode.value;
-    parentId = this.props.parentCategory ? this.props.parentCategory.id : null;
-    this.setState({
-      currentState: CREATE_STATE,
-      categoryName: categoryName
-    });
-    return OperatorCategoriesViewActions.createCategory({
-      name: categoryName,
-      parentId: parentId,
-      success: this.restoreDefaults,
-      error: this.activateErrorState
-    });
-  },
-  restoreDefaults: function() {
-    return this.setState(this.getInitialState());
-  },
-  restoreDefaultsAndBlur: function() {
-    var inputNode;
-    inputNode = this.refs.input.getDOMNode();
-    inputNode.value = '';
-    inputNode.blur();
-    return this.restoreDefaults();
-  },
-  handleKeyDown: function(e) {
-    switch (e.key) {
-      case 'Enter':
-        e.preventDefault();
-        return this.createCategory();
-      case 'Escape':
-        e.preventDefault();
-        return this.restoreDefaultsAndBlur();
-    }
+  handleClick: function() {
+    return window.location = Routes.operator_categories_new_url(this.props.parentCategory.id);
   }
 });
 
@@ -2033,13 +1957,9 @@ window.OperatorCategories_ListItemEdit = React.createClass({displayName: 'Operat
 },{}],23:[function(require,module,exports){
 
 /** @jsx React.DOM */
-var EDIT_STATE, SWITCH_CATEGORY_TIMEOUT, VIEW_STATE;
+var SWITCH_CATEGORY_TIMEOUT;
 
 SWITCH_CATEGORY_TIMEOUT = 200;
-
-VIEW_STATE = 'view';
-
-EDIT_STATE = 'edit';
 
 window.OperatorCategories_ListItemManager = React.createClass({displayName: 'OperatorCategories_ListItemManager',
   mixins: [CategoryDroppable],
@@ -2049,9 +1969,7 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
     onCategorySelect: React.PropTypes.func.isRequired
   },
   getInitialState: function() {
-    return _.extend({}, this.getStateFromStore(), {
-      currentState: VIEW_STATE
-    });
+    return this.getStateFromStore();
   },
   componentDidMount: function() {
     return DragStateStore.addChangeListener(this._onStoreChange);
@@ -2060,12 +1978,10 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
     return DragStateStore.removeChangeListener(this._onStoreChange);
   },
   render: function() {
-    var item, managerClasses;
-    item = this.getItem();
+    var managerClasses;
     managerClasses = React.addons.classSet({
       'adm-categories-item': true,
       'selected': this.props.isActive,
-      '__edit': this.isEditState(),
       '__droptarget-active': this.isDropTarget()
     });
     return React.DOM.div({className: managerClasses, 
@@ -2073,44 +1989,18 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
                  onClick:  this.handleItemClick, 
                  onMouseEnter:  this.handleMouseEnter, 
                  onMouseLeave:  this.handleMouseLeave}, 
-              item 
+              OperatorCategories_ListItem({
+                  category:  this.props.category, 
+                  onEditStart:  this.handleEditStart})
             );
-  },
-  isEditState: function() {
-    return this.state.currentState === EDIT_STATE;
   },
   isDropTarget: function() {
     return this.state.isDroppable && !this.props.isActive;
   },
-  activateViewState: function() {
-    return this.setState({
-      currentState: VIEW_STATE
-    });
-  },
-  activateEditState: function() {
-    return this.setState({
-      currentState: EDIT_STATE
-    });
-  },
-  getItem: function() {
-    var item;
-    switch (this.state.currentState) {
-      case VIEW_STATE:
-        item = OperatorCategories_ListItem({
-                    category:  this.props.category, 
-                    onEditStart:  this.handleEditStart});
-        break;
-      case EDIT_STATE:
-        item = OperatorCategories_ListItemEdit({
-                    category:  this.props.category, 
-                    onEditFinish:  this.activateViewState});
-    }
-    return item;
-  },
   handleEditStart: function(e) {
     e.stopPropagation();
     e.preventDefault();
-    return this.activateEditState();
+    return window.location = Routes.operator_categories_edit_url(this.props.category.id);
   },
   handleItemClick: function() {
     return this.props.onCategorySelect({
@@ -5052,6 +4942,12 @@ window.Routes = {
   },
   operator_product_new_url: function() {
     return gon.root_url + '/operator/products/new';
+  },
+  operator_categories_new_url: function(parentId) {
+    return gon.root_url + '/operator/categories/new?parent_id=' + parentId;
+  },
+  operator_categories_edit_url: function(categoryId) {
+    return gon.root_url + '/operator/categories/' + categoryId + '/edit';
   },
   products_by_category_url: function(id) {
     return gon.root_url + '/operator/products?category_id=' + id;

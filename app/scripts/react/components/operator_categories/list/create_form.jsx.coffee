@@ -9,9 +9,10 @@ window.OperatorCategories_CreateForm = React.createClass
     parentCategory: React.PropTypes.object
 
   render: ->
-   `<div className="adm-categories-item __muted">
-      <span className="adm-categories-item-name"
+   `<div className="adm-categories-item">
+      <span className="adm-btn-add-category"
             onClick={ this.handleClick }>
+        <i className="adm-btn-add-goods-icon" />
         { PLACEHOLDER }
       </span>
     </div>`

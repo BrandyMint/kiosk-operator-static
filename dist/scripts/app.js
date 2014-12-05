@@ -1796,9 +1796,10 @@ window.OperatorCategories_CreateForm = React.createClass({displayName: 'Operator
     parentCategory: React.PropTypes.object
   },
   render: function() {
-    return React.DOM.div({className: "adm-categories-item __muted"}, 
-      React.DOM.span({className: "adm-categories-item-name", 
+    return React.DOM.div({className: "adm-categories-item"}, 
+      React.DOM.span({className: "adm-btn-add-category", 
             onClick:  this.handleClick}, 
+        React.DOM.i({className: "adm-btn-add-goods-icon"}), 
         PLACEHOLDER 
       )
     );
@@ -2502,17 +2503,24 @@ module.exports = OperatorProducts_AddProductButton;
 },{}],34:[function(require,module,exports){
 
 /** @jsx React.DOM */
+var OperatorProducts_AddProductButton;
+
+OperatorProducts_AddProductButton = require('./buttons/add_product');
+
 window.OperatorProducts_Empty = React.createClass({displayName: 'OperatorProducts_Empty',
   render: function() {
     return React.DOM.div({className: "adm-categories-content"}, 
-      "В данной категории товаров нет."
+      OperatorProducts_AddProductButton(null), 
+      React.DOM.div({className: "adm-categories-content-empty"}, 
+        "В данной категории товаров нет."
+      )
     );
   }
 });
 
 
 
-},{}],35:[function(require,module,exports){
+},{"./buttons/add_product":33}],35:[function(require,module,exports){
 
 /** @jsx React.DOM */
 var SELECTED_STATE, UNSELECTED_STATE;
@@ -7535,13 +7543,13 @@ window.Aviator = {
 
 },{}],"eventEmitter":[function(require,module,exports){
 /*!
- * EventEmitter v4.2.10 - git.io/ee
+ * EventEmitter v4.2.9 - git.io/ee
  * Oliver Caldwell
  * MIT license
  * @preserve
  */
 
-;(function () {
+(function () {
     'use strict';
 
     /**
@@ -8289,7 +8297,7 @@ window.Aviator = {
 
 },{}],"jquery.fileupload":[function(require,module,exports){
 /*
- * jQuery File Upload Plugin 5.42.1
+ * jQuery File Upload Plugin 5.42.0
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -9628,13 +9636,10 @@ window.Aviator = {
         _initDataAttributes: function () {
             var that = this,
                 options = this.options,
-                clone = $(this.element[0].cloneNode(false)),
-                data = clone.data();
-            // Avoid memory leaks:
-            clone.remove();
+                clone = $(this.element[0].cloneNode(false));
             // Initialize options set via HTML5 data-attributes:
             $.each(
-                data,
+                clone.data(),
                 function (key, value) {
                     var dataAttributeName = 'data-' +
                         // Convert camelCase to hyphen-ated key:

@@ -29,6 +29,9 @@ ProductImages_List = React.createClass
     return `<div ref="list"
                  className="products__new-form-images-list-list">
               { images }
+              <input name={ this.props.fieldName }
+                     value=""
+                     type="hidden" />
             </div>`
 
 module.exports = ProductImages_List

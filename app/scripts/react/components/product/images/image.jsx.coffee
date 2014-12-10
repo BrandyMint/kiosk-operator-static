@@ -84,6 +84,6 @@ ProductImages_Image = React.createClass
 
   handleRotateClick: ->
     # TODO image rotate
-    alert 'Функция временно не доступна'
+    alert 'Функция временно недоступна'
 
 module.exports = ProductImages_Image

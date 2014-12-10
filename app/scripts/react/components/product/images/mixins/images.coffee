@@ -2,7 +2,7 @@
 LOADING_IMAGES_MESSAGE = 'Идёт загрузка изображений..'
 SAVE_BUTTON_TEXT       = 'Сохранить'
 
-ImagesMixin = 
+ImagesMixin =
 
   propTypes:
     images: React.PropTypes.array.isRequired

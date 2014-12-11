@@ -11,6 +11,10 @@ window.OperatorProducts_ListItem = React.createClass
 
   getInitialState: ->
     currentState: UNSELECTED_STATE
+    product: @props.product
+
+  componentWillReceiveProps: (nextProps) ->
+    @setState(product: nextProps.product)
 
   render: ->
     productClasses = React.addons.classSet {
@@ -19,26 +23,26 @@ window.OperatorProducts_ListItem = React.createClass
     }
 
     return `<tr className={ productClasses }
-                data-category-id={ this.props.product.category_id }
-                data-product-id={ this.props.product.id }
+                data-category-id={ this.state.product.category_id }
+                data-product-id={ this.state.product.id }
                 onClick={ this.handleClick }
                 onDrop={ this.handleDrop }>
               <td className="adm-categories-goods-cover"
                   data-title="Товар">
-                <ProductThumb product={ this.props.product } />
+                <ProductThumb product={ this.state.product } />
               </td>
               <td className="adm-categories-goods-content">
-                <span>{ this.props.product.title }</span>
-                <ProductModificationList modifications={ this.props.product.items } />
+                <span>{ this.state.product.title }</span>
+                <ProductModificationList modifications={ this.state.product.items } />
               </td>
               <td className="adm-categories-goods-price"
                   data-title="Сумма">
-                <Money money={ this.props.product.price } />
-                <ProductTotalItemsQuantity product={ this.props.product } />
+                <Money money={ this.state.product.price } />
+                <ProductTotalItemsQuantity product={ this.state.product } />
               </td>
               <td className="adm-categories-goods-status"
                   data-title="Статус">
-                <ProductState state={ this.props.product.state } />
+                <ProductState state={ this.state.product.state } />
               </td>
             </tr>`
 
@@ -52,31 +56,44 @@ window.OperatorProducts_ListItem = React.createClass
       @activateUnselectedState()
       DragStateDispatcher.handleViewAction {
         type: 'productBecameUnselected'
-        product: @props.product
+        product: @state.product
       }
     else
       @activateSelectedState()
       DragStateDispatcher.handleViewAction {
         type: 'productBecameSelected'
-        product: @props.product
+        product: @state.product
       }
 
-  handleDrop: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
+  _setPreviewImage: (files) ->
+    #FIXME: We will use first image in files list by default
+    #       Server can set another main image, if we upload more than one image per time
+    newProduct      = _.clone @state.product
+    previewImage    = files[0]
+    previewImageSrc = window.URL.createObjectURL previewImage
 
+    newProduct.image ?= {}
+    newProduct.image.url = previewImageSrc
+
+    @setState(product: newProduct)
+
+  handleDrop: (e) ->
     files = e.dataTransfer.files
+
+    @_setPreviewImage files
 
     ProductImagesViewActions.addProductImages {
       files: files
-      productId: @props.product.id
+      productId: @state.product.id
     }
+
+    e.preventDefault()
 
   handleClick: (e) ->
     if EventHelpers.isAnyServiceKey(e)
       @toggleSelectedState()
     else
-      window.location = Routes.operator_product_edit_url @props.product.id
+      window.location = Routes.operator_product_edit_url @state.product.id
     # window.location = Routes.edit_operator_product_url @props.product.id
     # unless @state.isDragged
     #   ModalController.show Routes.edit_operator_product_url @props.product.id

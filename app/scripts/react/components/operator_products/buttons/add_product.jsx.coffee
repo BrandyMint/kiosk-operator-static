@@ -14,6 +14,9 @@ OperatorProducts_AddProductButton = React.createClass
     </button>`
 
   handleClick: ->
-    window.location = Routes.operator_product_new_url()
+    baseUrl = Routes.operator_product_new_url()
+    backUrl = encodeURIComponent window.location.href
+
+    window.location = baseUrl + '?backurl=' + backUrl
 
 module.exports = OperatorProducts_AddProductButton

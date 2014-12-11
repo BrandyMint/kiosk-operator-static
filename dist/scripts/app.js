@@ -2496,7 +2496,10 @@ OperatorProducts_AddProductButton = React.createClass({displayName: 'OperatorPro
     );
   },
   handleClick: function() {
-    return window.location = Routes.operator_product_new_url();
+    var backUrl, baseUrl;
+    baseUrl = Routes.operator_product_new_url();
+    backUrl = encodeURIComponent(window.location.href);
+    return window.location = baseUrl + '?backurl=' + backUrl;
   }
 });
 
@@ -2631,10 +2634,13 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
     return e.preventDefault();
   },
   handleClick: function(e) {
+    var backUrl, baseUrl;
     if (EventHelpers.isAnyServiceKey(e)) {
       return this.toggleSelectedState();
     } else {
-      return window.location = Routes.operator_product_edit_url(this.state.product.id);
+      baseUrl = Routes.operator_product_edit_url(this.state.product.id);
+      backUrl = encodeURIComponent(window.location.href);
+      return window.location = baseUrl + '?backurl=' + backUrl;
     }
   }
 });

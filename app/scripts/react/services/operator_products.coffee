@@ -41,11 +41,12 @@ window.OperatorProductsService =
         category_id: newCategoryId
       error: (xhr, status, err) ->
         error?(err || status)
-      success: ->
+      success: (product) ->
         success?()
         OperatorProductsServerActions.moveProduct
-          productId:  productId
-          categoryId: oldCategoryId
+          product:       product
+          newCategoryId: newCategoryId
+          oldCategoryId: oldCategoryId
 
   changeProductsCategory: ({products, newCategoryId, oldCategoryId}) ->
     completedRequests = 0

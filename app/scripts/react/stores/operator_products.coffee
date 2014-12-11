@@ -34,6 +34,10 @@ window.OperatorProductsStore = _.extend new BaseStore(), {
 
     _products[categoryId] = products
 
+  moveProduct: ({oldCategoryId, newCategoryId, product}) ->
+    @removeProduct oldCategoryId, product.id
+    @pushProducts newCategoryId, [product]
+
   removeProduct: (categoryId, productId) ->
     return unless @isProductExists(categoryId, productId)
 
@@ -62,8 +66,10 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register (paylo
       OperatorProductsStore.pushProducts action.categoryId, action.products
       OperatorProductsStore.emitChange()
     when 'productMoved'
-      #TODO: moveProduct instead of removeProduct
-      OperatorProductsStore.removeProduct action.categoryId, action.productId
+      OperatorProductsStore.moveProduct
+        product:       action.product
+        newCategoryId: action.newCategoryId
+        oldCategoryId: action.oldCategoryId
       OperatorProductsStore.emitChange()
     when 'productUpdated'
       OperatorProductsStore.updateProduct action.categoryId, action.product

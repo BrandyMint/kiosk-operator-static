@@ -18,9 +18,10 @@ window.OperatorProductsServerActions =
       product: product
       categoryId: categoryId
 
-  moveProduct: ({categoryId, productId}) ->
+  moveProduct: ({oldCategoryId, newCategoryId, product}) ->
     #TODO: increment newCategoryId counter without additional get request
     OperatorProductsDispatcher.handleServerAction
       type: 'productMoved'
-      categoryId: categoryId
-      productId: productId
+      product: product
+      newCategoryId: newCategoryId
+      oldCategoryId: oldCategoryId

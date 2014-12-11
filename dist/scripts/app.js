@@ -1225,7 +1225,7 @@ require('aviator');
 
 
 
-},{"./libs/requester":9,"aviator":"aviator","bootstrapSass":"bootstrapSass","eventEmitter":"eventEmitter","flux":80,"jquery":"jquery","jquery.autosize":"jquery.autosize","jquery.fileupload":"jquery.fileupload","jquery.role":"jquery.role","jquery.ui.core":"jquery.ui.core","jquery.ui.draggable":"jquery.ui.draggable","jquery.ui.droppable":"jquery.ui.droppable","jquery.ui.mouse":"jquery.ui.mouse","jquery.ui.sortable":"jquery.ui.sortable","jquery.ui.widget":"jquery.ui.widget","lodash":"lodash","react":"react","react-mixin-manager":"react-mixin-manager","reactUjs":"reactUjs","typeahead":"typeahead"}],9:[function(require,module,exports){
+},{"./libs/requester":9,"aviator":undefined,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":80,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],9:[function(require,module,exports){
 var Requester,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -1983,6 +1983,7 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
     managerClasses = React.addons.classSet({
       'adm-categories-item': true,
       'selected': this.props.isActive,
+      '__muted': !this.isVisible(),
       '__droptarget-active': this.isDropTarget()
     });
     return React.DOM.div({className: managerClasses, 
@@ -1997,6 +1998,9 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
   },
   isDropTarget: function() {
     return this.state.isDroppable && !this.props.isActive;
+  },
+  isVisible: function() {
+    return this.props.category.is_visible;
   },
   handleEditStart: function(e) {
     e.stopPropagation();
@@ -7546,13 +7550,13 @@ window.Aviator = {
 
 },{}],"eventEmitter":[function(require,module,exports){
 /*!
- * EventEmitter v4.2.10 - git.io/ee
+ * EventEmitter v4.2.9 - git.io/ee
  * Oliver Caldwell
  * MIT license
  * @preserve
  */
 
-;(function () {
+(function () {
     'use strict';
 
     /**
@@ -8300,7 +8304,7 @@ window.Aviator = {
 
 },{}],"jquery.fileupload":[function(require,module,exports){
 /*
- * jQuery File Upload Plugin 5.42.1
+ * jQuery File Upload Plugin 5.42.0
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -9639,13 +9643,10 @@ window.Aviator = {
         _initDataAttributes: function () {
             var that = this,
                 options = this.options,
-                clone = $(this.element[0].cloneNode(false)),
-                data = clone.data();
-            // Avoid memory leaks:
-            clone.remove();
+                clone = $(this.element[0].cloneNode(false));
             // Initialize options set via HTML5 data-attributes:
             $.each(
-                data,
+                clone.data(),
                 function (key, value) {
                     var dataAttributeName = 'data-' +
                         // Convert camelCase to hyphen-ated key:

@@ -2540,8 +2540,14 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
   },
   getInitialState: function() {
     return {
-      currentState: UNSELECTED_STATE
+      currentState: UNSELECTED_STATE,
+      product: this.props.product
     };
+  },
+  componentWillReceiveProps: function(nextProps) {
+    return this.setState({
+      product: nextProps.product
+    });
   },
   render: function() {
     var productClasses;
@@ -2550,26 +2556,26 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
       '__selected': this.isSelectedState()
     });
     return React.DOM.tr({className: productClasses, 
-                'data-category-id':  this.props.product.category_id, 
-                'data-product-id':  this.props.product.id, 
+                'data-category-id':  this.state.product.category_id, 
+                'data-product-id':  this.state.product.id, 
                 onClick:  this.handleClick, 
                 onDrop:  this.handleDrop}, 
               React.DOM.td({className: "adm-categories-goods-cover", 
                   'data-title': "Товар"}, 
-                ProductThumb({product:  this.props.product})
+                ProductThumb({product:  this.state.product})
               ), 
               React.DOM.td({className: "adm-categories-goods-content"}, 
-                React.DOM.span(null,  this.props.product.title), 
-                ProductModificationList({modifications:  this.props.product.items})
+                React.DOM.span(null,  this.state.product.title), 
+                ProductModificationList({modifications:  this.state.product.items})
               ), 
               React.DOM.td({className: "adm-categories-goods-price", 
                   'data-title': "Сумма"}, 
-                Money({money:  this.props.product.price}), 
-                ProductTotalItemsQuantity({product:  this.props.product})
+                Money({money:  this.state.product.price}), 
+                ProductTotalItemsQuantity({product:  this.state.product})
               ), 
               React.DOM.td({className: "adm-categories-goods-status", 
                   'data-title': "Статус"}, 
-                ProductState({state:  this.props.product.state})
+                ProductState({state:  this.state.product.state})
               )
             );
   },
@@ -2591,31 +2597,44 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
       this.activateUnselectedState();
       return DragStateDispatcher.handleViewAction({
         type: 'productBecameUnselected',
-        product: this.props.product
+        product: this.state.product
       });
     } else {
       this.activateSelectedState();
       return DragStateDispatcher.handleViewAction({
         type: 'productBecameSelected',
-        product: this.props.product
+        product: this.state.product
       });
     }
   },
+  _setPreviewImage: function(files) {
+    var newProduct, previewImage, previewImageSrc;
+    newProduct = _.clone(this.state.product);
+    previewImage = files[0];
+    previewImageSrc = window.URL.createObjectURL(previewImage);
+    if (newProduct.image == null) {
+      newProduct.image = {};
+    }
+    newProduct.image.url = previewImageSrc;
+    return this.setState({
+      product: newProduct
+    });
+  },
   handleDrop: function(e) {
     var files;
-    e.preventDefault();
-    e.stopPropagation();
     files = e.dataTransfer.files;
-    return ProductImagesViewActions.addProductImages({
+    this._setPreviewImage(files);
+    ProductImagesViewActions.addProductImages({
       files: files,
-      productId: this.props.product.id
+      productId: this.state.product.id
     });
+    return e.preventDefault();
   },
   handleClick: function(e) {
     if (EventHelpers.isAnyServiceKey(e)) {
       return this.toggleSelectedState();
     } else {
-      return window.location = Routes.operator_product_edit_url(this.props.product.id);
+      return window.location = Routes.operator_product_edit_url(this.state.product.id);
     }
   }
 });

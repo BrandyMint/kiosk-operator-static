@@ -1,1 +1,1 @@
-sass -I app/bower_components/ app/stylesheets/app.sass
+test -f ./dist && ./node_modules/gulp/bin/gulp.js dist

@@ -22,6 +22,7 @@ window.OperatorCategories_ListItemManager = React.createClass
     managerClasses = React.addons.classSet {
       'adm-categories-item': true
       'selected': @props.isActive
+      '__muted':  !@isVisible()
       '__droptarget-active': @isDropTarget()
     }
 
@@ -37,6 +38,9 @@ window.OperatorCategories_ListItemManager = React.createClass
 
   isDropTarget: ->
     @state.isDroppable && !@props.isActive
+
+  isVisible: ->
+    @props.category.is_visible
 
   handleEditStart: (e) ->
     e.stopPropagation()

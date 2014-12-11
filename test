@@ -1,1 +1,1 @@
-test -f ./dist && ./node_modules/gulp/bin/gulp.js dist
+test -d ./dist && ./node_modules/gulp/bin/gulp.js dist

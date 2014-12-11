@@ -93,7 +93,10 @@ window.OperatorProducts_ListItem = React.createClass
     if EventHelpers.isAnyServiceKey(e)
       @toggleSelectedState()
     else
-      window.location = Routes.operator_product_edit_url @state.product.id
+      baseUrl = Routes.operator_product_edit_url @state.product.id
+      backUrl = encodeURIComponent window.location.href
+
+      window.location = baseUrl + '?backurl=' + backUrl
     # window.location = Routes.edit_operator_product_url @props.product.id
     # unless @state.isDragged
     #   ModalController.show Routes.edit_operator_product_url @props.product.id

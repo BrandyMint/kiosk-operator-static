@@ -27,7 +27,7 @@ window.OperatorProducts_List = React.createClass
             key={ product.id } />`
 
     return `<div className="adm-categories-content">
-              <OperatorProducts_AddProductButton />
+              <OperatorProducts_AddProductButton categoryId={ this.props.categoryId } />
               <table className="adm-categories-goods">
                 <tbody>{ products }</tbody>
               </table>

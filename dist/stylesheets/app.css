@@ -8672,6 +8672,11 @@ hr.no-shadow {
 .nobr {
   white-space: nowrap; }
 
+/* line 76, /home/danil/code/kiosk-operator-static/app/stylesheets/sass/utilities/utils */
+.inline-block-middle {
+  display: inline-block;
+  vertical-align: middle; }
+
 @media (max-width: 1199px) {
   .tablet-hide {
     display: none; } }

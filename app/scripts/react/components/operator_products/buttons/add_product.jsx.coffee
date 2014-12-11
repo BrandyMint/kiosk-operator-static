@@ -5,6 +5,9 @@ TITLE = 'Добавить новый товар'
 
 OperatorProducts_AddProductButton = React.createClass
 
+  propTypes:
+    categoryId: React.PropTypes.number.isRequired
+
   render: ->
    `<button
         className="adm-btn-add-goods"
@@ -17,6 +20,7 @@ OperatorProducts_AddProductButton = React.createClass
     baseUrl = Routes.operator_product_new_url()
     backUrl = encodeURIComponent window.location.href
 
-    window.location = baseUrl + '?backurl=' + backUrl
+    window.location = baseUrl + '?category_id=' + @props.categoryId + 
+                                '&backurl=' + backUrl
 
 module.exports = OperatorProducts_AddProductButton

@@ -7,8 +7,12 @@ ERROR_STATE   = 'error'
 window.OperatorCategories = React.createClass
 
   propTypes:
-    productsFilter: React.PropTypes.object
-    categoryId:     React.PropTypes.number
+    productsFilter:  React.PropTypes.object
+    productsCanMove: React.PropTypes.bool
+    categoryId:      React.PropTypes.number
+
+  getDefaultProps: ->
+    productsCanMove: true
 
   getInitialState: ->
     currentState:         LOADING_STATE
@@ -38,6 +42,7 @@ window.OperatorCategories = React.createClass
                                  parentCategory={ this.state.rootCategory }
                                  currentCategory={ this.state.currentCategory }
                                  productsFilter={ this.props.productsFilter }
+                                 productsCanMove={ this.props.productsCanMove }
                                  includeSubcategories={ this.state.includeSubcategories }
                                  onCategorySelect={ this.handleCategorySelect } />`
       when LOADING_STATE

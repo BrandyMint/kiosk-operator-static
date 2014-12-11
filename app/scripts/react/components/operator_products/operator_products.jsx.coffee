@@ -12,6 +12,7 @@ window.OperatorProducts = React.createClass
   propTypes:
     categoryId:           React.PropTypes.number.isRequired
     productsFilter:       React.PropTypes.object
+    productsCanMove:      React.PropTypes.bool
     includeSubcategories: React.PropTypes.bool.isRequired
 
   getInitialState: ->
@@ -40,14 +41,14 @@ window.OperatorProducts = React.createClass
 
   render: ->
     switch @state.currentState
-      when LOADED_STATE       then `<OperatorProducts_List
-                                        categoryId={ this.props.categoryId } />`
-      when LOADING_STATE      then `<OperatorProducts_Loading />`
-      when LOADING_MORE_STATE then `<OperatorProducts_List
-                                        categoryId={ this.props.categoryId } />`
-      when EMPTY_STATE        then `<OperatorProducts_Empty />`
-      when ERROR_STATE        then `<OperatorProducts_LoadingError
-                                        message={ this.state.errorMessage } />`
+      when LOADED_STATE, LOADING_MORE_STATE
+        `<OperatorProducts_List
+             categoryId={ this.props.categoryId }
+             productsCanMove={ this.props.productsCanMove } />`
+      when LOADING_STATE then `<OperatorProducts_Loading />`
+      when EMPTY_STATE   then `<OperatorProducts_Empty />`
+      when ERROR_STATE   then `<OperatorProducts_LoadingError
+                                   message={ this.state.errorMessage } />`
       else console.warn 'Unknown currentState of OperatorProducts component', @state.currentState
 
   isLoadingMoreState: -> @state.currentState is LOADING_MORE_STATE

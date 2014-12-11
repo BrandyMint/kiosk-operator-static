@@ -1330,12 +1330,13 @@ window.OperatorProductsServerActions = {
     });
   },
   moveProduct: function(_arg) {
-    var categoryId, productId;
-    categoryId = _arg.categoryId, productId = _arg.productId;
+    var newCategoryId, oldCategoryId, product;
+    oldCategoryId = _arg.oldCategoryId, newCategoryId = _arg.newCategoryId, product = _arg.product;
     return OperatorProductsDispatcher.handleServerAction({
       type: 'productMoved',
-      categoryId: categoryId,
-      productId: productId
+      product: product,
+      newCategoryId: newCategoryId,
+      oldCategoryId: oldCategoryId
     });
   }
 };
@@ -2045,25 +2046,40 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
 },{}],24:[function(require,module,exports){
 
 /** @jsx React.DOM */
-var TITLE;
+var SWITCH_CATEGORY_TIMEOUT, TITLE;
 
 TITLE = 'Все товары';
 
+SWITCH_CATEGORY_TIMEOUT = 200;
+
 window.OperatorCategories_ListItemWithSubcategories = React.createClass({displayName: 'OperatorCategories_ListItemWithSubcategories',
+  mixins: [CategoryDroppable],
   propTypes: {
     category: React.PropTypes.object.isRequired,
     isActive: React.PropTypes.bool.isRequired,
     onCategorySelect: React.PropTypes.func.isRequired
+  },
+  getInitialState: function() {
+    return this.getStateFromStore();
+  },
+  componentDidMount: function() {
+    return DragStateStore.addChangeListener(this._onStoreChange);
+  },
+  componentWillUnmount: function() {
+    return DragStateStore.removeChangeListener(this._onStoreChange);
   },
   render: function() {
     var itemClasses, totalCount;
     totalCount = this.props.category.current_products_count;
     itemClasses = React.addons.classSet({
       'adm-categories-item': true,
-      'selected': this.props.isActive
+      'selected': this.props.isActive,
+      '__droptarget-active': this.isDropTarget()
     });
     return React.DOM.div({className: itemClasses, 
-                 onClick:  this.handleClick}, 
+                 onClick:  this.handleClick, 
+                 onMouseEnter:  this.handleMouseEnter, 
+                 onMouseLeave:  this.handleMouseLeave}, 
               React.DOM.span({className: "adm-categories-item-name"}, 
                 TITLE 
               ), 
@@ -2072,11 +2088,39 @@ window.OperatorCategories_ListItemWithSubcategories = React.createClass({display
               )
             );
   },
+  isDropTarget: function() {
+    return this.state.isDroppable && !this.props.isActive;
+  },
+  handleMouseEnter: function() {
+    if (this.isDropTarget()) {
+      return this.timeout = setTimeout(((function(_this) {
+        return function() {
+          return _this.props.onCategorySelect({
+            category: _this.props.category,
+            includeSubcategories: true
+          });
+        };
+      })(this)), SWITCH_CATEGORY_TIMEOUT);
+    }
+  },
+  handleMouseLeave: function() {
+    if (this.timeout) {
+      return clearTimeout(this.timeout);
+    }
+  },
   handleClick: function() {
     return this.props.onCategorySelect({
       category: this.props.category,
       includeSubcategories: true
     });
+  },
+  getStateFromStore: function() {
+    return {
+      isDroppable: DragStateStore.isDragged()
+    };
+  },
+  _onStoreChange: function() {
+    return this.setState(this.getStateFromStore());
   }
 });
 
@@ -2234,8 +2278,33 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
     parentCategory: React.PropTypes.object.isRequired,
     currentCategory: React.PropTypes.object.isRequired,
     productsFilter: React.PropTypes.object,
+    productsCanMove: React.PropTypes.bool,
     includeSubcategories: React.PropTypes.bool.isRequired,
     onCategorySelect: React.PropTypes.func.isRequired
+  },
+  componentDidMount: function() {
+    if (this.props.productsCanMove) {
+      return $(this.getDOMNode()).droppable({
+        scope: 'productsToCategories',
+        addClasses: false,
+        tolerance: 'pointer',
+        over: function() {
+          return DragStateDispatcher.handleViewAction({
+            type: 'dragInsideOfLayout'
+          });
+        },
+        out: function() {
+          return DragStateDispatcher.handleViewAction({
+            type: 'dragOutsideOfLayout'
+          });
+        }
+      });
+    }
+  },
+  componentWillUnmount: function() {
+    if (this.props.productsCanMove) {
+      return $(this.getDOMNode()).droppable('destroy');
+    }
   },
   render: function() {
     var categoriesContent, currentCategory, currentCategoryLevel;
@@ -2263,6 +2332,7 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
                 OperatorProducts({
                     categoryId:  this.props.currentCategory.id, 
                     productsFilter:  this.props.productsFilter, 
+                    productsCanMove:  this.props.productsCanMove, 
                     includeSubcategories:  this.props.includeSubcategories})
               )
             );
@@ -2342,7 +2412,13 @@ ERROR_STATE = 'error';
 window.OperatorCategories = React.createClass({displayName: 'OperatorCategories',
   propTypes: {
     productsFilter: React.PropTypes.object,
+    productsCanMove: React.PropTypes.bool,
     categoryId: React.PropTypes.number
+  },
+  getDefaultProps: function() {
+    return {
+      productsCanMove: true
+    };
   },
   getInitialState: function() {
     return {
@@ -2373,6 +2449,7 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
                                  parentCategory:  this.state.rootCategory, 
                                  currentCategory:  this.state.currentCategory, 
                                  productsFilter:  this.props.productsFilter, 
+                                 productsCanMove:  this.props.productsCanMove, 
                                  includeSubcategories:  this.state.includeSubcategories, 
                                  onCategorySelect:  this.handleCategorySelect});
         break;
@@ -2542,7 +2619,8 @@ UNSELECTED_STATE = 'unselected';
 window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProducts_ListItem',
   mixins: [ProductDraggable],
   propTypes: {
-    product: React.PropTypes.object.isRequired
+    product: React.PropTypes.object.isRequired,
+    canMove: React.PropTypes.bool
   },
   getInitialState: function() {
     return {
@@ -2729,7 +2807,8 @@ OperatorProducts_AddProductButton = require('../buttons/add_product');
 
 window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts_List',
   propTypes: {
-    categoryId: React.PropTypes.number.isRequired
+    categoryId: React.PropTypes.number.isRequired,
+    productsCanMove: React.PropTypes.bool
   },
   getInitialState: function() {
     return this.getStateFromStore();
@@ -2743,10 +2822,12 @@ window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts
     return $(window).off('drop dragover', this.handleWindowEvents);
   },
   render: function() {
-    var products;
+    var products, that;
+    that = this;
     products = this.state.products.map(function(product) {
       return OperatorProducts_ListItem({
             product: product, 
+            canMove:  that.props.productsCanMove, 
             key:  product.id});
     });
     return React.DOM.div({className: "adm-categories-content"}, 
@@ -2847,6 +2928,7 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
   propTypes: {
     categoryId: React.PropTypes.number.isRequired,
     productsFilter: React.PropTypes.object,
+    productsCanMove: React.PropTypes.bool,
     includeSubcategories: React.PropTypes.bool.isRequired
   },
   getInitialState: function() {
@@ -2881,18 +2963,17 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
   render: function() {
     switch (this.state.currentState) {
       case LOADED_STATE:
-        return OperatorProducts_List({
-                                        categoryId:  this.props.categoryId});
-      case LOADING_STATE:
-        return OperatorProducts_Loading(null);
       case LOADING_MORE_STATE:
         return OperatorProducts_List({
-                                        categoryId:  this.props.categoryId});
+             categoryId:  this.props.categoryId, 
+             productsCanMove:  this.props.productsCanMove});
+      case LOADING_STATE:
+        return OperatorProducts_Loading(null);
       case EMPTY_STATE:
         return OperatorProducts_Empty(null);
       case ERROR_STATE:
         return OperatorProducts_LoadingError({
-                                        message:  this.state.errorMessage});
+                                   message:  this.state.errorMessage});
       default:
         return console.warn('Unknown currentState of OperatorProducts component', this.state.currentState);
     }
@@ -4091,52 +4172,57 @@ window.ProductDraggable = {
   componentDidMount: function() {
     var that;
     that = this;
-    return $(this.getDOMNode()).draggable({
-      scope: 'productsToCategories',
-      addClasses: false,
-      appendTo: 'body',
-      zIndex: 100,
-      cursor: 'default',
-      cursorAt: {
-        top: -5,
-        left: -15
-      },
-      helper: function() {
-        var stringComponent;
-        if (DragStateStore.isMultipleSelected()) {
-          stringComponent = React.renderComponentToString(OperatorProducts_ListItemsDrag({
-            products: DragStateStore.getSelectedProducts()
-          }));
-        } else {
-          stringComponent = React.renderComponentToString(OperatorProducts_ListItemDrag({
-            product: that.props.product
-          }));
+    if (this.props.canMove) {
+      return $(this.getDOMNode()).draggable({
+        scope: 'productsToCategories',
+        addClasses: false,
+        appendTo: 'body',
+        zIndex: 100,
+        cursor: 'default',
+        cursorAt: {
+          top: -5,
+          left: -15
+        },
+        helper: function() {
+          var stringComponent;
+          if (DragStateStore.isMultipleSelected()) {
+            stringComponent = React.renderComponentToString(OperatorProducts_ListItemsDrag({
+              products: DragStateStore.getSelectedProducts()
+            }));
+          } else {
+            stringComponent = React.renderComponentToString(OperatorProducts_ListItemDrag({
+              product: that.props.product
+            }));
+          }
+          return $(stringComponent);
+        },
+        start: (function(_this) {
+          return function(e) {
+            DragStateDispatcher.handleViewAction({
+              type: 'productBecameDraggable',
+              product: _this.props.product
+            });
+            return _this.setState({
+              isDragged: true
+            });
+          };
+        })(this),
+        stop: function(e) {
+          return setTimeout(function() {
+            DragStateDispatcher.handleViewAction({
+              type: 'productBecameStatic',
+              product: that.props.product
+            });
+            return that.setState({
+              isDragged: false
+            });
+          }, 0);
         }
-        return $(stringComponent);
-      },
-      start: (function(_this) {
-        return function(e) {
-          DragStateDispatcher.handleViewAction({
-            type: 'productBecameDraggable',
-            product: _this.props.product
-          });
-          return _this.setState({
-            isDragged: true
-          });
-        };
-      })(this),
-      stop: function(e) {
-        return setTimeout(function() {
-          DragStateDispatcher.handleViewAction({
-            type: 'productBecameStatic',
-            product: that.props.product
-          });
-          return that.setState({
-            isDragged: false
-          });
-        }, 0);
-      }
-    });
+      });
+    }
+  },
+  componentWillUnmount: function() {
+    return $(this.getDOMNode()).draggable('destroy');
   }
 };
 
@@ -4414,13 +4500,14 @@ window.OperatorProductsService = {
       error: function(xhr, status, err) {
         return typeof error === "function" ? error(err || status) : void 0;
       },
-      success: function() {
+      success: function(product) {
         if (typeof success === "function") {
           success();
         }
         return OperatorProductsServerActions.moveProduct({
-          productId: productId,
-          categoryId: oldCategoryId
+          product: product,
+          newCategoryId: newCategoryId,
+          oldCategoryId: oldCategoryId
         });
       }
     });
@@ -4533,7 +4620,7 @@ module.exports = BaseStore;
 
 
 },{}],75:[function(require,module,exports){
-var BaseStore, _draggedProducts, _selectedProducts;
+var BaseStore, _draggedProducts, _isOutsideOfLayout, _selectedProducts;
 
 BaseStore = require('./_base');
 
@@ -4541,9 +4628,11 @@ _draggedProducts = [];
 
 _selectedProducts = [];
 
+_isOutsideOfLayout = false;
+
 window.DragStateStore = _.extend(new BaseStore(), {
   isDragged: function() {
-    return _draggedProducts.length > 0;
+    return _draggedProducts.length > 0 && !_isOutsideOfLayout;
   },
   isMultipleSelected: function() {
     return _selectedProducts.length > 1;
@@ -4625,6 +4714,12 @@ DragStateDispatcher.register(function(payload) {
       return DragStateStore.emitChange();
     case 'productBecameStatic':
       DragStateStore.deleteDraggedProduct(action.product);
+      return DragStateStore.emitChange();
+    case 'dragOutsideOfLayout':
+      _isOutsideOfLayout = true;
+      return DragStateStore.emitChange();
+    case 'dragInsideOfLayout':
+      _isOutsideOfLayout = false;
       return DragStateStore.emitChange();
     case 'productBecameSelected':
       return DragStateStore.pushSelectedProduct(action.product);
@@ -4918,6 +5013,12 @@ window.OperatorProductsStore = _.extend(new BaseStore(), {
     }
     return _products[categoryId] = products;
   },
+  moveProduct: function(_arg) {
+    var newCategoryId, oldCategoryId, product;
+    oldCategoryId = _arg.oldCategoryId, newCategoryId = _arg.newCategoryId, product = _arg.product;
+    this.removeProduct(oldCategoryId, product.id);
+    return this.pushProducts(newCategoryId, [product]);
+  },
   removeProduct: function(categoryId, productId) {
     var clonedProduct, clonedProducts, i, _i, _len;
     if (!this.isProductExists(categoryId, productId)) {
@@ -4951,7 +5052,11 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
       OperatorProductsStore.pushProducts(action.categoryId, action.products);
       return OperatorProductsStore.emitChange();
     case 'productMoved':
-      OperatorProductsStore.removeProduct(action.categoryId, action.productId);
+      OperatorProductsStore.moveProduct({
+        product: action.product,
+        newCategoryId: action.newCategoryId,
+        oldCategoryId: action.oldCategoryId
+      });
       return OperatorProductsStore.emitChange();
     case 'productUpdated':
       OperatorProductsStore.updateProduct(action.categoryId, action.product);
@@ -7578,13 +7683,13 @@ window.Aviator = {
 
 },{}],"eventEmitter":[function(require,module,exports){
 /*!
- * EventEmitter v4.2.10 - git.io/ee
+ * EventEmitter v4.2.9 - git.io/ee
  * Oliver Caldwell
  * MIT license
  * @preserve
  */
 
-;(function () {
+(function () {
     'use strict';
 
     /**
@@ -8332,7 +8437,7 @@ window.Aviator = {
 
 },{}],"jquery.fileupload":[function(require,module,exports){
 /*
- * jQuery File Upload Plugin 5.42.1
+ * jQuery File Upload Plugin 5.42.0
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -9671,13 +9776,10 @@ window.Aviator = {
         _initDataAttributes: function () {
             var that = this,
                 options = this.options,
-                clone = $(this.element[0].cloneNode(false)),
-                data = clone.data();
-            // Avoid memory leaks:
-            clone.remove();
+                clone = $(this.element[0].cloneNode(false));
             // Initialize options set via HTML5 data-attributes:
             $.each(
-                data,
+                clone.data(),
                 function (key, value) {
                     var dataAttributeName = 'data-' +
                         // Convert camelCase to hyphen-ated key:

@@ -5,7 +5,8 @@ OperatorProducts_AddProductButton = require '../buttons/add_product'
 window.OperatorProducts_List = React.createClass
 
   propTypes:
-    categoryId: React.PropTypes.number.isRequired
+    categoryId:      React.PropTypes.number.isRequired
+    productsCanMove: React.PropTypes.bool
 
   getInitialState: ->
     @getStateFromStore()
@@ -21,9 +22,11 @@ window.OperatorProducts_List = React.createClass
     $(window).off 'drop dragover', @handleWindowEvents
 
   render: ->
+    that = @
     products = @state.products.map (product) ->
       `<OperatorProducts_ListItem
             product={ product }
+            canMove={ that.props.productsCanMove }
             key={ product.id } />`
 
     return `<div className="adm-categories-content">

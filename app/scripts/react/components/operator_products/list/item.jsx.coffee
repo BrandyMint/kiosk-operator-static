@@ -8,6 +8,7 @@ window.OperatorProducts_ListItem = React.createClass
 
   propTypes:
     product: React.PropTypes.object.isRequired
+    canMove: React.PropTypes.bool
 
   getInitialState: ->
     currentState: UNSELECTED_STATE

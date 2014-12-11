@@ -1,11 +1,12 @@
 BaseStore = require './_base'
 
-_draggedProducts  = []
-_selectedProducts = []
+_draggedProducts   = []
+_selectedProducts  = []
+_isOutsideOfLayout = false
 
 window.DragStateStore = _.extend new BaseStore(), {
 
-  isDragged: -> _draggedProducts.length > 0
+  isDragged: -> _draggedProducts.length > 0 && !_isOutsideOfLayout
 
   isMultipleSelected: -> _selectedProducts.length > 1
 
@@ -65,6 +66,12 @@ DragStateDispatcher.register (payload) ->
       DragStateStore.emitChange()
     when 'productBecameStatic'
       DragStateStore.deleteDraggedProduct action.product
+      DragStateStore.emitChange()
+    when 'dragOutsideOfLayout'
+      _isOutsideOfLayout = true
+      DragStateStore.emitChange()
+    when 'dragInsideOfLayout'
+      _isOutsideOfLayout = false
       DragStateStore.emitChange()
     when 'productBecameSelected'
       DragStateStore.pushSelectedProduct action.product

@@ -4222,7 +4222,9 @@ window.ProductDraggable = {
     }
   },
   componentWillUnmount: function() {
-    return $(this.getDOMNode()).draggable('destroy');
+    if (this.props.canMove) {
+      return $(this.getDOMNode()).draggable('destroy');
+    }
   }
 };
 

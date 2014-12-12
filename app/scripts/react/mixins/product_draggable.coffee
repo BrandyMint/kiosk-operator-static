@@ -47,4 +47,5 @@ window.ProductDraggable =
       }
 
   componentWillUnmount: ->
-    $(@getDOMNode()).draggable 'destroy'
+    if @props.canMove
+      $(@getDOMNode()).draggable 'destroy'

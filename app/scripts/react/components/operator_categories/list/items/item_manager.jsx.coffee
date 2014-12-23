@@ -53,7 +53,7 @@ window.OperatorCategories_ListItemManager = React.createClass
 
     @props.onCategorySelect
       category: @props.category
-      includeSubcategories: if totalCount != withoutCategoryCount then true else false
+      includeSubcategories: true
 
   handleMouseEnter: ->
     if @isDropTarget()

@@ -11,20 +11,21 @@ window.OperatorCategories_ListItemWithoutCategory = React.createClass
     onCategorySelect: React.PropTypes.func.isRequired
 
   render: ->
-    totalCount = @props.category.current_products_count
+    totalCount           = @props.category.current_deep_products_count
+    withoutCategoryCount = @props.category.current_products_count
     itemClasses = React.addons.classSet
       'adm-categories-item': true
       '__muted': true
       'selected': @props.isActive
 
-    if totalCount != 0
+    if withoutCategoryCount != 0 && totalCount != withoutCategoryCount
       return `<div className={ itemClasses }
                    onClick={ this.handleClick }>
               <span className="adm-categories-item-name">
                 { TITLE }
               </span>
               <span className="adm-categories-item-counter">
-                { totalCount }
+                { withoutCategoryCount }
               </span>
             </div>`
     else

@@ -30,20 +30,17 @@ window.OperatorCategories_ListItemWithSubcategories = React.createClass
       'selected': @props.isActive
       '__droptarget-active': @isDropTarget()
 
-    if totalCount != withoutCategoryCount || totalCount == 0
-      return `<div className={ itemClasses }
-                   onClick={ this.handleClick }
-                   onMouseEnter={ this.handleMouseEnter }
-                   onMouseLeave={ this.handleMouseLeave }>
-                <span className="adm-categories-item-name">
-                  { TITLE }
-                </span>
-                <span className="adm-categories-item-counter">
-                  { totalCount }
-                </span>
-              </div>`
-    else
-      return null
+    return `<div className={ itemClasses }
+                 onClick={ this.handleClick }
+                 onMouseEnter={ this.handleMouseEnter }
+                 onMouseLeave={ this.handleMouseLeave }>
+              <span className="adm-categories-item-name">
+                { TITLE }
+              </span>
+              <span className="adm-categories-item-counter">
+                { totalCount }
+              </span>
+            </div>`
 
   isDropTarget: ->
     @state.isDroppable && !@props.isActive

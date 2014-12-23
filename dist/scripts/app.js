@@ -2014,7 +2014,7 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
     withoutCategoryCount = this.props.category.current_products_count;
     return this.props.onCategorySelect({
       category: this.props.category,
-      includeSubcategories: totalCount !== withoutCategoryCount ? true : false
+      includeSubcategories: true
     });
   },
   handleMouseEnter: function() {
@@ -2080,21 +2080,17 @@ window.OperatorCategories_ListItemWithSubcategories = React.createClass({display
       'selected': this.props.isActive,
       '__droptarget-active': this.isDropTarget()
     });
-    if (totalCount !== withoutCategoryCount || totalCount === 0) {
-      return React.DOM.div({className: itemClasses, 
-                   onClick:  this.handleClick, 
-                   onMouseEnter:  this.handleMouseEnter, 
-                   onMouseLeave:  this.handleMouseLeave}, 
-                React.DOM.span({className: "adm-categories-item-name"}, 
-                  TITLE 
-                ), 
-                React.DOM.span({className: "adm-categories-item-counter"}, 
-                  totalCount 
-                )
-              );
-    } else {
-      return null;
-    }
+    return React.DOM.div({className: itemClasses, 
+                 onClick:  this.handleClick, 
+                 onMouseEnter:  this.handleMouseEnter, 
+                 onMouseLeave:  this.handleMouseLeave}, 
+              React.DOM.span({className: "adm-categories-item-name"}, 
+                TITLE 
+              ), 
+              React.DOM.span({className: "adm-categories-item-counter"}, 
+                totalCount 
+              )
+            );
   },
   isDropTarget: function() {
     return this.state.isDroppable && !this.props.isActive;
@@ -2148,21 +2144,22 @@ window.OperatorCategories_ListItemWithoutCategory = React.createClass({displayNa
     onCategorySelect: React.PropTypes.func.isRequired
   },
   render: function() {
-    var itemClasses, totalCount;
-    totalCount = this.props.category.current_products_count;
+    var itemClasses, totalCount, withoutCategoryCount;
+    totalCount = this.props.category.current_deep_products_count;
+    withoutCategoryCount = this.props.category.current_products_count;
     itemClasses = React.addons.classSet({
       'adm-categories-item': true,
       '__muted': true,
       'selected': this.props.isActive
     });
-    if (totalCount !== 0) {
+    if (withoutCategoryCount !== 0 && totalCount !== withoutCategoryCount) {
       return React.DOM.div({className: itemClasses, 
                    onClick:  this.handleClick}, 
               React.DOM.span({className: "adm-categories-item-name"}, 
                 TITLE 
               ), 
               React.DOM.span({className: "adm-categories-item-counter"}, 
-                totalCount 
+                withoutCategoryCount 
               )
             );
     } else {

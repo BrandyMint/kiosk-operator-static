@@ -38,34 +38,30 @@ window.OperatorCategories = React.createClass
   render: ->
     switch @state.currentState
       when LOADED_STATE
-        categoriesContent = `<OperatorCategories_Loaded
-                                 parentCategory={ this.state.rootCategory }
-                                 currentCategory={ this.state.currentCategory }
-                                 productsFilter={ this.props.productsFilter }
-                                 productsCanMove={ this.props.productsCanMove }
-                                 includeSubcategories={ this.state.includeSubcategories }
-                                 onCategorySelect={ this.handleCategorySelect } />`
+        `<OperatorCategories_Loaded
+            parentCategory={ this.state.rootCategory }
+            currentCategory={ this.state.currentCategory }
+            productsFilter={ this.props.productsFilter }
+            productsCanMove={ this.props.productsCanMove }
+            includeSubcategories={ this.state.includeSubcategories }
+            onCategorySelect={ this.handleCategorySelect } />`
       when LOADING_STATE
-        categoriesContent = `<OperatorCategories_Loading />`
+        `<OperatorCategories_Loading />`
       when ERROR_STATE
-        categoriesContent = `<OperatorCategories_LoadingError />`
+        `<OperatorCategories_LoadingError />`
       else console.warn 'Unknown currentState of OperatorCategories component', @state.currentState
-
-    categoriesContent
 
   activateLoadedState: -> @setState(currentState: LOADED_STATE)
   activateErrorState:  -> @setState(currentState: ERROR_STATE)
 
   handleCategorySelect: ({category, includeSubcategories}) ->
-    @setState {
+    @setState
       currentCategory: category
       includeSubcategories: includeSubcategories
-    }
+
     Aviator.navigate '', queryParams: { category_id: category.id }
     #TODO: store currentCategory in individual store
-    DragStateDispatcher.handleViewAction {
-      type: 'currentCategoryChanged'
-    }
+    DragStateDispatcher.handleViewAction(type: 'currentCategoryChanged')
 
   _onStoreChange: ->
     rootCategory = OperatorCategoriesStore.getRootCategory()
@@ -80,7 +76,6 @@ window.OperatorCategories = React.createClass
       else
         currentCategory = rootCategory
 
-    @setState {
+    @setState
       currentCategory: currentCategory
       rootCategory:    rootCategory
-    }

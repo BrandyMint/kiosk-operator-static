@@ -29,7 +29,6 @@ window.OperatorCategories_ListItemWithoutCategory = React.createClass
             </div>`
 
   handleClick: ->
-    @props.onCategorySelect {
+    @props.onCategorySelect
       category: @props.category
       includeSubcategories: false
-    }

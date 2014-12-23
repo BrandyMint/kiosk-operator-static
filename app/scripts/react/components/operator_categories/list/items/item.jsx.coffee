@@ -13,7 +13,7 @@ window.OperatorCategories_ListItem = React.createClass
           { this.props.category.name }
         </span>
         <span className="adm-categories-item-counter">
-          { this.props.category.current_products_count }
+          { this.props.category.current_deep_products_count }
         </span>
       </span>
       <button

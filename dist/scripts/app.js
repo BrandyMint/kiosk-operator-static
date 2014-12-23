@@ -1827,7 +1827,7 @@ window.OperatorCategories_ListItem = React.createClass({displayName: 'OperatorCa
            this.props.category.name
         ), 
         React.DOM.span({className: "adm-categories-item-counter"}, 
-           this.props.category.current_products_count
+           this.props.category.current_deep_products_count
         )
       ), 
       React.DOM.button({
@@ -2070,7 +2070,7 @@ window.OperatorCategories_ListItemWithSubcategories = React.createClass({display
   },
   render: function() {
     var itemClasses, totalCount;
-    totalCount = this.props.category.current_products_count;
+    totalCount = this.props.category.current_deep_products_count;
     itemClasses = React.addons.classSet({
       'adm-categories-item': true,
       'selected': this.props.isActive,
@@ -2325,7 +2325,6 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
                                includeSubcategories:  this.props.includeSubcategories, 
                                onCategorySelect:  this.props.onCategorySelect});
     }
-    categoriesContent;
     return React.DOM.div({className: "adm-categories-grid"}, 
               categoriesContent, 
               React.DOM.div({className: "adm-categories-grid-col __wide"}, 
@@ -2442,27 +2441,22 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
     return OperatorCategoriesStore.removeChangeListener(this._onStoreChange);
   },
   render: function() {
-    var categoriesContent;
     switch (this.state.currentState) {
       case LOADED_STATE:
-        categoriesContent = OperatorCategories_Loaded({
-                                 parentCategory:  this.state.rootCategory, 
-                                 currentCategory:  this.state.currentCategory, 
-                                 productsFilter:  this.props.productsFilter, 
-                                 productsCanMove:  this.props.productsCanMove, 
-                                 includeSubcategories:  this.state.includeSubcategories, 
-                                 onCategorySelect:  this.handleCategorySelect});
-        break;
+        return OperatorCategories_Loaded({
+            parentCategory:  this.state.rootCategory, 
+            currentCategory:  this.state.currentCategory, 
+            productsFilter:  this.props.productsFilter, 
+            productsCanMove:  this.props.productsCanMove, 
+            includeSubcategories:  this.state.includeSubcategories, 
+            onCategorySelect:  this.handleCategorySelect});
       case LOADING_STATE:
-        categoriesContent = OperatorCategories_Loading(null);
-        break;
+        return OperatorCategories_Loading(null);
       case ERROR_STATE:
-        categoriesContent = OperatorCategories_LoadingError(null);
-        break;
+        return OperatorCategories_LoadingError(null);
       default:
-        console.warn('Unknown currentState of OperatorCategories component', this.state.currentState);
+        return console.warn('Unknown currentState of OperatorCategories component', this.state.currentState);
     }
-    return categoriesContent;
   },
   activateLoadedState: function() {
     return this.setState({
@@ -2946,7 +2940,7 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
     if (this.xhr != null) {
       this.xhr.abort();
     }
-    if (nextProps.categoryId !== this.props.categoryId) {
+    if (this.props.categoryId !== nextProps.categoryId || this.props.includeSubcategories !== nextProps.includeSubcategories) {
       this.setState({
         page: 1,
         isAllProductsLoaded: false

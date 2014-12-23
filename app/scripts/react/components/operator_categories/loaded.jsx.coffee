@@ -12,13 +12,12 @@ window.OperatorCategories_Loaded = React.createClass
 
   componentDidMount: ->
     if @props.productsCanMove
-      $(@getDOMNode()).droppable {
+      $(@getDOMNode()).droppable
         scope: 'productsToCategories'
         addClasses: false
         tolerance: 'pointer'
         over: -> DragStateDispatcher.handleViewAction(type: 'dragInsideOfLayout')
         out:  -> DragStateDispatcher.handleViewAction(type: 'dragOutsideOfLayout')
-      }
 
   componentWillUnmount: ->
     if @props.productsCanMove
@@ -42,8 +41,6 @@ window.OperatorCategories_Loaded = React.createClass
                                productsFilter={ this.props.productsFilter }
                                includeSubcategories={ this.props.includeSubcategories }
                                onCategorySelect={ this.props.onCategorySelect } />`
-
-    categoriesContent
 
     return `<div className="adm-categories-grid">
               { categoriesContent }

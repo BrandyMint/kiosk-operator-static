@@ -23,7 +23,7 @@ window.OperatorCategories_ListItemWithSubcategories = React.createClass
     DragStateStore.removeChangeListener @_onStoreChange
 
   render: ->
-    totalCount = @props.category.current_products_count
+    totalCount = @props.category.current_deep_products_count
     itemClasses = React.addons.classSet {
       'adm-categories-item': true
       'selected': @props.isActive

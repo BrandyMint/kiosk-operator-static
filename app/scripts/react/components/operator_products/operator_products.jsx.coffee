@@ -28,7 +28,7 @@ window.OperatorProducts = React.createClass
     @xhr.abort() if @xhr?
 
     # Category is changed
-    if nextProps.categoryId != @props.categoryId
+    if @props.categoryId != nextProps.categoryId || @props.includeSubcategories != nextProps.includeSubcategories
       @setState {
         page: 1
         isAllProductsLoaded: false

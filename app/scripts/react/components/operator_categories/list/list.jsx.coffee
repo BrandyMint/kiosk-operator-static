@@ -18,14 +18,13 @@ window.OperatorCategories_List = React.createClass
   componentDidMount: ->
     OperatorCategoriesStore.addChangeListener @_onStoreChange
 
-    $(@refs.list.getDOMNode()).sortable {
+    $(@refs.list.getDOMNode()).sortable
       scope: 'categoriesReorder'
       placeholder: 'adm-categories-item __dropzone'
       forcePlaceholderSize: true
       revert: DRAG_REVERT
       delay: DRAG_DELAY
       stop: @handleDrop
-    }
 
   componentWillReceiveProps: (nextProps) ->
     @setState

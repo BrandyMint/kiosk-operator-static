@@ -2080,7 +2080,7 @@ window.OperatorCategories_ListItemWithSubcategories = React.createClass({display
       'selected': this.props.isActive,
       '__droptarget-active': this.isDropTarget()
     });
-    if (totalCount !== withoutCategoryCount) {
+    if (totalCount !== withoutCategoryCount || totalCount === 0) {
       return React.DOM.div({className: itemClasses, 
                    onClick:  this.handleClick, 
                    onMouseEnter:  this.handleMouseEnter, 

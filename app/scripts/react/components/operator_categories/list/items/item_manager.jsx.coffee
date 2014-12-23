@@ -48,10 +48,12 @@ window.OperatorCategories_ListItemManager = React.createClass
     window.location = Routes.operator_categories_edit_url @props.category.id
 
   handleItemClick: ->
-    @props.onCategorySelect {
+    totalCount           = @props.category.current_deep_products_count
+    withoutCategoryCount = @props.category.current_products_count
+
+    @props.onCategorySelect
       category: @props.category
-      includeSubcategories: true
-    }
+      includeSubcategories: if totalCount != withoutCategoryCount then true else false
 
   handleMouseEnter: ->
     if @isDropTarget()

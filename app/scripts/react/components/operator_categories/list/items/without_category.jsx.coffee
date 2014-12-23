@@ -12,14 +12,14 @@ window.OperatorCategories_ListItemWithoutCategory = React.createClass
 
   render: ->
     totalCount = @props.category.current_products_count
-    itemClasses = React.addons.classSet {
+    itemClasses = React.addons.classSet
       'adm-categories-item': true
       '__muted': true
       'selected': @props.isActive
-    }
 
-    return `<div className={ itemClasses }
-                 onClick={ this.handleClick }>
+    if totalCount != 0
+      return `<div className={ itemClasses }
+                   onClick={ this.handleClick }>
               <span className="adm-categories-item-name">
                 { TITLE }
               </span>
@@ -27,6 +27,8 @@ window.OperatorCategories_ListItemWithoutCategory = React.createClass
                 { totalCount }
               </span>
             </div>`
+    else
+      return null
 
   handleClick: ->
     @props.onCategorySelect

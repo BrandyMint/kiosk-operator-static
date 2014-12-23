@@ -23,24 +23,27 @@ window.OperatorCategories_ListItemWithSubcategories = React.createClass
     DragStateStore.removeChangeListener @_onStoreChange
 
   render: ->
-    totalCount = @props.category.current_deep_products_count
-    itemClasses = React.addons.classSet {
+    totalCount           = @props.category.current_deep_products_count
+    withoutCategoryCount = @props.category.current_products_count
+    itemClasses = React.addons.classSet
       'adm-categories-item': true
       'selected': @props.isActive
       '__droptarget-active': @isDropTarget()
-    }
 
-    return `<div className={ itemClasses }
-                 onClick={ this.handleClick }
-                 onMouseEnter={ this.handleMouseEnter }
-                 onMouseLeave={ this.handleMouseLeave }>
-              <span className="adm-categories-item-name">
-                { TITLE }
-              </span>
-              <span className="adm-categories-item-counter">
-                { totalCount }
-              </span>
-            </div>`
+    if totalCount != withoutCategoryCount
+      return `<div className={ itemClasses }
+                   onClick={ this.handleClick }
+                   onMouseEnter={ this.handleMouseEnter }
+                   onMouseLeave={ this.handleMouseLeave }>
+                <span className="adm-categories-item-name">
+                  { TITLE }
+                </span>
+                <span className="adm-categories-item-counter">
+                  { totalCount }
+                </span>
+              </div>`
+    else
+      return null
 
   isDropTarget: ->
     @state.isDroppable && !@props.isActive

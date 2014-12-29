@@ -71,7 +71,7 @@ ProductImageSortableMixin =
   componentDidMount: ->
     $(@getDOMNode()).sortable {
       scope: 'productImagesReorder'
-      # placeholder: 'products__new-form-image-thumb-block __dropzone'
+      placeholder: 'products__new-form-image-thumb-block __dropzone'
       forcePlaceholderSize: true
       revert: DRAG_REVERT
       delay:  DRAG_DELAY

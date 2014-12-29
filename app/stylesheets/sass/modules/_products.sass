@@ -159,6 +159,17 @@ $products-form-images-list-padding: 12px
       display: block
     .products__new-form-image-thumb
       +opacity(0.6)
+  &.ui-sortable-helper
+    background-color: #fff
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .8)
+    .products__new-form-image-thumb
+      +opacity(1)
+  &.__dropzone
+    margin-top: -3px
+    margin-bottom: -3px
+    border-width: 3px
+    border-color: $blue
+    border-style: dashed
 
 .products__new-form-image-thumb
   display: block

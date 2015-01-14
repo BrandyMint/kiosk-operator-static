@@ -8,6 +8,7 @@ html
     height: 100%
     overflow: hidden
     .adm-layout
+      max-width: 100%
       width: 100%
       height: 100%
       margin: 0
@@ -22,6 +23,7 @@ html
       -webkit-overflow-scrolling: touch
 
 .adm-layout
+  max-width: $adm-layout-max-width;
   width: 90%
   margin: 0 auto
   padding: 20px 0
@@ -83,7 +85,10 @@ html
 
 @media (min-width: $screen-lg-min)
   .adm-layout
-    width: 1062px
+    width: 100%
+    padding:
+      right: $grid-gutter-width
+      left: $grid-gutter-width
 
   .adm-layout-sidebar
     width: 220px

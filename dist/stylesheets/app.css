@@ -7915,6 +7915,7 @@ html {
     overflow: hidden; }
     /* line 10, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
     .adm-body.__landing .adm-layout {
+      max-width: 100%;
       width: 100%;
       height: 100%;
       margin: 0;
@@ -7927,8 +7928,9 @@ html {
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch; }
 
-/* line 24, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+/* line 25, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
 .adm-layout {
+  max-width: 1600px;
   width: 90%;
   margin: 0 auto;
   padding: 20px 0; }
@@ -7940,72 +7942,74 @@ html {
   .adm-layout:after {
     clear: both; }
 
-/* line 30, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+/* line 32, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
 .adm-layout-sidebar {
   padding-bottom: 20px; }
 
-/* line 33, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+/* line 35, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
 .adm-layout-main {
   min-height: 500px;
   background-color: #fff;
   border-radius: 4px; }
 
-/* line 38, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+/* line 40, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
 .adm-layout-main-inner {
   padding: 20px 30px; }
 
-/* line 41, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+/* line 43, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
 .adm-section-header {
   margin-bottom: 20px; }
 
-/* line 44, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+/* line 46, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
 .adm-section-header-title {
   margin: 0;
   font-size: 28px; }
 
-/* line 48, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+/* line 50, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
 .adm-grid-full {
   width: 100%;
   height: 100%;
   display: table; }
 
-/* line 53, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+/* line 55, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
 .adm-grid-full-middle {
   display: table-cell;
   vertical-align: middle; }
 
 @media (min-width: 768px) {
-  /* line 58, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+  /* line 60, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
   .adm-layout {
     width: 740px; }
-  /* line 61, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+  /* line 63, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
   .adm-layout-sidebar {
     width: 220px;
     position: fixed;
     float: left; }
-  /* line 66, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+  /* line 68, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
   .adm-layout-main {
     margin-left: 220px; } }
 
 @media (min-width: 992px) {
-  /* line 70, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+  /* line 72, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
   .adm-layout {
     width: 980px; }
-  /* line 73, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+  /* line 75, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
   .adm-layout-sidebar {
     width: 245px; }
-  /* line 76, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+  /* line 78, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
   .adm-layout-main {
     margin-left: 245px; } }
 
 @media (min-width: 1200px) {
-  /* line 80, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+  /* line 82, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
   .adm-layout {
-    width: 1062px; }
-  /* line 83, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+    width: 100%;
+    padding-right: 30px;
+    padding-left: 30px; }
+  /* line 88, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
   .adm-layout-sidebar {
     width: 220px; }
-  /* line 86, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
+  /* line 91, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/settings/adm-layout */
   .adm-layout-main {
     margin-left: 220px; } }
 

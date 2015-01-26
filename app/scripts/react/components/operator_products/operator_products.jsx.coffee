@@ -46,7 +46,7 @@ window.OperatorProducts = React.createClass
              categoryId={ this.props.categoryId }
              productsCanMove={ this.props.productsCanMove } />`
       when LOADING_STATE then `<OperatorProducts_Loading />`
-      when EMPTY_STATE   then `<OperatorProducts_Empty />`
+      when EMPTY_STATE   then `<OperatorProducts_Empty categoryId={ this.props.categoryId } />`
       when ERROR_STATE   then `<OperatorProducts_LoadingError
                                    message={ this.state.errorMessage } />`
       else console.warn 'Unknown currentState of OperatorProducts component', @state.currentState

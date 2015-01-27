@@ -1,4 +1,4 @@
-@mixin adm-icon
+%adm-icon
   @include inline-valign-middle
   position: relative
   background:
@@ -7,29 +7,33 @@
     size: cover
 
 .adm-icon-panel
-  @include adm-icon
+  @extend %adm-icon
   background-image: url('#{$images-path}/adm-icon-panel-white.png')
 
 .adm-icon-folder
-  @include adm-icon
+  @extend %adm-icon
   background-image: url('#{$images-path}/adm-icon-folder-white.png')
 
 .adm-icon-basket
-  @include adm-icon
+  @extend %adm-icon
   background-image: url('#{$images-path}/adm-icon-basket-white.png')
 
 .adm-icon-layers
-  @include adm-icon
+  @extend %adm-icon
   background-image: url('#{$images-path}/adm-icon-layers-white.png')
 
 .adm-icon-question-mark
-  @include adm-icon
+  @extend %adm-icon
   background-image: url('#{$images-path}/adm-icon-question-mark-white.png')
 
 .adm-icon-cogwheel
-  @include adm-icon
+  @extend %adm-icon
   background-image: url('#{$images-path}/adm-icon-cogwheel-white.png')
 
+.adm-icon-gift
+  @extend %adm-icon
+  background-image: url('#{$images-path}/adm-icon-gift-white.png')
+
 .adm-icon-trash
-  @include adm-icon
+  @extend %adm-icon
   background-image: url('#{$images-path}/adm-icon-trash-gray.png')

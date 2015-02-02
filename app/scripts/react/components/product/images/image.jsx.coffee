@@ -34,8 +34,8 @@ ProductImages_Image = React.createClass
           <Spinner className="fa-2x" />
         </div>`
       when ERROR_STATE
-       `<div className="products__new-form-image-thumb-error">
-          Ошибка загрузки
+       `<div className="form-alert form-alert-danger">
+          Ошибка загрузки. Перезагрузите данное изображение.
         </div>`
 
     return `<div data-id={ this.props.image.id }
@@ -50,10 +50,14 @@ ProductImages_Image = React.createClass
               <div className="products__new-form-image-thumb-update"
                    onClick={ this.rotateImage } />
 
-              <input name={ this.props.fieldName }
-                     value={ this.props.image.id }
-                     type="hidden" />
+              { this.renderHiddenInput() }
             </div>`
+
+  renderHiddenInput: ->
+    if @props.image.id
+      `<input type="hidden"
+              name={ this.props.fieldName }
+              value={ this.props.image.id } />`
 
   isLoadingState: -> @state.currentState is LOADING_STATE
 

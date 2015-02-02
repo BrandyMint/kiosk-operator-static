@@ -12,10 +12,9 @@ ProductImages_Placeholder = React.createClass
     currentState: VIEW_STATE
 
   render: ->
-    emptyThumbClasses = React.addons.classSet {
+    emptyThumbClasses = React.addons.classSet
       'products__new-form-image-thumb-empty': true
       '__dropzone': @isDropzoneState()
-    }
 
     return `<div className="products__new-form-image-thumb-block">
               <input ref="fileInput"

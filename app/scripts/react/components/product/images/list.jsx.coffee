@@ -9,9 +9,12 @@ ProductImages_List = React.createClass
   propTypes:
     images:            React.PropTypes.array.isRequired
     fieldName:         React.PropTypes.string
+    productId:         React.PropTypes.number
+    productCardId:     React.PropTypes.number
     activitiesHandler: React.PropTypes.object.isRequired
     onImagePreload:    React.PropTypes.func.isRequired
     onImageDelete:     React.PropTypes.func.isRequired
+    onImageRotate:     React.PropTypes.func.isRequired
 
   render: ->
     that = @
@@ -21,17 +24,17 @@ ProductImages_List = React.createClass
         `<ProductImages_Image
              image={ image }
              fieldName={ that.props.fieldName }
+             productId={ that.props.productId }
+             productCardId={ that.props.productCardId }
              activitiesHandler={ that.props.activitiesHandler }
              onImagePreload={ that.props.onImagePreload.bind(null, image) }
              onImageDelete={ that.props.onImageDelete.bind(null, image) }
+             onImageRotate={ that.props.onImageRotate.bind(null, image) }
              key={ image.uuid || image.id } />`
 
     return `<div ref="list"
                  className="products__new-form-images-list-list">
               { images }
-              <input name={ this.props.fieldName }
-                     value=""
-                     type="hidden" />
             </div>`
 
 module.exports = ProductImages_List

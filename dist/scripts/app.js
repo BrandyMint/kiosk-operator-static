@@ -1449,12 +1449,18 @@ window.OperatorProductsViewActions = {
 },{}],14:[function(require,module,exports){
 window.ProductImagesViewActions = {
   preloadImage: function(_arg) {
-    var beforeSend, complete, error, file, formData, success;
-    file = _arg.file, success = _arg.success, error = _arg.error, beforeSend = _arg.beforeSend, complete = _arg.complete;
+    var beforeSend, complete, error, file, formData, productCardId, productId, success;
+    file = _arg.file, productId = _arg.productId, productCardId = _arg.productCardId, success = _arg.success, error = _arg.error, beforeSend = _arg.beforeSend, complete = _arg.complete;
     formData = new FormData();
     formData.append('image', file);
+    if (productId != null) {
+      formData.append('product_id', productId);
+    }
+    if (productCardId != null) {
+      formData.append('product_card_id', productCardId);
+    }
     return Requester.request({
-      url: ApiRoutes.operator_products_images_url(),
+      url: ApiRoutes.operator_product_images_url(),
       method: 'POST',
       data: formData,
       contentType: false,
@@ -1484,7 +1490,7 @@ window.ProductImagesViewActions = {
         formData.append('image', file);
         formData.append('product_id', productId);
         xhr = Requester.request({
-          url: ApiRoutes.operator_products_images_url(),
+          url: ApiRoutes.operator_product_images_url(),
           method: 'POST',
           data: formData,
           contentType: false,
@@ -1513,6 +1519,19 @@ window.ProductImagesViewActions = {
           });
         }
       });
+    });
+  },
+  rotateImage: function(imageId, degree) {
+    if (degree == null) {
+      degree = 90;
+    }
+    return Requester.request({
+      url: ApiRoutes.operator_product_images_rotate_url(imageId),
+      method: 'POST',
+      data: {
+        id: imageId,
+        grad: degree
+      }
     });
   }
 };
@@ -3105,8 +3124,11 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
     image: React.PropTypes.object.isRequired,
     size: React.PropTypes.string,
     fieldName: React.PropTypes.string,
+    productId: React.PropTypes.number,
+    productCardId: React.PropTypes.number,
     onImagePreload: React.PropTypes.func.isRequired,
-    onImageDelete: React.PropTypes.func.isRequired
+    onImageDelete: React.PropTypes.func.isRequired,
+    onImageRotate: React.PropTypes.func.isRequired
   },
   getDefaultProps: function() {
     return {
@@ -3148,7 +3170,7 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
               React.DOM.div({className: "products__new-form-image-thumb-remove", 
                    onClick:  this.props.onImageDelete}), 
               React.DOM.div({className: "products__new-form-image-thumb-update", 
-                   onClick:  this.handleRotateClick}), 
+                   onClick:  this.rotateImage}), 
 
               React.DOM.input({name:  this.props.fieldName, 
                      value:  this.props.image.id, 
@@ -3157,6 +3179,11 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
   },
   isLoadingState: function() {
     return this.state.currentState === LOADING_STATE;
+  },
+  activateLoadingState: function() {
+    return this.setState({
+      currentState: LOADING_STATE
+    });
   },
   activateLoadedState: function() {
     return this.setState({
@@ -3178,6 +3205,8 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
     formData.append('image', file);
     return ProductImagesViewActions.preloadImage({
       file: file,
+      productId: this.props.productId,
+      productCardId: this.props.productCardId,
       success: (function(_this) {
         return function(data) {
           _this.activateLoadedState();
@@ -3188,29 +3217,28 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
           });
         };
       })(this),
-      error: (function(_this) {
-        return function() {
-          return _this.activateErrorState();
-        };
-      })(this),
-      beforeSend: (function(_this) {
-        return function() {
-          return _this.incrementActivities();
-        };
-      })(this),
-      complete: (function(_this) {
-        return function() {
-          return _this.decrementActivities();
-        };
-      })(this)
+      error: this.activateErrorState,
+      beforeSend: this.incrementActivities,
+      complete: this.decrementActivities
     });
   },
   _getImageUrl: function() {
     var _ref;
-    return ThumborService.image_url((_ref = this.state.image) != null ? _ref.src : void 0, this.props.size);
+    return ThumborService.image_url((_ref = this.state.image) != null ? _ref.url : void 0, this.props.size);
   },
-  handleRotateClick: function() {
-    return alert('Функция временно недоступна');
+  rotateImage: function() {
+    this.activateLoadingState();
+    return ProductImagesViewActions.rotateImage(this.props.image.id).then((function(_this) {
+      return function(data) {
+        _this.activateLoadedState();
+        return _this.props.onImageRotate(data);
+      };
+    })(this)).fail((function(_this) {
+      return function() {
+        _this.activateErrorState();
+        return setTimeout(_this.activateLoadedState, 3000);
+      };
+    })(this));
   }
 });
 
@@ -3233,7 +3261,9 @@ window.ProductImages = React.createClass({displayName: 'ProductImages',
   mixins: ['ReactActivitiesMixin', ImagesMixin],
   propTypes: {
     images: React.PropTypes.array.isRequired,
-    fieldName: React.PropTypes.string.isRequired
+    fieldName: React.PropTypes.string.isRequired,
+    productId: React.PropTypes.number,
+    productCardId: React.PropTypes.number
   },
   getDefaultProps: function() {
     return {
@@ -3241,13 +3271,11 @@ window.ProductImages = React.createClass({displayName: 'ProductImages',
       images: [
         {
           id: 4682,
-          src: 'assets/product-1-square.png?1'
-        }, {
+          url: 'assets/product-1-square.png?1',
           id: 4681,
-          src: 'assets/product-2-square.png?1'
-        }, {
+          url: 'assets/product-2-square.png?1',
           id: 4680,
-          src: 'assets/product-3-square.png?1'
+          url: 'assets/product-3-square.png?1'
         }
       ]
     };
@@ -3263,9 +3291,12 @@ window.ProductImages = React.createClass({displayName: 'ProductImages',
       ProductImages_List({
           images:  this.state.images, 
           fieldName:  this.props.fieldName, 
+          productId:  this.props.productId, 
+          productCardId:  this.props.productCardId, 
           activitiesHandler:  this.activitiesHandler, 
           onImagesReorder:  this.updateImages, 
           onImagePreload:  this.updateImage, 
+          onImageRotate:  this.updateImage, 
           onImageDelete:  this.deleteImage})
     );
   }
@@ -3287,9 +3318,12 @@ ProductImages_List = React.createClass({displayName: 'ProductImages_List',
   propTypes: {
     images: React.PropTypes.array.isRequired,
     fieldName: React.PropTypes.string,
+    productId: React.PropTypes.number,
+    productCardId: React.PropTypes.number,
     activitiesHandler: React.PropTypes.object.isRequired,
     onImagePreload: React.PropTypes.func.isRequired,
-    onImageDelete: React.PropTypes.func.isRequired
+    onImageDelete: React.PropTypes.func.isRequired,
+    onImageRotate: React.PropTypes.func.isRequired
   },
   render: function() {
     var images, that;
@@ -3300,17 +3334,17 @@ ProductImages_List = React.createClass({displayName: 'ProductImages_List',
       return ProductImages_Image({
              image: image, 
              fieldName:  that.props.fieldName, 
+             productId:  that.props.productId, 
+             productCardId:  that.props.productCardId, 
              activitiesHandler:  that.props.activitiesHandler, 
              onImagePreload:  that.props.onImagePreload.bind(null, image), 
              onImageDelete:  that.props.onImageDelete.bind(null, image), 
+             onImageRotate:  that.props.onImageRotate.bind(null, image), 
              key:  image.uuid || image.id});
     });
     return React.DOM.div({ref: "list", 
                  className: "products__new-form-images-list-list"}, 
-              images, 
-              React.DOM.input({name:  this.props.fieldName, 
-                     value: "", 
-                     type: "hidden"})
+              images 
             );
   }
 });
@@ -3363,7 +3397,7 @@ FileUploadMixin = {
       return {
         id: null,
         uuid: UuidService.generate(),
-        src: window.URL.createObjectURL(file),
+        url: window.URL.createObjectURL(file),
         file: file
       };
     });
@@ -3416,7 +3450,7 @@ ImagesMixin = {
     newImages = this.state.images.slice(0);
     for (_i = 0, _len = newImages.length; _i < _len; _i++) {
       newImage = newImages[_i];
-      if (!(newImage === oldImage)) {
+      if (!(newImage.id === oldImage.id)) {
         continue;
       }
       _.extend(newImage, data);
@@ -5107,8 +5141,11 @@ window.ApiRoutes = {
   operator_product_image_delete_url: function(id) {
     return gon.api_root_url + '/v1/operator/products/images/' + id;
   },
-  operator_products_images_url: function() {
-    return gon.api_root_url + '/v1/operator/products/images';
+  operator_product_images_rotate_url: function(id) {
+    return gon.api_root_url + '/v1/operator/product_images/' + id + '/rotate';
+  },
+  operator_product_images_url: function() {
+    return gon.api_root_url + '/v1/operator/product_images';
   },
   operator_categories_url: function() {
     return gon.api_root_url + '/v1/operator/categories';

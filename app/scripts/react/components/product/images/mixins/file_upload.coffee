@@ -39,7 +39,7 @@ FileUploadMixin =
       return {
         id:   null
         uuid: UuidService.generate()
-        src:  window.URL.createObjectURL file
+        url:  window.URL.createObjectURL file
         file: file
       }
 

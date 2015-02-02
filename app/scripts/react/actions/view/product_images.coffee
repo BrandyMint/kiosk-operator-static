@@ -1,11 +1,13 @@
 window.ProductImagesViewActions =
 
-  preloadImage: ({file, success, error, beforeSend, complete}) ->
+  preloadImage: ({file, productId, productCardId, success, error, beforeSend, complete}) ->
     formData = new FormData()
     formData.append 'image', file
+    formData.append 'product_id', productId          if productId?
+    formData.append 'product_card_id', productCardId if productCardId?
 
     Requester.request
-      url: ApiRoutes.operator_products_images_url()
+      url: ApiRoutes.operator_product_images_url()
       method: 'POST'
       data: formData
       contentType: false
@@ -26,7 +28,7 @@ window.ProductImagesViewActions =
 
         #TODO: ProductImagesResource.get
         xhr = Requester.request
-          url: ApiRoutes.operator_products_images_url()
+          url: ApiRoutes.operator_product_images_url()
           method: 'POST'
           data: formData
           contentType: false
@@ -45,3 +47,11 @@ window.ProductImagesViewActions =
             categoryId: product.category_id
           }
       }
+
+  rotateImage: (imageId, degree = 90) ->
+    Requester.request
+      url: ApiRoutes.operator_product_images_rotate_url imageId
+      method: 'POST'
+      data:
+        id:   imageId
+        grad: degree

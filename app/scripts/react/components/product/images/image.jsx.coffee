@@ -11,8 +11,11 @@ ProductImages_Image = React.createClass
     image:          React.PropTypes.object.isRequired
     size:           React.PropTypes.string
     fieldName:      React.PropTypes.string
+    productId:      React.PropTypes.number
+    productCardId:  React.PropTypes.number
     onImagePreload: React.PropTypes.func.isRequired
     onImageDelete:  React.PropTypes.func.isRequired
+    onImageRotate:  React.PropTypes.func.isRequired
 
   getDefaultProps: ->
     size: '150x150'
@@ -45,7 +48,7 @@ ProductImages_Image = React.createClass
               <div className="products__new-form-image-thumb-remove"
                    onClick={ this.props.onImageDelete } />
               <div className="products__new-form-image-thumb-update"
-                   onClick={ this.handleRotateClick } />
+                   onClick={ this.rotateImage } />
 
               <input name={ this.props.fieldName }
                      value={ this.props.image.id }
@@ -54,8 +57,9 @@ ProductImages_Image = React.createClass
 
   isLoadingState: -> @state.currentState is LOADING_STATE
 
-  activateLoadedState: -> @setState(currentState: LOADED_STATE)
-  activateErrorState:  -> @setState(currentState: ERROR_STATE)
+  activateLoadingState: -> @setState(currentState: LOADING_STATE)
+  activateLoadedState:  -> @setState(currentState: LOADED_STATE)
+  activateErrorState:   -> @setState(currentState: ERROR_STATE)
 
   preloadImage: ->
     file = @props.image.file
@@ -65,25 +69,32 @@ ProductImages_Image = React.createClass
     formData = new FormData()
     formData.append 'image', file
 
-    ProductImagesViewActions.preloadImage {
+    ProductImagesViewActions.preloadImage
       file: file
+      productId:     @props.productId
+      productCardId: @props.productCardId
       success: (data) =>
         @activateLoadedState()
-        @props.onImagePreload {
+        @props.onImagePreload
           id:   data.id
           uuid: @props.image.uuid
           src:  data.url
-        }
-      error:      => @activateErrorState()
-      beforeSend: => @incrementActivities()
-      complete:   => @decrementActivities()
-    }
+      error:      @activateErrorState
+      beforeSend: @incrementActivities
+      complete:   @decrementActivities
 
   _getImageUrl: ->
-    ThumborService.image_url @state.image?.src, @props.size
+    ThumborService.image_url @state.image?.url, @props.size
 
-  handleRotateClick: ->
-    # TODO image rotate
-    alert 'Функция временно недоступна'
+  rotateImage: ->
+    @activateLoadingState()
+
+    ProductImagesViewActions.rotateImage @props.image.id
+      .then (data) =>
+        @activateLoadedState()
+        @props.onImageRotate data
+      .fail =>
+        @activateErrorState()
+        setTimeout @activateLoadedState, 3000
 
 module.exports = ProductImages_Image

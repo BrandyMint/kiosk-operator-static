@@ -3155,8 +3155,8 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
           Spinner({className: "fa-2x"})
         );
         case ERROR_STATE:
-          return React.DOM.div({className: "products__new-form-image-thumb-error"}, 
-          "Ошибка загрузки"
+          return React.DOM.div({className: "form-alert form-alert-danger"}, 
+          "Ошибка загрузки. Перезагрузите данное изображение."
         );
       }
     }).call(this);
@@ -3172,10 +3172,15 @@ ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
               React.DOM.div({className: "products__new-form-image-thumb-update", 
                    onClick:  this.rotateImage}), 
 
-              React.DOM.input({name:  this.props.fieldName, 
-                     value:  this.props.image.id, 
-                     type: "hidden"})
+               this.renderHiddenInput() 
             );
+  },
+  renderHiddenInput: function() {
+    if (this.props.image.id) {
+      return React.DOM.input({type: "hidden", 
+              name:  this.props.fieldName, 
+              value:  this.props.image.id});
+    }
   },
   isLoadingState: function() {
     return this.state.currentState === LOADING_STATE;

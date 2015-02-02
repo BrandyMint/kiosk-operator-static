@@ -136,6 +136,14 @@ $products-form-images-list-padding: 12px
 
 .products__new-form-image-thumb-block
   @extend .col-xs-4
+
+  img
+    width: 100%
+
+  .form-alert
+    width: 100%
+    margin: 0
+
   .products__new-form-images-list.__small &
     width: 20%
     .products__new-form-image-thumb-remove
@@ -197,7 +205,7 @@ $products-form-images-list-padding: 12px
 
 .products__new-form-image-thumb-empty
   @extend .products__new-form-image-thumb
-  padding-bottom: 97%
+  padding-bottom: 99%
 
   &.__dropzone
     border-width: 1px

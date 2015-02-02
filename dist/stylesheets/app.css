@@ -10236,16 +10236,23 @@ a.login__form-input-icon, a.login__form-input-icon--left, a.login__form-input-ic
 .products__new-form-image-thumb-block {
   padding: 6px;
   cursor: pointer; }
-  /* line 136, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 137, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  .products__new-form-image-thumb-block img {
+    width: 100%; }
+  /* line 140, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  .products__new-form-image-thumb-block .form-alert {
+    width: 100%;
+    margin: 0; }
+  /* line 144, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-images-list.__small .products__new-form-image-thumb-block {
     width: 20%; }
-    /* line 138, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+    /* line 146, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
     .products__new-form-images-list.__small .products__new-form-image-thumb-block .products__new-form-image-thumb-remove, .products__new-form-images-list.__small .products__new-form-image-thumb-block .products__new-form-image-thumb-update, .products__new-form-images-list.__small .products__new-form-image-thumb-block .products__new-form-image-thumb-add {
       left: 35%; }
-    /* line 140, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+    /* line 148, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
     .products__new-form-images-list.__small .products__new-form-image-thumb-block .products__new-form-image-thumb-update {
       left: 65%; }
-  /* line 144, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 152, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-image-thumb-block:after {
     content: ' ';
     position: absolute;
@@ -10257,25 +10264,25 @@ a.login__form-input-icon, a.login__form-input-icon--left, a.login__form-input-ic
     background: none;
     -webkit-transition: background 0.2s ease;
     transition: background 0.2s ease; }
-  /* line 153, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 161, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-image-thumb-block:hover:after {
     background-color: rgba(153, 153, 153, 0.4); }
-  /* line 155, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 163, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-image-thumb-block:hover .products__new-form-image-thumb-remove, .products__new-form-image-thumb-block:hover .products__new-form-image-thumb-update, .products__new-form-image-thumb-block:hover .products__new-form-image-thumb-add {
     display: block; }
-  /* line 157, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 165, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-image-thumb-block:hover .products__new-form-image-thumb, .products__new-form-image-thumb-block:hover .products__new-form-image-thumb-empty {
     opacity: 0.6;
     filter: alpha(opacity=60); }
-  /* line 159, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 167, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-image-thumb-block.ui-sortable-helper {
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8); }
-    /* line 162, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+    /* line 170, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
     .products__new-form-image-thumb-block.ui-sortable-helper .products__new-form-image-thumb, .products__new-form-image-thumb-block.ui-sortable-helper .products__new-form-image-thumb-empty {
       opacity: 1;
       filter: alpha(opacity=100); }
-  /* line 164, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 172, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-image-thumb-block.__dropzone {
     margin-top: -3px;
     margin-bottom: -3px;
@@ -10283,7 +10290,7 @@ a.login__form-input-icon, a.login__form-input-icon--left, a.login__form-input-ic
     border-color: #00b9ff;
     border-style: dashed; }
 
-/* line 171, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 179, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .products__new-form-image-thumb, .products__new-form-image-thumb-empty {
   display: block;
   position: relative;
@@ -10292,7 +10299,7 @@ a.login__form-input-icon, a.login__form-input-icon--left, a.login__form-input-ic
   -webkit-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease; }
 
-/* line 178, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 186, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .products__new-form-image-thumb-preload {
   position: absolute;
   top: 50%;
@@ -10300,7 +10307,7 @@ a.login__form-input-icon, a.login__form-input-icon--left, a.login__form-input-ic
   margin-top: -1em;
   margin-left: -1em; }
 
-/* line 185, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 193, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .products__new-form-image-thumb-error {
   position: absolute;
   top: 50%;
@@ -10313,10 +10320,10 @@ a.login__form-input-icon, a.login__form-input-icon--left, a.login__form-input-ic
       -ms-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%); }
 
-/* line 195, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 203, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .products__new-form-image-thumb-empty {
-  padding-bottom: 97%; }
-  /* line 199, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  padding-bottom: 99%; }
+  /* line 207, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-image-thumb-empty.__dropzone {
     border-width: 1px;
     border-color: #00b9ff;
@@ -10325,7 +10332,7 @@ a.login__form-input-icon, a.login__form-input-icon--left, a.login__form-input-ic
     -webkit-transition: color 0.2s ease, background 0.2s ease;
     transition: color 0.2s ease, background 0.2s ease; }
 
-/* line 206, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 214, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .products__new-form-image-thumb-remove, .products__new-form-image-thumb-update, .products__new-form-image-thumb-add {
   display: none;
   position: absolute;
@@ -10344,22 +10351,22 @@ a.login__form-input-icon, a.login__form-input-icon--left, a.login__form-input-ic
   cursor: pointer;
   -webkit-transition: background 0.2s ease;
   transition: background 0.2s ease; }
-  /* line 225, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 233, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-image-thumb-remove:hover, .products__new-form-image-thumb-update:hover, .products__new-form-image-thumb-add:hover {
     background-color: #00b9ff; }
 
-/* line 228, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 236, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .products__new-form-image-thumb-update {
   left: 70%;
   background-image: url('/assets/product-thumb-refresh-white.svg'); }
 
-/* line 234, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 242, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .products__new-form-image-thumb-add {
   left: 50% !important;
   display: block;
   background-image: url('/assets/product-thumb-plus-white.svg'); }
 
-/* line 243, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 251, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .products__new-form-remove-params-btn, .products__new-form-remove-variant-btn {
   display: inline-block;
   width: 34px;
@@ -10371,20 +10378,20 @@ a.login__form-input-icon, a.login__form-input-icon--left, a.login__form-input-ic
   background-image: url('/assets/products-form-icon-remove.svg');
   -webkit-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease; }
-  /* line 253, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 261, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-remove-params-btn:hover, .products__new-form-remove-variant-btn:hover {
     opacity: 1;
     filter: alpha(opacity=100); }
 
-/* line 256, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 264, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .products__new-form-remove-variant-btn {
   margin-top: 7px; }
 
-/* line 260, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 268, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .products__new-form-variant-type-btn, .products__new-form-custom-variant-input {
   margin-right: 14px; }
 
-/* line 266, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 274, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .products__new-form-custom-variant-input {
   display: inline-block;
   width: auto;
@@ -10401,16 +10408,16 @@ a.login__form-input-icon, a.login__form-input-icon--left, a.login__form-input-ic
   /* line 105, ./app/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/vendor-prefixes */
   .products__new-form-custom-variant-input::-webkit-input-placeholder {
     color: #999999; }
-  /* line 274, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 282, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-custom-variant-input:focus {
     border-color: #00b9ff;
     box-shadow: inset 0 0 0 2px #00b9ff; }
 
-/* line 278, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 286, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 label.toggle__block {
   margin: 0; }
 
-/* line 282, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 290, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .adm-form-item-header .toggle__block {
   margin-top: 7px;
   float: right; }
@@ -10422,7 +10429,7 @@ label.toggle__block {
 /* line 19, ./app/bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/mixins/clearfix */
 .adm-form-item-footer:after {
   clear: both; }
-/* line 288, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 296, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .modal .adm-form-item-footer {
   width: 100%;
   padding-top: 15px;
@@ -10432,36 +10439,36 @@ label.toggle__block {
   position: absolute;
   top: 100%;
   left: 0; }
-/* line 298, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 306, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .adm-form-item-footer .adm-btn-submit {
   float: left; }
-/* line 300, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+/* line 308, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
 .adm-form-item-footer .adm-btn-remove {
   float: right; }
 
 @media screen and (max-width: 991px) {
-  /* line 305, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 313, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .row-block-padding div[class^=col-] {
     margin-bottom: 15px; }
-  /* line 308, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 316, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-remove-variant-btn {
     margin: -20px auto 25px;
     float: none !important;
     display: block; }
-  /* line 314, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 322, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form .toggle__block {
     margin-top: 20px;
     float: none; }
-  /* line 319, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 327, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-images-list.__small .products__new-form-image-thumb-block {
     width: 33.3333%; }
-  /* line 322, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 330, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .products__new-form-variant-type-btn, .products__new-form-custom-variant-input {
     margin-bottom: 10px; }
-  /* line 326, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 334, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .modal .adm-form-item-footer {
     position: static; }
-  /* line 330, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
+  /* line 338, /Users/sergeylaptev/Desktop/brandymint/kiosk-operator-static/app/stylesheets/sass/modules/products */
   .adm-btn-submit, .adm-btn-remove {
     width: 100%;
     margin-top: 10px;

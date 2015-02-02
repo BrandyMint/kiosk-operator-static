@@ -1,15 +1,22 @@
 ###* @jsx React.DOM ###
+{ PropTypes } = React
 
 window.Money = React.createClass
 
   propTypes:
-    money: React.PropTypes.object
+    money:     PropTypes.object
+    className: PropTypes.string
+
+  getDefaultProps: ->
+    className: 'nobr'
 
   render: ->
-    if @props.money
-      #TODO: Учитывать валюту
-      `<span className="nobr">
-        { (this.props.money.cents / 100).toLocaleString('ru-RU') } руб.
-       </span>`
+   `<span className={ this.props.className }
+          dangerouslySetInnerHTML={{ __html: this.renderContent() }} />`
+
+  renderContent: ->
+    if @props.money?
+      { cents, currency } = @props.money
+      MoneyHelpers.format cents, currency
     else
-      `<span className="nobr">---</span>`
+      '---'

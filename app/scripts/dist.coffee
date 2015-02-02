@@ -94,3 +94,4 @@ require './react/components/modal/modal'
 # /*==========  Helpers  ==========*/
 require './react/helpers/app'
 require './react/helpers/event'
+require './react/helpers/money'

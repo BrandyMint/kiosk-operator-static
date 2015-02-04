@@ -3455,7 +3455,7 @@ ImagesMixin = {
     newImages = this.state.images.slice(0);
     for (_i = 0, _len = newImages.length; _i < _len; _i++) {
       newImage = newImages[_i];
-      if (!(newImage.id === oldImage.id)) {
+      if (!(newImage === oldImage)) {
         continue;
       }
       _.extend(newImage, data);

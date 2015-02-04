@@ -23,7 +23,7 @@ ImagesMixin =
   updateImage: (oldImage, data) ->
     newImages = @state.images[..]
 
-    for newImage in newImages when newImage.id == oldImage.id
+    for newImage in newImages when newImage is oldImage
       _.extend newImage, data
       break
 

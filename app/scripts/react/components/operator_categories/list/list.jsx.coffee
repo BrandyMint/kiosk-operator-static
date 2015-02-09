@@ -6,10 +6,11 @@ DRAG_REVERT = 100
 window.OperatorCategories_List = React.createClass
 
   propTypes:
-    parentCategory:       React.PropTypes.object
-    currentCategory:      React.PropTypes.object
-    includeSubcategories: React.PropTypes.bool
-    onCategorySelect:     React.PropTypes.func.isRequired
+    parentCategory:           React.PropTypes.object
+    currentCategory:          React.PropTypes.object
+    changeProductCategoryUrl: React.PropTypes.string
+    includeSubcategories:     React.PropTypes.bool
+    onCategorySelect:         React.PropTypes.func.isRequired
 
   getInitialState: ->
     parentCategory:   @props.parentCategory
@@ -39,6 +40,7 @@ window.OperatorCategories_List = React.createClass
     categories = @state.categoriesToShow.map (category) ->
       `<OperatorCategories_ListItemManager
            category={ category }
+           changeProductCategoryUrl={ that.props.changeProductCategoryUrl }
            isActive={ that._isCategoryActive(category) }
            onCategorySelect={ that.props.onCategorySelect }
            key={ category.id } />`
@@ -47,6 +49,7 @@ window.OperatorCategories_List = React.createClass
 
               <OperatorCategories_ListItemWithSubcategories
                   category={ this.props.parentCategory }
+                  changeProductCategoryUrl={ this.props.changeProductCategoryUrl }
                   isActive={ this.props.currentCategory.id == this.props.parentCategory.id &&
                              this.props.includeSubcategories == true }
                   onCategorySelect={ this.props.onCategorySelect } />

@@ -1348,18 +1348,12 @@ window.OperatorProductsServerActions = {
 },{}],12:[function(require,module,exports){
 window.OperatorCategoriesViewActions = {
   loadCategories: function(_arg) {
-    var data, error, success;
-    data = _arg.data, success = _arg.success, error = _arg.error;
+    var data, url;
+    url = _arg.url, data = _arg.data;
     return CategoriesResource.index({
-      data: data,
-      success: function(categories) {
-        OperatorCategoriesServerActions.receiveCategories(categories);
-        return typeof success === "function" ? success(categories) : void 0;
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      }
-    });
+      url: url,
+      data: data
+    }).then(OperatorCategoriesServerActions.receiveCategories);
   },
   reorderCategories: function(options) {
     return OperatorCategoriesService.reorderCategories(options);
@@ -1433,11 +1427,21 @@ window.OperatorCategoriesViewActions = {
 
 },{}],13:[function(require,module,exports){
 window.OperatorProductsViewActions = {
-  loadProducts: function(options) {
-    return OperatorProductsService.loadProducts(options);
+  loadProducts: function(_arg) {
+    var data, url;
+    url = _arg.url, data = _arg.data;
+    return OperatorProductsService.loadProducts({
+      url: url,
+      data: data
+    });
   },
-  loadMoreProducts: function(options) {
-    return OperatorProductsService.loadMoreProducts(options);
+  loadMoreProducts: function(_arg) {
+    var data, url;
+    url = _arg.url, data = _arg.data;
+    return OperatorProductsService.loadMoreProducts({
+      url: url,
+      data: data
+    });
   },
   changeProductCategory: function(options) {
     return OperatorProductsService.changeProductCategory(options);
@@ -1480,8 +1484,8 @@ window.ProductImagesViewActions = {
     });
   },
   addProductImages: function(_arg) {
-    var error, file, files, formData, productId, success, xhr, xhrs, _i, _len;
-    files = _arg.files, productId = _arg.productId, success = _arg.success, error = _arg.error;
+    var file, files, formData, productId, url, xhr, xhrs, _i, _len;
+    url = _arg.url, files = _arg.files, productId = _arg.productId;
     if (files.length) {
       xhrs = [];
       for (_i = 0, _len = files.length; _i < _len; _i++) {
@@ -1490,21 +1494,11 @@ window.ProductImagesViewActions = {
         formData.append('image', file);
         formData.append('product_id', productId);
         xhr = Requester.request({
-          url: ApiRoutes.operator_product_images_url(),
+          url: url || ApiRoutes.operator_product_images_url(),
           method: 'POST',
           data: formData,
           contentType: false,
-          processData: false,
-          success: (function(_this) {
-            return function(data) {
-              return typeof success === "function" ? success(data) : void 0;
-            };
-          })(this),
-          error: (function(_this) {
-            return function(data) {
-              return typeof error === "function" ? error(data) : void 0;
-            };
-          })(this)
+          processData: false
         });
         xhrs.push(xhr);
       }
@@ -2005,6 +1999,7 @@ window.OperatorCategories_ListItemManager = React.createClass({displayName: 'Ope
   propTypes: {
     category: React.PropTypes.object.isRequired,
     isActive: React.PropTypes.bool.isRequired,
+    changeProductCategoryUrl: React.PropTypes.string,
     onCategorySelect: React.PropTypes.func.isRequired
   },
   getInitialState: function() {
@@ -2226,6 +2221,7 @@ window.OperatorCategories_List = React.createClass({displayName: 'OperatorCatego
   propTypes: {
     parentCategory: React.PropTypes.object,
     currentCategory: React.PropTypes.object,
+    changeProductCategoryUrl: React.PropTypes.string,
     includeSubcategories: React.PropTypes.bool,
     onCategorySelect: React.PropTypes.func.isRequired
   },
@@ -2261,6 +2257,7 @@ window.OperatorCategories_List = React.createClass({displayName: 'OperatorCatego
     categories = this.state.categoriesToShow.map(function(category) {
       return OperatorCategories_ListItemManager({
            category: category, 
+           changeProductCategoryUrl:  that.props.changeProductCategoryUrl, 
            isActive:  that._isCategoryActive(category), 
            onCategorySelect:  that.props.onCategorySelect, 
            key:  category.id});
@@ -2269,6 +2266,7 @@ window.OperatorCategories_List = React.createClass({displayName: 'OperatorCatego
 
               OperatorCategories_ListItemWithSubcategories({
                   category:  this.props.parentCategory, 
+                  changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
                   isActive:  this.props.currentCategory.id == this.props.parentCategory.id &&
                              this.props.includeSubcategories == true, 
                   onCategorySelect:  this.props.onCategorySelect}), 
@@ -2325,6 +2323,9 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
     currentCategory: React.PropTypes.object.isRequired,
     productsFilter: React.PropTypes.object,
     productsCanMove: React.PropTypes.bool,
+    productsUrl: React.PropTypes.string,
+    addProductImageUrl: React.PropTypes.string,
+    changeProductCategoryUrl: React.PropTypes.string,
     includeSubcategories: React.PropTypes.bool.isRequired,
     onCategorySelect: React.PropTypes.func.isRequired
   },
@@ -2361,6 +2362,7 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
                                parentCategory:  this.props.parentCategory, 
                                currentCategory: currentCategory, 
                                productsFilter:  this.props.productsFilter, 
+                               changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
                                includeSubcategories:  this.props.includeSubcategories, 
                                onCategorySelect:  this.props.onCategorySelect});
     } else {
@@ -2368,6 +2370,7 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
                                parentCategory:  this.props.parentCategory, 
                                currentCategory: currentCategory, 
                                productsFilter:  this.props.productsFilter, 
+                               changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
                                includeSubcategories:  this.props.includeSubcategories, 
                                onCategorySelect:  this.props.onCategorySelect});
     }
@@ -2377,6 +2380,8 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
                 OperatorProducts({
                     categoryId:  this.props.currentCategory.id, 
                     productsFilter:  this.props.productsFilter, 
+                    productsUrl:  this.props.productsUrl, 
+                    addProductImageUrl:  this.props.addProductImageUrl, 
                     productsCanMove:  this.props.productsCanMove, 
                     includeSubcategories:  this.props.includeSubcategories})
               )
@@ -2427,6 +2432,7 @@ window.OperatorCategories_OneCategory = React.createClass({displayName: 'Operato
     parentCategory: React.PropTypes.object.isRequired,
     currentCategory: React.PropTypes.object.isRequired,
     includeSubcategories: React.PropTypes.bool.isRequired,
+    changeProductCategoryUrl: React.PropTypes.string,
     onCategorySelect: React.PropTypes.func.isRequired
   },
   render: function() {
@@ -2435,6 +2441,7 @@ window.OperatorCategories_OneCategory = React.createClass({displayName: 'Operato
           parentCategory:  this.props.parentCategory, 
           currentCategory:  this.props.currentCategory, 
           productsFilter:  this.props.productsFilter, 
+          changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
           includeSubcategories:  this.props.includeSubcategories, 
           onCategorySelect:  this.props.onCategorySelect})
     );
@@ -2458,6 +2465,10 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
   propTypes: {
     productsFilter: React.PropTypes.object,
     productsCanMove: React.PropTypes.bool,
+    categoriesUrl: React.PropTypes.string,
+    productsUrl: React.PropTypes.string,
+    addProductImageUrl: React.PropTypes.string,
+    changeProductCategoryUrl: React.PropTypes.string,
     categoryId: React.PropTypes.number
   },
   getDefaultProps: function() {
@@ -2478,9 +2489,8 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
       data: {
         filter: this.props.productsFilter
       },
-      success: this.activateLoadedState,
-      error: this.activateErrorState
-    });
+      url: this.props.categoriesUrl
+    }).then(this.activateLoadedState).fail(this.activateErrorState);
     return OperatorCategoriesStore.addChangeListener(this._onStoreChange);
   },
   componentWillUnmount: function() {
@@ -2494,6 +2504,9 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
             currentCategory:  this.state.currentCategory, 
             productsFilter:  this.props.productsFilter, 
             productsCanMove:  this.props.productsCanMove, 
+            productsUrl:  this.props.productsUrl, 
+            addProductImageUrl:  this.props.addProductImageUrl, 
+            changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
             includeSubcategories:  this.state.includeSubcategories, 
             onCategorySelect:  this.handleCategorySelect});
       case LOADING_STATE:
@@ -2561,6 +2574,7 @@ window.OperatorCategories_TwoCategories = React.createClass({displayName: 'Opera
     parentCategory: React.PropTypes.object.isRequired,
     currentCategory: React.PropTypes.object.isRequired,
     includeSubcategories: React.PropTypes.bool.isRequired,
+    changeProductCategoryUrl: React.PropTypes.string,
     onCategorySelect: React.PropTypes.func.isRequired
   },
   render: function() {
@@ -2580,6 +2594,7 @@ window.OperatorCategories_TwoCategories = React.createClass({displayName: 'Opera
                 OperatorCategories_List({
                     parentCategory:  this.props.parentCategory, 
                     currentCategory:  this.props.currentCategory, 
+                    changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
                     includeSubcategories:  this.props.includeSubcategories, 
                     onCategorySelect:  this.props.onCategorySelect})
               ), 
@@ -2587,6 +2602,7 @@ window.OperatorCategories_TwoCategories = React.createClass({displayName: 'Opera
                  OperatorCategories_List({
                      parentCategory: secondCategory, 
                      currentCategory:  this.props.currentCategory, 
+                     changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
                      includeSubcategories:  this.props.includeSubcategories, 
                      onCategorySelect:  this.props.onCategorySelect})
               )
@@ -2661,6 +2677,8 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
   mixins: [ProductDraggable],
   propTypes: {
     product: React.PropTypes.object.isRequired,
+    categoryId: React.PropTypes.number.isRequired,
+    addProductImageUrl: React.PropTypes.string,
     canMove: React.PropTypes.bool
   },
   getInitialState: function() {
@@ -2681,7 +2699,7 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
       '__selected': this.isSelectedState()
     });
     return React.DOM.tr({className: productClasses, 
-                'data-category-id':  this.state.product.category_id, 
+                'data-category-id':  this.props.categoryId, 
                 'data-product-id':  this.state.product.id, 
                 onClick:  this.handleClick, 
                 onDrop:  this.handleDrop}, 
@@ -2750,6 +2768,7 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
     files = e.dataTransfer.files;
     this._setPreviewImage(files);
     ProductImagesViewActions.addProductImages({
+      url: this.props.addProductImageUrl,
       files: files,
       productId: this.state.product.id
     });
@@ -2760,7 +2779,7 @@ window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProd
     if (EventHelpers.isAnyServiceKey(e)) {
       return this.toggleSelectedState();
     } else {
-      baseUrl = Routes.operator_product_edit_url(this.state.product.id);
+      baseUrl = this.props.product.edit_path;
       backUrl = encodeURIComponent(window.location.href);
       return window.location = baseUrl + '?backurl=' + backUrl;
     }
@@ -2849,7 +2868,8 @@ OperatorProducts_AddProductButton = require('../buttons/add_product');
 window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts_List',
   propTypes: {
     categoryId: React.PropTypes.number.isRequired,
-    productsCanMove: React.PropTypes.bool
+    productsCanMove: React.PropTypes.bool,
+    addProductImageUrl: React.PropTypes.string
   },
   getInitialState: function() {
     return this.getStateFromStore();
@@ -2869,6 +2889,8 @@ window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts
       return OperatorProducts_ListItem({
             product: product, 
             canMove:  that.props.productsCanMove, 
+            addProductImageUrl:  that.props.addProductImageUrl, 
+            categoryId:  that.props.categoryId, 
             key:  product.id});
     });
     return React.DOM.div({className: "adm-categories-content"}, 
@@ -2969,6 +2991,8 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
   propTypes: {
     categoryId: React.PropTypes.number.isRequired,
     productsFilter: React.PropTypes.object,
+    productsUrl: React.PropTypes.string,
+    addProductImageUrl: React.PropTypes.string,
     productsCanMove: React.PropTypes.bool,
     includeSubcategories: React.PropTypes.bool.isRequired
   },
@@ -2984,9 +3008,6 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
     return this.loadProducts(this.props.categoryId, this.props.includeSubcategories);
   },
   componentWillReceiveProps: function(nextProps) {
-    if (this.xhr != null) {
-      this.xhr.abort();
-    }
     if (this.props.categoryId !== nextProps.categoryId || this.props.includeSubcategories !== nextProps.includeSubcategories) {
       this.setState({
         page: 1,
@@ -3007,6 +3028,7 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
       case LOADING_MORE_STATE:
         return OperatorProducts_List({
              categoryId:  this.props.categoryId, 
+             addProductImageUrl:  this.props.addProductImageUrl, 
              productsCanMove:  this.props.productsCanMove});
       case LOADING_STATE:
         return OperatorProducts_Loading(null);
@@ -3045,63 +3067,61 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
   loadProducts: function(categoryId, includeSubcategories) {
     this.activateLoadingState();
     return this.xhr = OperatorProductsViewActions.loadProducts({
+      url: this.props.productsUrl,
       data: {
         categoryId: categoryId,
         filter: this.props.productsFilter,
         includeSubcategories: includeSubcategories
-      },
-      success: (function(_this) {
-        return function(response) {
-          var currentState;
-          currentState = response.total_count === 0 ? EMPTY_STATE : LOADED_STATE;
+      }
+    }).then((function(_this) {
+      return function(response) {
+        var currentState;
+        currentState = response.total_count === 0 ? EMPTY_STATE : LOADED_STATE;
+        return _this.setState({
+          currentState: currentState,
+          page: response.page,
+          isAllProductsLoaded: response.products.length === 0
+        });
+      };
+    })(this)).fail((function(_this) {
+      return function(errMsg) {
+        if (errMsg !== 'abort') {
           return _this.setState({
-            currentState: currentState,
-            page: response.page,
-            isAllProductsLoaded: response.products.length === 0
+            currentState: ERROR_STATE,
+            errorMessage: errMsg
           });
-        };
-      })(this),
-      error: (function(_this) {
-        return function(errMsg) {
-          if (errMsg !== 'abort') {
-            return _this.setState({
-              currentState: ERROR_STATE,
-              errorMessage: errMsg
-            });
-          }
-        };
-      })(this)
-    });
+        }
+      };
+    })(this));
   },
   loadMoreProducts: function() {
     this.activateLoadingMoreState();
     return this.xhr = OperatorProductsViewActions.loadMoreProducts({
+      url: this.props.productsUrl,
       data: {
         categoryId: this.props.categoryId,
         filter: this.props.productsFilter,
         includeSubcategories: this.props.includeSubcategories,
         page: this.state.page + 1
-      },
-      success: (function(_this) {
-        return function(response) {
+      }
+    }).then((function(_this) {
+      return function(response) {
+        return _this.setState({
+          currentState: LOADED_STATE,
+          page: response.page,
+          isAllProductsLoaded: response.products.length === 0
+        });
+      };
+    })(this)).fail((function(_this) {
+      return function(errMsg) {
+        if (errMsg !== 'abort') {
           return _this.setState({
-            currentState: LOADED_STATE,
-            page: response.page,
-            isAllProductsLoaded: response.products.length === 0
+            currentState: ERROR_STATE,
+            errorMessage: errMsg
           });
-        };
-      })(this),
-      error: (function(_this) {
-        return function(errMsg) {
-          if (errMsg !== 'abort') {
-            return _this.setState({
-              currentState: ERROR_STATE,
-              errorMessage: errMsg
-            });
-          }
-        };
-      })(this)
-    });
+        }
+      };
+    })(this));
   }
 });
 
@@ -4194,12 +4214,14 @@ window.CategoryDroppable = {
   handleProductDrop: function(e, ui) {
     if (DragStateStore.isMultipleSelected()) {
       OperatorProductsService.changeProductsCategory({
+        url: this.props.changeProductCategoryUrl,
         products: DragStateStore.getSelectedProducts(),
         newCategoryId: this.props.category.id,
         oldCategoryId: parseInt(ui.draggable.attr('data-category-id'))
       });
     } else {
       OperatorProductsService.changeProductsCategory({
+        url: this.props.changeProductCategoryUrl,
         products: DragStateStore.getDraggedProducts(),
         newCategoryId: this.props.category.id,
         oldCategoryId: parseInt(ui.draggable.attr('data-category-id'))
@@ -4319,17 +4341,11 @@ window.UnmountMixin = {
 },{}],69:[function(require,module,exports){
 window.CategoriesResource = {
   index: function(_arg) {
-    var data, error, success;
-    data = _arg.data, success = _arg.success, error = _arg.error;
+    var data, url;
+    data = _arg.data, url = _arg.url;
     return Requester.request({
-      url: ApiRoutes.operator_categories_url(),
-      data: data,
-      success: function(categories) {
-        return typeof success === "function" ? success(categories) : void 0;
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      }
+      url: url || ApiRoutes.operator_categories_url(),
+      data: data
     });
   },
   get: function(_arg) {
@@ -4522,58 +4538,48 @@ window.OperatorCategoriesService = {
 },{}],72:[function(require,module,exports){
 window.OperatorProductsService = {
   loadProducts: function(_arg) {
-    var data, error, success;
-    data = _arg.data, success = _arg.success, error = _arg.error;
+    var data, url;
+    url = _arg.url, data = _arg.data;
     return Requester.request({
-      url: ApiRoutes.operator_products_by_category_url(),
+      url: url || ApiRoutes.operator_products_by_category_url(),
       data: {
         category_id: data.categoryId,
         filter: data.filter,
         include_subcategories: data.includeSubcategories,
         page: 1,
         per_page: 30
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      },
-      success: function(response) {
-        OperatorProductsServerActions.receiveProducts(data.categoryId, response.products);
-        return typeof success === "function" ? success(response) : void 0;
       }
+    }).then(function(response) {
+      OperatorProductsServerActions.receiveProducts(data.categoryId, response.products);
+      return response;
     });
   },
   loadMoreProducts: function(_arg) {
-    var data, error, success;
-    data = _arg.data, success = _arg.success, error = _arg.error;
+    var data, url;
+    url = _arg.url, data = _arg.data;
     return Requester.request({
-      url: ApiRoutes.operator_products_by_category_url(),
+      url: url || ApiRoutes.operator_products_by_category_url(),
       data: {
         category_id: data.categoryId,
         filter: data.filter,
         include_subcategories: data.includeSubcategories,
         page: data.page,
         per_page: 30
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      },
-      success: function(response) {
-        OperatorProductsServerActions.receiveMoreProducts(data.categoryId, response.products);
-        return typeof success === "function" ? success(response) : void 0;
       }
+    }).then(function(response) {
+      OperatorProductsServerActions.receiveMoreProducts(data.categoryId, response.products);
+      return response;
     });
   },
   changeProductCategory: function(_arg) {
-    var newCategoryId, oldCategoryId, productId, success;
-    productId = _arg.productId, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId, success = _arg.success;
+    var newCategoryId, oldCategoryId, productId, success, url;
+    url = _arg.url, productId = _arg.productId, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId, success = _arg.success;
     return Requester.request({
-      url: ApiRoutes.operator_product_url(productId),
+      url: url || ApiRoutes.operator_products_change_category_url(productId),
       method: 'PUT',
       data: {
-        category_id: newCategoryId
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
+        new_category_id: newCategoryId,
+        old_category_id: oldCategoryId
       },
       success: function(product) {
         if (typeof success === "function") {
@@ -4588,13 +4594,14 @@ window.OperatorProductsService = {
     });
   },
   changeProductsCategory: function(_arg) {
-    var completedRequests, newCategoryId, oldCategoryId, product, products, _i, _len, _results;
-    products = _arg.products, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId;
+    var completedRequests, newCategoryId, oldCategoryId, product, products, url, _i, _len, _results;
+    url = _arg.url, products = _arg.products, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId;
     completedRequests = 0;
     _results = [];
     for (_i = 0, _len = products.length; _i < _len; _i++) {
       product = products[_i];
       _results.push(this.changeProductCategory({
+        url: url,
         productId: product.id,
         newCategoryId: newCategoryId,
         oldCategoryId: oldCategoryId,
@@ -5166,6 +5173,9 @@ window.ApiRoutes = {
   },
   operator_products_by_category_url: function() {
     return gon.api_root_url + '/v1/operator/products';
+  },
+  operator_products_change_category_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/' + id + '/change_category';
   }
 };
 

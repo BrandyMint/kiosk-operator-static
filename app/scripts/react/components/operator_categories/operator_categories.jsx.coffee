@@ -7,9 +7,13 @@ ERROR_STATE   = 'error'
 window.OperatorCategories = React.createClass
 
   propTypes:
-    productsFilter:  React.PropTypes.object
-    productsCanMove: React.PropTypes.bool
-    categoryId:      React.PropTypes.number
+    productsFilter:           React.PropTypes.object
+    productsCanMove:          React.PropTypes.bool
+    categoriesUrl:            React.PropTypes.string
+    productsUrl:              React.PropTypes.string
+    addProductImageUrl:       React.PropTypes.string
+    changeProductCategoryUrl: React.PropTypes.string
+    categoryId:               React.PropTypes.number
 
   getDefaultProps: ->
     productsCanMove: true
@@ -24,11 +28,11 @@ window.OperatorCategories = React.createClass
 
   componentDidMount: ->
     OperatorCategoriesViewActions.loadCategories {
-      data:
-        filter: @props.productsFilter
-      success: @activateLoadedState
-      error:   @activateErrorState
+      data: filter: @props.productsFilter
+      url: @props.categoriesUrl
     }
+      .then @activateLoadedState
+      .fail @activateErrorState
 
     OperatorCategoriesStore.addChangeListener @_onStoreChange
 
@@ -43,6 +47,9 @@ window.OperatorCategories = React.createClass
             currentCategory={ this.state.currentCategory }
             productsFilter={ this.props.productsFilter }
             productsCanMove={ this.props.productsCanMove }
+            productsUrl={ this.props.productsUrl }
+            addProductImageUrl={ this.props.addProductImageUrl }
+            changeProductCategoryUrl={ this.props.changeProductCategoryUrl }
             includeSubcategories={ this.state.includeSubcategories }
             onCategorySelect={ this.handleCategorySelect } />`
       when LOADING_STATE

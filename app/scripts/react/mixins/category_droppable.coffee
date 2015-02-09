@@ -15,17 +15,17 @@ window.CategoryDroppable =
 
   handleProductDrop: (e, ui) ->
     if DragStateStore.isMultipleSelected()
-      OperatorProductsService.changeProductsCategory {
+      OperatorProductsService.changeProductsCategory
+        url: @props.changeProductCategoryUrl
         products: DragStateStore.getSelectedProducts()
         newCategoryId: @props.category.id
         oldCategoryId: parseInt ui.draggable.attr 'data-category-id'
-      }
     else
-      OperatorProductsService.changeProductsCategory {
+      OperatorProductsService.changeProductsCategory
+        url: @props.changeProductCategoryUrl
         products: DragStateStore.getDraggedProducts()
         newCategoryId: @props.category.id
         oldCategoryId: parseInt ui.draggable.attr 'data-category-id'
-      }
 
     DragStateDispatcher.handleViewAction {
       type: 'productsMoved'

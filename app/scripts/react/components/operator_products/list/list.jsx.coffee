@@ -5,8 +5,9 @@ OperatorProducts_AddProductButton = require '../buttons/add_product'
 window.OperatorProducts_List = React.createClass
 
   propTypes:
-    categoryId:      React.PropTypes.number.isRequired
-    productsCanMove: React.PropTypes.bool
+    categoryId:         React.PropTypes.number.isRequired
+    productsCanMove:    React.PropTypes.bool
+    addProductImageUrl: React.PropTypes.string
 
   getInitialState: ->
     @getStateFromStore()
@@ -27,6 +28,8 @@ window.OperatorProducts_List = React.createClass
       `<OperatorProducts_ListItem
             product={ product }
             canMove={ that.props.productsCanMove }
+            addProductImageUrl={ that.props.addProductImageUrl }
+            categoryId={ that.props.categoryId }
             key={ product.id } />`
 
     return `<div className="adm-categories-content">

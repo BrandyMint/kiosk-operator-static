@@ -7,8 +7,10 @@ window.OperatorProducts_ListItem = React.createClass
   mixins: [ProductDraggable]
 
   propTypes:
-    product: React.PropTypes.object.isRequired
-    canMove: React.PropTypes.bool
+    product:            React.PropTypes.object.isRequired
+    categoryId:         React.PropTypes.number.isRequired
+    addProductImageUrl: React.PropTypes.string
+    canMove:            React.PropTypes.bool
 
   getInitialState: ->
     currentState: UNSELECTED_STATE
@@ -24,7 +26,7 @@ window.OperatorProducts_ListItem = React.createClass
     }
 
     return `<tr className={ productClasses }
-                data-category-id={ this.state.product.category_id }
+                data-category-id={ this.props.categoryId }
                 data-product-id={ this.state.product.id }
                 onClick={ this.handleClick }
                 onDrop={ this.handleDrop }>
@@ -83,10 +85,10 @@ window.OperatorProducts_ListItem = React.createClass
 
     @_setPreviewImage files
 
-    ProductImagesViewActions.addProductImages {
+    ProductImagesViewActions.addProductImages
+      url: @props.addProductImageUrl
       files: files
       productId: @state.product.id
-    }
 
     e.preventDefault()
 
@@ -94,7 +96,7 @@ window.OperatorProducts_ListItem = React.createClass
     if EventHelpers.isAnyServiceKey(e)
       @toggleSelectedState()
     else
-      baseUrl = Routes.operator_product_edit_url @state.product.id
+      baseUrl = @props.product.edit_path
       backUrl = encodeURIComponent window.location.href
 
       window.location = baseUrl + '?backurl=' + backUrl

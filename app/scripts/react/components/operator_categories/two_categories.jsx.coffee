@@ -3,10 +3,11 @@
 window.OperatorCategories_TwoCategories = React.createClass
 
   propTypes:
-    parentCategory:       React.PropTypes.object.isRequired
-    currentCategory:      React.PropTypes.object.isRequired
-    includeSubcategories: React.PropTypes.bool.isRequired
-    onCategorySelect:     React.PropTypes.func.isRequired
+    parentCategory:           React.PropTypes.object.isRequired
+    currentCategory:          React.PropTypes.object.isRequired
+    includeSubcategories:     React.PropTypes.bool.isRequired
+    changeProductCategoryUrl: React.PropTypes.string
+    onCategorySelect:         React.PropTypes.func.isRequired
 
   render: ->
     currentCategory      = @props.currentCategory
@@ -21,6 +22,7 @@ window.OperatorCategories_TwoCategories = React.createClass
                 <OperatorCategories_List
                     parentCategory={ this.props.parentCategory }
                     currentCategory={ this.props.currentCategory }
+                    changeProductCategoryUrl={ this.props.changeProductCategoryUrl }
                     includeSubcategories={ this.props.includeSubcategories }
                     onCategorySelect={ this.props.onCategorySelect } />
               </div>
@@ -28,6 +30,7 @@ window.OperatorCategories_TwoCategories = React.createClass
                  <OperatorCategories_List
                      parentCategory={ secondCategory }
                      currentCategory={ this.props.currentCategory }
+                     changeProductCategoryUrl={ this.props.changeProductCategoryUrl }
                      includeSubcategories={ this.props.includeSubcategories }
                      onCategorySelect={ this.props.onCategorySelect } />
               </div>

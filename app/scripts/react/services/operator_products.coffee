@@ -1,46 +1,40 @@
 window.OperatorProductsService =
 
-  loadProducts: ({data, success, error}) ->
-    Requester.request
-      url: ApiRoutes.operator_products_by_category_url()
-      data: {
+  loadProducts: ({url, data}) ->
+    Requester.request {
+      url: url || ApiRoutes.operator_products_by_category_url()
+      data:
         category_id:           data.categoryId
         filter:                data.filter
         include_subcategories: data.includeSubcategories
         page:                  1
         per_page:              30
-      }
-      error: (xhr, status, err) ->
-        error?(err || status)
-      success: (response) ->
+    }
+      .then (response) ->
         OperatorProductsServerActions.receiveProducts data.categoryId, response.products
-        # TODO Пейджирование
-        success?(response)
+        response
 
-  loadMoreProducts: ({data, success, error}) ->
-    Requester.request
-      url: ApiRoutes.operator_products_by_category_url()
-      data: {
+  loadMoreProducts: ({url, data}) ->
+    Requester.request {
+      url: url || ApiRoutes.operator_products_by_category_url()
+      data:
         category_id:           data.categoryId
         filter:                data.filter
         include_subcategories: data.includeSubcategories
         page:                  data.page
         per_page:              30
-      }
-      error: (xhr, status, err) ->
-        error?(err || status)
-      success: (response) ->
+    }
+      .then (response) ->
         OperatorProductsServerActions.receiveMoreProducts data.categoryId, response.products
-        success?(response)
+        response
 
-  changeProductCategory: ({productId, newCategoryId, oldCategoryId, success}) ->
+  changeProductCategory: ({url, productId, newCategoryId, oldCategoryId, success}) ->
     Requester.request
-      url: ApiRoutes.operator_product_url productId
+      url: url || ApiRoutes.operator_products_change_category_url productId
       method: 'PUT'
       data:
-        category_id: newCategoryId
-      error: (xhr, status, err) ->
-        error?(err || status)
+        new_category_id: newCategoryId
+        old_category_id: oldCategoryId
       success: (product) ->
         success?()
         OperatorProductsServerActions.moveProduct
@@ -48,11 +42,12 @@ window.OperatorProductsService =
           newCategoryId: newCategoryId
           oldCategoryId: oldCategoryId
 
-  changeProductsCategory: ({products, newCategoryId, oldCategoryId}) ->
+  changeProductsCategory: ({url, products, newCategoryId, oldCategoryId}) ->
     completedRequests = 0
 
     for product in products
       @changeProductCategory {
+        url: url
         productId: product.id
         newCategoryId: newCategoryId
         oldCategoryId: oldCategoryId

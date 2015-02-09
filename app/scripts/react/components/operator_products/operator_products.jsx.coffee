@@ -12,6 +12,8 @@ window.OperatorProducts = React.createClass
   propTypes:
     categoryId:           React.PropTypes.number.isRequired
     productsFilter:       React.PropTypes.object
+    productsUrl:          React.PropTypes.string
+    addProductImageUrl:   React.PropTypes.string
     productsCanMove:      React.PropTypes.bool
     includeSubcategories: React.PropTypes.bool.isRequired
 
@@ -25,8 +27,6 @@ window.OperatorProducts = React.createClass
     @loadProducts @props.categoryId, @props.includeSubcategories
 
   componentWillReceiveProps: (nextProps) ->
-    @xhr.abort() if @xhr?
-
     # Category is changed
     if @props.categoryId != nextProps.categoryId || @props.includeSubcategories != nextProps.includeSubcategories
       @setState {
@@ -44,6 +44,7 @@ window.OperatorProducts = React.createClass
       when LOADED_STATE, LOADING_MORE_STATE
         `<OperatorProducts_List
              categoryId={ this.props.categoryId }
+             addProductImageUrl={ this.props.addProductImageUrl }
              productsCanMove={ this.props.productsCanMove } />`
       when LOADING_STATE then `<OperatorProducts_Loading />`
       when EMPTY_STATE   then `<OperatorProducts_Empty categoryId={ this.props.categoryId } />`
@@ -62,45 +63,43 @@ window.OperatorProducts = React.createClass
     @activateLoadingState()
 
     @xhr = OperatorProductsViewActions.loadProducts {
+      url: @props.productsUrl
       data:
         categoryId:           categoryId
         filter:               @props.productsFilter
         includeSubcategories: includeSubcategories
-      success: (response) =>
+    }
+      .then (response) =>
         currentState = if response.total_count == 0 then EMPTY_STATE else LOADED_STATE
 
-        @setState {
+        @setState
           currentState: currentState
           page: response.page
           isAllProductsLoaded: response.products.length == 0
-        }
-      error: (errMsg) =>
+      .fail (errMsg) =>
         unless errMsg is 'abort'
-          @setState {
+          @setState
             currentState: ERROR_STATE
             errorMessage: errMsg
-          }
-    }
 
   loadMoreProducts: ->
     @activateLoadingMoreState()
 
     @xhr = OperatorProductsViewActions.loadMoreProducts {
+      url: @props.productsUrl
       data:
         categoryId:           @props.categoryId
         filter:               @props.productsFilter
         includeSubcategories: @props.includeSubcategories
         page:                 @state.page + 1
-      success: (response) =>
-        @setState {
+    }
+      .then (response) =>
+        @setState
           currentState: LOADED_STATE
           page: response.page
           isAllProductsLoaded: response.products.length == 0
-        }
-      error: (errMsg) =>
+      .fail (errMsg) =>
         unless errMsg is 'abort'
-          @setState {
+          @setState
             currentState: ERROR_STATE
             errorMessage: errMsg
-          }
-    }

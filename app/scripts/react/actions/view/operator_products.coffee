@@ -1,10 +1,10 @@
 window.OperatorProductsViewActions =
 
-  loadProducts: (options) ->
-    OperatorProductsService.loadProducts options
+  loadProducts: ({url, data}) ->
+    OperatorProductsService.loadProducts {url, data}
 
-  loadMoreProducts: (options) ->
-    OperatorProductsService.loadMoreProducts options
+  loadMoreProducts: ({url, data}) ->
+    OperatorProductsService.loadMoreProducts {url, data}
 
   changeProductCategory: (options) ->
     OperatorProductsService.changeProductCategory options

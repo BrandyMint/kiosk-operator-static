@@ -1,14 +1,8 @@
 window.OperatorCategoriesViewActions =
 
-  loadCategories: ({data, success, error}) ->
-    CategoriesResource.index {
-      data: data
-      success: (categories) ->
-        OperatorCategoriesServerActions.receiveCategories categories
-        success?(categories)
-      error: (xhr, status, err) ->
-        error?(err || status)
-    }
+  loadCategories: ({url, data}) ->
+    CategoriesResource.index {url, data}
+      .then OperatorCategoriesServerActions.receiveCategories
 
   reorderCategories: (options) ->
     OperatorCategoriesService.reorderCategories options

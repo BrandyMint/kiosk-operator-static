@@ -6,9 +6,10 @@ window.OperatorCategories_ListItemManager = React.createClass
   mixins: [CategoryDroppable]
 
   propTypes:
-    category:         React.PropTypes.object.isRequired
-    isActive:         React.PropTypes.bool.isRequired
-    onCategorySelect: React.PropTypes.func.isRequired
+    category:                 React.PropTypes.object.isRequired
+    isActive:                 React.PropTypes.bool.isRequired
+    changeProductCategoryUrl: React.PropTypes.string
+    onCategorySelect:         React.PropTypes.func.isRequired
 
   getInitialState: -> @getStateFromStore()
 

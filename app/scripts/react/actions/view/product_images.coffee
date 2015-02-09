@@ -17,7 +17,7 @@ window.ProductImagesViewActions =
       error: (data) => error?(data)
       complete: complete
 
-  addProductImages: ({files, productId, success, error}) ->
+  addProductImages: ({url, files, productId}) ->
     if files.length
       xhrs = []
 
@@ -28,25 +28,21 @@ window.ProductImagesViewActions =
 
         #TODO: ProductImagesResource.get
         xhr = Requester.request
-          url: ApiRoutes.operator_product_images_url()
+          url: url || ApiRoutes.operator_product_images_url()
           method: 'POST'
           data: formData
           contentType: false
           processData: false
-          success: (data) => success?(data)
-          error: (data) => error?(data)
 
         xhrs.push xhr
 
     $.when.apply($, xhrs).done ->
-      ProductsResource.get {
+      ProductsResource.get
         productId: productId
         success: (product) ->
-          OperatorProductsServerActions.updateProduct {
+          OperatorProductsServerActions.updateProduct
             product:    product
             categoryId: product.category_id
-          }
-      }
 
   rotateImage: (imageId, degree = 90) ->
     Requester.request

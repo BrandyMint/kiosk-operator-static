@@ -3,12 +3,15 @@
 window.OperatorCategories_Loaded = React.createClass
 
   propTypes:
-    parentCategory:       React.PropTypes.object.isRequired
-    currentCategory:      React.PropTypes.object.isRequired
-    productsFilter:       React.PropTypes.object
-    productsCanMove:      React.PropTypes.bool
-    includeSubcategories: React.PropTypes.bool.isRequired
-    onCategorySelect:     React.PropTypes.func.isRequired
+    parentCategory:           React.PropTypes.object.isRequired
+    currentCategory:          React.PropTypes.object.isRequired
+    productsFilter:           React.PropTypes.object
+    productsCanMove:          React.PropTypes.bool
+    productsUrl:              React.PropTypes.string
+    addProductImageUrl:       React.PropTypes.string
+    changeProductCategoryUrl: React.PropTypes.string
+    includeSubcategories:     React.PropTypes.bool.isRequired
+    onCategorySelect:         React.PropTypes.func.isRequired
 
   componentDidMount: ->
     if @props.productsCanMove
@@ -32,6 +35,7 @@ window.OperatorCategories_Loaded = React.createClass
                                parentCategory={ this.props.parentCategory }
                                currentCategory={ currentCategory }
                                productsFilter={ this.props.productsFilter }
+                               changeProductCategoryUrl={ this.props.changeProductCategoryUrl }
                                includeSubcategories={ this.props.includeSubcategories }
                                onCategorySelect={ this.props.onCategorySelect } />`
     else
@@ -39,6 +43,7 @@ window.OperatorCategories_Loaded = React.createClass
                                parentCategory={ this.props.parentCategory }
                                currentCategory={ currentCategory }
                                productsFilter={ this.props.productsFilter }
+                               changeProductCategoryUrl={ this.props.changeProductCategoryUrl }
                                includeSubcategories={ this.props.includeSubcategories }
                                onCategorySelect={ this.props.onCategorySelect } />`
 
@@ -48,6 +53,8 @@ window.OperatorCategories_Loaded = React.createClass
                 <OperatorProducts
                     categoryId={ this.props.currentCategory.id }
                     productsFilter={ this.props.productsFilter }
+                    productsUrl={ this.props.productsUrl }
+                    addProductImageUrl={ this.props.addProductImageUrl }
                     productsCanMove={ this.props.productsCanMove }
                     includeSubcategories={ this.props.includeSubcategories } />
               </div>

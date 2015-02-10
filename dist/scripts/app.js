@@ -3109,7 +3109,7 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
         return _this.setState({
           currentState: LOADED_STATE,
           page: response.page,
-          isAllProductsLoaded: response.products.length === 0
+          isAllProductsLoaded: response.items.length === 0
         });
       };
     })(this)).fail((function(_this) {
@@ -4550,7 +4550,7 @@ window.OperatorProductsService = {
         per_page: 30
       }
     }).then(function(response) {
-      OperatorProductsServerActions.receiveProducts(data.categoryId, response.products);
+      OperatorProductsServerActions.receiveProducts(data.categoryId, response.items);
       return response;
     });
   },
@@ -4567,7 +4567,7 @@ window.OperatorProductsService = {
         per_page: 30
       }
     }).then(function(response) {
-      OperatorProductsServerActions.receiveMoreProducts(data.categoryId, response.products);
+      OperatorProductsServerActions.receiveMoreProducts(data.categoryId, response.items);
       return response;
     });
   },

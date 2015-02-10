@@ -11,7 +11,7 @@ window.OperatorProductsService =
         per_page:              30
     }
       .then (response) ->
-        OperatorProductsServerActions.receiveProducts data.categoryId, response.products
+        OperatorProductsServerActions.receiveProducts data.categoryId, response.items
         response
 
   loadMoreProducts: ({url, data}) ->
@@ -25,7 +25,7 @@ window.OperatorProductsService =
         per_page:              30
     }
       .then (response) ->
-        OperatorProductsServerActions.receiveMoreProducts data.categoryId, response.products
+        OperatorProductsServerActions.receiveMoreProducts data.categoryId, response.items
         response
 
   changeProductCategory: ({url, productId, newCategoryId, oldCategoryId, success}) ->

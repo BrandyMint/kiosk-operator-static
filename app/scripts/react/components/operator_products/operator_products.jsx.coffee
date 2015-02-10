@@ -75,7 +75,7 @@ window.OperatorProducts = React.createClass
         @setState
           currentState: currentState
           page: response.page
-          isAllProductsLoaded: response.products.length == 0
+          isAllProductsLoaded: response.items.length == 0
       .fail (errMsg) =>
         unless errMsg is 'abort'
           @setState

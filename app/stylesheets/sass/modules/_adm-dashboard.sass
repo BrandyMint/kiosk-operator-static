@@ -1,9 +1,4 @@
 .adm-dashboard
-  a
-    color: #1e71be
-
-    &:hover
-      color: #3f98ea
 
 .adm-dashboard-list
   @include list-style-none
@@ -18,10 +13,14 @@
 
   &.__soon
     color: #d7d7d7
+    a
+      color: inherit
 
   &.__done
     color: #d7d7d7
     text-decoration: line-through
+    a
+      color: inherit
 
     .adm-dashboard-item-check
       &:before
@@ -51,8 +50,12 @@
   font-size: 26px
   line-height: 30px
   color: inherit
+  a
+    +link-colors(#0f0f0f, lighten(#0f0f0f, 35%))
 
 .adm-dashboard-item-text
   max-width: 500px
   font-size: 15px
   line-height: 20px
+  a
+    +link-colors(#1e71be, #3f98ea)

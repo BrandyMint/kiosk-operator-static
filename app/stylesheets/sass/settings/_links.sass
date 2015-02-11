@@ -8,3 +8,7 @@ a
 //@each $c in gray $gray, gray-light $gray-light, gray-lighter $gray-lighter
   .link-#{nth($c,1)}
     +link-colors(nth($c,2), darken(nth($c,2), 10%))
+
+
+.link-black
+  +link-colors(#0f0f0f, lighten(#0f0f0f, 35%) !important)

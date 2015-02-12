@@ -28,7 +28,7 @@ window.ProductImagesViewActions =
 
         #TODO: ProductImagesResource.get
         xhr = Requester.request
-          url: url || ApiRoutes.operator_product_images_url()
+          url: url
           method: 'POST'
           data: formData
           contentType: false

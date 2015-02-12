@@ -16,7 +16,11 @@ window.OperatorCategories = React.createClass
     categoryId:               React.PropTypes.number
 
   getDefaultProps: ->
-    productsCanMove: true
+    productsCanMove:          true
+    categoriesUrl:            ApiRoutes.operator_categories_url()
+    productsUrl:              ApiRoutes.operator_products_by_category_url()
+    addProductImageUrl:       ApiRoutes.operator_product_images_url()
+    changeProductCategoryUrl: ApiRoutes.operator_products_change_category_url()
 
   getInitialState: ->
     currentState:         LOADING_STATE

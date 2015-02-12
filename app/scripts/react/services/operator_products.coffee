@@ -2,7 +2,7 @@ window.OperatorProductsService =
 
   loadProducts: ({url, data}) ->
     Requester.request {
-      url: url || ApiRoutes.operator_products_by_category_url()
+      url: url
       data:
         category_id:           data.categoryId
         filter:                data.filter
@@ -16,7 +16,7 @@ window.OperatorProductsService =
 
   loadMoreProducts: ({url, data}) ->
     Requester.request {
-      url: url || ApiRoutes.operator_products_by_category_url()
+      url: url
       data:
         category_id:           data.categoryId
         filter:                data.filter
@@ -29,8 +29,10 @@ window.OperatorProductsService =
         response
 
   changeProductCategory: ({url, productId, newCategoryId, oldCategoryId, success}) ->
+    url = url.replace /(:id)/g, productId
+
     Requester.request
-      url: url || ApiRoutes.operator_products_change_category_url productId
+      url: url
       method: 'PUT'
       data:
         new_category_id: newCategoryId

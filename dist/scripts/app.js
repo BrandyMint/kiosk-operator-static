@@ -135,7 +135,5404 @@ require('./react/helpers/money');
 
 
 
-},{"./app":6,"./legacy":7,"./libs":8,"./react/actions/server/operator_categories":10,"./react/actions/server/operator_products":11,"./react/actions/view/operator_categories":12,"./react/actions/view/operator_products":13,"./react/actions/view/product_images":14,"./react/components/common/images_form_thumbs":15,"./react/components/common/money":16,"./react/components/common/spinner":17,"./react/components/common/super_select":18,"./react/components/modal/modal":19,"./react/components/operator_categories/list/create_form":20,"./react/components/operator_categories/list/items/item":21,"./react/components/operator_categories/list/items/item_edit":22,"./react/components/operator_categories/list/items/item_manager":23,"./react/components/operator_categories/list/items/with_subcategories":24,"./react/components/operator_categories/list/items/without_category":25,"./react/components/operator_categories/list/list":26,"./react/components/operator_categories/loaded":27,"./react/components/operator_categories/loading":28,"./react/components/operator_categories/loading_error":29,"./react/components/operator_categories/one_category":30,"./react/components/operator_categories/operator_categories":31,"./react/components/operator_categories/two_categories":32,"./react/components/operator_products/empty":34,"./react/components/operator_products/list/item":35,"./react/components/operator_products/list/item_drag":36,"./react/components/operator_products/list/items_drag":37,"./react/components/operator_products/list/list":38,"./react/components/operator_products/loading":39,"./react/components/operator_products/loading_error":40,"./react/components/operator_products/mixins/load_more_products":41,"./react/components/operator_products/operator_products":42,"./react/components/product/images/images":44,"./react/components/product/modification_list":50,"./react/components/product/modification_list_item":51,"./react/components/product/state":52,"./react/components/product/status_toggle":53,"./react/components/product/thumb":54,"./react/components/product/total_items_quantity":55,"./react/controllers/modal":56,"./react/dispatchers/_base":57,"./react/dispatchers/drag_state":58,"./react/dispatchers/operator_categories":59,"./react/dispatchers/operator_products":60,"./react/helpers/app":61,"./react/helpers/event":62,"./react/helpers/money":63,"./react/mixins/activities":64,"./react/mixins/category_droppable":65,"./react/mixins/component_manipulations":66,"./react/mixins/product_draggable":67,"./react/mixins/unmount":68,"./react/resources/categories":69,"./react/resources/products":70,"./react/services/operator_categories":71,"./react/services/operator_products":72,"./react/services/thumbor":73,"./react/services/uuid":74,"./react/stores/_base":75,"./react/stores/drag_state":76,"./react/stores/operator_categories":77,"./react/stores/operator_products":78,"./routes/api":79,"./routes/routes":80}],"aviator":[function(require,module,exports){
+},{"./app":6,"./legacy":7,"./libs":8,"./react/actions/server/operator_categories":10,"./react/actions/server/operator_products":11,"./react/actions/view/operator_categories":12,"./react/actions/view/operator_products":13,"./react/actions/view/product_images":14,"./react/components/common/images_form_thumbs":15,"./react/components/common/money":16,"./react/components/common/spinner":17,"./react/components/common/super_select":18,"./react/components/modal/modal":19,"./react/components/operator_categories/list/create_form":20,"./react/components/operator_categories/list/items/item":21,"./react/components/operator_categories/list/items/item_edit":22,"./react/components/operator_categories/list/items/item_manager":23,"./react/components/operator_categories/list/items/with_subcategories":24,"./react/components/operator_categories/list/items/without_category":25,"./react/components/operator_categories/list/list":26,"./react/components/operator_categories/loaded":27,"./react/components/operator_categories/loading":28,"./react/components/operator_categories/loading_error":29,"./react/components/operator_categories/one_category":30,"./react/components/operator_categories/operator_categories":31,"./react/components/operator_categories/two_categories":32,"./react/components/operator_products/empty":34,"./react/components/operator_products/list/item":35,"./react/components/operator_products/list/item_drag":36,"./react/components/operator_products/list/items_drag":37,"./react/components/operator_products/list/list":38,"./react/components/operator_products/loading":39,"./react/components/operator_products/loading_error":40,"./react/components/operator_products/mixins/load_more_products":41,"./react/components/operator_products/operator_products":42,"./react/components/product/images/images":44,"./react/components/product/modification_list":50,"./react/components/product/modification_list_item":51,"./react/components/product/state":52,"./react/components/product/status_toggle":53,"./react/components/product/thumb":54,"./react/components/product/total_items_quantity":55,"./react/controllers/modal":56,"./react/dispatchers/_base":57,"./react/dispatchers/drag_state":58,"./react/dispatchers/operator_categories":59,"./react/dispatchers/operator_products":60,"./react/helpers/app":61,"./react/helpers/event":62,"./react/helpers/money":63,"./react/mixins/activities":64,"./react/mixins/category_droppable":65,"./react/mixins/component_manipulations":66,"./react/mixins/product_draggable":67,"./react/mixins/unmount":68,"./react/resources/categories":69,"./react/resources/products":70,"./react/services/operator_categories":71,"./react/services/operator_products":72,"./react/services/thumbor":73,"./react/services/uuid":74,"./react/stores/_base":75,"./react/stores/drag_state":76,"./react/stores/operator_categories":77,"./react/stores/operator_products":78,"./routes/api":79,"./routes/routes":80}],2:[function(require,module,exports){
+/**
+binds a function to a context
+
+@method bind
+@param {Function} func
+@param {Object} context
+@return {Function}
+@private
+**/
+var bind = function (func, context) {
+  return function () {
+    func.apply(context, Array.prototype.slice.call(arguments));
+  };
+};
+
+/**
+@method each
+@param {Array} arr
+@param {Function} iterator
+@private
+**/
+var each = function (arr, iterator, context) {
+  context = context || this;
+
+  for (var i = 0, len = arr.length; i < len; i++) {
+    iterator.call(context, arr[i], i);
+  }
+};
+
+/**
+@method merge
+@return {Object}
+@private
+**/
+var merge = function () {
+  var result = {},
+      arr = Array.prototype.slice.call(arguments, 0);
+
+  each(arr, function (obj) {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        result[key] = obj[key];
+      }
+    }
+  });
+
+  return result;
+};
+
+/**
+@method addEvent
+@param {Any} host
+@param {String} eventName
+@param {Function} handler
+@param {Any} [context]
+@private
+**/
+var addEvent = function (host, eventName, handler, context) {
+  host.addEventListener(eventName, bind(handler, context), false);
+};
+
+/**
+@method isArray
+@param {Object} o
+@return {Boolean}
+@private
+**/
+var isArray = function (o) {
+  return Array.isArray(o);
+};
+
+/**
+@method isPlainObject
+@param {any} val
+@return {Boolean}
+@private
+**/
+var isPlainObject = function (val) {
+  return (!!val) && (val.constructor === Object);
+};
+
+/**
+@method isString
+@param {Any} val
+@return {Boolean}
+@private
+**/
+var isString = function (val) {
+  return typeof val === 'string';
+};
+
+module.exports = {
+  bind: bind,
+  each: each,
+  merge: merge,
+  addEvent: addEvent,
+  isArray: isArray,
+  isPlainObject: isPlainObject,
+  isString: isString
+};
+
+},{}],3:[function(require,module,exports){
+var helpers = require('./helpers'),
+    Request = require('./request'),
+    Route   = require('./route');
+
+// helpers
+var each      = helpers.each,
+    addEvent  = helpers.addEvent,
+    isArray   = helpers.isArray;
+
+/**
+@class Navigator
+@constructor
+@private
+**/
+var Navigator = function () {
+  this._routes  = null;
+  this._exits   = [];
+  this._silent  = false;
+  this._dispatchingStarted = false;
+};
+
+Navigator.prototype = {
+
+  /**
+  @method setup
+  @param {Object} options
+  **/
+  setup: function (options) {
+    options = options || {};
+
+    for (var k in options) {
+      if (options.hasOwnProperty(k)) {
+        this[k] = options[k];
+      }
+    }
+
+    this._attachEvents();
+  },
+
+  /**
+  @method setRoutes
+  @param {Object} routes a configuration of routes and targets
+  **/
+  setRoutes: function (routes) {
+    this._routes = routes;
+  },
+
+  /**
+  @method createRouteForURI
+  @param {String} uri
+  @return {Request}
+  **/
+  createRouteForURI: function (uri) {
+    return new Route(this._routes, uri);
+  },
+
+  /**
+  @method createRequest
+  @param {String} uri
+  @param {String|Null} queryString
+  @param {String} matchedRoute
+  @return {Request}
+  **/
+  createRequest: function (uri, queryString, matchedRoute) {
+    this._request = new Request({
+      uri: uri,
+      queryString: queryString,
+      matchedRoute: matchedRoute
+    });
+
+    return this._request;
+  },
+
+  /**
+  @method getCurrentRequest
+  @return {Request}
+  **/
+  getCurrentRequest: function () {
+    return this._request;
+  },
+
+  /**
+  @method getCurrentPathname
+  @return {String}
+  **/
+  getCurrentPathname: function () {
+    if (this.pushStateEnabled) {
+      return this._removeURIRoot(location.pathname);
+    }
+    else {
+      return location.hash.replace('#', '').split('?')[0];
+    }
+  },
+
+  /**
+  @method getCurrentURI
+  @return {String}
+  **/
+  getCurrentURI: function () {
+    if (this.pushStateEnabled) {
+      return this._removeURIRoot(location.pathname) + location.search;
+    }
+    else {
+      return location.hash.replace('#', '');
+    }
+  },
+
+  /**
+  @method getQueryString
+  @return {String|Null}
+  **/
+  getQueryString: function () {
+    var uri, queryString;
+
+    if (this.pushStateEnabled) {
+      return location.search || null;
+    }
+    else {
+      queryString = this.getCurrentURI().split('?')[1];
+
+      if (queryString) {
+        return '?' + queryString;
+      }
+      else {
+        return null;
+      }
+    }
+  },
+
+  /**
+  @method dispatch
+  **/
+  dispatch: function () {
+    var uri         = this.getCurrentPathname(),
+        route       = this.createRouteForURI(uri),
+        queryString = this.getQueryString(),
+        request     = this.createRequest(uri, queryString, route.matchedRoute);
+
+    this._invokeExits(request);
+
+    // temporary action array that can be halted
+    this._actions = route.actions;
+    this._invokeActions(request, route.options);
+
+    // collect exits of the current matching route
+    this._exits = route.exits;
+
+    if (!this._dispatchingStarted) {
+      this._dispatchingStarted = true;
+    }
+  },
+
+  /**
+  @method onURIChange
+  **/
+  onURIChange: function () {
+    if (!this._silent) {
+      this.dispatch();
+    }
+
+    this._silent = false;
+  },
+
+  /**
+  @method onPopState
+  @param {Event}
+  **/
+  onPopState: function (ev) {
+    // Some browsers fire 'popstate' on the initial page load with a null state
+    // object. We always want manual control over the initial page dispatch, so
+    // prevent any popStates from changing the url until we have started
+    // dispatching.
+    if (this._dispatchingStarted) {
+      this.onURIChange();
+    }
+  },
+
+  /**
+  @method onClick
+  @param {Event} ev
+  **/
+  onClick: function (ev) {
+    var target = ev.target,
+        matchesSelector = this._matchesSelector(target),
+        pathname,
+        uri;
+
+    if (ev.metaKey || ev.ctrlKey) return;
+
+    // Sub optimal. It itererates through all ancestors on every single click :/
+    while (target) {
+      if (this._matchesSelector(target)) {
+        break;
+      }
+
+      target = target.parentNode;
+    }
+
+    if (!target) return;
+
+    ev.preventDefault();
+
+    pathname = target.pathname;
+
+    // Some browsers drop the leading slash
+    // from an `a` tag's href location.
+    if ( pathname.charAt(0) !== '/' ) pathname = '/' + pathname;
+
+    uri = pathname.replace(this.root, '');
+
+    this.navigate(uri);
+  },
+
+  /**
+  @method navigate
+  @param {String} uri
+  @param {Object} [options]
+  **/
+  navigate: function (uri, options) {
+    options = options || {};
+
+    var request     = this.getCurrentRequest();
+    var namedParams = options.namedParams;
+    var queryParams = options.queryParams;
+
+    if (!namedParams && request) {
+      namedParams = request.namedParams;
+    }
+
+    // halt any previous action invocations
+    this._actions = [];
+
+    if (queryParams) {
+      uri += this.serializeQueryParams(queryParams);
+    }
+
+    if (namedParams) {
+      for (var p in namedParams) {
+        if (namedParams.hasOwnProperty(p)) {
+          uri = uri.replace(':' + p, encodeURIComponent(namedParams[p]));
+        }
+      }
+    }
+
+    if (options.silent) {
+      this._silent = true;
+    }
+
+    if (this.pushStateEnabled) {
+      uri = this._removeURIRoot(uri);
+
+      uri = this.root + uri;
+
+      if (options.replace) {
+        history.replaceState('navigate', '', uri);
+      }
+      else {
+        history.pushState('navigate', '', uri);
+      }
+
+      this.onURIChange();
+    }
+    else {
+      if (options.replace) location.replace('#' + uri);
+      else location.hash = uri;
+    }
+  },
+
+  /**
+  @method refresh
+  **/
+  refresh: function () {
+    this.dispatch();
+  },
+
+  /**
+  @method _attachEvents
+  @protected
+  **/
+  _attachEvents: function () {
+    var pushStateEnabled = this.pushStateEnabled;
+
+    if (pushStateEnabled) {
+      addEvent(window, 'popstate', this.onPopState, this);
+    }
+    else {
+      addEvent(window, 'hashchange', this.onURIChange, this);
+    }
+
+    addEvent(document, 'click', this.onClick, this);
+  },
+
+  /**
+  @method _matchesSelector
+  @param {DOMNode} node
+  @protected
+  **/
+  _matchesSelector: function (node) {
+    var nodeList = document.querySelectorAll(this.linkSelector),
+        contains = false,
+        i;
+
+    for ( i = 0; i < nodeList.length; i++ ) {
+      if (!contains) contains = ( node === nodeList[i] );
+      else break;
+    }
+
+    return contains;
+  },
+
+  /**
+  pop of any exits function and invoke them
+
+  @method _invokeExits
+  @param {Request} request
+  @protected
+  **/
+  _invokeExits: function (request) {
+    var exit, target, method;
+
+    while(this._exits.length) {
+      exit = this._exits.pop();
+      target = exit.target;
+      method = exit.method;
+
+      if (!(method in target)) {
+        throw new Error("Can't call exit " + method + ' on target for uri ' + request.uri);
+      }
+
+      target[method].call(target);
+    }
+  },
+
+  /**
+  invoke all actions with request and options
+
+  @method _invokeActions
+  @param {Request} request
+  @param {Object} options
+  @protected
+  **/
+  _invokeActions: function (request, options) {
+    var action, target, method;
+
+    while (this._actions.length) {
+      action = this._actions.shift();
+      target = action.target;
+      method = action.method;
+
+     if (!(method in target)) {
+        throw new Error("Can't call action " + method + ' on target for uri ' + request.uri);
+      }
+
+      target[method].call(target, request, options);
+    }
+  },
+
+  /**
+  @method _removeURIRoot
+  @param {String} uri '/partners/s/foo-bar'
+  @return {String} uri '/s/foo-bar'
+  **/
+  _removeURIRoot: function (uri) {
+    var rootRegex = new RegExp('^' + this.root);
+
+    return uri.replace(rootRegex, '');
+  },
+
+  /**
+  @method serializeQueryParams
+  @param {Object} queryParams
+  @return {String} queryString "?foo=bar&baz[]=boo&baz=[]oob"
+  **/
+  serializeQueryParams: function (queryParams) {
+    var queryString = [],
+        val;
+
+    for (var key in queryParams) {
+      if (queryParams.hasOwnProperty(key)) {
+        val = queryParams[key];
+
+        if (isArray(val)) {
+          each(val, function (item) {
+            queryString.push(encodeURIComponent(key) + '[]=' + encodeURIComponent(item));
+          });
+        }
+        else {
+          queryString.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
+        }
+      }
+    }
+
+    queryString = '?' + queryString.join('&');
+
+    return queryString;
+  }
+
+};
+
+module.exports = Navigator;
+
+},{"./helpers":2,"./request":4,"./route":5}],4:[function(require,module,exports){
+var helpers = require('./helpers'),
+    each = helpers.each,
+    merge = helpers.merge,
+    isArray = helpers.isArray;
+
+/**
+@class Request
+@constructor
+**/
+var Request = function (options) {
+  this.namedParams  = {};
+  this.queryParams  = {};
+  this.params       = {};
+
+  this.uri          = options.uri;
+  this.queryString  = options.queryString;
+  this.matchedRoute = options.matchedRoute;
+
+  this._extractNamedParamsFromURI();
+  this._extractQueryParamsFromQueryString();
+  this._mergeParams();
+};
+
+Request.prototype = {
+  /**
+  @method _extractNamedParamsFromURI
+  @private
+  **/
+  _extractNamedParamsFromURI: function () {
+    var uriParts = this.uri.split('/'),
+        routeParts = this.matchedRoute.split('/'),
+        params = {};
+
+    each(routeParts, function (part, i) {
+      var key;
+
+      if (part.indexOf(':') === 0) {
+        key = part.replace(':', '');
+
+        params[key] = decodeURIComponent( uriParts[i] );
+      }
+    });
+
+    this.namedParams = params;
+  },
+
+  /**
+  Splits the query string by '&'. Splits each part by '='.
+  Passes the key and value for each part to _applyQueryParam
+
+  @method _extractQueryParamsFromQueryString
+  @private
+  **/
+  _extractQueryParamsFromQueryString: function () {
+    var parts;
+
+    if (!this.queryString) return;
+
+    parts = this.queryString.replace('?','').split('&');
+
+    each(parts, function (part) {
+      var key = decodeURIComponent( part.split('=')[0] ),
+          val = decodeURIComponent( part.split('=')[1] );
+
+      if ( part.indexOf( '=' ) === -1 ) return;
+      this._applyQueryParam( key, val );
+
+    }, this);
+
+  },
+
+  /**
+  Update the queryParams property with a new key and value.
+  Values for keys with the [] notation are put into arrays
+  or pushed into an existing array for that key.
+
+  @method _applyQueryParam
+  @param {String} key
+  @param {String} val
+  **/
+  _applyQueryParam: function (key, val) {
+    if ( key.indexOf( '[]' ) !== -1 ) {
+      key = key.replace( '[]', '' );
+
+      if (isArray(this.queryParams[key])) {
+        this.queryParams[key].push(val);
+      }
+      else {
+        this.queryParams[key] = [val];
+      }
+    }
+    else {
+      this.queryParams[key] = val;
+    }
+  },
+
+  /**
+  @method _mergeParams
+  @private
+  **/
+  _mergeParams: function () {
+    this.params = merge(this.namedParams, this.queryParams);
+  }
+};
+
+module.exports = Request;
+
+},{"./helpers":2}],5:[function(require,module,exports){
+var helpers = require('./helpers'),
+    merge = helpers.merge,
+    isString = helpers.isString,
+    isPlainObject = helpers.isPlainObject;
+
+/**
+Contains the properties for a route
+After attempting to match a uri to the Routes map
+
+@class Route
+@constructor
+@private
+**/
+var Route = function (routes, uri) {
+  this.uri          = uri;
+  this.matchedRoute = '';
+  this.targets      = [];
+  this.actions      = [];
+  this.exits        = [];
+  this.options      = {};
+
+  this.match(routes);
+
+  this.uri = uri;
+};
+
+Route.prototype = {
+
+  /**
+  Matches the uri from the routes map.
+
+  @method match
+  @param {String} routeLevel
+  @return {Object}
+  **/
+  match: function (routeLevel) {
+    var value, action, target;
+
+    if (routeLevel.target) {
+      this.targets.push(routeLevel.target);
+    }
+
+    if (this.targets.length) {
+      target = this.targets[this.targets.length - 1];
+    }
+
+    action = {
+      target: target,
+      method: null
+    };
+
+    for (var key in routeLevel) {
+      if (routeLevel.hasOwnProperty(key)) {
+        value = routeLevel[key];
+
+        if (this.isFragment(key) && this.isFragmentInURI(key)) {
+          this.updateMatchedRoute(key);
+          this.removeFragmentFromURI(key);
+
+          if (this.isActionDescriptor(value)) {
+
+            // Check that if this fragment is a namedParam,
+            // we never override a regular fragment.
+            if (!this.isNamedParam(key) || !action.method) {
+              if (isString(value)) {
+                action.method = value;
+              }
+              else {
+                action.method = value.method;
+
+                if (value.exit) {
+                  this.exits.unshift({
+                    method: value.exit,
+                    target: routeLevel.target
+                  });
+                }
+
+                if (value.options) {
+                  this.mergeOptions(value.options);
+                }
+              }
+
+              // Adding the action
+              this.actions.push(action);
+            }
+          }
+          else if (value.hasOwnProperty('options')) {
+            this.mergeOptions(value.options);
+          }
+
+          if (isPlainObject(value)) {
+            // recurse
+            this.match(value);
+          }
+        }
+      }
+    }
+  },
+
+  /**
+  @method mergeOptions
+  @param {Object} options
+  **/
+  mergeOptions: function (options) {
+    this.options = merge(this.options, options);
+  },
+
+  /**
+  appends the matched fragment to the matched route
+
+  @method updateMatchedRoute
+  @param {String} fragment
+  **/
+  updateMatchedRoute: function (fragment) {
+    if (fragment !== '/' && fragment !== '/*') {
+      this.matchedRoute += fragment;
+    }
+  },
+
+  /**
+  removes matched fragments from the beginning of the uri
+
+  @method removeFragmentFromURI
+  @param {String} fragment
+  **/
+  removeFragmentFromURI: function (fragment) {
+    var uri = this.uri,
+        uriParts, subFrags;
+
+    if (fragment !== '/' && fragment !== '/*') {
+      if (this.includesNamedParam(fragment)) {
+        uriParts = uri.split('/'),
+        subFrags = fragment.split('/');
+
+        subFrags.forEach(function (f, i) {
+          if (f.indexOf(':') === 0) {
+            uri = uri.replace('/' + uriParts[i], '');
+          }
+          else if (f) {
+            uri = uri.replace('/' + f, '');
+          }
+        });
+      }
+      else {
+        uri = uri.replace(fragment, '');
+      }
+    }
+
+    this.uri = uri;
+  },
+
+  /**
+  @method isFragmentInURI
+  @param {Any} fragment
+  @return {Boolean}
+  **/
+  isFragmentInURI: function (fragment) {
+    var uri = this.uri,
+        uriParts, subFrags;
+
+    if (uri === '/' || uri === '') {
+      return fragment === '/' || fragment === '/*';
+    }
+
+    if ( fragment === '/' ) {
+      return false;
+    }
+    else if ( fragment === '/*' ) {
+      return true;
+    }
+    // includes vs is named param
+    else if (this.includesNamedParam(fragment)) {
+      uriParts = uri.split('/'),
+      subFrags = fragment.split('/');
+
+      if (subFrags.length === 2) {
+        return true;
+      }
+
+      return subFrags.map(function (f, i) {
+        if (f.indexOf(':') === 0) {
+          return true;
+        }
+        else {
+          return uriParts[i].indexOf(f) !== -1;
+        }
+      }).reduce(function (a, b) { return a && b; });
+    }
+    else {
+      return uri.indexOf(fragment) === 0;
+    }
+  },
+
+  /**
+  @method includesNamedParam
+  @param {String} fragment
+  @return {Boolean}
+  **/
+  includesNamedParam: function (fragment) {
+    return fragment.indexOf('/:') !== -1;
+  },
+
+  /**
+  @method isFragment
+  @param {Any} key
+  @return {Boolean}
+  **/
+  isFragment: function (key) {
+    return key.indexOf('/') === 0;
+  },
+
+  /**
+  @method isActionDescriptor
+  @param {Any} val
+  @return {Boolean}
+  **/
+  isActionDescriptor: function (val) {
+    return isString(val) || isPlainObject(val) && val.method;
+  },
+
+  /**
+  @method isNamedParam
+  @param {String} fragment
+  @return {Boolean}
+  **/
+  isNamedParam: function (fragment) {
+    return fragment.indexOf('/:') === 0;
+  }
+};
+
+module.exports = Route;
+
+},{"./helpers":2}],6:[function(require,module,exports){
+window.KioskOperatorApp = {
+  start: function(_arg) {
+    var OperatorRouteTarget, operator, vendor_key;
+    vendor_key = _arg.vendor_key, operator = _arg.operator;
+    console.log("KioskOperatorApp start for vendor: " + vendor_key + ", operator: " + operator.name);
+    $.ajaxSetup({
+      xhrFields: {
+        withCredentials: true,
+        crossDomain: true
+      },
+      headers: {
+        'X-Vendor-Key': vendor_key
+      }
+    });
+    OperatorRouteTarget = {
+      categories: function(req) {}
+    };
+    Aviator.setRoutes({
+      '/operator': {
+        target: OperatorRouteTarget,
+        '/categories': 'categories'
+      }
+    });
+    Aviator.dispatch();
+    window.EB.emit('start');
+    return ReactUjs.initialize();
+  },
+  error_alert: function(message) {
+    return alert(message);
+  }
+};
+
+
+
+},{}],7:[function(require,module,exports){
+$(function() {
+  var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, modalClick, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
+  modalClick = function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    return ModalService.show($(this).data('modalUrl'));
+  };
+  bindActivities = function() {
+    $("[tooltip]").tooltip();
+    return $('[autosize]').autosize();
+  };
+  $(document).on('click', '[ks-modal]', modalClick);
+  bindActivities();
+  $(document).on('page:change', bindActivities);
+  productVariantsAdd = $('@products__new-form-variants-add');
+  productVariantsTitle = $('@products__new-form-variants-title');
+  productVariantsItem = $('@products__new-form-variants-item');
+  productVariantsPlace = $('@products__new-form-variants-place');
+  productVariantsAddBlock = $('@products__new-form-variants-add-block');
+  productVariantsAddBlockBtn = $('@products__new-form-variants-add-block-btn');
+  productVariantsBlock = $('@products__new-form-variants-block');
+  productVariantTypeBtn = $('@products__new-form-variant-type-btn');
+  productVariantTypeInput = $('@products__new-form-variant-type-input');
+  productVariantTypeLabel = $('@products__new-form-variant-type-label');
+  productVariantsBlock.hide();
+  productVariantsAddBlockBtn.on('click', function(e) {
+    e.preventDefault();
+    productVariantsAddBlock.hide();
+    return productVariantsBlock.show();
+  });
+  productVariantTypeBtn.on('click', function(e) {
+    var type;
+    e.preventDefault();
+    productVariantTypeBtn.removeClass('active');
+    $(this).addClass('active');
+    type = $(this).text();
+    return productVariantTypeLabel.text(type);
+  });
+  productVariantTypeInput.on('focus', function() {
+    var prevBtn;
+    prevBtn = productVariantTypeBtn.filter('.active');
+    productVariantTypeBtn.removeClass('active');
+    return $(this).on('blur', function() {
+      if (!($(this).val().length > 0)) {
+        prevBtn.addClass('active');
+        return productVariantTypeLabel.text(prevBtn.text());
+      }
+    });
+  });
+  productVariantTypeInput.on('keypress', function() {
+    var type;
+    if ($(this).val().length > 0) {
+      type = $(this).val();
+      return productVariantTypeLabel.text(type);
+    }
+  });
+  productParamsAdd = $('@products__new-form-params-add');
+  productParamsTitle = $('@products__new-form-params-title');
+  productParamsItem = $('@products__new-form-params-item');
+  productParamsPlace = $('@products__new-form-params-place');
+  productFormQuantity = $('@products__new-form-quantity');
+  productFormArticul = $('@products__new-form-articul');
+  productFormImageAdd = $('@products__new-form-image-add');
+  productVariantsTitle.hide();
+  productVariantsPlace.hide();
+  productVariantsAdd.on('click', function(e) {
+    var html;
+    e.preventDefault();
+    productFormArticul.hide();
+    productFormQuantity.hide();
+    productVariantsTitle.show();
+    productVariantsPlace.show();
+    html = productVariantsItem.html();
+    return productVariantsPlace.append(html);
+  });
+  productParamsTitle.hide();
+  productParamsPlace.hide();
+  productParamsAdd.on('click', function(e) {
+    var html;
+    e.preventDefault();
+    productParamsTitle.show();
+    productParamsPlace.show();
+    html = productParamsItem.html();
+    return productParamsPlace.append(html);
+  });
+  productFormImageAdd.on('click', function(e) {
+    e.preventDefault();
+    return $(this).toggleClass('active');
+  });
+  $('@jump').on('click', function(e) {
+    var href;
+    href = $(this).data('href');
+    if (href !== '') {
+      if (event.shiftKey || event.ctrlKey || event.metaKey) {
+        return window.open(target, '_blank');
+      } else {
+        return window.location = href;
+      }
+    }
+  });
+  $('@jump .dropdown, @jump input').on('click', function(e) {
+    return e.stopPropagation();
+  });
+  categoriesList = $('@categories-list');
+  switcherDisplayCategories = $('@switch-display-categories');
+  switcherTitles = {
+    hide: switcherDisplayCategories.data('title-hide'),
+    show: switcherDisplayCategories.data('title-show')
+  };
+  switcherDisplayCategories.on('click', function(e) {
+    e.preventDefault();
+    if (categoriesList.is(':visible')) {
+      categoriesList.hide();
+      return $(this).text(switcherTitles.show);
+    } else {
+      categoriesList.show();
+      return $(this).text(switcherTitles.hide);
+    }
+  });
+  authBox = $('@auth-box');
+  authSectionToggle = $('@auth-section-toggle');
+  authBack = $('@auth-back-btn');
+  path = [];
+  prevSection = 'welcome';
+  clearClasses = function() {
+    var className, classNames, i;
+    i = 0;
+    classNames = authBox.attr("class").split(/\s+/);
+    while (i < classNames.length) {
+      className = classNames[i];
+      if (className.match(/^__\w+/)) {
+        authBox.removeClass(className);
+      }
+      i++;
+    }
+  };
+  authSectionToggle.on('click', function(e) {
+    var step;
+    e.preventDefault();
+    path.push(prevSection);
+    step = $(this).data('step');
+    clearClasses();
+    authBox.addClass('__' + step);
+    return prevSection = step;
+  });
+  return authBack.on('click', function(e) {
+    var step;
+    console.log(path.length);
+    if (path.length === 0) {
+      return false;
+    }
+    step = path.pop();
+    prevSection = step;
+    clearClasses();
+    return authBox.addClass('__' + step);
+  });
+});
+
+
+
+},{}],8:[function(require,module,exports){
+var Requester;
+
+window._ = require('lodash');
+
+window.$ = window.jQuery = require('jquery');
+
+window.React = require('react');
+
+window.Dispatcher = require('flux').Dispatcher;
+
+window.EventEmitter = require('eventEmitter');
+
+window.ReactUjs = require('reactUjs');
+
+Requester = require('./libs/requester');
+
+window.EB = new EventEmitter();
+
+window.Requester = new Requester({
+  eb: window.EB
+});
+
+require('jquery.ui.core');
+
+require('jquery.ui.widget');
+
+require('jquery.ui.mouse');
+
+require('jquery.ui.draggable');
+
+require('jquery.ui.droppable');
+
+require('jquery.ui.sortable');
+
+require('jquery.autosize');
+
+require('jquery.fileupload');
+
+require('jquery.role');
+
+require('react-mixin-manager')(window.React);
+
+require('bootstrapSass');
+
+require('typeahead');
+
+require('aviator');
+
+
+
+},{"./libs/requester":9,"aviator":undefined,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":81,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],9:[function(require,module,exports){
+var Requester,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+Requester = (function() {
+  function Requester(_arg) {
+    var eb;
+    eb = _arg.eb;
+    this.request = __bind(this.request, this);
+    this.start = false;
+    this.eb = eb;
+    eb.on('start', (function(_this) {
+      return function() {
+        _this.start = true;
+        return console.log('Requester started');
+      };
+    })(this));
+  }
+
+  Requester.prototype.request = function(options) {
+    if (this.start) {
+      return $.ajax(options);
+    } else {
+      return this.eb.on('start', function() {
+        return $.ajax(options);
+      });
+    }
+  };
+
+  return Requester;
+
+})();
+
+module.exports = Requester;
+
+
+
+},{}],10:[function(require,module,exports){
+window.OperatorCategoriesServerActions = {
+  receiveCategories: function(categories) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoriesLoaded',
+      categories: categories
+    });
+  },
+  reorderCategories: function(newPositions) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoriesReordered',
+      newPositions: newPositions
+    });
+  },
+  receiveCategory: function(category) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoryLoaded',
+      category: category
+    });
+  },
+  createCategory: function(category) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoryCreated',
+      category: category
+    });
+  },
+  updateCategory: function(category) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoryUpdated',
+      category: category
+    });
+  },
+  deleteCategory: function(category) {
+    return OperatorCategoriesDispatcher.handleServerAction({
+      type: 'categoryDeleted',
+      category: category
+    });
+  }
+};
+
+
+
+},{}],11:[function(require,module,exports){
+window.OperatorProductsServerActions = {
+  receiveProducts: function(categoryId, products) {
+    return OperatorProductsDispatcher.handleServerAction({
+      type: 'productsLoaded',
+      categoryId: categoryId,
+      products: products
+    });
+  },
+  receiveMoreProducts: function(categoryId, products) {
+    return OperatorProductsDispatcher.handleServerAction({
+      type: 'moreProductsLoaded',
+      categoryId: categoryId,
+      products: products
+    });
+  },
+  updateProduct: function(_arg) {
+    var categoryId, product;
+    categoryId = _arg.categoryId, product = _arg.product;
+    return OperatorProductsDispatcher.handleServerAction({
+      type: 'productUpdated',
+      product: product,
+      categoryId: categoryId
+    });
+  },
+  moveProduct: function(_arg) {
+    var newCategoryId, oldCategoryId, product;
+    oldCategoryId = _arg.oldCategoryId, newCategoryId = _arg.newCategoryId, product = _arg.product;
+    return OperatorProductsDispatcher.handleServerAction({
+      type: 'productMoved',
+      product: product,
+      newCategoryId: newCategoryId,
+      oldCategoryId: oldCategoryId
+    });
+  }
+};
+
+
+
+},{}],12:[function(require,module,exports){
+window.OperatorCategoriesViewActions = {
+  loadCategories: function(_arg) {
+    var data, url;
+    url = _arg.url, data = _arg.data;
+    return CategoriesResource.index({
+      url: url,
+      data: data
+    }).then(OperatorCategoriesServerActions.receiveCategories);
+  },
+  reorderCategories: function(options) {
+    return OperatorCategoriesService.reorderCategories(options);
+  },
+  reloadCategory: function(_arg) {
+    var categoryId;
+    categoryId = _arg.categoryId;
+    return CategoriesResource.get({
+      categoryId: categoryId,
+      success: function(category) {
+        return OperatorCategoriesServerActions.receiveCategory(category);
+      }
+    });
+  },
+  createCategory: function(_arg) {
+    var error, name, parentId, success;
+    name = _arg.name, parentId = _arg.parentId, success = _arg.success, error = _arg.error;
+    return CategoriesResource.create({
+      data: {
+        name: name,
+        parent_id: parentId,
+        position: OperatorCategoriesStore.getCategoryPosition({
+          parent_id: parentId
+        })
+      },
+      success: function(category) {
+        OperatorCategoriesServerActions.createCategory(category);
+        return typeof success === "function" ? success(category) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
+  },
+  updateCategory: function(_arg) {
+    var category, error, success;
+    category = _arg.category, success = _arg.success, error = _arg.error;
+    return CategoriesResource.update({
+      categoryId: category.id,
+      data: {
+        name: category.name,
+        position: category.position,
+        parent_id: category.parent_id
+      },
+      success: function(category) {
+        OperatorCategoriesServerActions.updateCategory(category);
+        return typeof success === "function" ? success(category) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
+  },
+  deleteCategory: function(_arg) {
+    var category, error;
+    category = _arg.category, error = _arg.error;
+    return CategoriesResource["delete"]({
+      categoryId: category.id,
+      success: function(response) {
+        OperatorCategoriesServerActions.deleteCategory(category);
+        return typeof success === "function" ? success(response) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
+  }
+};
+
+
+
+},{}],13:[function(require,module,exports){
+window.OperatorProductsViewActions = {
+  loadProducts: function(_arg) {
+    var data, url;
+    url = _arg.url, data = _arg.data;
+    return OperatorProductsService.loadProducts({
+      url: url,
+      data: data
+    });
+  },
+  loadMoreProducts: function(_arg) {
+    var data, url;
+    url = _arg.url, data = _arg.data;
+    return OperatorProductsService.loadMoreProducts({
+      url: url,
+      data: data
+    });
+  },
+  changeProductCategory: function(options) {
+    return OperatorProductsService.changeProductCategory(options);
+  }
+};
+
+
+
+},{}],14:[function(require,module,exports){
+window.ProductImagesViewActions = {
+  preloadImage: function(_arg) {
+    var beforeSend, complete, error, file, formData, productCardId, productId, success;
+    file = _arg.file, productId = _arg.productId, productCardId = _arg.productCardId, success = _arg.success, error = _arg.error, beforeSend = _arg.beforeSend, complete = _arg.complete;
+    formData = new FormData();
+    formData.append('image', file);
+    if (productId != null) {
+      formData.append('product_id', productId);
+    }
+    if (productCardId != null) {
+      formData.append('product_card_id', productCardId);
+    }
+    return Requester.request({
+      url: ApiRoutes.operator_product_images_url(),
+      method: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      beforeSend: beforeSend,
+      success: (function(_this) {
+        return function(data) {
+          return typeof success === "function" ? success(data) : void 0;
+        };
+      })(this),
+      error: (function(_this) {
+        return function(data) {
+          return typeof error === "function" ? error(data) : void 0;
+        };
+      })(this),
+      complete: complete
+    });
+  },
+  addProductImages: function(_arg) {
+    var file, files, formData, productId, url, xhr, xhrs, _i, _len;
+    url = _arg.url, files = _arg.files, productId = _arg.productId;
+    if (files.length) {
+      xhrs = [];
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        formData = new FormData();
+        formData.append('image', file);
+        formData.append('product_id', productId);
+        xhr = Requester.request({
+          url: url,
+          method: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false
+        });
+        xhrs.push(xhr);
+      }
+    }
+    return $.when.apply($, xhrs).done(function() {
+      return ProductsResource.get({
+        productId: productId,
+        success: function(product) {
+          return OperatorProductsServerActions.updateProduct({
+            product: product,
+            categoryId: product.category_id
+          });
+        }
+      });
+    });
+  },
+  rotateImage: function(imageId, degree) {
+    if (degree == null) {
+      degree = 90;
+    }
+    return Requester.request({
+      url: ApiRoutes.operator_product_images_rotate_url(imageId),
+      method: 'POST',
+      data: {
+        id: imageId,
+        grad: degree
+      }
+    });
+  }
+};
+
+
+
+},{}],15:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
+  propTypes: {
+    images: React.PropTypes.array.isRequired,
+    onRemove: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    var images, that;
+    if (this.props.images.length === 0) {
+      return null;
+    }
+    images = [];
+    console.log('images', this.props.images);
+    that = this;
+    $.each(this.props.images, function(idx, image) {
+      var onClick;
+      onClick = function() {
+        return that.props.onRemove(image);
+      };
+      return images.push(React.DOM.div({key: image.src, className: "products__new-form-image-thumb-block"}, 
+         React.DOM.img({className: "products__new-form-image-thumb", src: image.src}), 
+         React.DOM.div({className: "products__new-form-image-thumb-remove", onClick: onClick, ref: "remove"}), 
+         React.DOM.div({className: "products__new-form-image-thumb-update", onClick: onClick, ref: "update"})
+       ));
+    });
+    return React.DOM.div({className: "products__new-form-images-list"}, images);
+  }
+});
+
+
+
+},{}],16:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var PropTypes;
+
+PropTypes = React.PropTypes;
+
+window.Money = React.createClass({displayName: 'Money',
+  propTypes: {
+    money: PropTypes.object,
+    className: PropTypes.string
+  },
+  getDefaultProps: function() {
+    return {
+      className: 'nobr'
+    };
+  },
+  render: function() {
+    return React.DOM.span({className:  this.props.className, 
+          dangerouslySetInnerHTML: { __html: this.renderContent()}});
+  },
+  renderContent: function() {
+    var cents, currency, _ref;
+    if (this.props.money != null) {
+      _ref = this.props.money, cents = _ref.cents, currency = _ref.currency;
+      return MoneyHelpers.format(cents, currency);
+    } else {
+      return '---';
+    }
+  }
+});
+
+
+
+},{}],17:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.Spinner = React.createClass({displayName: 'Spinner',
+  propTypes: {
+    align: React.PropTypes.oneOf([null, 'center']),
+    className: React.PropTypes.string
+  },
+  render: function() {
+    var spinner, spinnerClasses;
+    spinnerClasses = ['fa', 'fa-spinner', 'fa-spin'];
+    if (this.props.className) {
+      spinnerClasses.push(this.props.className);
+    }
+    if (this.props.align === 'center') {
+      spinner = React.DOM.div({className: "text-center"}, 
+                   React.DOM.i({className:  spinnerClasses.join(' ') })
+                 );
+    } else {
+      spinner = React.DOM.i({className:  spinnerClasses.join(' ') });
+    }
+    return spinner;
+  }
+});
+
+
+
+},{}],18:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.SuperSelect = React.createClass({displayName: 'SuperSelect',
+  propTypes: {
+    name: React.PropTypes.string.isRequired,
+    options: React.PropTypes.array.isRequired,
+    value: React.PropTypes.string,
+    placeholder: React.PropTypes.string
+  },
+  getInitialState: function() {
+    return {
+      value: this.props.value,
+      inFocus: false
+    };
+  },
+  getDefaultProps: function() {
+    return {
+      placeholder: 'Новая категория',
+      typeaheadOptions: {
+        minLength: 0,
+        hint: true,
+        highlight: true
+      }
+    };
+  },
+  componentDidMount: function() {
+    var node;
+    node = $(this.refs.input.getDOMNode());
+    return node.typeahead(this.props.typeaheadOptions, {
+      name: 'categories',
+      displayKey: 'name',
+      source: this.substringMatcher
+    });
+  },
+  componentWillUnmount: function() {
+    return this.$input().typeahead('destroy');
+  },
+  render: function() {
+    var closeButton, placeholder;
+    if (this.showCloseButton()) {
+      closeButton = this.closeButton();
+    }
+    if (!this.state.inFocus) {
+      placeholder = this.props.placeholder;
+    }
+    console.log('render value', this.state.value);
+    return React.DOM.div({className: "form-group login__form-group--icon-right"}, 
+        React.DOM.input({ref: "input", 
+               onFocus:  this.onFocus, 
+               onBlur:  this.onBlur, 
+               name: this.props.name, 
+               value: this.state.value, 
+               className: "form-control", 
+               onChange: this.change, 
+               placeholder: placeholder, 
+               type: "text"}), 
+        closeButton 
+    );
+  },
+  onFocus: function() {
+    this.setState({
+      inFocus: true
+    });
+    return this.$input().typeahead('open');
+  },
+  onBlur: function() {
+    return this.setState({
+      inFocus: false
+    });
+  },
+  substringMatcher: function(q, cb) {
+    var matches, substrRegex;
+    matches = [];
+    substrRegex = new RegExp(q, 'i');
+    $.each(this.props.options, function(i, str) {
+      return matches.push({
+        name: str
+      });
+    });
+    return cb(matches);
+  },
+  $input: function() {
+    return $(this.refs.input.getDOMNode());
+  },
+  change: function(e) {
+    this.setState({
+      value: this.$input().val()
+    });
+    return e;
+  },
+  showCloseButton: function() {
+    var _ref, _ref1;
+    return (_ref = ((_ref1 = this.state.value) != null ? _ref1.length : void 0) > 0) != null ? _ref : {
+      "true": false
+    };
+  },
+  closeButton: function() {
+    return React.DOM.a({className: "login__form-input-btn--right", onClick: this.clear}, "×");
+  },
+  clear: function() {
+    this.setState({
+      value: ''
+    });
+    return this.$input().typeahead('val', '');
+  }
+});
+
+
+
+},{}],19:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var LOADED_STATE, LOADING_STATE;
+
+LOADING_STATE = 'loading';
+
+LOADED_STATE = 'loaded';
+
+window.ModalComponent = React.createClass({displayName: 'ModalComponent',
+  mixins: [UnmountMixin],
+  propTypes: {
+    url: React.PropTypes.string.isRequired
+  },
+  getInitialState: function() {
+    return {
+      currentState: LOADING_STATE,
+      content: ''
+    };
+  },
+  componentDidMount: function() {
+    var $modal;
+    $modal = $(this.getDOMNode());
+    this.loadUrl();
+    $modal.modal('show');
+    return $modal.on('hidden.bs.modal', this.unmount);
+  },
+  componentWillUnmount: function() {
+    var $modal;
+    $modal = $(this.getDOMNode());
+    return $modal.off('hidden.bs.modal', this.unmount);
+  },
+  render: function() {
+    var spinner;
+    if (this.isLoadingState()) {
+      spinner = React.DOM.div({className: "modal-body"}, 
+                   React.DOM.div({className: "text-center"}, 
+                     Spinner({className: "fa-5x"})
+                   )
+                 );
+    }
+    return React.DOM.div({className: "modal fade", 
+                 'aria-hidden': "true", 
+                 tabIndex: "-1"}, 
+              React.DOM.div({className: "modal-dialog modal-lg"}, 
+                React.DOM.div({className: "modal-content"}, 
+                  spinner, 
+                  React.DOM.div({dangerouslySetInnerHTML: { __html: this.state.content}})
+                )
+              )
+            );
+  },
+  isLoadingState: function() {
+    return this.state.currentState === LOADING_STATE;
+  },
+  activateLoadedState: function() {
+    return this.setState({
+      currentState: LOADED_STATE
+    });
+  },
+  loadUrl: function() {
+    return Requester.request({
+      url: this.props.url,
+      success: (function(_this) {
+        return function(content) {
+          $(document).trigger('page:change');
+          return _this.setState({
+            content: content,
+            currentState: LOADED_STATE
+          });
+        };
+      })(this)
+    });
+  }
+});
+
+
+
+},{}],20:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var PLACEHOLDER;
+
+PLACEHOLDER = 'Новая категория';
+
+window.OperatorCategories_CreateForm = React.createClass({displayName: 'OperatorCategories_CreateForm',
+  propTypes: {
+    parentCategory: React.PropTypes.object
+  },
+  render: function() {
+    return React.DOM.div({className: "adm-categories-item"}, 
+      React.DOM.span({className: "adm-btn-add-category", 
+            onClick:  this.handleClick}, 
+        React.DOM.i({className: "adm-btn-add-goods-icon"}), 
+        PLACEHOLDER 
+      )
+    );
+  },
+  handleClick: function() {
+    return window.location = Routes.operator_categories_new_url(this.props.parentCategory.id);
+  }
+});
+
+
+
+},{}],21:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_ListItem = React.createClass({displayName: 'OperatorCategories_ListItem',
+  propTypes: {
+    category: React.PropTypes.object.isRequired,
+    onEditStart: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    var totalCount;
+    totalCount = this.props.category.has_children ? this.props.category.current_deep_products_count : this.props.category.current_products_count;
+    return React.DOM.span(null, 
+      React.DOM.span(null, 
+        React.DOM.span({className: "adm-categories-item-name"}, 
+           this.props.category.name
+        ), 
+        React.DOM.span({className: "adm-categories-item-counter"}, 
+          totalCount 
+        )
+      ), 
+      React.DOM.button({
+          className: "adm-btn-edit-category", 
+          title: "Редактировать", 
+          onClick:  this.props.onEditStart}, 
+        React.DOM.span(null, "Редактировать")
+      )
+    );
+  }
+});
+
+
+
+},{}],22:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var ERROR_MESSAGE, ERROR_STATE, INPUT_STATE, UPDATE_STATE;
+
+ERROR_MESSAGE = 'Ошибка обновления категории.';
+
+INPUT_STATE = 'input';
+
+UPDATE_STATE = 'update';
+
+ERROR_STATE = 'error';
+
+window.OperatorCategories_ListItemEdit = React.createClass({displayName: 'OperatorCategories_ListItemEdit',
+  propTypes: {
+    category: React.PropTypes.object.isRequired,
+    onEditFinish: React.PropTypes.func.isRequired
+  },
+  getInitialState: function() {
+    return {
+      currentState: INPUT_STATE,
+      categoryName: this.props.category.name
+    };
+  },
+  componentDidMount: function() {
+    var inputNode;
+    inputNode = this.refs.input.getDOMNode();
+    return AppHelpers.reselectAndFocus(inputNode);
+  },
+  render: function() {
+    var form;
+    switch (this.state.currentState) {
+      case INPUT_STATE:
+        form = React.DOM.span(null, 
+                  React.DOM.input({
+                      ref: "input", 
+                      type: "text", 
+                      className: "adm-categories-item-field", 
+                      defaultValue:  this.state.categoryName, 
+                      onKeyDown:  this.handleKeydown, 
+                      onClick:  this.handleClick, 
+                      onBlur:  this.props.onEditFinish}), 
+                  React.DOM.span({
+                      className: "adm-categories-item-remove", 
+                      onClick:  this.handleDeleteClick})
+                );
+        break;
+      case UPDATE_STATE:
+        form = React.DOM.span(null, 
+                  React.DOM.span({className: "adm-categories-item-name text-muted"}, 
+                     this.state.categoryName
+                  ), 
+                  React.DOM.span({className: "adm-categories-item-name"}, 
+                    Spinner(null)
+                  )
+                );
+        break;
+      case ERROR_STATE:
+        form = React.DOM.span(null, 
+                  "   ", 
+                  React.DOM.i(null, ERROR_MESSAGE )
+                );
+        break;
+      default:
+        console.warn('Unknown currentState of OperatorCategories_ListItemEdit component', this.state.currentState);
+    }
+    return form;
+  },
+  activateErrorState: function() {
+    return this.setState({
+      currentState: ERROR_STATE
+    });
+  },
+  editCategory: function() {
+    var categoryName, inputNode, updatedCategory;
+    inputNode = this.refs.input.getDOMNode();
+    categoryName = inputNode.value;
+    this.setState({
+      currentState: UPDATE_STATE,
+      categoryName: categoryName
+    });
+    updatedCategory = _.clone(this.props.category);
+    updatedCategory.name = categoryName;
+    return OperatorCategoriesViewActions.updateCategory({
+      category: updatedCategory,
+      success: this.props.onEditFinish,
+      error: this.activateErrorState
+    });
+  },
+  handleDeleteClick: function() {
+    if (window.confirm("Удалить категорию \"" + this.props.category.name + "\"?")) {
+      return OperatorCategoriesViewActions.deleteCategory({
+        category: this.props.category,
+        error: this.activateErrorState
+      });
+    }
+  },
+  handleClick: function(e) {
+    return e.stopPropagation();
+  },
+  handleKeydown: function(e) {
+    switch (e.key) {
+      case 'Enter':
+        e.preventDefault();
+        return this.editCategory();
+      case 'Escape':
+        e.preventDefault();
+        return this.props.onEditFinish();
+    }
+  }
+});
+
+
+
+},{}],23:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var SWITCH_CATEGORY_TIMEOUT;
+
+SWITCH_CATEGORY_TIMEOUT = 200;
+
+window.OperatorCategories_ListItemManager = React.createClass({displayName: 'OperatorCategories_ListItemManager',
+  mixins: [CategoryDroppable],
+  propTypes: {
+    category: React.PropTypes.object.isRequired,
+    isActive: React.PropTypes.bool.isRequired,
+    changeProductCategoryUrl: React.PropTypes.string,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  getInitialState: function() {
+    return this.getStateFromStore();
+  },
+  componentDidMount: function() {
+    return DragStateStore.addChangeListener(this._onStoreChange);
+  },
+  componentWillUnmount: function() {
+    return DragStateStore.removeChangeListener(this._onStoreChange);
+  },
+  render: function() {
+    var managerClasses;
+    managerClasses = React.addons.classSet({
+      'adm-categories-item': true,
+      'selected': this.props.isActive,
+      '__muted': !this.isVisible(),
+      '__droptarget-active': this.isDropTarget()
+    });
+    return React.DOM.div({className: managerClasses, 
+                 'data-objectid':  this.props.category.id, 
+                 onClick:  this.handleItemClick, 
+                 onMouseEnter:  this.handleMouseEnter, 
+                 onMouseLeave:  this.handleMouseLeave}, 
+              OperatorCategories_ListItem({
+                  category:  this.props.category, 
+                  onEditStart:  this.handleEditStart})
+            );
+  },
+  isDropTarget: function() {
+    return this.state.isDroppable && !this.props.isActive;
+  },
+  isVisible: function() {
+    return this.props.category.is_visible;
+  },
+  handleEditStart: function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    return window.location = Routes.operator_categories_edit_url(this.props.category.id);
+  },
+  handleItemClick: function() {
+    var totalCount, withoutCategoryCount;
+    totalCount = this.props.category.current_deep_products_count;
+    withoutCategoryCount = this.props.category.current_products_count;
+    return this.props.onCategorySelect({
+      category: this.props.category,
+      includeSubcategories: true
+    });
+  },
+  handleMouseEnter: function() {
+    if (this.isDropTarget()) {
+      return this.timeout = setTimeout(((function(_this) {
+        return function() {
+          return _this.props.onCategorySelect({
+            category: _this.props.category,
+            includeSubcategories: true
+          });
+        };
+      })(this)), SWITCH_CATEGORY_TIMEOUT);
+    }
+  },
+  handleMouseLeave: function() {
+    if (this.timeout) {
+      return clearTimeout(this.timeout);
+    }
+  },
+  getStateFromStore: function() {
+    return {
+      isDroppable: DragStateStore.isDragged()
+    };
+  },
+  _onStoreChange: function() {
+    return this.setState(this.getStateFromStore());
+  }
+});
+
+
+
+},{}],24:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var SWITCH_CATEGORY_TIMEOUT, TITLE;
+
+TITLE = 'Все товары';
+
+SWITCH_CATEGORY_TIMEOUT = 200;
+
+window.OperatorCategories_ListItemWithSubcategories = React.createClass({displayName: 'OperatorCategories_ListItemWithSubcategories',
+  mixins: [CategoryDroppable],
+  propTypes: {
+    category: React.PropTypes.object.isRequired,
+    isActive: React.PropTypes.bool.isRequired,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  getInitialState: function() {
+    return this.getStateFromStore();
+  },
+  componentDidMount: function() {
+    return DragStateStore.addChangeListener(this._onStoreChange);
+  },
+  componentWillUnmount: function() {
+    return DragStateStore.removeChangeListener(this._onStoreChange);
+  },
+  render: function() {
+    var itemClasses, totalCount, withoutCategoryCount;
+    totalCount = this.props.category.current_deep_products_count;
+    withoutCategoryCount = this.props.category.current_products_count;
+    itemClasses = React.addons.classSet({
+      'adm-categories-item': true,
+      'selected': this.props.isActive,
+      '__droptarget-active': this.isDropTarget()
+    });
+    return React.DOM.div({className: itemClasses, 
+                 onClick:  this.handleClick, 
+                 onMouseEnter:  this.handleMouseEnter, 
+                 onMouseLeave:  this.handleMouseLeave}, 
+              React.DOM.span({className: "adm-categories-item-name"}, 
+                TITLE 
+              ), 
+              React.DOM.span({className: "adm-categories-item-counter"}, 
+                totalCount 
+              )
+            );
+  },
+  isDropTarget: function() {
+    return this.state.isDroppable && !this.props.isActive;
+  },
+  handleMouseEnter: function() {
+    if (this.isDropTarget()) {
+      return this.timeout = setTimeout(((function(_this) {
+        return function() {
+          return _this.props.onCategorySelect({
+            category: _this.props.category,
+            includeSubcategories: true
+          });
+        };
+      })(this)), SWITCH_CATEGORY_TIMEOUT);
+    }
+  },
+  handleMouseLeave: function() {
+    if (this.timeout) {
+      return clearTimeout(this.timeout);
+    }
+  },
+  handleClick: function() {
+    return this.props.onCategorySelect({
+      category: this.props.category,
+      includeSubcategories: true
+    });
+  },
+  getStateFromStore: function() {
+    return {
+      isDroppable: DragStateStore.isDragged()
+    };
+  },
+  _onStoreChange: function() {
+    return this.setState(this.getStateFromStore());
+  }
+});
+
+
+
+},{}],25:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var TITLE;
+
+TITLE = 'Без категории';
+
+window.OperatorCategories_ListItemWithoutCategory = React.createClass({displayName: 'OperatorCategories_ListItemWithoutCategory',
+  propTypes: {
+    category: React.PropTypes.object.isRequired,
+    isActive: React.PropTypes.bool.isRequired,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    var itemClasses, totalCount, withoutCategoryCount;
+    totalCount = this.props.category.current_deep_products_count;
+    withoutCategoryCount = this.props.category.current_products_count;
+    itemClasses = React.addons.classSet({
+      'adm-categories-item': true,
+      '__muted': true,
+      'selected': this.props.isActive
+    });
+    if (withoutCategoryCount !== 0 && totalCount !== withoutCategoryCount) {
+      return React.DOM.div({className: itemClasses, 
+                   onClick:  this.handleClick}, 
+              React.DOM.span({className: "adm-categories-item-name"}, 
+                TITLE 
+              ), 
+              React.DOM.span({className: "adm-categories-item-counter"}, 
+                withoutCategoryCount 
+              )
+            );
+    } else {
+      return null;
+    }
+  },
+  handleClick: function() {
+    return this.props.onCategorySelect({
+      category: this.props.category,
+      includeSubcategories: false
+    });
+  }
+});
+
+
+
+},{}],26:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var DRAG_DELAY, DRAG_REVERT;
+
+DRAG_DELAY = 100;
+
+DRAG_REVERT = 100;
+
+window.OperatorCategories_List = React.createClass({displayName: 'OperatorCategories_List',
+  propTypes: {
+    parentCategory: React.PropTypes.object,
+    currentCategory: React.PropTypes.object,
+    changeProductCategoryUrl: React.PropTypes.string,
+    includeSubcategories: React.PropTypes.bool,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  getInitialState: function() {
+    return {
+      parentCategory: this.props.parentCategory,
+      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(this.props.parentCategory)
+    };
+  },
+  componentDidMount: function() {
+    OperatorCategoriesStore.addChangeListener(this._onStoreChange);
+    return $(this.refs.list.getDOMNode()).sortable({
+      scope: 'categoriesReorder',
+      placeholder: 'adm-categories-item __dropzone',
+      forcePlaceholderSize: true,
+      revert: DRAG_REVERT,
+      delay: DRAG_DELAY,
+      stop: this.handleDrop
+    });
+  },
+  componentWillReceiveProps: function(nextProps) {
+    return this.setState({
+      parentCategory: nextProps.parentCategory,
+      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(nextProps.parentCategory)
+    });
+  },
+  componentWillUnmount: function() {
+    return OperatorCategoriesStore.removeChangeListener(this._onStoreChange);
+  },
+  render: function() {
+    var categories, that;
+    that = this;
+    categories = this.state.categoriesToShow.map(function(category) {
+      return OperatorCategories_ListItemManager({
+           category: category, 
+           changeProductCategoryUrl:  that.props.changeProductCategoryUrl, 
+           isActive:  that._isCategoryActive(category), 
+           onCategorySelect:  that.props.onCategorySelect, 
+           key:  category.id});
+    });
+    return React.DOM.div({className: "adm-categories-list"}, 
+
+              OperatorCategories_ListItemWithSubcategories({
+                  category:  this.props.parentCategory, 
+                  changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
+                  isActive:  this.props.currentCategory.id == this.props.parentCategory.id &&
+                             this.props.includeSubcategories == true, 
+                  onCategorySelect:  this.props.onCategorySelect}), 
+
+              React.DOM.span({ref: "list"}, categories ), 
+
+              OperatorCategories_ListItemWithoutCategory({
+                  category:  this.props.parentCategory, 
+                  isActive:  this.props.currentCategory.id == this.props.parentCategory.id &&
+                             this.props.includeSubcategories == false, 
+                  onCategorySelect:  this.props.onCategorySelect}), 
+
+              OperatorCategories_CreateForm({parentCategory:  this.props.parentCategory})
+            );
+  },
+  _isCategoryActive: function(category) {
+    var currentCategory;
+    currentCategory = this.props.currentCategory;
+    if (currentCategory && !(this.state.parentCategory && this.state.parentCategory.id === currentCategory.id)) {
+      return (category.id === currentCategory.id) || (category.id === currentCategory.parent_id);
+    } else {
+      return false;
+    }
+  },
+  handleDrop: function(evt, ui) {
+    var insertIdx, srcId;
+    srcId = parseInt(ui.item.attr('data-objectid'));
+    insertIdx = ui.item.index();
+    $(this.refs.list.getDOMNode()).sortable('cancel');
+    return OperatorCategoriesViewActions.reorderCategories({
+      categoryId: srcId,
+      insertIdx: insertIdx
+    });
+  },
+  handleTotalCountClick: function(e) {
+    e.preventDefault();
+    return this.props.onCategorySelect(this.props.parentCategory);
+  },
+  _onStoreChange: function() {
+    return this.setState({
+      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(this.state.parentCategory)
+    });
+  }
+});
+
+
+
+},{}],27:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCategories_Loaded',
+  propTypes: {
+    parentCategory: React.PropTypes.object.isRequired,
+    currentCategory: React.PropTypes.object.isRequired,
+    productsFilter: React.PropTypes.object,
+    productsCanMove: React.PropTypes.bool,
+    productsUrl: React.PropTypes.string,
+    addProductImageUrl: React.PropTypes.string,
+    changeProductCategoryUrl: React.PropTypes.string,
+    includeSubcategories: React.PropTypes.bool.isRequired,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  componentDidMount: function() {
+    if (this.props.productsCanMove) {
+      return $(this.getDOMNode()).droppable({
+        scope: 'productsToCategories',
+        addClasses: false,
+        tolerance: 'pointer',
+        over: function() {
+          return DragStateDispatcher.handleViewAction({
+            type: 'dragInsideOfLayout'
+          });
+        },
+        out: function() {
+          return DragStateDispatcher.handleViewAction({
+            type: 'dragOutsideOfLayout'
+          });
+        }
+      });
+    }
+  },
+  componentWillUnmount: function() {
+    if (this.props.productsCanMove) {
+      return $(this.getDOMNode()).droppable('destroy');
+    }
+  },
+  render: function() {
+    var categoriesContent, currentCategory, currentCategoryLevel;
+    currentCategory = this.props.currentCategory;
+    currentCategoryLevel = OperatorCategoriesStore.getCategoryLevel(currentCategory);
+    if (currentCategoryLevel === 0) {
+      categoriesContent = OperatorCategories_OneCategory({
+                               parentCategory:  this.props.parentCategory, 
+                               currentCategory: currentCategory, 
+                               productsFilter:  this.props.productsFilter, 
+                               changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
+                               includeSubcategories:  this.props.includeSubcategories, 
+                               onCategorySelect:  this.props.onCategorySelect});
+    } else {
+      categoriesContent = OperatorCategories_TwoCategories({
+                               parentCategory:  this.props.parentCategory, 
+                               currentCategory: currentCategory, 
+                               productsFilter:  this.props.productsFilter, 
+                               changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
+                               includeSubcategories:  this.props.includeSubcategories, 
+                               onCategorySelect:  this.props.onCategorySelect});
+    }
+    return React.DOM.div({className: "adm-categories-grid"}, 
+              categoriesContent, 
+              React.DOM.div({className: "adm-categories-grid-col __wide"}, 
+                OperatorProducts({
+                    categoryId:  this.props.currentCategory.id, 
+                    productsFilter:  this.props.productsFilter, 
+                    productsUrl:  this.props.productsUrl, 
+                    addProductImageUrl:  this.props.addProductImageUrl, 
+                    productsCanMove:  this.props.productsCanMove, 
+                    includeSubcategories:  this.props.includeSubcategories})
+              )
+            );
+  }
+});
+
+
+
+},{}],28:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_Loading = React.createClass({displayName: 'OperatorCategories_Loading',
+  render: function() {
+    return React.DOM.div({className: "adm-categories-grid"}, 
+      React.DOM.div({className: "adm-categories-grid-col"}, 
+        React.DOM.br(null), 
+        Spinner({
+            className: "fa-3x", 
+            align: "center"})
+      )
+    );
+  }
+});
+
+
+
+},{}],29:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_LoadingError = React.createClass({displayName: 'OperatorCategories_LoadingError',
+  render: function() {
+    return React.DOM.div({className: "adm-categories-grid"}, 
+      React.DOM.div({className: "adm-categories-grid-col"}, 
+        "При загрузке категорий возникла ошибка."
+      )
+    );
+  }
+});
+
+
+
+},{}],30:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_OneCategory = React.createClass({displayName: 'OperatorCategories_OneCategory',
+  propTypes: {
+    parentCategory: React.PropTypes.object.isRequired,
+    currentCategory: React.PropTypes.object.isRequired,
+    includeSubcategories: React.PropTypes.bool.isRequired,
+    changeProductCategoryUrl: React.PropTypes.string,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    return React.DOM.div({className: "adm-categories-grid-col"}, 
+      OperatorCategories_List({
+          parentCategory:  this.props.parentCategory, 
+          currentCategory:  this.props.currentCategory, 
+          productsFilter:  this.props.productsFilter, 
+          changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
+          includeSubcategories:  this.props.includeSubcategories, 
+          onCategorySelect:  this.props.onCategorySelect})
+    );
+  }
+});
+
+
+
+},{}],31:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var ERROR_STATE, LOADED_STATE, LOADING_STATE;
+
+LOADING_STATE = 'loading';
+
+LOADED_STATE = 'loaded';
+
+ERROR_STATE = 'error';
+
+window.OperatorCategories = React.createClass({displayName: 'OperatorCategories',
+  propTypes: {
+    productsFilter: React.PropTypes.object,
+    productsCanMove: React.PropTypes.bool,
+    categoriesUrl: React.PropTypes.string,
+    productsUrl: React.PropTypes.string,
+    addProductImageUrl: React.PropTypes.string,
+    changeProductCategoryUrl: React.PropTypes.string,
+    categoryId: React.PropTypes.number
+  },
+  getDefaultProps: function() {
+    return {
+      productsCanMove: true,
+      categoriesUrl: ApiRoutes.operator_categories_url(),
+      productsUrl: ApiRoutes.operator_products_by_category_url(),
+      addProductImageUrl: ApiRoutes.operator_product_images_url(),
+      changeProductCategoryUrl: ApiRoutes.operator_products_change_category_url()
+    };
+  },
+  getInitialState: function() {
+    return {
+      currentState: LOADING_STATE,
+      currentCategory: null,
+      rootCategory: null,
+      includeSubcategories: true
+    };
+  },
+  componentDidMount: function() {
+    OperatorCategoriesViewActions.loadCategories({
+      data: {
+        filter: this.props.productsFilter
+      },
+      url: this.props.categoriesUrl
+    }).then(this.activateLoadedState).fail(this.activateErrorState);
+    return OperatorCategoriesStore.addChangeListener(this._onStoreChange);
+  },
+  componentWillUnmount: function() {
+    return OperatorCategoriesStore.removeChangeListener(this._onStoreChange);
+  },
+  render: function() {
+    switch (this.state.currentState) {
+      case LOADED_STATE:
+        return OperatorCategories_Loaded({
+            parentCategory:  this.state.rootCategory, 
+            currentCategory:  this.state.currentCategory, 
+            productsFilter:  this.props.productsFilter, 
+            productsCanMove:  this.props.productsCanMove, 
+            productsUrl:  this.props.productsUrl, 
+            addProductImageUrl:  this.props.addProductImageUrl, 
+            changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
+            includeSubcategories:  this.state.includeSubcategories, 
+            onCategorySelect:  this.handleCategorySelect});
+      case LOADING_STATE:
+        return OperatorCategories_Loading(null);
+      case ERROR_STATE:
+        return OperatorCategories_LoadingError(null);
+      default:
+        return console.warn('Unknown currentState of OperatorCategories component', this.state.currentState);
+    }
+  },
+  activateLoadedState: function() {
+    return this.setState({
+      currentState: LOADED_STATE
+    });
+  },
+  activateErrorState: function() {
+    return this.setState({
+      currentState: ERROR_STATE
+    });
+  },
+  handleCategorySelect: function(_arg) {
+    var category, includeSubcategories;
+    category = _arg.category, includeSubcategories = _arg.includeSubcategories;
+    this.setState({
+      currentCategory: category,
+      includeSubcategories: includeSubcategories
+    });
+    Aviator.navigate('', {
+      queryParams: {
+        category_id: category.id
+      }
+    });
+    return DragStateDispatcher.handleViewAction({
+      type: 'currentCategoryChanged'
+    });
+  },
+  _onStoreChange: function() {
+    var currentCategory, rootCategory;
+    rootCategory = OperatorCategoriesStore.getRootCategory();
+    if (OperatorCategoriesStore.getCategoryById(this.props.categoryId)) {
+      currentCategory = OperatorCategoriesStore.getCategoryById(this.props.categoryId);
+    } else {
+      if (OperatorCategoriesStore.isCategoryExists(this.state.currentCategory)) {
+        currentCategory = this.state.currentCategory;
+      } else if (this.state.currentCategory && this.state.currentCategory.parent_id) {
+        currentCategory = OperatorCategoriesStore.getCategoryById(this.state.currentCategory.parent_id);
+      } else {
+        currentCategory = rootCategory;
+      }
+    }
+    return this.setState({
+      currentCategory: currentCategory,
+      rootCategory: rootCategory
+    });
+  }
+});
+
+
+
+},{}],32:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorCategories_TwoCategories = React.createClass({displayName: 'OperatorCategories_TwoCategories',
+  propTypes: {
+    parentCategory: React.PropTypes.object.isRequired,
+    currentCategory: React.PropTypes.object.isRequired,
+    includeSubcategories: React.PropTypes.bool.isRequired,
+    changeProductCategoryUrl: React.PropTypes.string,
+    onCategorySelect: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    var currentCategory, currentCategoryLevel, secondCategory;
+    currentCategory = this.props.currentCategory;
+    currentCategoryLevel = OperatorCategoriesStore.getCategoryLevel(currentCategory);
+    secondCategory = (function() {
+      switch (false) {
+        case currentCategoryLevel !== 1:
+          return currentCategory;
+        default:
+          return OperatorCategoriesStore.getCategoryById(currentCategory.parent_id);
+      }
+    })();
+    return React.DOM.span(null, 
+              React.DOM.div({className: "adm-categories-grid-col"}, 
+                OperatorCategories_List({
+                    parentCategory:  this.props.parentCategory, 
+                    currentCategory:  this.props.currentCategory, 
+                    changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
+                    includeSubcategories:  this.props.includeSubcategories, 
+                    onCategorySelect:  this.props.onCategorySelect})
+              ), 
+              React.DOM.div({className: "adm-categories-grid-col"}, 
+                 OperatorCategories_List({
+                     parentCategory: secondCategory, 
+                     currentCategory:  this.props.currentCategory, 
+                     changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
+                     includeSubcategories:  this.props.includeSubcategories, 
+                     onCategorySelect:  this.props.onCategorySelect})
+              )
+            );
+  }
+});
+
+
+
+},{}],33:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var OperatorProducts_AddProductButton, TITLE;
+
+TITLE = 'Добавить новый товар';
+
+OperatorProducts_AddProductButton = React.createClass({displayName: 'OperatorProducts_AddProductButton',
+  propTypes: {
+    categoryId: React.PropTypes.number.isRequired
+  },
+  render: function() {
+    return React.DOM.button({
+        className: "adm-btn-add-goods", 
+        onClick:  this.handleClick}, 
+      React.DOM.i({className: "adm-btn-add-goods-icon"}), 
+      TITLE 
+    );
+  },
+  handleClick: function() {
+    var backUrl, baseUrl;
+    baseUrl = Routes.operator_product_new_url();
+    backUrl = encodeURIComponent(window.location.href);
+    return window.location = baseUrl + '?category_id=' + this.props.categoryId + '&backurl=' + backUrl;
+  }
+});
+
+module.exports = OperatorProducts_AddProductButton;
+
+
+
+},{}],34:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var OperatorProducts_AddProductButton;
+
+OperatorProducts_AddProductButton = require('./buttons/add_product');
+
+window.OperatorProducts_Empty = React.createClass({displayName: 'OperatorProducts_Empty',
+  categoryId: React.PropTypes.number.isRequired,
+  render: function() {
+    return React.DOM.div({className: "adm-categories-content"}, 
+      OperatorProducts_AddProductButton({categoryId:  this.props.categoryId}), 
+      React.DOM.div({className: "adm-categories-content-empty"}, 
+        "В данной категории товаров нет."
+      )
+    );
+  }
+});
+
+
+
+},{"./buttons/add_product":33}],35:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var SELECTED_STATE, UNSELECTED_STATE;
+
+SELECTED_STATE = 'selected';
+
+UNSELECTED_STATE = 'unselected';
+
+window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProducts_ListItem',
+  mixins: [ProductDraggable],
+  propTypes: {
+    product: React.PropTypes.object.isRequired,
+    categoryId: React.PropTypes.number.isRequired,
+    addProductImageUrl: React.PropTypes.string,
+    canMove: React.PropTypes.bool
+  },
+  getInitialState: function() {
+    return {
+      currentState: UNSELECTED_STATE,
+      product: this.props.product
+    };
+  },
+  componentWillReceiveProps: function(nextProps) {
+    return this.setState({
+      product: nextProps.product
+    });
+  },
+  render: function() {
+    var productClasses;
+    productClasses = React.addons.classSet({
+      'adm-categories-goods-item': true,
+      '__selected': this.isSelectedState()
+    });
+    return React.DOM.tr({className: productClasses, 
+                'data-category-id':  this.props.categoryId, 
+                'data-product-id':  this.state.product.id, 
+                onClick:  this.handleClick, 
+                onDrop:  this.handleDrop}, 
+              React.DOM.td({className: "adm-categories-goods-cover", 
+                  'data-title': "Товар"}, 
+                ProductThumb({product:  this.state.product})
+              ), 
+              React.DOM.td({className: "adm-categories-goods-content"}, 
+                React.DOM.span(null,  this.state.product.title), 
+                ProductModificationList({modifications:  this.state.product.items})
+              ), 
+              React.DOM.td({className: "adm-categories-goods-price", 
+                  'data-title': "Сумма"}, 
+                Money({money:  this.state.product.price}), 
+                ProductTotalItemsQuantity({product:  this.state.product})
+              ), 
+              React.DOM.td({className: "adm-categories-goods-status", 
+                  'data-title': "Статус"}, 
+                ProductState({state:  this.state.product.state})
+              )
+            );
+  },
+  isSelectedState: function() {
+    return this.state.currentState === SELECTED_STATE;
+  },
+  activateSelectedState: function() {
+    return this.setState({
+      currentState: SELECTED_STATE
+    });
+  },
+  activateUnselectedState: function() {
+    return this.setState({
+      currentState: UNSELECTED_STATE
+    });
+  },
+  toggleSelectedState: function() {
+    if (this.isSelectedState()) {
+      this.activateUnselectedState();
+      return DragStateDispatcher.handleViewAction({
+        type: 'productBecameUnselected',
+        product: this.state.product
+      });
+    } else {
+      this.activateSelectedState();
+      return DragStateDispatcher.handleViewAction({
+        type: 'productBecameSelected',
+        product: this.state.product
+      });
+    }
+  },
+  _setPreviewImage: function(files) {
+    var newProduct, previewImage, previewImageSrc;
+    newProduct = _.clone(this.state.product);
+    previewImage = files[0];
+    previewImageSrc = window.URL.createObjectURL(previewImage);
+    if (newProduct.image == null) {
+      newProduct.image = {};
+    }
+    newProduct.image.url = previewImageSrc;
+    return this.setState({
+      product: newProduct
+    });
+  },
+  handleDrop: function(e) {
+    var files;
+    files = e.dataTransfer.files;
+    this._setPreviewImage(files);
+    ProductImagesViewActions.addProductImages({
+      url: this.props.addProductImageUrl,
+      files: files,
+      productId: this.state.product.id
+    });
+    return e.preventDefault();
+  },
+  handleClick: function(e) {
+    var backUrl, baseUrl;
+    if (EventHelpers.isAnyServiceKey(e)) {
+      return this.toggleSelectedState();
+    } else {
+      baseUrl = this.props.product.edit_path;
+      backUrl = encodeURIComponent(window.location.href);
+      return window.location = baseUrl + '?backurl=' + backUrl;
+    }
+  }
+});
+
+
+
+},{}],36:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorProducts_ListItemDrag = React.createClass({displayName: 'OperatorProducts_ListItemDrag',
+  propTypes: {
+    product: React.PropTypes.object.isRequired
+  },
+  render: function() {
+    return React.DOM.span({className: "adm-categories-goods-draghelper"}, 
+      React.DOM.table(null, 
+        React.DOM.tbody(null, 
+          React.DOM.tr(null, 
+            React.DOM.td({className: "adm-categories-goods-cover", 
+                'data-title': "Товар"}, 
+              ProductThumb({product:  this.props.product})
+            ), 
+            React.DOM.td({className: "adm-categories-goods-content"}, 
+               this.props.product.title
+            )
+          )
+        )
+      ), 
+      React.DOM.hr(null), 
+      React.DOM.i(null, "Перетащите товар в категорию")
+    );
+  },
+  imageUrl: function() {
+    return AppHelpers.productImageUrl(this.props.product);
+  }
+});
+
+
+
+},{}],37:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorProducts_ListItemsDrag = React.createClass({displayName: 'OperatorProducts_ListItemsDrag',
+  propTypes: {
+    products: React.PropTypes.array.isRequired
+  },
+  render: function() {
+    var products;
+    products = this.props.products.map(function(product) {
+      return React.DOM.tr(null, 
+        React.DOM.td({className: "adm-categories-goods-cover", 
+            'data-title': "Товар"}, 
+          ProductThumb({product: product })
+        ), 
+        React.DOM.td({className: "adm-categories-goods-content"}, 
+           product.title
+        )
+      );
+    });
+    return React.DOM.span({className: "adm-categories-goods-draghelper"}, 
+              React.DOM.table(null, 
+                React.DOM.tbody(null, 
+                  products 
+                )
+              ), 
+              React.DOM.hr(null), 
+              React.DOM.i(null, "Перетащите товары в категорию")
+            );
+  },
+  imageUrl: function() {
+    return AppHelpers.productImageUrl(this.props.product);
+  }
+});
+
+
+
+},{}],38:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var OperatorProducts_AddProductButton;
+
+OperatorProducts_AddProductButton = require('../buttons/add_product');
+
+window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts_List',
+  propTypes: {
+    categoryId: React.PropTypes.number.isRequired,
+    productsCanMove: React.PropTypes.bool,
+    addProductImageUrl: React.PropTypes.string
+  },
+  getInitialState: function() {
+    return this.getStateFromStore();
+  },
+  componentDidMount: function() {
+    OperatorProductsStore.addChangeListener(this._onStoreChange);
+    return $(window).on('drop dragover', this.handleWindowEvents);
+  },
+  componentWillUnmount: function() {
+    OperatorProductsStore.removeChangeListener(this._onStoreChange);
+    return $(window).off('drop dragover', this.handleWindowEvents);
+  },
+  render: function() {
+    var products, that;
+    that = this;
+    products = this.state.products.map(function(product) {
+      return OperatorProducts_ListItem({
+            product: product, 
+            canMove:  that.props.productsCanMove, 
+            addProductImageUrl:  that.props.addProductImageUrl, 
+            categoryId:  that.props.categoryId, 
+            key:  product.id});
+    });
+    return React.DOM.div({className: "adm-categories-content"}, 
+              OperatorProducts_AddProductButton({categoryId:  this.props.categoryId}), 
+              React.DOM.table({className: "adm-categories-goods"}, 
+                React.DOM.tbody(null, products )
+              )
+            );
+  },
+  getStateFromStore: function() {
+    return {
+      products: OperatorProductsStore.getProducts(this.props.categoryId)
+    };
+  },
+  handleWindowEvents: function(e) {
+    return e.preventDefault();
+  },
+  _onStoreChange: function() {
+    return this.setState(this.getStateFromStore());
+  }
+});
+
+
+
+},{"../buttons/add_product":33}],39:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorProducts_Loading = React.createClass({displayName: 'OperatorProducts_Loading',
+  render: function() {
+    return React.DOM.div({className: "adm-categories-content"}, 
+      Spinner({className: "fa-3x"})
+    );
+  }
+});
+
+
+
+},{}],40:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.OperatorProducts_LoadingError = React.createClass({displayName: 'OperatorProducts_LoadingError',
+  propTypes: {
+    message: React.PropTypes.string.isRequired
+  },
+  render: function() {
+    return React.DOM.div({className: "adm-categories-content"}, 
+      "Ошибка загрузки ",  this.props.message, "."
+    );
+  }
+});
+
+
+
+},{}],41:[function(require,module,exports){
+var THRESHOLD, windowHeight;
+
+windowHeight = $(window).height();
+
+THRESHOLD = windowHeight * 2;
+
+window.LoadMoreProductsMixin = {
+  componentDidMount: function() {
+    return $(window).on('scroll', this.handleScroll);
+  },
+  componentWillUnmount: function() {
+    return $(window).off('scroll', this.handleScroll);
+  },
+  handleScroll: function() {
+    var isNearBottom;
+    if (!this.isLoadingMoreState() && !this.state.isAllProductsLoaded) {
+      isNearBottom = $(window).scrollTop() + windowHeight > $(document).height() - THRESHOLD;
+      if (isNearBottom) {
+        return this.loadMoreProducts();
+      }
+    }
+  }
+};
+
+
+
+},{}],42:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var EMPTY_STATE, ERROR_STATE, LOADED_STATE, LOADING_MORE_STATE, LOADING_STATE;
+
+LOADING_MORE_STATE = 'loadingMoreState';
+
+LOADING_STATE = 'loading';
+
+LOADED_STATE = 'loaded';
+
+EMPTY_STATE = 'empty';
+
+ERROR_STATE = 'error';
+
+window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
+  mixins: [React.addons.PureRenderMixin, LoadMoreProductsMixin],
+  propTypes: {
+    categoryId: React.PropTypes.number.isRequired,
+    productsFilter: React.PropTypes.object,
+    productsUrl: React.PropTypes.string,
+    addProductImageUrl: React.PropTypes.string,
+    productsCanMove: React.PropTypes.bool,
+    includeSubcategories: React.PropTypes.bool.isRequired
+  },
+  getInitialState: function() {
+    return {
+      currentState: LOADING_STATE,
+      products: null,
+      page: 1,
+      isAllProductsLoaded: false
+    };
+  },
+  componentDidMount: function() {
+    return this.loadProducts(this.props.categoryId, this.props.includeSubcategories);
+  },
+  componentWillReceiveProps: function(nextProps) {
+    if (this.props.categoryId !== nextProps.categoryId || this.props.includeSubcategories !== nextProps.includeSubcategories) {
+      this.setState({
+        page: 1,
+        isAllProductsLoaded: false
+      });
+      return this.loadProducts(nextProps.categoryId, nextProps.includeSubcategories);
+    }
+  },
+  componentWillUnmount: function() {
+    if (this.xhr != null) {
+      this.xhr.abort();
+    }
+    return this.xhr = null;
+  },
+  render: function() {
+    switch (this.state.currentState) {
+      case LOADED_STATE:
+      case LOADING_MORE_STATE:
+        return OperatorProducts_List({
+             categoryId:  this.props.categoryId, 
+             addProductImageUrl:  this.props.addProductImageUrl, 
+             productsCanMove:  this.props.productsCanMove});
+      case LOADING_STATE:
+        return OperatorProducts_Loading(null);
+      case EMPTY_STATE:
+        return OperatorProducts_Empty({categoryId:  this.props.categoryId});
+      case ERROR_STATE:
+        return OperatorProducts_LoadingError({
+                                   message:  this.state.errorMessage});
+      default:
+        return console.warn('Unknown currentState of OperatorProducts component', this.state.currentState);
+    }
+  },
+  isLoadingMoreState: function() {
+    return this.state.currentState === LOADING_MORE_STATE;
+  },
+  activateErrorState: function() {
+    return this.setState({
+      currentState: ERROR_STATE
+    });
+  },
+  activateLoadingState: function() {
+    return this.setState({
+      currentState: LOADING_STATE
+    });
+  },
+  activateLoadingMoreState: function() {
+    return this.setState({
+      currentState: LOADING_MORE_STATE
+    });
+  },
+  activateLoadedState: function() {
+    return this.setState({
+      currentState: LOADED_STATE
+    });
+  },
+  loadProducts: function(categoryId, includeSubcategories) {
+    this.activateLoadingState();
+    return this.xhr = OperatorProductsViewActions.loadProducts({
+      url: this.props.productsUrl,
+      data: {
+        categoryId: categoryId,
+        filter: this.props.productsFilter,
+        includeSubcategories: includeSubcategories
+      }
+    }).then((function(_this) {
+      return function(response) {
+        var currentState;
+        currentState = response.total_count === 0 ? EMPTY_STATE : LOADED_STATE;
+        return _this.setState({
+          currentState: currentState,
+          page: response.page,
+          isAllProductsLoaded: response.items.length === 0
+        });
+      };
+    })(this)).fail((function(_this) {
+      return function(errMsg) {
+        if (errMsg !== 'abort') {
+          return _this.setState({
+            currentState: ERROR_STATE,
+            errorMessage: errMsg
+          });
+        }
+      };
+    })(this));
+  },
+  loadMoreProducts: function() {
+    this.activateLoadingMoreState();
+    return this.xhr = OperatorProductsViewActions.loadMoreProducts({
+      url: this.props.productsUrl,
+      data: {
+        categoryId: this.props.categoryId,
+        filter: this.props.productsFilter,
+        includeSubcategories: this.props.includeSubcategories,
+        page: this.state.page + 1
+      }
+    }).then((function(_this) {
+      return function(response) {
+        return _this.setState({
+          currentState: LOADED_STATE,
+          page: response.page,
+          isAllProductsLoaded: response.items.length === 0
+        });
+      };
+    })(this)).fail((function(_this) {
+      return function(errMsg) {
+        if (errMsg !== 'abort') {
+          return _this.setState({
+            currentState: ERROR_STATE,
+            errorMessage: errMsg
+          });
+        }
+      };
+    })(this));
+  }
+});
+
+
+
+},{}],43:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var ERROR_STATE, LOADED_STATE, LOADING_STATE, ProductImages_Image;
+
+LOADING_STATE = 'loading';
+
+LOADED_STATE = 'loaded';
+
+ERROR_STATE = 'error';
+
+ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
+  mixins: ['ReactActivitiesUser', ComponentManipulationsMixin],
+  propTypes: {
+    image: React.PropTypes.object.isRequired,
+    size: React.PropTypes.string,
+    fieldName: React.PropTypes.string,
+    productId: React.PropTypes.number,
+    productCardId: React.PropTypes.number,
+    onImagePreload: React.PropTypes.func.isRequired,
+    onImageDelete: React.PropTypes.func.isRequired,
+    onImageRotate: React.PropTypes.func.isRequired
+  },
+  getDefaultProps: function() {
+    return {
+      size: '150x150'
+    };
+  },
+  componentDidMount: function() {
+    if (this.isLoadingState()) {
+      return this.preloadImage();
+    }
+  },
+  getInitialState: function() {
+    return {
+      currentState: this.props.image.id != null ? LOADED_STATE : LOADING_STATE,
+      image: this.props.image
+    };
+  },
+  render: function() {
+    var message;
+    message = (function() {
+      switch (this.state.currentState) {
+        case LOADING_STATE:
+          return React.DOM.div({className: "products__new-form-image-thumb-preload"}, 
+          Spinner({className: "fa-2x"})
+        );
+        case ERROR_STATE:
+          return React.DOM.div({className: "form-alert form-alert-danger"}, 
+          "Ошибка загрузки. Перезагрузите данное изображение."
+        );
+      }
+    }).call(this);
+    return React.DOM.div({'data-id':  this.props.image.id, 
+                 className: "products__new-form-image-thumb-block"}, 
+              React.DOM.img({src:  this._getImageUrl(), 
+                   className: "products__new-form-image-thumb"}), 
+
+              message, 
+
+              React.DOM.div({className: "products__new-form-image-thumb-remove", 
+                   onClick:  this.props.onImageDelete}), 
+              React.DOM.div({className: "products__new-form-image-thumb-update", 
+                   onClick:  this.rotateImage}), 
+
+               this.renderHiddenInput() 
+            );
+  },
+  renderHiddenInput: function() {
+    if (this.props.image.id) {
+      return React.DOM.input({type: "hidden", 
+              name:  this.props.fieldName, 
+              value:  this.props.image.id});
+    }
+  },
+  isLoadingState: function() {
+    return this.state.currentState === LOADING_STATE;
+  },
+  activateLoadingState: function() {
+    return this.setState({
+      currentState: LOADING_STATE
+    });
+  },
+  activateLoadedState: function() {
+    return this.setState({
+      currentState: LOADED_STATE
+    });
+  },
+  activateErrorState: function() {
+    return this.setState({
+      currentState: ERROR_STATE
+    });
+  },
+  preloadImage: function() {
+    var file, formData;
+    file = this.props.image.file;
+    if (!file) {
+      return console.warn('Missing file object for preloading product image');
+    }
+    formData = new FormData();
+    formData.append('image', file);
+    return ProductImagesViewActions.preloadImage({
+      file: file,
+      productId: this.props.productId,
+      productCardId: this.props.productCardId,
+      success: (function(_this) {
+        return function(data) {
+          _this.activateLoadedState();
+          return _this.props.onImagePreload({
+            id: data.id,
+            uuid: _this.props.image.uuid,
+            src: data.url
+          });
+        };
+      })(this),
+      error: this.activateErrorState,
+      beforeSend: this.incrementActivities,
+      complete: this.decrementActivities
+    });
+  },
+  _getImageUrl: function() {
+    var _ref;
+    return ThumborService.image_url((_ref = this.state.image) != null ? _ref.url : void 0, this.props.size);
+  },
+  rotateImage: function() {
+    this.activateLoadingState();
+    return ProductImagesViewActions.rotateImage(this.props.image.id).then((function(_this) {
+      return function(data) {
+        _this.activateLoadedState();
+        return _this.props.onImageRotate(data);
+      };
+    })(this)).fail((function(_this) {
+      return function() {
+        _this.activateErrorState();
+        return setTimeout(_this.activateLoadedState, 3000);
+      };
+    })(this));
+  }
+});
+
+module.exports = ProductImages_Image;
+
+
+
+},{}],44:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var ImagesMixin, ProductImages_List, ProductImages_Placeholder;
+
+ProductImages_Placeholder = require('./placeholder');
+
+ProductImages_List = require('./list');
+
+ImagesMixin = require('./mixins/images');
+
+window.ProductImages = React.createClass({displayName: 'ProductImages',
+  mixins: ['ReactActivitiesMixin', ImagesMixin],
+  propTypes: {
+    images: React.PropTypes.array.isRequired,
+    fieldName: React.PropTypes.string.isRequired,
+    productId: React.PropTypes.number,
+    productCardId: React.PropTypes.number
+  },
+  getDefaultProps: function() {
+    return {
+      fieldName: 'product[image_ids][]',
+      images: [
+        {
+          id: 4682,
+          url: 'assets/product-1-square.png?1',
+          id: 4681,
+          url: 'assets/product-2-square.png?1',
+          id: 4680,
+          url: 'assets/product-3-square.png?1'
+        }
+      ]
+    };
+  },
+  getInitialState: function() {
+    return {
+      images: this.convertRawImages()
+    };
+  },
+  render: function() {
+    return React.DOM.div({className: "products__new-form-images-list __small"}, 
+      ProductImages_Placeholder({onImagesAdd:  this.pushImages}), 
+      ProductImages_List({
+          images:  this.state.images, 
+          fieldName:  this.props.fieldName, 
+          productId:  this.props.productId, 
+          productCardId:  this.props.productCardId, 
+          activitiesHandler:  this.activitiesHandler, 
+          onImagesReorder:  this.updateImages, 
+          onImagePreload:  this.updateImage, 
+          onImageRotate:  this.updateImage, 
+          onImageDelete:  this.deleteImage})
+    );
+  }
+});
+
+
+
+},{"./list":45,"./mixins/images":47,"./placeholder":49}],45:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var ProductImageSortableMixin, ProductImages_Image, ProductImages_List;
+
+ProductImages_Image = require('./image');
+
+ProductImageSortableMixin = require('./mixins/sortable');
+
+ProductImages_List = React.createClass({displayName: 'ProductImages_List',
+  mixins: [ProductImageSortableMixin],
+  propTypes: {
+    images: React.PropTypes.array.isRequired,
+    fieldName: React.PropTypes.string,
+    productId: React.PropTypes.number,
+    productCardId: React.PropTypes.number,
+    activitiesHandler: React.PropTypes.object.isRequired,
+    onImagePreload: React.PropTypes.func.isRequired,
+    onImageDelete: React.PropTypes.func.isRequired,
+    onImageRotate: React.PropTypes.func.isRequired
+  },
+  render: function() {
+    var images, that;
+    that = this;
+    images = this.props.images.sort(function(a, b) {
+      return a.position - b.position;
+    }).map(function(image) {
+      return ProductImages_Image({
+             image: image, 
+             fieldName:  that.props.fieldName, 
+             productId:  that.props.productId, 
+             productCardId:  that.props.productCardId, 
+             activitiesHandler:  that.props.activitiesHandler, 
+             onImagePreload:  that.props.onImagePreload.bind(null, image), 
+             onImageDelete:  that.props.onImageDelete.bind(null, image), 
+             onImageRotate:  that.props.onImageRotate.bind(null, image), 
+             key:  image.uuid || image.id});
+    });
+    return React.DOM.div({ref: "list", 
+                 className: "products__new-form-images-list-list"}, 
+              images 
+            );
+  }
+});
+
+module.exports = ProductImages_List;
+
+
+
+},{"./image":43,"./mixins/sortable":48}],46:[function(require,module,exports){
+var ACCEPT_FILE_TYPES, FileUploadMixin, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
+
+ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
+
+MAX_FILE_SIZE = 10 * 1000 * 1000;
+
+MAX_NUMBER_OF_FILES = 6;
+
+FileUploadMixin = {
+  propTypes: {
+    onImagesAdd: React.PropTypes.func.isRequired
+  },
+  componentDidMount: function() {
+    var $fileInput;
+    $fileInput = $(this.refs.fileInput.getDOMNode());
+    $fileInput.on('fileuploadadd', this.addFilesToForm);
+    $fileInput.on('fileuploaddrop', this.activateViewState);
+    $(window).on('dragover', this.activateDropzoneState);
+    $(window).on('dragleave', this.activateViewState);
+    return $fileInput.fileupload({
+      acceptFileTypes: ACCEPT_FILE_TYPES,
+      maxFileSize: MAX_FILE_SIZE,
+      maxNumberOfFiles: MAX_NUMBER_OF_FILES,
+      singleFileUploads: false,
+      autoUpload: false,
+      replaceFileInput: false,
+      pasteZone: null
+    });
+  },
+  componentWillUnmount: function() {
+    var $fileInput;
+    $fileInput = $(this.refs.fileInput.getDOMNode());
+    $fileInput.off('fileuploadadd', this.addFilesToForm);
+    $fileInput.off('fileuploaddrop', this.activateViewState);
+    $(window).off('dragover', this.activateDropzoneState);
+    return $(window).off('dragleave', this.activateViewState);
+  },
+  addFilesToForm: function(e, data) {
+    var images;
+    images = data.files.map(function(file) {
+      return {
+        id: null,
+        uuid: UuidService.generate(),
+        url: window.URL.createObjectURL(file),
+        file: file
+      };
+    });
+    return this.props.onImagesAdd(images);
+  }
+};
+
+module.exports = FileUploadMixin;
+
+
+
+},{}],47:[function(require,module,exports){
+var ImagesMixin, LOADING_IMAGES_MESSAGE, SAVE_BUTTON_TEXT;
+
+LOADING_IMAGES_MESSAGE = 'Идёт загрузка изображений..';
+
+SAVE_BUTTON_TEXT = 'Сохранить';
+
+ImagesMixin = {
+  propTypes: {
+    images: React.PropTypes.array.isRequired
+  },
+  componentDidUpdate: function(prevProps, prevState) {
+    if (this.hasActivities()) {
+      return this._deactivateSubmitButton();
+    } else {
+      return this._activateSubmitButton();
+    }
+  },
+  updateImages: function(imagesData) {
+    var imageData, newImage, newImages, _i, _j, _len, _len1;
+    newImages = this.state.images.slice(0);
+    for (_i = 0, _len = newImages.length; _i < _len; _i++) {
+      newImage = newImages[_i];
+      for (_j = 0, _len1 = imagesData.length; _j < _len1; _j++) {
+        imageData = imagesData[_j];
+        if (!(imageData.id === newImage.id)) {
+          continue;
+        }
+        _.extend(newImage, imageData);
+        break;
+      }
+    }
+    return this.setState({
+      images: newImages
+    });
+  },
+  updateImage: function(oldImage, data) {
+    var newImage, newImages, _i, _len;
+    newImages = this.state.images.slice(0);
+    for (_i = 0, _len = newImages.length; _i < _len; _i++) {
+      newImage = newImages[_i];
+      if (!(newImage === oldImage)) {
+        continue;
+      }
+      _.extend(newImage, data);
+      break;
+    }
+    return this.setState({
+      images: newImages
+    });
+  },
+  pushImages: function(images) {
+    var image, lastImagePosition, newImages, _i, _len;
+    newImages = this.state.images.slice(0);
+    lastImagePosition = 0;
+    this._deactivateSubmitButton();
+    if (newImages.length) {
+      lastImagePosition = newImages[newImages.length - 1].position + 1;
+    }
+    for (_i = 0, _len = images.length; _i < _len; _i++) {
+      image = images[_i];
+      _.extend(image, {
+        position: ++lastImagePosition
+      });
+      newImages.push(image);
+    }
+    return this.setState({
+      images: newImages
+    });
+  },
+  deleteImage: function(image) {
+    var i, newImage, newImages, _i, _len;
+    newImages = this.state.images.slice(0);
+    for (i = _i = 0, _len = newImages.length; _i < _len; i = ++_i) {
+      newImage = newImages[i];
+      if (!(newImage === image)) {
+        continue;
+      }
+      newImages.splice(i, 1);
+      break;
+    }
+    return this.setState({
+      images: newImages
+    });
+  },
+  convertRawImages: function() {
+    return this.props.images.map(function(image, i) {
+      image.position = i;
+      return image;
+    });
+  },
+  _activateSubmitButton: function() {
+    var $submitButton;
+    $submitButton = $('[data-button-save]');
+    return $submitButton.removeAttr('disabled').text(SAVE_BUTTON_TEXT);
+  },
+  _deactivateSubmitButton: function() {
+    var $submitButton;
+    $submitButton = $('[data-button-save]');
+    return $submitButton.attr('disabled', 'disabled').text(LOADING_IMAGES_MESSAGE);
+  },
+  handleFormSubmit: function(e) {
+    if (this.hasActivities()) {
+      return e.preventDefault();
+    }
+  },
+  handlePageClose: function() {
+    if (this.hasActivities()) {
+      return this.state.activities + ' изображений ещё не загрузилось. Вы уверены, что хотите выйти?';
+    }
+  }
+};
+
+module.exports = ImagesMixin;
+
+
+
+},{}],48:[function(require,module,exports){
+var DRAG_DELAY, DRAG_REVERT, ProductImageSortableMixin, _getNewPositions;
+
+DRAG_DELAY = 100;
+
+DRAG_REVERT = 100;
+
+_getNewPositions = function(image, insertIndex) {
+  var currentPosition, imageToShift, minPosition, newPositions, nextSibling, oldImagesPositions, oldTail, originalIndex, positionDiff, previousSibling, slicePosition, _i, _len;
+  originalIndex = image.position;
+  if (insertIndex === originalIndex) {
+    return [];
+  }
+  oldImagesPositions = _.reject(this.props.images, function(i) {
+    return i === image;
+  });
+  if (!(insertIndex < 1)) {
+    previousSibling = oldImagesPositions[insertIndex - 1];
+  }
+  if (!(insertIndex > oldImagesPositions.length - 1)) {
+    nextSibling = oldImagesPositions[insertIndex];
+  }
+  if (!previousSibling && !nextSibling) {
+    return [
+      {
+        id: image.id,
+        position: 0
+      }
+    ];
+  }
+  if (!nextSibling) {
+    return [
+      {
+        id: image.id,
+        position: previousSibling.position + 1
+      }
+    ];
+  }
+  if (!previousSibling) {
+    previousSibling = {
+      id: null,
+      position: -1
+    };
+  }
+  positionDiff = nextSibling.position - previousSibling.position;
+  if (positionDiff > 1) {
+    return [
+      {
+        id: image.id,
+        position: previousSibling.position + 1
+      }
+    ];
+  }
+  slicePosition = previousSibling.position + 1;
+  newPositions = [
+    {
+      id: image.id,
+      position: slicePosition
+    }
+  ];
+  oldTail = oldImagesPositions.slice(insertIndex);
+  for (_i = 0, _len = oldTail.length; _i < _len; _i++) {
+    imageToShift = oldTail[_i];
+    minPosition = slicePosition + 1;
+    currentPosition = imageToShift.position;
+    if (currentPosition < minPosition) {
+      currentPosition = minPosition;
+      newPositions.push({
+        id: imageToShift.id,
+        position: currentPosition
+      });
+      slicePosition = currentPosition + 1;
+    }
+  }
+  return newPositions;
+};
+
+ProductImageSortableMixin = {
+  propTypes: {
+    images: React.PropTypes.array.isRequired,
+    onImagesReorder: React.PropTypes.func.isRequired
+  },
+  componentDidMount: function() {
+    return $(this.getDOMNode()).sortable({
+      scope: 'productImagesReorder',
+      placeholder: 'products__new-form-image-thumb-block __dropzone',
+      forcePlaceholderSize: true,
+      revert: DRAG_REVERT,
+      delay: DRAG_DELAY,
+      stop: this.handleDrop
+    });
+  },
+  handleDrop: function(evt, ui) {
+    var imageId, insertIndex;
+    imageId = parseInt(ui.item.data('id'), 10);
+    insertIndex = ui.item.index();
+    $(this.getDOMNode()).sortable('cancel');
+    return this.reorderImages({
+      imageId: imageId,
+      insertIndex: insertIndex
+    });
+  },
+  reorderImages: function(_arg) {
+    var imageId, insertIndex, newPositions;
+    imageId = _arg.imageId, insertIndex = _arg.insertIndex;
+    newPositions = this.getReorderedPositions(imageId, insertIndex);
+    if (newPositions.length) {
+      return this.props.onImagesReorder(newPositions);
+    }
+  },
+  getImageById: function(imageId) {
+    var image, _i, _len, _ref;
+    _ref = this.props.images;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      image = _ref[_i];
+      if (image.id === imageId) {
+        return image;
+      }
+    }
+  },
+  getReorderedPositions: function(imageId, insertIndex) {
+    var image;
+    image = this.getImageById(imageId);
+    return _getNewPositions.apply(this, [image, insertIndex]);
+  }
+};
+
+module.exports = ProductImageSortableMixin;
+
+
+
+},{}],49:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var DROPZONE_STATE, FileUploadMixin, ProductImages_Placeholder, VIEW_STATE;
+
+FileUploadMixin = require('./mixins/file_upload');
+
+VIEW_STATE = 'view';
+
+DROPZONE_STATE = 'dropZone';
+
+ProductImages_Placeholder = React.createClass({displayName: 'ProductImages_Placeholder',
+  mixins: [FileUploadMixin],
+  getInitialState: function() {
+    return {
+      currentState: VIEW_STATE
+    };
+  },
+  render: function() {
+    var emptyThumbClasses;
+    emptyThumbClasses = React.addons.classSet({
+      'products__new-form-image-thumb-empty': true,
+      '__dropzone': this.isDropzoneState()
+    });
+    return React.DOM.div({className: "products__new-form-image-thumb-block"}, 
+              React.DOM.input({ref: "fileInput", 
+                     type: "file", 
+                     accept: "image/*", 
+                     multiple: true, 
+                     id: "image", 
+                     className: "form-upload__input products__new-form-image-input"}), 
+               React.DOM.div({className: emptyThumbClasses }), 
+               React.DOM.div({className: "products__new-form-image-thumb-add"})
+             );
+  },
+  isDropzoneState: function() {
+    return this.state.currentState === DROPZONE_STATE;
+  },
+  activateDropzoneState: function() {
+    return this.setState({
+      currentState: DROPZONE_STATE
+    });
+  },
+  activateViewState: function() {
+    return this.setState({
+      currentState: VIEW_STATE
+    });
+  }
+});
+
+module.exports = ProductImages_Placeholder;
+
+
+
+},{"./mixins/file_upload":46}],50:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.ProductModificationList = React.createClass({displayName: 'ProductModificationList',
+  propTypes: {
+    modifications: React.PropTypes.array.isRequired
+  },
+  render: function() {
+    var modificationList;
+    modificationList = this.props.modifications.filter(function(modification) {
+      return modification.is_archived === false;
+    }).map(function(modification) {
+      return ProductModificationListItem({
+             modification: modification, 
+             key:  modification.id});
+    });
+    return React.DOM.ul({className: "adm-categories-goods-modifications"}, 
+              modificationList 
+            );
+  }
+});
+
+
+
+},{}],51:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.ProductModificationListItem = React.createClass({displayName: 'ProductModificationListItem',
+  propTypes: {
+    modification: React.PropTypes.object.isRequired
+  },
+  render: function() {
+    var count, itemClasses, quantityUnit, title;
+    title = this.props.modification.title;
+    count = this.props.modification.count;
+    quantityUnit = this.props.modification.quantity_unit.short;
+    itemClasses = React.addons.classSet({
+      'adm-categories-goods-modifications-item': true,
+      '__not-synced': !this.isSynced()
+    });
+    return React.DOM.li({className: itemClasses }, 
+              title, " - ", count, quantityUnit 
+            );
+  },
+  isSynced: function() {
+    return this.props.modification.is_stock_synced === true;
+  }
+});
+
+
+
+},{}],52:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var TITLES;
+
+TITLES = {
+  published: 'OK',
+  has_errors: 'Ошибки',
+  unpublished: 'Снят',
+  archive: 'Архив'
+};
+
+window.ProductState = React.createClass({displayName: 'ProductState',
+  propTypes: {
+    state: React.PropTypes.string.isRequired
+  },
+  render: function() {
+    var classes, source, title;
+    source = {
+      label: true
+    };
+    source["__" + this.props.state] = true;
+    classes = React.addons.classSet(source);
+    title = TITLES[this.props.state];
+    return React.DOM.span({className: classes}, title);
+  }
+});
+
+
+
+},{}],53:[function(require,module,exports){
+
+/** @jsx React.DOM */
+var ERROR_STATE, PROCESS_STATE, PropTypes, SHOW_STATE, cx;
+
+cx = React.addons.classSet;
+
+PropTypes = React.PropTypes;
+
+SHOW_STATE = 'show';
+
+ERROR_STATE = 'error';
+
+PROCESS_STATE = 'process';
+
+window.StatusToggle = React.createClass({displayName: 'StatusToggle',
+  propTypes: {
+    titleOn: PropTypes.string.isRequired,
+    titleOff: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    method: PropTypes.string.isRequired,
+    fieldName: PropTypes.string.isRequired,
+    currentValue: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool
+  },
+  getDefaultProps: function() {
+    return {
+      disabled: false
+    };
+  },
+  getInitialState: function() {
+    return {
+      currentState: SHOW_STATE,
+      checked: this.props.currentValue
+    };
+  },
+  render: function() {
+    var statusClasses;
+    statusClasses = cx({
+      'toggle__block': true,
+      'checked': this.state.checked
+    });
+    return React.DOM.label({className: statusClasses }, 
+              React.DOM.div({className: "toggle__block-label-checked pull-left"}, 
+                 this.props.titleOn
+              ), 
+              React.DOM.div({className: "toggle__block-box pull-left"}, 
+                React.DOM.input({type: "checkbox", 
+                       checked:  this.state.checked, 
+                       disabled:  this.props.disabled, 
+                       className: "toggle__block-checkbox", 
+                       onChange:  this.handleInputChange}), 
+                React.DOM.div({className: "toggle__block-switch"}), 
+                React.DOM.div({className: "toggle__block-track"})
+              ), 
+              React.DOM.div({className: "toggle__block-label-unchecked pull-left"}, 
+                 this.props.titleOff
+              ), 
+              React.DOM.div({className: "clearfix"})
+            );
+  },
+  isProcessState: function() {
+    return this.state.currentState === PROCESS_STATE;
+  },
+  handleInputChange: function(e) {
+    var checked, data;
+    if (this.isProcessState() || this.props.disabled) {
+      return e.preventDefault();
+    }
+    checked = e.target.checked;
+    data = {};
+    data[this.props.fieldName] = checked;
+    return Requester.request({
+      url: this.props.url,
+      data: data,
+      method: this.props.method,
+      success: (function(_this) {
+        return function() {
+          return _this.setState({
+            checked: checked
+          });
+        };
+      })(this),
+      error: (function(_this) {
+        return function(data) {
+          var _ref;
+          alert(((_ref = data.responseJSON) != null ? _ref.error : void 0) || 'Ошибка');
+          return _this.setState({
+            checked: !checked
+          });
+        };
+      })(this)
+    });
+  }
+});
+
+
+
+},{}],54:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.ProductThumb = React.createClass({displayName: 'ProductThumb',
+  propTypes: {
+    product: React.PropTypes.object.isRequired,
+    style: React.PropTypes.string
+  },
+  getDefaultProps: function() {
+    return {
+      style: '50x50'
+    };
+  },
+  render: function() {
+    return React.DOM.img({src:  this._getImageUrl(), 
+          className: "adm-categories-goods-thumb", 
+          alt:  this.props.product.title});
+  },
+  _getImageUrl: function() {
+    var _ref;
+    return ThumborService.image_url((_ref = this.props.product.image) != null ? _ref.url : void 0, this.props.style);
+  }
+});
+
+
+
+},{}],55:[function(require,module,exports){
+
+/** @jsx React.DOM */
+window.ProductTotalItemsQuantity = React.createClass({displayName: 'ProductTotalItemsQuantity',
+  propTypes: {
+    product: React.PropTypes.object.isRequired
+  },
+  render: function() {
+    var content, quantity, quantityUnit;
+    quantity = parseInt(this.props.product.total_items_quantity);
+    quantityUnit = this.props.product.quantity_unit.short;
+    if (quantity > 0) {
+      content = "" + quantity + " " + quantityUnit;
+    } else {
+      content = 'Нет в наличии';
+    }
+    return React.DOM.span({className: "adm-categories-goods-total-quantity", 
+                  dangerouslySetInnerHTML: { __html: content}});
+  }
+});
+
+
+
+},{}],56:[function(require,module,exports){
+window.ModalController = {
+  show: function(url) {
+    var container;
+    container = document.querySelectorAll('[modal-container]')[0];
+    if (!container) {
+      container = $('<\div>', {
+        'modal-container': ''
+      }).appendTo('body')[0];
+    }
+    return React.renderComponent(ModalComponent({
+      url: url
+    }), container);
+  }
+};
+
+
+
+},{}],57:[function(require,module,exports){
+var BaseDispatcher,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+BaseDispatcher = (function(_super) {
+  __extends(BaseDispatcher, _super);
+
+  function BaseDispatcher() {
+    return BaseDispatcher.__super__.constructor.apply(this, arguments);
+  }
+
+  BaseDispatcher.prototype.handleViewAction = function(action) {
+    return this.dispatch({
+      source: 'VIEW_ACTION',
+      action: action
+    });
+  };
+
+  BaseDispatcher.prototype.handleServerAction = function(action) {
+    return this.dispatch({
+      source: 'SERVER_ACTION',
+      action: action
+    });
+  };
+
+  return BaseDispatcher;
+
+})(Dispatcher);
+
+module.exports = BaseDispatcher;
+
+
+
+},{}],58:[function(require,module,exports){
+var BaseDispatcher;
+
+BaseDispatcher = require('./_base');
+
+window.DragStateDispatcher = new BaseDispatcher();
+
+
+
+},{"./_base":57}],59:[function(require,module,exports){
+var BaseDispatcher;
+
+BaseDispatcher = require('./_base');
+
+window.OperatorCategoriesDispatcher = new BaseDispatcher();
+
+
+
+},{"./_base":57}],60:[function(require,module,exports){
+var BaseDispatcher;
+
+BaseDispatcher = require('./_base');
+
+window.OperatorProductsDispatcher = new BaseDispatcher();
+
+
+
+},{"./_base":57}],61:[function(require,module,exports){
+window.AppHelpers = {
+  reselectAndFocus: function(node) {
+    var value, valueLength;
+    value = node.value;
+    valueLength = value.length;
+    node.focus();
+    if (node.setSelectionRange != null) {
+      return node.setSelectionRange(0, valueLength);
+    } else {
+      return node.value = value;
+    }
+  }
+};
+
+
+
+},{}],62:[function(require,module,exports){
+window.EventHelpers = {
+  isAnyServiceKey: function(e) {
+    return e.shiftKey || e.ctrlKey || e.altKey || e.metaKey;
+  }
+};
+
+
+
+},{}],63:[function(require,module,exports){
+var addThousandsSeparator, setDecimal;
+
+addThousandsSeparator = function(value, separator) {
+  var prevResult, result;
+  if (separator == null) {
+    separator = '.';
+  }
+  result = value;
+  while (result !== prevResult) {
+    prevResult = result;
+    result = result.replace(/^(-?\d+)(\d{3})/, "$1" + separator + "$2");
+  }
+  return result;
+};
+
+setDecimal = function(value, mark) {
+  if (mark == null) {
+    mark = ',';
+  }
+  return value.replace(/^(-?\d+)\.(\d+)/, "$1" + mark + "$2");
+};
+
+window.MoneyHelpers = {
+  format: function(cents, currency) {
+    var decimalMark, exponent, result, subunitToUnit, symbolFirst, symbolHtml, thousandsSeparator, unit;
+    symbolHtml = currency.html_name;
+    symbolFirst = currency.symbol_first;
+    subunitToUnit = currency.subunit_to_unit;
+    thousandsSeparator = currency.thousands_separator;
+    decimalMark = currency.decimal_mark;
+    exponent = currency.exponent;
+    unit = cents / subunitToUnit;
+    result = unit.toFixed(exponent);
+    result = setDecimal(result, decimalMark);
+    result = addThousandsSeparator(result, thousandsSeparator);
+    result = symbolFirst ? symbolHtml + result : result + symbolHtml;
+    return result;
+  }
+};
+
+
+
+},{}],64:[function(require,module,exports){
+var BaseMixin, ERROR_TIMEOUT, ram, rau;
+
+ERROR_TIMEOUT = 1000;
+
+BaseMixin = {
+  setActivitiesHandler: function(handler) {
+    this.activitiesHandler = handler;
+    this.hasActivities = handler.hasActivities;
+    this.incrementActivities = handler.increment;
+    return this.decrementActivities = handler.decrement;
+  }
+};
+
+ram = {
+  componentWillMount: function() {
+    return this.setActivitiesHandler(this.createActivitiesHandler());
+  },
+  getInitialState: function() {
+    return {
+      activities: 0
+    };
+  },
+  incrementActivities: function() {
+    return this.activitiesHandler.incrementActivities;
+  },
+  decrementActivities: function() {
+    return this.activitiesHandler.decrementActivities;
+  },
+  createActivitiesHandler: function() {
+    var activities, decrement, hasActivities, increment;
+    increment = (function() {
+      return _.defer((function(_this) {
+        return function() {
+          return _this.setState({
+            activities: ++_this.state.activities
+          });
+        };
+      })(this));
+    }).bind(this);
+    decrement = (function() {
+      return _.defer((function(_this) {
+        return function() {
+          return _this.setState({
+            activities: --_this.state.activities
+          });
+        };
+      })(this));
+    }).bind(this);
+    hasActivities = (function() {
+      return this.state.activities > 0;
+    }).bind(this);
+    activities = (function() {
+      return this.state.activities;
+    }).bind(this);
+    return {
+      increment: increment,
+      decrement: decrement,
+      hasActivities: hasActivities,
+      activities: activities
+    };
+  }
+};
+
+rau = {
+  propTypes: {
+    activitiesHandler: React.PropTypes.object.isRequired
+  },
+  componentWillMount: function() {
+    return this.setActivitiesHandler(this.props.activitiesHandler);
+  },
+  componentWillReceiveProps: function(nextProps) {
+    return this.setActivitiesHandler(nextProps.activitiesHandler);
+  }
+};
+
+React.mixins.add('ReactActivitiesMixin', [ram, BaseMixin]);
+
+React.mixins.add('ReactActivitiesUser', [rau, BaseMixin]);
+
+
+
+},{}],65:[function(require,module,exports){
+window.CategoryDroppable = {
+  componentDidMount: function() {
+    var that;
+    that = this;
+    return $(this.getDOMNode()).droppable({
+      scope: 'productsToCategories',
+      addClasses: false,
+      tolerance: 'pointer',
+      drop: this.handleProductDrop,
+      accept: _.throttle(function(productNode) {
+        var category_id;
+        category_id = parseInt(productNode.attr('data-category-id'));
+        return category_id !== that.props.category.id;
+      })
+    });
+  },
+  handleProductDrop: function(e, ui) {
+    if (DragStateStore.isMultipleSelected()) {
+      OperatorProductsService.changeProductsCategory({
+        url: this.props.changeProductCategoryUrl,
+        products: DragStateStore.getSelectedProducts(),
+        newCategoryId: this.props.category.id,
+        oldCategoryId: parseInt(ui.draggable.attr('data-category-id'))
+      });
+    } else {
+      OperatorProductsService.changeProductsCategory({
+        url: this.props.changeProductCategoryUrl,
+        products: DragStateStore.getDraggedProducts(),
+        newCategoryId: this.props.category.id,
+        oldCategoryId: parseInt(ui.draggable.attr('data-category-id'))
+      });
+    }
+    return DragStateDispatcher.handleViewAction({
+      type: 'productsMoved'
+    });
+  },
+  componentWillUnmount: function() {
+    return $(this.getDOMNode()).droppable('destroy');
+  }
+};
+
+
+
+},{}],66:[function(require,module,exports){
+window.ComponentManipulationsMixin = {
+  safeUpdate: function(func) {
+    if (!this._isUnmounted()) {
+      func();
+    }
+  },
+  safeUpdateState: function(newStates) {
+    if (!this._isUnmounted()) {
+      this.setState(newStates);
+    }
+  },
+  _isUnmounted: function() {
+    return this._compositeLifeCycleState === 'UNMOUNTING' || this._compositeLifeCycleState === 'UNMOUNTED' || this._lifeCycleState === 'UNMOUNTING' || this._lifeCycleState === 'UNMOUNTED';
+  }
+};
+
+
+
+},{}],67:[function(require,module,exports){
+window.ProductDraggable = {
+  getInitialState: function() {
+    return {
+      isDragged: false
+    };
+  },
+  componentDidMount: function() {
+    var that;
+    that = this;
+    if (this.props.canMove) {
+      return $(this.getDOMNode()).draggable({
+        scope: 'productsToCategories',
+        addClasses: false,
+        appendTo: 'body',
+        zIndex: 100,
+        cursor: 'default',
+        cursorAt: {
+          top: -5,
+          left: -15
+        },
+        helper: function() {
+          var stringComponent;
+          if (DragStateStore.isMultipleSelected()) {
+            stringComponent = React.renderComponentToString(OperatorProducts_ListItemsDrag({
+              products: DragStateStore.getSelectedProducts()
+            }));
+          } else {
+            stringComponent = React.renderComponentToString(OperatorProducts_ListItemDrag({
+              product: that.props.product
+            }));
+          }
+          return $(stringComponent);
+        },
+        start: (function(_this) {
+          return function(e) {
+            DragStateDispatcher.handleViewAction({
+              type: 'productBecameDraggable',
+              product: _this.props.product
+            });
+            return _this.setState({
+              isDragged: true
+            });
+          };
+        })(this),
+        stop: function(e) {
+          return setTimeout(function() {
+            DragStateDispatcher.handleViewAction({
+              type: 'productBecameStatic',
+              product: that.props.product
+            });
+            return that.setState({
+              isDragged: false
+            });
+          }, 0);
+        }
+      });
+    }
+  },
+  componentWillUnmount: function() {
+    if (this.props.canMove) {
+      return $(this.getDOMNode()).draggable('destroy');
+    }
+  }
+};
+
+
+
+},{}],68:[function(require,module,exports){
+window.UnmountMixin = {
+  unmount: function() {
+    return _.defer((function(_this) {
+      return function() {
+        return React.unmountComponentAtNode(_this.getDOMNode().parentNode);
+      };
+    })(this));
+  }
+};
+
+
+
+},{}],69:[function(require,module,exports){
+window.CategoriesResource = {
+  index: function(_arg) {
+    var data, url;
+    data = _arg.data, url = _arg.url;
+    return Requester.request({
+      url: url,
+      data: data
+    });
+  },
+  get: function(_arg) {
+    var categoryId, error, success;
+    categoryId = _arg.categoryId, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_category_url(categoryId),
+      success: function(category) {
+        return typeof success === "function" ? success(category) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
+  },
+  create: function(_arg) {
+    var data, error, success;
+    data = _arg.data, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_categories_url(),
+      method: 'POST',
+      data: data,
+      success: function(category) {
+        return typeof success === "function" ? success(category) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
+  },
+  update: function(_arg) {
+    var categoryId, data, error, success;
+    data = _arg.data, categoryId = _arg.categoryId, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_category_url(categoryId),
+      method: 'PUT',
+      data: data,
+      success: function(category) {
+        return typeof success === "function" ? success(category) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
+  },
+  "delete": function(_arg) {
+    var categoryId, error, success;
+    categoryId = _arg.categoryId, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_category_url(categoryId),
+      method: 'DELETE',
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      },
+      success: function(response) {
+        return typeof success === "function" ? success(response) : void 0;
+      }
+    });
+  }
+};
+
+
+
+},{}],70:[function(require,module,exports){
+window.ProductsResource = {
+  index: function(_arg) {
+    var data, error, success;
+    data = _arg.data, success = _arg.success, error = _arg.error;
+    error || (error = KioskOperatorApp.error_alert);
+    data.per_page || (data.per_page = 1000);
+    return Requester.request({
+      dataType: 'json',
+      url: ApiRoutes.operator_products_by_category_url(),
+      method: 'get',
+      data: data,
+      error: function(xhr, status, err) {
+        return error(err || status);
+      },
+      success: function(data) {
+        return success(data.products);
+      }
+    });
+  },
+  get: function(_arg) {
+    var error, productId, success;
+    productId = _arg.productId, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      url: ApiRoutes.operator_product_url(productId),
+      success: function(product) {
+        return typeof success === "function" ? success(product) : void 0;
+      },
+      error: function(xhr, status, err) {
+        return typeof error === "function" ? error(err || status) : void 0;
+      }
+    });
+  },
+  publish: function(_arg) {
+    var error, id, success;
+    id = _arg.id, success = _arg.success, error = _arg.error;
+    return $.ajax({
+      dataType: 'json',
+      method: 'post',
+      url: ApiRoutes.operator_product_publicate_url(id),
+      error: function(xhr, status, err) {
+        if (error) {
+          return error(err || status);
+        }
+      },
+      success: function(data) {
+        if (success) {
+          return success(data);
+        }
+      }
+    });
+  },
+  unpublish: function(_arg) {
+    var error, id, success;
+    id = _arg.id, success = _arg.success, error = _arg.error;
+    return $.ajax({
+      dataType: 'json',
+      method: 'delete',
+      url: ApiRoutes.operator_product_publicate_url(id),
+      error: function(xhr, status, err) {
+        if (error) {
+          return error(err || status);
+        }
+      },
+      success: function(data) {
+        if (success) {
+          return success(data);
+        }
+      }
+    });
+  },
+  update: function(_arg) {
+    var data, error, id, success;
+    id = _arg.id, data = _arg.data, success = _arg.success, error = _arg.error;
+    return Requester.request({
+      dataType: 'json',
+      method: 'put',
+      url: ApiRoutes.operator_product_url(id),
+      data: data,
+      error: function(xhr, status, err) {
+        return error(err || status);
+      },
+      success: success
+    });
+  }
+};
+
+
+
+},{}],71:[function(require,module,exports){
+window.OperatorCategoriesService = {
+  reorderCategories: function(_arg) {
+    var categoryId, insertIdx, newPositions;
+    categoryId = _arg.categoryId, insertIdx = _arg.insertIdx;
+    newPositions = OperatorCategoriesStore.getReorderedPositions(categoryId, insertIdx);
+    if (newPositions.length) {
+      OperatorCategoriesServerActions.reorderCategories(newPositions);
+      return this.updateCategories(newPositions, function(err, response) {
+        if (err) {
+          return console.error(err);
+        }
+      });
+    }
+  },
+  updateCategories: function(data, callback) {
+    var done, that;
+    done = _.after(data.length, function() {
+      return callback();
+    });
+    that = this;
+    return _.each(data, function(i) {
+      return CategoriesResource.update({
+        categoryId: i.id,
+        data: {
+          name: i.name,
+          position: i.position,
+          parent_id: i.parent_id
+        },
+        success: done
+      });
+    });
+  }
+};
+
+
+
+},{}],72:[function(require,module,exports){
+window.OperatorProductsService = {
+  loadProducts: function(_arg) {
+    var data, url;
+    url = _arg.url, data = _arg.data;
+    return Requester.request({
+      url: url,
+      data: {
+        category_id: data.categoryId,
+        filter: data.filter,
+        include_subcategories: data.includeSubcategories,
+        page: 1,
+        per_page: 30
+      }
+    }).then(function(response) {
+      OperatorProductsServerActions.receiveProducts(data.categoryId, response.items);
+      return response;
+    });
+  },
+  loadMoreProducts: function(_arg) {
+    var data, url;
+    url = _arg.url, data = _arg.data;
+    return Requester.request({
+      url: url,
+      data: {
+        category_id: data.categoryId,
+        filter: data.filter,
+        include_subcategories: data.includeSubcategories,
+        page: data.page,
+        per_page: 30
+      }
+    }).then(function(response) {
+      OperatorProductsServerActions.receiveMoreProducts(data.categoryId, response.items);
+      return response;
+    });
+  },
+  changeProductCategory: function(_arg) {
+    var newCategoryId, oldCategoryId, productId, success, url;
+    url = _arg.url, productId = _arg.productId, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId, success = _arg.success;
+    url = url.replace(/(:id)/g, productId);
+    return Requester.request({
+      url: url,
+      method: 'PUT',
+      data: {
+        new_category_id: newCategoryId,
+        old_category_id: oldCategoryId
+      },
+      success: function(product) {
+        if (typeof success === "function") {
+          success();
+        }
+        return OperatorProductsServerActions.moveProduct({
+          product: product,
+          newCategoryId: newCategoryId,
+          oldCategoryId: oldCategoryId
+        });
+      }
+    });
+  },
+  changeProductsCategory: function(_arg) {
+    var completedRequests, newCategoryId, oldCategoryId, product, products, url, _i, _len, _results;
+    url = _arg.url, products = _arg.products, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId;
+    completedRequests = 0;
+    _results = [];
+    for (_i = 0, _len = products.length; _i < _len; _i++) {
+      product = products[_i];
+      _results.push(this.changeProductCategory({
+        url: url,
+        productId: product.id,
+        newCategoryId: newCategoryId,
+        oldCategoryId: oldCategoryId,
+        success: function() {
+          completedRequests++;
+          if (completedRequests === products.length) {
+            OperatorCategoriesViewActions.reloadCategory({
+              categoryId: newCategoryId
+            });
+            return OperatorCategoriesViewActions.reloadCategory({
+              categoryId: oldCategoryId
+            });
+          }
+        }
+      }));
+    }
+    return _results;
+  }
+};
+
+
+
+},{}],73:[function(require,module,exports){
+window.ThumborService = {
+  image_url: function(url, style) {
+    var escapedImageUrl, fallbackImageUrl, imageUrl, thumborUrl;
+    if (style == null) {
+      style = '100x100';
+    }
+    fallbackImageUrl = encodeURIComponent(typeof gon !== "undefined" && gon !== null ? gon.fallback_product_thumb_url : void 0);
+    thumborUrl = typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0;
+    if ((url != null) && url !== '') {
+      if (this.isExternalImage(url)) {
+        escapedImageUrl = encodeURIComponent(url);
+        imageUrl = thumborUrl + ("/unsafe/" + style + "/") + escapedImageUrl;
+      } else {
+        imageUrl = url;
+      }
+    } else {
+      imageUrl = thumborUrl + ("/unsafe/" + style + "/") + fallbackImageUrl;
+    }
+    return imageUrl;
+  },
+  isExternalImage: function(url) {
+    var externalImageMatcher;
+    externalImageMatcher = new RegExp('^http');
+    return externalImageMatcher.test(url);
+  }
+};
+
+
+
+},{}],74:[function(require,module,exports){
+window.UuidService = {
+  generate: function() {
+    var s4;
+    s4 = function() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    };
+    return "" + (s4() + s4()) + "-" + (s4()) + "-" + (s4()) + "-" + (s4()) + "-" + (s4() + s4() + s4());
+  }
+};
+
+
+
+},{}],75:[function(require,module,exports){
+var BaseStore, CHANGE_EVENT,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CHANGE_EVENT = 'change';
+
+BaseStore = (function(_super) {
+  __extends(BaseStore, _super);
+
+  function BaseStore() {
+    return BaseStore.__super__.constructor.apply(this, arguments);
+  }
+
+  BaseStore.prototype.emitChange = function() {
+    return this.emit(CHANGE_EVENT);
+  };
+
+  BaseStore.prototype.addChangeListener = function(cb) {
+    return this.on(CHANGE_EVENT, cb);
+  };
+
+  BaseStore.prototype.removeChangeListener = function(cb) {
+    return this.off(CHANGE_EVENT, cb);
+  };
+
+  return BaseStore;
+
+})(EventEmitter);
+
+module.exports = BaseStore;
+
+
+
+},{}],76:[function(require,module,exports){
+var BaseStore, _draggedProducts, _isOutsideOfLayout, _selectedProducts;
+
+BaseStore = require('./_base');
+
+_draggedProducts = [];
+
+_selectedProducts = [];
+
+_isOutsideOfLayout = false;
+
+window.DragStateStore = _.extend(new BaseStore(), {
+  isDragged: function() {
+    return _draggedProducts.length > 0 && !_isOutsideOfLayout;
+  },
+  isMultipleSelected: function() {
+    return _selectedProducts.length > 1;
+  },
+  isSelectedProductExists: function(product) {
+    var _i, _len, _selectedProduct;
+    for (_i = 0, _len = _selectedProducts.length; _i < _len; _i++) {
+      _selectedProduct = _selectedProducts[_i];
+      if (_selectedProduct.id === product.id) {
+        return true;
+      }
+    }
+    return false;
+  },
+  isDraggedProductExists: function(product) {
+    var _draggedProduct, _i, _len;
+    for (_i = 0, _len = _draggedProducts.length; _i < _len; _i++) {
+      _draggedProduct = _draggedProducts[_i];
+      if (_draggedProduct.id === product.id) {
+        return true;
+      }
+    }
+    return false;
+  },
+  pushDraggedProduct: function(product) {
+    if (!this.isDraggedProductExists(product)) {
+      return _draggedProducts.push(product);
+    }
+  },
+  deleteDraggedProduct: function(product) {
+    var clonedDraggedProduct, clonedDraggedProducts, i, _i, _len;
+    clonedDraggedProducts = _draggedProducts.slice(0);
+    for (i = _i = 0, _len = clonedDraggedProducts.length; _i < _len; i = ++_i) {
+      clonedDraggedProduct = clonedDraggedProducts[i];
+      if (!(clonedDraggedProduct.id === product.id)) {
+        continue;
+      }
+      clonedDraggedProducts.splice(i, 1);
+      break;
+    }
+    return _draggedProducts = clonedDraggedProducts;
+  },
+  pushSelectedProduct: function(product) {
+    if (!this.isSelectedProductExists(product)) {
+      return _selectedProducts.push(product);
+    }
+  },
+  deleteSelectedProduct: function(product) {
+    var clonedSelectedProduct, clonedSelectedProducts, i, _i, _len;
+    clonedSelectedProducts = _selectedProducts.slice(0);
+    for (i = _i = 0, _len = clonedSelectedProducts.length; _i < _len; i = ++_i) {
+      clonedSelectedProduct = clonedSelectedProducts[i];
+      if (!(clonedSelectedProduct.id === product.id)) {
+        continue;
+      }
+      clonedSelectedProducts.splice(i, 1);
+      break;
+    }
+    return _selectedProducts = clonedSelectedProducts;
+  },
+  resetProducts: function() {
+    _draggedProducts = [];
+    return _selectedProducts = [];
+  },
+  getDraggedProducts: function() {
+    return _draggedProducts;
+  },
+  getSelectedProducts: function() {
+    return _selectedProducts;
+  }
+});
+
+DragStateDispatcher.register(function(payload) {
+  var action;
+  action = payload.action;
+  switch (action.type) {
+    case 'productBecameDraggable':
+      DragStateStore.pushDraggedProduct(action.product);
+      return DragStateStore.emitChange();
+    case 'productBecameStatic':
+      DragStateStore.deleteDraggedProduct(action.product);
+      return DragStateStore.emitChange();
+    case 'dragOutsideOfLayout':
+      _isOutsideOfLayout = true;
+      return DragStateStore.emitChange();
+    case 'dragInsideOfLayout':
+      _isOutsideOfLayout = false;
+      return DragStateStore.emitChange();
+    case 'productBecameSelected':
+      return DragStateStore.pushSelectedProduct(action.product);
+    case 'productBecameUnselected':
+      return DragStateStore.deleteSelectedProduct(action.product);
+    case 'productsMoved':
+      return DragStateStore.resetProducts();
+    case 'currentCategoryChanged':
+      if (!DragStateStore.isDragged()) {
+        return DragStateStore.resetProducts();
+      }
+  }
+});
+
+
+
+},{"./_base":75}],77:[function(require,module,exports){
+var BaseStore, _categories, _getNewPositions;
+
+BaseStore = require('./_base');
+
+_categories = [];
+
+_getNewPositions = function(category, insertIndex) {
+  var catToShift, currentPosition, minPosition, newPositions, nextSibling, oldCategoriesParent, oldCategoriesPositions, oldTail, originalIndex, positionDiff, previousSibling, slicePosition, _i, _len;
+  oldCategoriesParent = OperatorCategoriesStore.getCategoryById(category.parent_id);
+  oldCategoriesPositions = OperatorCategoriesStore.getSortedCategoriesByParent(oldCategoriesParent);
+  originalIndex = _.findIndex(oldCategoriesPositions, function(i) {
+    return i.id === category.id;
+  });
+  if (insertIndex === originalIndex) {
+    return [];
+  }
+  oldCategoriesPositions = _.reject(oldCategoriesPositions, function(i) {
+    return i.id === category.id;
+  });
+  if (!(insertIndex < 1)) {
+    previousSibling = oldCategoriesPositions[insertIndex - 1];
+  }
+  if (!(insertIndex > oldCategoriesPositions.length - 1)) {
+    nextSibling = oldCategoriesPositions[insertIndex];
+  }
+  if (!nextSibling) {
+    return [
+      {
+        id: category.id,
+        position: previousSibling.position + 1
+      }
+    ];
+  }
+  if (!previousSibling) {
+    previousSibling = {
+      position: -1,
+      id: null
+    };
+  }
+  positionDiff = nextSibling.position - previousSibling.position;
+  if (positionDiff > 1) {
+    return [
+      {
+        id: category.id,
+        position: previousSibling.position + 1
+      }
+    ];
+  }
+  slicePosition = previousSibling.position + 1;
+  newPositions = [
+    {
+      id: category.id,
+      position: slicePosition,
+      name: category.name
+    }
+  ];
+  oldTail = oldCategoriesPositions.slice(insertIndex);
+  for (_i = 0, _len = oldTail.length; _i < _len; _i++) {
+    catToShift = oldTail[_i];
+    minPosition = slicePosition + 1;
+    currentPosition = catToShift.position;
+    if (currentPosition < minPosition) {
+      currentPosition = minPosition;
+      newPositions.push({
+        id: catToShift.id,
+        position: currentPosition,
+        name: catToShift.name
+      });
+      slicePosition = currentPosition + 1;
+    }
+  }
+  return newPositions;
+};
+
+window.OperatorCategoriesStore = _.extend(new BaseStore(), {
+  isCategoryExists: function(category) {
+    var _category, _i, _len;
+    if (!category) {
+      return false;
+    }
+    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
+      _category = _categories[_i];
+      if (_category.id === category.id) {
+        return true;
+      }
+    }
+    return false;
+  },
+  pushCategories: function(categories) {
+    var category, clonedCategories, _i, _len;
+    clonedCategories = _categories.slice(0);
+    for (_i = 0, _len = categories.length; _i < _len; _i++) {
+      category = categories[_i];
+      if (!this.isCategoryExists(category)) {
+        clonedCategories.push(category);
+      }
+    }
+    return _categories = clonedCategories;
+  },
+  updateCategory: function(data) {
+    var _category, _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
+      _category = _categories[_i];
+      if (!(_category.id === data.id)) {
+        continue;
+      }
+      _.extend(_category, data);
+      break;
+    }
+    return _results;
+  },
+  updatePositions: function(newPositions) {
+    var category, newPosition, reorderedCategories, _i, _j, _len, _len1;
+    reorderedCategories = _categories.slice(0);
+    for (_i = 0, _len = reorderedCategories.length; _i < _len; _i++) {
+      category = reorderedCategories[_i];
+      for (_j = 0, _len1 = newPositions.length; _j < _len1; _j++) {
+        newPosition = newPositions[_j];
+        if (category.id === newPosition.id) {
+          category.position = newPosition.position;
+        }
+      }
+    }
+    return _categories = reorderedCategories;
+  },
+  deleteCategory: function(category) {
+    var clonedCategories, clonedCategory, i, _i, _len;
+    clonedCategories = _categories.slice(0);
+    for (i = _i = 0, _len = clonedCategories.length; _i < _len; i = ++_i) {
+      clonedCategory = clonedCategories[i];
+      if (!(clonedCategory.id === category.id)) {
+        continue;
+      }
+      clonedCategories.splice(i, 1);
+      break;
+    }
+    return _categories = clonedCategories;
+  },
+  getCategories: function() {
+    return _categories;
+  },
+  getRootCategory: function() {
+    var _category, _i, _len;
+    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
+      _category = _categories[_i];
+      if (_category.parent_id === null) {
+        return _category;
+      }
+    }
+  },
+  getCategoryLevel: function(category) {
+    if (category.parent_id) {
+      return 1 + this.getCategoryLevel(this.getCategoryById(category.parent_id));
+    } else {
+      return 0;
+    }
+  },
+  getCategoryPosition: function(category) {
+    var lastPosition, lastSibling, siblings;
+    siblings = _.filter(_categories, function(i) {
+      return i.parent_id === category.parent_id;
+    });
+    if (siblings.length) {
+      lastSibling = _.max(siblings, function(i) {
+        return i.position;
+      });
+      lastPosition = lastSibling.position;
+    } else {
+      lastPosition = -1;
+    }
+    return lastPosition + 1;
+  },
+  getReorderedPositions: function(categoryId, insertIdx) {
+    var category;
+    category = this.getCategoryById(categoryId);
+    return _getNewPositions(category, insertIdx);
+  },
+  getCategoryById: function(categoryId) {
+    var _category, _i, _len;
+    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
+      _category = _categories[_i];
+      if (_category.id === categoryId) {
+        return _category;
+      }
+    }
+  },
+  getSortedCategoriesByParent: function(parentCategory) {
+    var parentId;
+    parentId = parentCategory ? parentCategory.id : null;
+    return _.filter(_categories, function(i) {
+      return i.parent_id === parentId;
+    }).sort(function(a, b) {
+      return a.position - b.position;
+    });
+  }
+});
+
+OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(function(payload) {
+  var action;
+  action = payload.action;
+  switch (action.type) {
+    case 'categoriesLoaded':
+      OperatorCategoriesStore.pushCategories(action.categories);
+      return OperatorCategoriesStore.emitChange();
+    case 'categoriesReordered':
+      OperatorCategoriesStore.updatePositions(action.newPositions);
+      return OperatorCategoriesStore.emitChange();
+    case 'categoryLoaded':
+      if (OperatorCategoriesStore.isCategoryExists(action.category)) {
+        OperatorCategoriesStore.updateCategory(action.category);
+      } else {
+        OperatorCategoriesStore.pushCategories([action.category]);
+      }
+      return OperatorCategoriesStore.emitChange();
+    case 'categoryCreated':
+      OperatorCategoriesStore.pushCategories([action.category]);
+      return OperatorCategoriesStore.emitChange();
+    case 'categoryUpdated':
+      OperatorCategoriesStore.updateCategory(action.category);
+      return OperatorCategoriesStore.emitChange();
+    case 'categoryDeleted':
+      OperatorCategoriesStore.deleteCategory(action.category);
+      return OperatorCategoriesStore.emitChange();
+  }
+});
+
+
+
+},{"./_base":75}],78:[function(require,module,exports){
+var BaseStore, _products;
+
+BaseStore = require('./_base');
+
+_products = {};
+
+window.OperatorProductsStore = _.extend(new BaseStore(), {
+  isProductExists: function(categoryId, productId) {
+    var product, products, _i, _len, _ref;
+    products = (_ref = _products[categoryId]) != null ? _ref : [];
+    for (_i = 0, _len = products.length; _i < _len; _i++) {
+      product = products[_i];
+      if (product.id === productId) {
+        return true;
+      }
+    }
+    return false;
+  },
+  replaceProducts: function(categoryId, products) {
+    return _products[categoryId] = products;
+  },
+  pushProducts: function(categoryId, products) {
+    var clonedProducts, product, _i, _len;
+    _products[categoryId] || (_products[categoryId] = []);
+    clonedProducts = _products[categoryId].slice(0);
+    for (_i = 0, _len = products.length; _i < _len; _i++) {
+      product = products[_i];
+      if (!this.isProductExists(categoryId, product)) {
+        clonedProducts.push(product);
+      }
+    }
+    return _products[categoryId] = clonedProducts;
+  },
+  updateProduct: function(categoryId, data) {
+    var product, products, _i, _len;
+    products = this.getProducts(categoryId);
+    for (_i = 0, _len = products.length; _i < _len; _i++) {
+      product = products[_i];
+      if (!(product.id === data.id)) {
+        continue;
+      }
+      _.extend(product, data);
+      break;
+    }
+    return _products[categoryId] = products;
+  },
+  moveProduct: function(_arg) {
+    var newCategoryId, oldCategoryId, product;
+    oldCategoryId = _arg.oldCategoryId, newCategoryId = _arg.newCategoryId, product = _arg.product;
+    this.removeProduct(oldCategoryId, product.id);
+    return this.pushProducts(newCategoryId, [product]);
+  },
+  removeProduct: function(categoryId, productId) {
+    var clonedProduct, clonedProducts, i, _i, _len;
+    if (!this.isProductExists(categoryId, productId)) {
+      return;
+    }
+    clonedProducts = _products[categoryId].slice(0);
+    for (i = _i = 0, _len = clonedProducts.length; _i < _len; i = ++_i) {
+      clonedProduct = clonedProducts[i];
+      if (!(clonedProduct.id === productId)) {
+        continue;
+      }
+      clonedProducts.splice(i, 1);
+      break;
+    }
+    return _products[categoryId] = clonedProducts;
+  },
+  getProducts: function(categoryId) {
+    var _ref;
+    return (_ref = _products[categoryId]) != null ? _ref : [];
+  }
+});
+
+OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(function(payload) {
+  var action;
+  action = payload.action;
+  switch (action.type) {
+    case 'productsLoaded':
+      OperatorProductsStore.replaceProducts(action.categoryId, action.products);
+      return OperatorProductsStore.emitChange();
+    case 'moreProductsLoaded':
+      OperatorProductsStore.pushProducts(action.categoryId, action.products);
+      return OperatorProductsStore.emitChange();
+    case 'productMoved':
+      OperatorProductsStore.moveProduct({
+        product: action.product,
+        newCategoryId: action.newCategoryId,
+        oldCategoryId: action.oldCategoryId
+      });
+      return OperatorProductsStore.emitChange();
+    case 'productUpdated':
+      OperatorProductsStore.updateProduct(action.categoryId, action.product);
+      return OperatorProductsStore.emitChange();
+  }
+});
+
+
+
+},{"./_base":75}],79:[function(require,module,exports){
+window.ApiRoutes = {
+  operator_product_image_delete_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/images/' + id;
+  },
+  operator_product_images_rotate_url: function(id) {
+    return gon.api_root_url + '/v1/operator/product_images/' + id + '/rotate';
+  },
+  operator_product_images_url: function() {
+    return gon.api_root_url + '/v1/operator/product_images';
+  },
+  operator_categories_url: function() {
+    return gon.api_root_url + '/v1/operator/categories';
+  },
+  operator_category_url: function(id) {
+    return gon.api_root_url + '/v1/operator/categories/' + id;
+  },
+  operator_product_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/' + id;
+  },
+  operator_product_publicate_url: function(id) {
+    return gon.api_root_url + '/v1/operator/products/' + id + '/publication';
+  },
+  operator_products_by_category_url: function() {
+    return gon.api_root_url + '/v1/operator/products';
+  },
+  operator_products_change_category_url: function() {
+    return gon.api_root_url + '/v1/operator/products/:id/change_category';
+  }
+};
+
+
+
+},{}],80:[function(require,module,exports){
+window.Routes = {
+  products_image_delete_path: function(id) {
+    return gon.root_url + '/products/images/' + id;
+  },
+  operator_product_url: function(id) {
+    return gon.root_url + '/operator/products/' + id;
+  },
+  operator_product_edit_url: function(id) {
+    return gon.root_url + '/operator/products/' + id + '/edit';
+  },
+  operator_product_new_url: function() {
+    return gon.root_url + '/operator/products/new';
+  },
+  operator_categories_new_url: function(parentId) {
+    return gon.root_url + '/operator/categories/new?parent_id=' + parentId;
+  },
+  operator_categories_edit_url: function(categoryId) {
+    return gon.root_url + '/operator/categories/' + categoryId + '/edit';
+  },
+  products_by_category_url: function(id) {
+    return gon.root_url + '/operator/products?category_id=' + id;
+  }
+};
+
+
+
+},{}],81:[function(require,module,exports){
+/**
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+module.exports.Dispatcher = require('./lib/Dispatcher')
+
+},{"./lib/Dispatcher":82}],82:[function(require,module,exports){
+/*
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule Dispatcher
+ * @typechecks
+ */
+
+"use strict";
+
+var invariant = require('./invariant');
+
+var _lastID = 1;
+var _prefix = 'ID_';
+
+/**
+ * Dispatcher is used to broadcast payloads to registered callbacks. This is
+ * different from generic pub-sub systems in two ways:
+ *
+ *   1) Callbacks are not subscribed to particular events. Every payload is
+ *      dispatched to every registered callback.
+ *   2) Callbacks can be deferred in whole or part until other callbacks have
+ *      been executed.
+ *
+ * For example, consider this hypothetical flight destination form, which
+ * selects a default city when a country is selected:
+ *
+ *   var flightDispatcher = new Dispatcher();
+ *
+ *   // Keeps track of which country is selected
+ *   var CountryStore = {country: null};
+ *
+ *   // Keeps track of which city is selected
+ *   var CityStore = {city: null};
+ *
+ *   // Keeps track of the base flight price of the selected city
+ *   var FlightPriceStore = {price: null}
+ *
+ * When a user changes the selected city, we dispatch the payload:
+ *
+ *   flightDispatcher.dispatch({
+ *     actionType: 'city-update',
+ *     selectedCity: 'paris'
+ *   });
+ *
+ * This payload is digested by `CityStore`:
+ *
+ *   flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'city-update') {
+ *       CityStore.city = payload.selectedCity;
+ *     }
+ *   });
+ *
+ * When the user selects a country, we dispatch the payload:
+ *
+ *   flightDispatcher.dispatch({
+ *     actionType: 'country-update',
+ *     selectedCountry: 'australia'
+ *   });
+ *
+ * This payload is digested by both stores:
+ *
+ *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'country-update') {
+ *       CountryStore.country = payload.selectedCountry;
+ *     }
+ *   });
+ *
+ * When the callback to update `CountryStore` is registered, we save a reference
+ * to the returned token. Using this token with `waitFor()`, we can guarantee
+ * that `CountryStore` is updated before the callback that updates `CityStore`
+ * needs to query its data.
+ *
+ *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'country-update') {
+ *       // `CountryStore.country` may not be updated.
+ *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
+ *       // `CountryStore.country` is now guaranteed to be updated.
+ *
+ *       // Select the default city for the new country
+ *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
+ *     }
+ *   });
+ *
+ * The usage of `waitFor()` can be chained, for example:
+ *
+ *   FlightPriceStore.dispatchToken =
+ *     flightDispatcher.register(function(payload) {
+ *       switch (payload.actionType) {
+ *         case 'country-update':
+ *           flightDispatcher.waitFor([CityStore.dispatchToken]);
+ *           FlightPriceStore.price =
+ *             getFlightPriceStore(CountryStore.country, CityStore.city);
+ *           break;
+ *
+ *         case 'city-update':
+ *           FlightPriceStore.price =
+ *             FlightPriceStore(CountryStore.country, CityStore.city);
+ *           break;
+ *     }
+ *   });
+ *
+ * The `country-update` payload will be guaranteed to invoke the stores'
+ * registered callbacks in order: `CountryStore`, `CityStore`, then
+ * `FlightPriceStore`.
+ */
+
+  function Dispatcher() {
+    this.$Dispatcher_callbacks = {};
+    this.$Dispatcher_isPending = {};
+    this.$Dispatcher_isHandled = {};
+    this.$Dispatcher_isDispatching = false;
+    this.$Dispatcher_pendingPayload = null;
+  }
+
+  /**
+   * Registers a callback to be invoked with every dispatched payload. Returns
+   * a token that can be used with `waitFor()`.
+   *
+   * @param {function} callback
+   * @return {string}
+   */
+  Dispatcher.prototype.register=function(callback) {
+    var id = _prefix + _lastID++;
+    this.$Dispatcher_callbacks[id] = callback;
+    return id;
+  };
+
+  /**
+   * Removes a callback based on its token.
+   *
+   * @param {string} id
+   */
+  Dispatcher.prototype.unregister=function(id) {
+    invariant(
+      this.$Dispatcher_callbacks[id],
+      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
+      id
+    );
+    delete this.$Dispatcher_callbacks[id];
+  };
+
+  /**
+   * Waits for the callbacks specified to be invoked before continuing execution
+   * of the current callback. This method should only be used by a callback in
+   * response to a dispatched payload.
+   *
+   * @param {array<string>} ids
+   */
+  Dispatcher.prototype.waitFor=function(ids) {
+    invariant(
+      this.$Dispatcher_isDispatching,
+      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
+    );
+    for (var ii = 0; ii < ids.length; ii++) {
+      var id = ids[ii];
+      if (this.$Dispatcher_isPending[id]) {
+        invariant(
+          this.$Dispatcher_isHandled[id],
+          'Dispatcher.waitFor(...): Circular dependency detected while ' +
+          'waiting for `%s`.',
+          id
+        );
+        continue;
+      }
+      invariant(
+        this.$Dispatcher_callbacks[id],
+        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
+        id
+      );
+      this.$Dispatcher_invokeCallback(id);
+    }
+  };
+
+  /**
+   * Dispatches a payload to all registered callbacks.
+   *
+   * @param {object} payload
+   */
+  Dispatcher.prototype.dispatch=function(payload) {
+    invariant(
+      !this.$Dispatcher_isDispatching,
+      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
+    );
+    this.$Dispatcher_startDispatching(payload);
+    try {
+      for (var id in this.$Dispatcher_callbacks) {
+        if (this.$Dispatcher_isPending[id]) {
+          continue;
+        }
+        this.$Dispatcher_invokeCallback(id);
+      }
+    } finally {
+      this.$Dispatcher_stopDispatching();
+    }
+  };
+
+  /**
+   * Is this Dispatcher currently dispatching.
+   *
+   * @return {boolean}
+   */
+  Dispatcher.prototype.isDispatching=function() {
+    return this.$Dispatcher_isDispatching;
+  };
+
+  /**
+   * Call the callback stored with the given id. Also do some internal
+   * bookkeeping.
+   *
+   * @param {string} id
+   * @internal
+   */
+  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
+    this.$Dispatcher_isPending[id] = true;
+    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
+    this.$Dispatcher_isHandled[id] = true;
+  };
+
+  /**
+   * Set up bookkeeping needed when dispatching.
+   *
+   * @param {object} payload
+   * @internal
+   */
+  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
+    for (var id in this.$Dispatcher_callbacks) {
+      this.$Dispatcher_isPending[id] = false;
+      this.$Dispatcher_isHandled[id] = false;
+    }
+    this.$Dispatcher_pendingPayload = payload;
+    this.$Dispatcher_isDispatching = true;
+  };
+
+  /**
+   * Clear bookkeeping used for dispatching.
+   *
+   * @internal
+   */
+  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
+    this.$Dispatcher_pendingPayload = null;
+    this.$Dispatcher_isDispatching = false;
+  };
+
+
+module.exports = Dispatcher;
+
+},{"./invariant":83}],83:[function(require,module,exports){
+/**
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule invariant
+ */
+
+"use strict";
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+  if (false) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  }
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        'Invariant Violation: ' +
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+module.exports = invariant;
+
+},{}],"aviator":[function(require,module,exports){
 // Modules
 var Navigator = require('./navigator');
 
@@ -2377,5398 +7774,6 @@ window.Aviator = {
 }(jQuery);
 
 
-},{}],2:[function(require,module,exports){
-/**
-binds a function to a context
-
-@method bind
-@param {Function} func
-@param {Object} context
-@return {Function}
-@private
-**/
-var bind = function (func, context) {
-  return function () {
-    func.apply(context, Array.prototype.slice.call(arguments));
-  };
-};
-
-/**
-@method each
-@param {Array} arr
-@param {Function} iterator
-@private
-**/
-var each = function (arr, iterator, context) {
-  context = context || this;
-
-  for (var i = 0, len = arr.length; i < len; i++) {
-    iterator.call(context, arr[i], i);
-  }
-};
-
-/**
-@method merge
-@return {Object}
-@private
-**/
-var merge = function () {
-  var result = {},
-      arr = Array.prototype.slice.call(arguments, 0);
-
-  each(arr, function (obj) {
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        result[key] = obj[key];
-      }
-    }
-  });
-
-  return result;
-};
-
-/**
-@method addEvent
-@param {Any} host
-@param {String} eventName
-@param {Function} handler
-@param {Any} [context]
-@private
-**/
-var addEvent = function (host, eventName, handler, context) {
-  host.addEventListener(eventName, bind(handler, context), false);
-};
-
-/**
-@method isArray
-@param {Object} o
-@return {Boolean}
-@private
-**/
-var isArray = function (o) {
-  return Array.isArray(o);
-};
-
-/**
-@method isPlainObject
-@param {any} val
-@return {Boolean}
-@private
-**/
-var isPlainObject = function (val) {
-  return (!!val) && (val.constructor === Object);
-};
-
-/**
-@method isString
-@param {Any} val
-@return {Boolean}
-@private
-**/
-var isString = function (val) {
-  return typeof val === 'string';
-};
-
-module.exports = {
-  bind: bind,
-  each: each,
-  merge: merge,
-  addEvent: addEvent,
-  isArray: isArray,
-  isPlainObject: isPlainObject,
-  isString: isString
-};
-
-},{}],3:[function(require,module,exports){
-var helpers = require('./helpers'),
-    Request = require('./request'),
-    Route   = require('./route');
-
-// helpers
-var each      = helpers.each,
-    addEvent  = helpers.addEvent,
-    isArray   = helpers.isArray;
-
-/**
-@class Navigator
-@constructor
-@private
-**/
-var Navigator = function () {
-  this._routes  = null;
-  this._exits   = [];
-  this._silent  = false;
-  this._dispatchingStarted = false;
-};
-
-Navigator.prototype = {
-
-  /**
-  @method setup
-  @param {Object} options
-  **/
-  setup: function (options) {
-    options = options || {};
-
-    for (var k in options) {
-      if (options.hasOwnProperty(k)) {
-        this[k] = options[k];
-      }
-    }
-
-    this._attachEvents();
-  },
-
-  /**
-  @method setRoutes
-  @param {Object} routes a configuration of routes and targets
-  **/
-  setRoutes: function (routes) {
-    this._routes = routes;
-  },
-
-  /**
-  @method createRouteForURI
-  @param {String} uri
-  @return {Request}
-  **/
-  createRouteForURI: function (uri) {
-    return new Route(this._routes, uri);
-  },
-
-  /**
-  @method createRequest
-  @param {String} uri
-  @param {String|Null} queryString
-  @param {String} matchedRoute
-  @return {Request}
-  **/
-  createRequest: function (uri, queryString, matchedRoute) {
-    this._request = new Request({
-      uri: uri,
-      queryString: queryString,
-      matchedRoute: matchedRoute
-    });
-
-    return this._request;
-  },
-
-  /**
-  @method getCurrentRequest
-  @return {Request}
-  **/
-  getCurrentRequest: function () {
-    return this._request;
-  },
-
-  /**
-  @method getCurrentPathname
-  @return {String}
-  **/
-  getCurrentPathname: function () {
-    if (this.pushStateEnabled) {
-      return this._removeURIRoot(location.pathname);
-    }
-    else {
-      return location.hash.replace('#', '').split('?')[0];
-    }
-  },
-
-  /**
-  @method getCurrentURI
-  @return {String}
-  **/
-  getCurrentURI: function () {
-    if (this.pushStateEnabled) {
-      return this._removeURIRoot(location.pathname) + location.search;
-    }
-    else {
-      return location.hash.replace('#', '');
-    }
-  },
-
-  /**
-  @method getQueryString
-  @return {String|Null}
-  **/
-  getQueryString: function () {
-    var uri, queryString;
-
-    if (this.pushStateEnabled) {
-      return location.search || null;
-    }
-    else {
-      queryString = this.getCurrentURI().split('?')[1];
-
-      if (queryString) {
-        return '?' + queryString;
-      }
-      else {
-        return null;
-      }
-    }
-  },
-
-  /**
-  @method dispatch
-  **/
-  dispatch: function () {
-    var uri         = this.getCurrentPathname(),
-        route       = this.createRouteForURI(uri),
-        queryString = this.getQueryString(),
-        request     = this.createRequest(uri, queryString, route.matchedRoute);
-
-    this._invokeExits(request);
-
-    // temporary action array that can be halted
-    this._actions = route.actions;
-    this._invokeActions(request, route.options);
-
-    // collect exits of the current matching route
-    this._exits = route.exits;
-
-    if (!this._dispatchingStarted) {
-      this._dispatchingStarted = true;
-    }
-  },
-
-  /**
-  @method onURIChange
-  **/
-  onURIChange: function () {
-    if (!this._silent) {
-      this.dispatch();
-    }
-
-    this._silent = false;
-  },
-
-  /**
-  @method onPopState
-  @param {Event}
-  **/
-  onPopState: function (ev) {
-    // Some browsers fire 'popstate' on the initial page load with a null state
-    // object. We always want manual control over the initial page dispatch, so
-    // prevent any popStates from changing the url until we have started
-    // dispatching.
-    if (this._dispatchingStarted) {
-      this.onURIChange();
-    }
-  },
-
-  /**
-  @method onClick
-  @param {Event} ev
-  **/
-  onClick: function (ev) {
-    var target = ev.target,
-        matchesSelector = this._matchesSelector(target),
-        pathname,
-        uri;
-
-    if (ev.metaKey || ev.ctrlKey) return;
-
-    // Sub optimal. It itererates through all ancestors on every single click :/
-    while (target) {
-      if (this._matchesSelector(target)) {
-        break;
-      }
-
-      target = target.parentNode;
-    }
-
-    if (!target) return;
-
-    ev.preventDefault();
-
-    pathname = target.pathname;
-
-    // Some browsers drop the leading slash
-    // from an `a` tag's href location.
-    if ( pathname.charAt(0) !== '/' ) pathname = '/' + pathname;
-
-    uri = pathname.replace(this.root, '');
-
-    this.navigate(uri);
-  },
-
-  /**
-  @method navigate
-  @param {String} uri
-  @param {Object} [options]
-  **/
-  navigate: function (uri, options) {
-    options = options || {};
-
-    var request     = this.getCurrentRequest();
-    var namedParams = options.namedParams;
-    var queryParams = options.queryParams;
-
-    if (!namedParams && request) {
-      namedParams = request.namedParams;
-    }
-
-    // halt any previous action invocations
-    this._actions = [];
-
-    if (queryParams) {
-      uri += this.serializeQueryParams(queryParams);
-    }
-
-    if (namedParams) {
-      for (var p in namedParams) {
-        if (namedParams.hasOwnProperty(p)) {
-          uri = uri.replace(':' + p, encodeURIComponent(namedParams[p]));
-        }
-      }
-    }
-
-    if (options.silent) {
-      this._silent = true;
-    }
-
-    if (this.pushStateEnabled) {
-      uri = this._removeURIRoot(uri);
-
-      uri = this.root + uri;
-
-      if (options.replace) {
-        history.replaceState('navigate', '', uri);
-      }
-      else {
-        history.pushState('navigate', '', uri);
-      }
-
-      this.onURIChange();
-    }
-    else {
-      if (options.replace) location.replace('#' + uri);
-      else location.hash = uri;
-    }
-  },
-
-  /**
-  @method refresh
-  **/
-  refresh: function () {
-    this.dispatch();
-  },
-
-  /**
-  @method _attachEvents
-  @protected
-  **/
-  _attachEvents: function () {
-    var pushStateEnabled = this.pushStateEnabled;
-
-    if (pushStateEnabled) {
-      addEvent(window, 'popstate', this.onPopState, this);
-    }
-    else {
-      addEvent(window, 'hashchange', this.onURIChange, this);
-    }
-
-    addEvent(document, 'click', this.onClick, this);
-  },
-
-  /**
-  @method _matchesSelector
-  @param {DOMNode} node
-  @protected
-  **/
-  _matchesSelector: function (node) {
-    var nodeList = document.querySelectorAll(this.linkSelector),
-        contains = false,
-        i;
-
-    for ( i = 0; i < nodeList.length; i++ ) {
-      if (!contains) contains = ( node === nodeList[i] );
-      else break;
-    }
-
-    return contains;
-  },
-
-  /**
-  pop of any exits function and invoke them
-
-  @method _invokeExits
-  @param {Request} request
-  @protected
-  **/
-  _invokeExits: function (request) {
-    var exit, target, method;
-
-    while(this._exits.length) {
-      exit = this._exits.pop();
-      target = exit.target;
-      method = exit.method;
-
-      if (!(method in target)) {
-        throw new Error("Can't call exit " + method + ' on target for uri ' + request.uri);
-      }
-
-      target[method].call(target);
-    }
-  },
-
-  /**
-  invoke all actions with request and options
-
-  @method _invokeActions
-  @param {Request} request
-  @param {Object} options
-  @protected
-  **/
-  _invokeActions: function (request, options) {
-    var action, target, method;
-
-    while (this._actions.length) {
-      action = this._actions.shift();
-      target = action.target;
-      method = action.method;
-
-     if (!(method in target)) {
-        throw new Error("Can't call action " + method + ' on target for uri ' + request.uri);
-      }
-
-      target[method].call(target, request, options);
-    }
-  },
-
-  /**
-  @method _removeURIRoot
-  @param {String} uri '/partners/s/foo-bar'
-  @return {String} uri '/s/foo-bar'
-  **/
-  _removeURIRoot: function (uri) {
-    var rootRegex = new RegExp('^' + this.root);
-
-    return uri.replace(rootRegex, '');
-  },
-
-  /**
-  @method serializeQueryParams
-  @param {Object} queryParams
-  @return {String} queryString "?foo=bar&baz[]=boo&baz=[]oob"
-  **/
-  serializeQueryParams: function (queryParams) {
-    var queryString = [],
-        val;
-
-    for (var key in queryParams) {
-      if (queryParams.hasOwnProperty(key)) {
-        val = queryParams[key];
-
-        if (isArray(val)) {
-          each(val, function (item) {
-            queryString.push(encodeURIComponent(key) + '[]=' + encodeURIComponent(item));
-          });
-        }
-        else {
-          queryString.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
-        }
-      }
-    }
-
-    queryString = '?' + queryString.join('&');
-
-    return queryString;
-  }
-
-};
-
-module.exports = Navigator;
-
-},{"./helpers":2,"./request":4,"./route":5}],4:[function(require,module,exports){
-var helpers = require('./helpers'),
-    each = helpers.each,
-    merge = helpers.merge,
-    isArray = helpers.isArray;
-
-/**
-@class Request
-@constructor
-**/
-var Request = function (options) {
-  this.namedParams  = {};
-  this.queryParams  = {};
-  this.params       = {};
-
-  this.uri          = options.uri;
-  this.queryString  = options.queryString;
-  this.matchedRoute = options.matchedRoute;
-
-  this._extractNamedParamsFromURI();
-  this._extractQueryParamsFromQueryString();
-  this._mergeParams();
-};
-
-Request.prototype = {
-  /**
-  @method _extractNamedParamsFromURI
-  @private
-  **/
-  _extractNamedParamsFromURI: function () {
-    var uriParts = this.uri.split('/'),
-        routeParts = this.matchedRoute.split('/'),
-        params = {};
-
-    each(routeParts, function (part, i) {
-      var key;
-
-      if (part.indexOf(':') === 0) {
-        key = part.replace(':', '');
-
-        params[key] = decodeURIComponent( uriParts[i] );
-      }
-    });
-
-    this.namedParams = params;
-  },
-
-  /**
-  Splits the query string by '&'. Splits each part by '='.
-  Passes the key and value for each part to _applyQueryParam
-
-  @method _extractQueryParamsFromQueryString
-  @private
-  **/
-  _extractQueryParamsFromQueryString: function () {
-    var parts;
-
-    if (!this.queryString) return;
-
-    parts = this.queryString.replace('?','').split('&');
-
-    each(parts, function (part) {
-      var key = decodeURIComponent( part.split('=')[0] ),
-          val = decodeURIComponent( part.split('=')[1] );
-
-      if ( part.indexOf( '=' ) === -1 ) return;
-      this._applyQueryParam( key, val );
-
-    }, this);
-
-  },
-
-  /**
-  Update the queryParams property with a new key and value.
-  Values for keys with the [] notation are put into arrays
-  or pushed into an existing array for that key.
-
-  @method _applyQueryParam
-  @param {String} key
-  @param {String} val
-  **/
-  _applyQueryParam: function (key, val) {
-    if ( key.indexOf( '[]' ) !== -1 ) {
-      key = key.replace( '[]', '' );
-
-      if (isArray(this.queryParams[key])) {
-        this.queryParams[key].push(val);
-      }
-      else {
-        this.queryParams[key] = [val];
-      }
-    }
-    else {
-      this.queryParams[key] = val;
-    }
-  },
-
-  /**
-  @method _mergeParams
-  @private
-  **/
-  _mergeParams: function () {
-    this.params = merge(this.namedParams, this.queryParams);
-  }
-};
-
-module.exports = Request;
-
-},{"./helpers":2}],5:[function(require,module,exports){
-var helpers = require('./helpers'),
-    merge = helpers.merge,
-    isString = helpers.isString,
-    isPlainObject = helpers.isPlainObject;
-
-/**
-Contains the properties for a route
-After attempting to match a uri to the Routes map
-
-@class Route
-@constructor
-@private
-**/
-var Route = function (routes, uri) {
-  this.uri          = uri;
-  this.matchedRoute = '';
-  this.targets      = [];
-  this.actions      = [];
-  this.exits        = [];
-  this.options      = {};
-
-  this.match(routes);
-
-  this.uri = uri;
-};
-
-Route.prototype = {
-
-  /**
-  Matches the uri from the routes map.
-
-  @method match
-  @param {String} routeLevel
-  @return {Object}
-  **/
-  match: function (routeLevel) {
-    var value, action, target;
-
-    if (routeLevel.target) {
-      this.targets.push(routeLevel.target);
-    }
-
-    if (this.targets.length) {
-      target = this.targets[this.targets.length - 1];
-    }
-
-    action = {
-      target: target,
-      method: null
-    };
-
-    for (var key in routeLevel) {
-      if (routeLevel.hasOwnProperty(key)) {
-        value = routeLevel[key];
-
-        if (this.isFragment(key) && this.isFragmentInURI(key)) {
-          this.updateMatchedRoute(key);
-          this.removeFragmentFromURI(key);
-
-          if (this.isActionDescriptor(value)) {
-
-            // Check that if this fragment is a namedParam,
-            // we never override a regular fragment.
-            if (!this.isNamedParam(key) || !action.method) {
-              if (isString(value)) {
-                action.method = value;
-              }
-              else {
-                action.method = value.method;
-
-                if (value.exit) {
-                  this.exits.unshift({
-                    method: value.exit,
-                    target: routeLevel.target
-                  });
-                }
-
-                if (value.options) {
-                  this.mergeOptions(value.options);
-                }
-              }
-
-              // Adding the action
-              this.actions.push(action);
-            }
-          }
-          else if (value.hasOwnProperty('options')) {
-            this.mergeOptions(value.options);
-          }
-
-          if (isPlainObject(value)) {
-            // recurse
-            this.match(value);
-          }
-        }
-      }
-    }
-  },
-
-  /**
-  @method mergeOptions
-  @param {Object} options
-  **/
-  mergeOptions: function (options) {
-    this.options = merge(this.options, options);
-  },
-
-  /**
-  appends the matched fragment to the matched route
-
-  @method updateMatchedRoute
-  @param {String} fragment
-  **/
-  updateMatchedRoute: function (fragment) {
-    if (fragment !== '/' && fragment !== '/*') {
-      this.matchedRoute += fragment;
-    }
-  },
-
-  /**
-  removes matched fragments from the beginning of the uri
-
-  @method removeFragmentFromURI
-  @param {String} fragment
-  **/
-  removeFragmentFromURI: function (fragment) {
-    var uri = this.uri,
-        uriParts, subFrags;
-
-    if (fragment !== '/' && fragment !== '/*') {
-      if (this.includesNamedParam(fragment)) {
-        uriParts = uri.split('/'),
-        subFrags = fragment.split('/');
-
-        subFrags.forEach(function (f, i) {
-          if (f.indexOf(':') === 0) {
-            uri = uri.replace('/' + uriParts[i], '');
-          }
-          else if (f) {
-            uri = uri.replace('/' + f, '');
-          }
-        });
-      }
-      else {
-        uri = uri.replace(fragment, '');
-      }
-    }
-
-    this.uri = uri;
-  },
-
-  /**
-  @method isFragmentInURI
-  @param {Any} fragment
-  @return {Boolean}
-  **/
-  isFragmentInURI: function (fragment) {
-    var uri = this.uri,
-        uriParts, subFrags;
-
-    if (uri === '/' || uri === '') {
-      return fragment === '/' || fragment === '/*';
-    }
-
-    if ( fragment === '/' ) {
-      return false;
-    }
-    else if ( fragment === '/*' ) {
-      return true;
-    }
-    // includes vs is named param
-    else if (this.includesNamedParam(fragment)) {
-      uriParts = uri.split('/'),
-      subFrags = fragment.split('/');
-
-      if (subFrags.length === 2) {
-        return true;
-      }
-
-      return subFrags.map(function (f, i) {
-        if (f.indexOf(':') === 0) {
-          return true;
-        }
-        else {
-          return uriParts[i].indexOf(f) !== -1;
-        }
-      }).reduce(function (a, b) { return a && b; });
-    }
-    else {
-      return uri.indexOf(fragment) === 0;
-    }
-  },
-
-  /**
-  @method includesNamedParam
-  @param {String} fragment
-  @return {Boolean}
-  **/
-  includesNamedParam: function (fragment) {
-    return fragment.indexOf('/:') !== -1;
-  },
-
-  /**
-  @method isFragment
-  @param {Any} key
-  @return {Boolean}
-  **/
-  isFragment: function (key) {
-    return key.indexOf('/') === 0;
-  },
-
-  /**
-  @method isActionDescriptor
-  @param {Any} val
-  @return {Boolean}
-  **/
-  isActionDescriptor: function (val) {
-    return isString(val) || isPlainObject(val) && val.method;
-  },
-
-  /**
-  @method isNamedParam
-  @param {String} fragment
-  @return {Boolean}
-  **/
-  isNamedParam: function (fragment) {
-    return fragment.indexOf('/:') === 0;
-  }
-};
-
-module.exports = Route;
-
-},{"./helpers":2}],6:[function(require,module,exports){
-window.KioskOperatorApp = {
-  start: function(_arg) {
-    var OperatorRouteTarget, operator, vendor_key;
-    vendor_key = _arg.vendor_key, operator = _arg.operator;
-    console.log("KioskOperatorApp start for vendor: " + vendor_key + ", operator: " + operator.name);
-    $.ajaxSetup({
-      xhrFields: {
-        withCredentials: true,
-        crossDomain: true
-      },
-      headers: {
-        'X-Vendor-Key': vendor_key
-      }
-    });
-    OperatorRouteTarget = {
-      categories: function(req) {}
-    };
-    Aviator.setRoutes({
-      '/operator': {
-        target: OperatorRouteTarget,
-        '/categories': 'categories'
-      }
-    });
-    Aviator.dispatch();
-    window.EB.emit('start');
-    return ReactUjs.initialize();
-  },
-  error_alert: function(message) {
-    return alert(message);
-  }
-};
-
-
-
-},{}],7:[function(require,module,exports){
-$(function() {
-  var authBack, authBox, authSectionToggle, bindActivities, categoriesList, clearClasses, modalClick, path, prevSection, productFormArticul, productFormImageAdd, productFormQuantity, productParamsAdd, productParamsItem, productParamsPlace, productParamsTitle, productVariantTypeBtn, productVariantTypeInput, productVariantTypeLabel, productVariantsAdd, productVariantsAddBlock, productVariantsAddBlockBtn, productVariantsBlock, productVariantsItem, productVariantsPlace, productVariantsTitle, switcherDisplayCategories, switcherTitles;
-  modalClick = function(event) {
-    event.stopPropagation();
-    event.preventDefault();
-    return ModalService.show($(this).data('modalUrl'));
-  };
-  bindActivities = function() {
-    $("[tooltip]").tooltip();
-    return $('[autosize]').autosize();
-  };
-  $(document).on('click', '[ks-modal]', modalClick);
-  bindActivities();
-  $(document).on('page:change', bindActivities);
-  productVariantsAdd = $('@products__new-form-variants-add');
-  productVariantsTitle = $('@products__new-form-variants-title');
-  productVariantsItem = $('@products__new-form-variants-item');
-  productVariantsPlace = $('@products__new-form-variants-place');
-  productVariantsAddBlock = $('@products__new-form-variants-add-block');
-  productVariantsAddBlockBtn = $('@products__new-form-variants-add-block-btn');
-  productVariantsBlock = $('@products__new-form-variants-block');
-  productVariantTypeBtn = $('@products__new-form-variant-type-btn');
-  productVariantTypeInput = $('@products__new-form-variant-type-input');
-  productVariantTypeLabel = $('@products__new-form-variant-type-label');
-  productVariantsBlock.hide();
-  productVariantsAddBlockBtn.on('click', function(e) {
-    e.preventDefault();
-    productVariantsAddBlock.hide();
-    return productVariantsBlock.show();
-  });
-  productVariantTypeBtn.on('click', function(e) {
-    var type;
-    e.preventDefault();
-    productVariantTypeBtn.removeClass('active');
-    $(this).addClass('active');
-    type = $(this).text();
-    return productVariantTypeLabel.text(type);
-  });
-  productVariantTypeInput.on('focus', function() {
-    var prevBtn;
-    prevBtn = productVariantTypeBtn.filter('.active');
-    productVariantTypeBtn.removeClass('active');
-    return $(this).on('blur', function() {
-      if (!($(this).val().length > 0)) {
-        prevBtn.addClass('active');
-        return productVariantTypeLabel.text(prevBtn.text());
-      }
-    });
-  });
-  productVariantTypeInput.on('keypress', function() {
-    var type;
-    if ($(this).val().length > 0) {
-      type = $(this).val();
-      return productVariantTypeLabel.text(type);
-    }
-  });
-  productParamsAdd = $('@products__new-form-params-add');
-  productParamsTitle = $('@products__new-form-params-title');
-  productParamsItem = $('@products__new-form-params-item');
-  productParamsPlace = $('@products__new-form-params-place');
-  productFormQuantity = $('@products__new-form-quantity');
-  productFormArticul = $('@products__new-form-articul');
-  productFormImageAdd = $('@products__new-form-image-add');
-  productVariantsTitle.hide();
-  productVariantsPlace.hide();
-  productVariantsAdd.on('click', function(e) {
-    var html;
-    e.preventDefault();
-    productFormArticul.hide();
-    productFormQuantity.hide();
-    productVariantsTitle.show();
-    productVariantsPlace.show();
-    html = productVariantsItem.html();
-    return productVariantsPlace.append(html);
-  });
-  productParamsTitle.hide();
-  productParamsPlace.hide();
-  productParamsAdd.on('click', function(e) {
-    var html;
-    e.preventDefault();
-    productParamsTitle.show();
-    productParamsPlace.show();
-    html = productParamsItem.html();
-    return productParamsPlace.append(html);
-  });
-  productFormImageAdd.on('click', function(e) {
-    e.preventDefault();
-    return $(this).toggleClass('active');
-  });
-  $('@jump').on('click', function(e) {
-    var href;
-    href = $(this).data('href');
-    if (href !== '') {
-      if (event.shiftKey || event.ctrlKey || event.metaKey) {
-        return window.open(target, '_blank');
-      } else {
-        return window.location = href;
-      }
-    }
-  });
-  $('@jump .dropdown, @jump input').on('click', function(e) {
-    return e.stopPropagation();
-  });
-  categoriesList = $('@categories-list');
-  switcherDisplayCategories = $('@switch-display-categories');
-  switcherTitles = {
-    hide: switcherDisplayCategories.data('title-hide'),
-    show: switcherDisplayCategories.data('title-show')
-  };
-  switcherDisplayCategories.on('click', function(e) {
-    e.preventDefault();
-    if (categoriesList.is(':visible')) {
-      categoriesList.hide();
-      return $(this).text(switcherTitles.show);
-    } else {
-      categoriesList.show();
-      return $(this).text(switcherTitles.hide);
-    }
-  });
-  authBox = $('@auth-box');
-  authSectionToggle = $('@auth-section-toggle');
-  authBack = $('@auth-back-btn');
-  path = [];
-  prevSection = 'welcome';
-  clearClasses = function() {
-    var className, classNames, i;
-    i = 0;
-    classNames = authBox.attr("class").split(/\s+/);
-    while (i < classNames.length) {
-      className = classNames[i];
-      if (className.match(/^__\w+/)) {
-        authBox.removeClass(className);
-      }
-      i++;
-    }
-  };
-  authSectionToggle.on('click', function(e) {
-    var step;
-    e.preventDefault();
-    path.push(prevSection);
-    step = $(this).data('step');
-    clearClasses();
-    authBox.addClass('__' + step);
-    return prevSection = step;
-  });
-  return authBack.on('click', function(e) {
-    var step;
-    console.log(path.length);
-    if (path.length === 0) {
-      return false;
-    }
-    step = path.pop();
-    prevSection = step;
-    clearClasses();
-    return authBox.addClass('__' + step);
-  });
-});
-
-
-
-},{}],8:[function(require,module,exports){
-var Requester;
-
-window._ = require('lodash');
-
-window.$ = window.jQuery = require('jquery');
-
-window.React = require('react');
-
-window.Dispatcher = require('flux').Dispatcher;
-
-window.EventEmitter = require('eventEmitter');
-
-window.ReactUjs = require('reactUjs');
-
-Requester = require('./libs/requester');
-
-window.EB = new EventEmitter();
-
-window.Requester = new Requester({
-  eb: window.EB
-});
-
-require('jquery.ui.core');
-
-require('jquery.ui.widget');
-
-require('jquery.ui.mouse');
-
-require('jquery.ui.draggable');
-
-require('jquery.ui.droppable');
-
-require('jquery.ui.sortable');
-
-require('jquery.autosize');
-
-require('jquery.fileupload');
-
-require('jquery.role');
-
-require('react-mixin-manager')(window.React);
-
-require('bootstrapSass');
-
-require('typeahead');
-
-require('aviator');
-
-
-
-},{"./libs/requester":9,"aviator":undefined,"bootstrapSass":undefined,"eventEmitter":undefined,"flux":81,"jquery":undefined,"jquery.autosize":undefined,"jquery.fileupload":undefined,"jquery.role":undefined,"jquery.ui.core":undefined,"jquery.ui.draggable":undefined,"jquery.ui.droppable":undefined,"jquery.ui.mouse":undefined,"jquery.ui.sortable":undefined,"jquery.ui.widget":undefined,"lodash":undefined,"react":undefined,"react-mixin-manager":undefined,"reactUjs":undefined,"typeahead":undefined}],9:[function(require,module,exports){
-var Requester,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
-Requester = (function() {
-  function Requester(_arg) {
-    var eb;
-    eb = _arg.eb;
-    this.request = __bind(this.request, this);
-    this.start = false;
-    this.eb = eb;
-    eb.on('start', (function(_this) {
-      return function() {
-        _this.start = true;
-        return console.log('Requester started');
-      };
-    })(this));
-  }
-
-  Requester.prototype.request = function(options) {
-    if (this.start) {
-      return $.ajax(options);
-    } else {
-      return this.eb.on('start', function() {
-        return $.ajax(options);
-      });
-    }
-  };
-
-  return Requester;
-
-})();
-
-module.exports = Requester;
-
-
-
-},{}],10:[function(require,module,exports){
-window.OperatorCategoriesServerActions = {
-  receiveCategories: function(categories) {
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'categoriesLoaded',
-      categories: categories
-    });
-  },
-  reorderCategories: function(newPositions) {
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'categoriesReordered',
-      newPositions: newPositions
-    });
-  },
-  receiveCategory: function(category) {
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'categoryLoaded',
-      category: category
-    });
-  },
-  createCategory: function(category) {
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'categoryCreated',
-      category: category
-    });
-  },
-  updateCategory: function(category) {
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'categoryUpdated',
-      category: category
-    });
-  },
-  deleteCategory: function(category) {
-    return OperatorCategoriesDispatcher.handleServerAction({
-      type: 'categoryDeleted',
-      category: category
-    });
-  }
-};
-
-
-
-},{}],11:[function(require,module,exports){
-window.OperatorProductsServerActions = {
-  receiveProducts: function(categoryId, products) {
-    return OperatorProductsDispatcher.handleServerAction({
-      type: 'productsLoaded',
-      categoryId: categoryId,
-      products: products
-    });
-  },
-  receiveMoreProducts: function(categoryId, products) {
-    return OperatorProductsDispatcher.handleServerAction({
-      type: 'moreProductsLoaded',
-      categoryId: categoryId,
-      products: products
-    });
-  },
-  updateProduct: function(_arg) {
-    var categoryId, product;
-    categoryId = _arg.categoryId, product = _arg.product;
-    return OperatorProductsDispatcher.handleServerAction({
-      type: 'productUpdated',
-      product: product,
-      categoryId: categoryId
-    });
-  },
-  moveProduct: function(_arg) {
-    var newCategoryId, oldCategoryId, product;
-    oldCategoryId = _arg.oldCategoryId, newCategoryId = _arg.newCategoryId, product = _arg.product;
-    return OperatorProductsDispatcher.handleServerAction({
-      type: 'productMoved',
-      product: product,
-      newCategoryId: newCategoryId,
-      oldCategoryId: oldCategoryId
-    });
-  }
-};
-
-
-
-},{}],12:[function(require,module,exports){
-window.OperatorCategoriesViewActions = {
-  loadCategories: function(_arg) {
-    var data, url;
-    url = _arg.url, data = _arg.data;
-    return CategoriesResource.index({
-      url: url,
-      data: data
-    }).then(OperatorCategoriesServerActions.receiveCategories);
-  },
-  reorderCategories: function(options) {
-    return OperatorCategoriesService.reorderCategories(options);
-  },
-  reloadCategory: function(_arg) {
-    var categoryId;
-    categoryId = _arg.categoryId;
-    return CategoriesResource.get({
-      categoryId: categoryId,
-      success: function(category) {
-        return OperatorCategoriesServerActions.receiveCategory(category);
-      }
-    });
-  },
-  createCategory: function(_arg) {
-    var error, name, parentId, success;
-    name = _arg.name, parentId = _arg.parentId, success = _arg.success, error = _arg.error;
-    return CategoriesResource.create({
-      data: {
-        name: name,
-        parent_id: parentId,
-        position: OperatorCategoriesStore.getCategoryPosition({
-          parent_id: parentId
-        })
-      },
-      success: function(category) {
-        OperatorCategoriesServerActions.createCategory(category);
-        return typeof success === "function" ? success(category) : void 0;
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      }
-    });
-  },
-  updateCategory: function(_arg) {
-    var category, error, success;
-    category = _arg.category, success = _arg.success, error = _arg.error;
-    return CategoriesResource.update({
-      categoryId: category.id,
-      data: {
-        name: category.name,
-        position: category.position,
-        parent_id: category.parent_id
-      },
-      success: function(category) {
-        OperatorCategoriesServerActions.updateCategory(category);
-        return typeof success === "function" ? success(category) : void 0;
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      }
-    });
-  },
-  deleteCategory: function(_arg) {
-    var category, error;
-    category = _arg.category, error = _arg.error;
-    return CategoriesResource["delete"]({
-      categoryId: category.id,
-      success: function(response) {
-        OperatorCategoriesServerActions.deleteCategory(category);
-        return typeof success === "function" ? success(response) : void 0;
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      }
-    });
-  }
-};
-
-
-
-},{}],13:[function(require,module,exports){
-window.OperatorProductsViewActions = {
-  loadProducts: function(_arg) {
-    var data, url;
-    url = _arg.url, data = _arg.data;
-    return OperatorProductsService.loadProducts({
-      url: url,
-      data: data
-    });
-  },
-  loadMoreProducts: function(_arg) {
-    var data, url;
-    url = _arg.url, data = _arg.data;
-    return OperatorProductsService.loadMoreProducts({
-      url: url,
-      data: data
-    });
-  },
-  changeProductCategory: function(options) {
-    return OperatorProductsService.changeProductCategory(options);
-  }
-};
-
-
-
-},{}],14:[function(require,module,exports){
-window.ProductImagesViewActions = {
-  preloadImage: function(_arg) {
-    var beforeSend, complete, error, file, formData, productCardId, productId, success;
-    file = _arg.file, productId = _arg.productId, productCardId = _arg.productCardId, success = _arg.success, error = _arg.error, beforeSend = _arg.beforeSend, complete = _arg.complete;
-    formData = new FormData();
-    formData.append('image', file);
-    if (productId != null) {
-      formData.append('product_id', productId);
-    }
-    if (productCardId != null) {
-      formData.append('product_card_id', productCardId);
-    }
-    return Requester.request({
-      url: ApiRoutes.operator_product_images_url(),
-      method: 'POST',
-      data: formData,
-      contentType: false,
-      processData: false,
-      beforeSend: beforeSend,
-      success: (function(_this) {
-        return function(data) {
-          return typeof success === "function" ? success(data) : void 0;
-        };
-      })(this),
-      error: (function(_this) {
-        return function(data) {
-          return typeof error === "function" ? error(data) : void 0;
-        };
-      })(this),
-      complete: complete
-    });
-  },
-  addProductImages: function(_arg) {
-    var file, files, formData, productId, url, xhr, xhrs, _i, _len;
-    url = _arg.url, files = _arg.files, productId = _arg.productId;
-    if (files.length) {
-      xhrs = [];
-      for (_i = 0, _len = files.length; _i < _len; _i++) {
-        file = files[_i];
-        formData = new FormData();
-        formData.append('image', file);
-        formData.append('product_id', productId);
-        xhr = Requester.request({
-          url: url || ApiRoutes.operator_product_images_url(),
-          method: 'POST',
-          data: formData,
-          contentType: false,
-          processData: false
-        });
-        xhrs.push(xhr);
-      }
-    }
-    return $.when.apply($, xhrs).done(function() {
-      return ProductsResource.get({
-        productId: productId,
-        success: function(product) {
-          return OperatorProductsServerActions.updateProduct({
-            product: product,
-            categoryId: product.category_id
-          });
-        }
-      });
-    });
-  },
-  rotateImage: function(imageId, degree) {
-    if (degree == null) {
-      degree = 90;
-    }
-    return Requester.request({
-      url: ApiRoutes.operator_product_images_rotate_url(imageId),
-      method: 'POST',
-      data: {
-        id: imageId,
-        grad: degree
-      }
-    });
-  }
-};
-
-
-
-},{}],15:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.ImagesForm_Thumbs = React.createClass({displayName: 'ImagesForm_Thumbs',
-  propTypes: {
-    images: React.PropTypes.array.isRequired,
-    onRemove: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    var images, that;
-    if (this.props.images.length === 0) {
-      return null;
-    }
-    images = [];
-    console.log('images', this.props.images);
-    that = this;
-    $.each(this.props.images, function(idx, image) {
-      var onClick;
-      onClick = function() {
-        return that.props.onRemove(image);
-      };
-      return images.push(React.DOM.div({key: image.src, className: "products__new-form-image-thumb-block"}, 
-         React.DOM.img({className: "products__new-form-image-thumb", src: image.src}), 
-         React.DOM.div({className: "products__new-form-image-thumb-remove", onClick: onClick, ref: "remove"}), 
-         React.DOM.div({className: "products__new-form-image-thumb-update", onClick: onClick, ref: "update"})
-       ));
-    });
-    return React.DOM.div({className: "products__new-form-images-list"}, images);
-  }
-});
-
-
-
-},{}],16:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var PropTypes;
-
-PropTypes = React.PropTypes;
-
-window.Money = React.createClass({displayName: 'Money',
-  propTypes: {
-    money: PropTypes.object,
-    className: PropTypes.string
-  },
-  getDefaultProps: function() {
-    return {
-      className: 'nobr'
-    };
-  },
-  render: function() {
-    return React.DOM.span({className:  this.props.className, 
-          dangerouslySetInnerHTML: { __html: this.renderContent()}});
-  },
-  renderContent: function() {
-    var cents, currency, _ref;
-    if (this.props.money != null) {
-      _ref = this.props.money, cents = _ref.cents, currency = _ref.currency;
-      return MoneyHelpers.format(cents, currency);
-    } else {
-      return '---';
-    }
-  }
-});
-
-
-
-},{}],17:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.Spinner = React.createClass({displayName: 'Spinner',
-  propTypes: {
-    align: React.PropTypes.oneOf([null, 'center']),
-    className: React.PropTypes.string
-  },
-  render: function() {
-    var spinner, spinnerClasses;
-    spinnerClasses = ['fa', 'fa-spinner', 'fa-spin'];
-    if (this.props.className) {
-      spinnerClasses.push(this.props.className);
-    }
-    if (this.props.align === 'center') {
-      spinner = React.DOM.div({className: "text-center"}, 
-                   React.DOM.i({className:  spinnerClasses.join(' ') })
-                 );
-    } else {
-      spinner = React.DOM.i({className:  spinnerClasses.join(' ') });
-    }
-    return spinner;
-  }
-});
-
-
-
-},{}],18:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.SuperSelect = React.createClass({displayName: 'SuperSelect',
-  propTypes: {
-    name: React.PropTypes.string.isRequired,
-    options: React.PropTypes.array.isRequired,
-    value: React.PropTypes.string,
-    placeholder: React.PropTypes.string
-  },
-  getInitialState: function() {
-    return {
-      value: this.props.value,
-      inFocus: false
-    };
-  },
-  getDefaultProps: function() {
-    return {
-      placeholder: 'Новая категория',
-      typeaheadOptions: {
-        minLength: 0,
-        hint: true,
-        highlight: true
-      }
-    };
-  },
-  componentDidMount: function() {
-    var node;
-    node = $(this.refs.input.getDOMNode());
-    return node.typeahead(this.props.typeaheadOptions, {
-      name: 'categories',
-      displayKey: 'name',
-      source: this.substringMatcher
-    });
-  },
-  componentWillUnmount: function() {
-    return this.$input().typeahead('destroy');
-  },
-  render: function() {
-    var closeButton, placeholder;
-    if (this.showCloseButton()) {
-      closeButton = this.closeButton();
-    }
-    if (!this.state.inFocus) {
-      placeholder = this.props.placeholder;
-    }
-    console.log('render value', this.state.value);
-    return React.DOM.div({className: "form-group login__form-group--icon-right"}, 
-        React.DOM.input({ref: "input", 
-               onFocus:  this.onFocus, 
-               onBlur:  this.onBlur, 
-               name: this.props.name, 
-               value: this.state.value, 
-               className: "form-control", 
-               onChange: this.change, 
-               placeholder: placeholder, 
-               type: "text"}), 
-        closeButton 
-    );
-  },
-  onFocus: function() {
-    this.setState({
-      inFocus: true
-    });
-    return this.$input().typeahead('open');
-  },
-  onBlur: function() {
-    return this.setState({
-      inFocus: false
-    });
-  },
-  substringMatcher: function(q, cb) {
-    var matches, substrRegex;
-    matches = [];
-    substrRegex = new RegExp(q, 'i');
-    $.each(this.props.options, function(i, str) {
-      return matches.push({
-        name: str
-      });
-    });
-    return cb(matches);
-  },
-  $input: function() {
-    return $(this.refs.input.getDOMNode());
-  },
-  change: function(e) {
-    this.setState({
-      value: this.$input().val()
-    });
-    return e;
-  },
-  showCloseButton: function() {
-    var _ref, _ref1;
-    return (_ref = ((_ref1 = this.state.value) != null ? _ref1.length : void 0) > 0) != null ? _ref : {
-      "true": false
-    };
-  },
-  closeButton: function() {
-    return React.DOM.a({className: "login__form-input-btn--right", onClick: this.clear}, "×");
-  },
-  clear: function() {
-    this.setState({
-      value: ''
-    });
-    return this.$input().typeahead('val', '');
-  }
-});
-
-
-
-},{}],19:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var LOADED_STATE, LOADING_STATE;
-
-LOADING_STATE = 'loading';
-
-LOADED_STATE = 'loaded';
-
-window.ModalComponent = React.createClass({displayName: 'ModalComponent',
-  mixins: [UnmountMixin],
-  propTypes: {
-    url: React.PropTypes.string.isRequired
-  },
-  getInitialState: function() {
-    return {
-      currentState: LOADING_STATE,
-      content: ''
-    };
-  },
-  componentDidMount: function() {
-    var $modal;
-    $modal = $(this.getDOMNode());
-    this.loadUrl();
-    $modal.modal('show');
-    return $modal.on('hidden.bs.modal', this.unmount);
-  },
-  componentWillUnmount: function() {
-    var $modal;
-    $modal = $(this.getDOMNode());
-    return $modal.off('hidden.bs.modal', this.unmount);
-  },
-  render: function() {
-    var spinner;
-    if (this.isLoadingState()) {
-      spinner = React.DOM.div({className: "modal-body"}, 
-                   React.DOM.div({className: "text-center"}, 
-                     Spinner({className: "fa-5x"})
-                   )
-                 );
-    }
-    return React.DOM.div({className: "modal fade", 
-                 'aria-hidden': "true", 
-                 tabIndex: "-1"}, 
-              React.DOM.div({className: "modal-dialog modal-lg"}, 
-                React.DOM.div({className: "modal-content"}, 
-                  spinner, 
-                  React.DOM.div({dangerouslySetInnerHTML: { __html: this.state.content}})
-                )
-              )
-            );
-  },
-  isLoadingState: function() {
-    return this.state.currentState === LOADING_STATE;
-  },
-  activateLoadedState: function() {
-    return this.setState({
-      currentState: LOADED_STATE
-    });
-  },
-  loadUrl: function() {
-    return Requester.request({
-      url: this.props.url,
-      success: (function(_this) {
-        return function(content) {
-          $(document).trigger('page:change');
-          return _this.setState({
-            content: content,
-            currentState: LOADED_STATE
-          });
-        };
-      })(this)
-    });
-  }
-});
-
-
-
-},{}],20:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var PLACEHOLDER;
-
-PLACEHOLDER = 'Новая категория';
-
-window.OperatorCategories_CreateForm = React.createClass({displayName: 'OperatorCategories_CreateForm',
-  propTypes: {
-    parentCategory: React.PropTypes.object
-  },
-  render: function() {
-    return React.DOM.div({className: "adm-categories-item"}, 
-      React.DOM.span({className: "adm-btn-add-category", 
-            onClick:  this.handleClick}, 
-        React.DOM.i({className: "adm-btn-add-goods-icon"}), 
-        PLACEHOLDER 
-      )
-    );
-  },
-  handleClick: function() {
-    return window.location = Routes.operator_categories_new_url(this.props.parentCategory.id);
-  }
-});
-
-
-
-},{}],21:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_ListItem = React.createClass({displayName: 'OperatorCategories_ListItem',
-  propTypes: {
-    category: React.PropTypes.object.isRequired,
-    onEditStart: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    var totalCount;
-    totalCount = this.props.category.has_children ? this.props.category.current_deep_products_count : this.props.category.current_products_count;
-    return React.DOM.span(null, 
-      React.DOM.span(null, 
-        React.DOM.span({className: "adm-categories-item-name"}, 
-           this.props.category.name
-        ), 
-        React.DOM.span({className: "adm-categories-item-counter"}, 
-          totalCount 
-        )
-      ), 
-      React.DOM.button({
-          className: "adm-btn-edit-category", 
-          title: "Редактировать", 
-          onClick:  this.props.onEditStart}, 
-        React.DOM.span(null, "Редактировать")
-      )
-    );
-  }
-});
-
-
-
-},{}],22:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var ERROR_MESSAGE, ERROR_STATE, INPUT_STATE, UPDATE_STATE;
-
-ERROR_MESSAGE = 'Ошибка обновления категории.';
-
-INPUT_STATE = 'input';
-
-UPDATE_STATE = 'update';
-
-ERROR_STATE = 'error';
-
-window.OperatorCategories_ListItemEdit = React.createClass({displayName: 'OperatorCategories_ListItemEdit',
-  propTypes: {
-    category: React.PropTypes.object.isRequired,
-    onEditFinish: React.PropTypes.func.isRequired
-  },
-  getInitialState: function() {
-    return {
-      currentState: INPUT_STATE,
-      categoryName: this.props.category.name
-    };
-  },
-  componentDidMount: function() {
-    var inputNode;
-    inputNode = this.refs.input.getDOMNode();
-    return AppHelpers.reselectAndFocus(inputNode);
-  },
-  render: function() {
-    var form;
-    switch (this.state.currentState) {
-      case INPUT_STATE:
-        form = React.DOM.span(null, 
-                  React.DOM.input({
-                      ref: "input", 
-                      type: "text", 
-                      className: "adm-categories-item-field", 
-                      defaultValue:  this.state.categoryName, 
-                      onKeyDown:  this.handleKeydown, 
-                      onClick:  this.handleClick, 
-                      onBlur:  this.props.onEditFinish}), 
-                  React.DOM.span({
-                      className: "adm-categories-item-remove", 
-                      onClick:  this.handleDeleteClick})
-                );
-        break;
-      case UPDATE_STATE:
-        form = React.DOM.span(null, 
-                  React.DOM.span({className: "adm-categories-item-name text-muted"}, 
-                     this.state.categoryName
-                  ), 
-                  React.DOM.span({className: "adm-categories-item-name"}, 
-                    Spinner(null)
-                  )
-                );
-        break;
-      case ERROR_STATE:
-        form = React.DOM.span(null, 
-                  "   ", 
-                  React.DOM.i(null, ERROR_MESSAGE )
-                );
-        break;
-      default:
-        console.warn('Unknown currentState of OperatorCategories_ListItemEdit component', this.state.currentState);
-    }
-    return form;
-  },
-  activateErrorState: function() {
-    return this.setState({
-      currentState: ERROR_STATE
-    });
-  },
-  editCategory: function() {
-    var categoryName, inputNode, updatedCategory;
-    inputNode = this.refs.input.getDOMNode();
-    categoryName = inputNode.value;
-    this.setState({
-      currentState: UPDATE_STATE,
-      categoryName: categoryName
-    });
-    updatedCategory = _.clone(this.props.category);
-    updatedCategory.name = categoryName;
-    return OperatorCategoriesViewActions.updateCategory({
-      category: updatedCategory,
-      success: this.props.onEditFinish,
-      error: this.activateErrorState
-    });
-  },
-  handleDeleteClick: function() {
-    if (window.confirm("Удалить категорию \"" + this.props.category.name + "\"?")) {
-      return OperatorCategoriesViewActions.deleteCategory({
-        category: this.props.category,
-        error: this.activateErrorState
-      });
-    }
-  },
-  handleClick: function(e) {
-    return e.stopPropagation();
-  },
-  handleKeydown: function(e) {
-    switch (e.key) {
-      case 'Enter':
-        e.preventDefault();
-        return this.editCategory();
-      case 'Escape':
-        e.preventDefault();
-        return this.props.onEditFinish();
-    }
-  }
-});
-
-
-
-},{}],23:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var SWITCH_CATEGORY_TIMEOUT;
-
-SWITCH_CATEGORY_TIMEOUT = 200;
-
-window.OperatorCategories_ListItemManager = React.createClass({displayName: 'OperatorCategories_ListItemManager',
-  mixins: [CategoryDroppable],
-  propTypes: {
-    category: React.PropTypes.object.isRequired,
-    isActive: React.PropTypes.bool.isRequired,
-    changeProductCategoryUrl: React.PropTypes.string,
-    onCategorySelect: React.PropTypes.func.isRequired
-  },
-  getInitialState: function() {
-    return this.getStateFromStore();
-  },
-  componentDidMount: function() {
-    return DragStateStore.addChangeListener(this._onStoreChange);
-  },
-  componentWillUnmount: function() {
-    return DragStateStore.removeChangeListener(this._onStoreChange);
-  },
-  render: function() {
-    var managerClasses;
-    managerClasses = React.addons.classSet({
-      'adm-categories-item': true,
-      'selected': this.props.isActive,
-      '__muted': !this.isVisible(),
-      '__droptarget-active': this.isDropTarget()
-    });
-    return React.DOM.div({className: managerClasses, 
-                 'data-objectid':  this.props.category.id, 
-                 onClick:  this.handleItemClick, 
-                 onMouseEnter:  this.handleMouseEnter, 
-                 onMouseLeave:  this.handleMouseLeave}, 
-              OperatorCategories_ListItem({
-                  category:  this.props.category, 
-                  onEditStart:  this.handleEditStart})
-            );
-  },
-  isDropTarget: function() {
-    return this.state.isDroppable && !this.props.isActive;
-  },
-  isVisible: function() {
-    return this.props.category.is_visible;
-  },
-  handleEditStart: function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    return window.location = Routes.operator_categories_edit_url(this.props.category.id);
-  },
-  handleItemClick: function() {
-    var totalCount, withoutCategoryCount;
-    totalCount = this.props.category.current_deep_products_count;
-    withoutCategoryCount = this.props.category.current_products_count;
-    return this.props.onCategorySelect({
-      category: this.props.category,
-      includeSubcategories: true
-    });
-  },
-  handleMouseEnter: function() {
-    if (this.isDropTarget()) {
-      return this.timeout = setTimeout(((function(_this) {
-        return function() {
-          return _this.props.onCategorySelect({
-            category: _this.props.category,
-            includeSubcategories: true
-          });
-        };
-      })(this)), SWITCH_CATEGORY_TIMEOUT);
-    }
-  },
-  handleMouseLeave: function() {
-    if (this.timeout) {
-      return clearTimeout(this.timeout);
-    }
-  },
-  getStateFromStore: function() {
-    return {
-      isDroppable: DragStateStore.isDragged()
-    };
-  },
-  _onStoreChange: function() {
-    return this.setState(this.getStateFromStore());
-  }
-});
-
-
-
-},{}],24:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var SWITCH_CATEGORY_TIMEOUT, TITLE;
-
-TITLE = 'Все товары';
-
-SWITCH_CATEGORY_TIMEOUT = 200;
-
-window.OperatorCategories_ListItemWithSubcategories = React.createClass({displayName: 'OperatorCategories_ListItemWithSubcategories',
-  mixins: [CategoryDroppable],
-  propTypes: {
-    category: React.PropTypes.object.isRequired,
-    isActive: React.PropTypes.bool.isRequired,
-    onCategorySelect: React.PropTypes.func.isRequired
-  },
-  getInitialState: function() {
-    return this.getStateFromStore();
-  },
-  componentDidMount: function() {
-    return DragStateStore.addChangeListener(this._onStoreChange);
-  },
-  componentWillUnmount: function() {
-    return DragStateStore.removeChangeListener(this._onStoreChange);
-  },
-  render: function() {
-    var itemClasses, totalCount, withoutCategoryCount;
-    totalCount = this.props.category.current_deep_products_count;
-    withoutCategoryCount = this.props.category.current_products_count;
-    itemClasses = React.addons.classSet({
-      'adm-categories-item': true,
-      'selected': this.props.isActive,
-      '__droptarget-active': this.isDropTarget()
-    });
-    return React.DOM.div({className: itemClasses, 
-                 onClick:  this.handleClick, 
-                 onMouseEnter:  this.handleMouseEnter, 
-                 onMouseLeave:  this.handleMouseLeave}, 
-              React.DOM.span({className: "adm-categories-item-name"}, 
-                TITLE 
-              ), 
-              React.DOM.span({className: "adm-categories-item-counter"}, 
-                totalCount 
-              )
-            );
-  },
-  isDropTarget: function() {
-    return this.state.isDroppable && !this.props.isActive;
-  },
-  handleMouseEnter: function() {
-    if (this.isDropTarget()) {
-      return this.timeout = setTimeout(((function(_this) {
-        return function() {
-          return _this.props.onCategorySelect({
-            category: _this.props.category,
-            includeSubcategories: true
-          });
-        };
-      })(this)), SWITCH_CATEGORY_TIMEOUT);
-    }
-  },
-  handleMouseLeave: function() {
-    if (this.timeout) {
-      return clearTimeout(this.timeout);
-    }
-  },
-  handleClick: function() {
-    return this.props.onCategorySelect({
-      category: this.props.category,
-      includeSubcategories: true
-    });
-  },
-  getStateFromStore: function() {
-    return {
-      isDroppable: DragStateStore.isDragged()
-    };
-  },
-  _onStoreChange: function() {
-    return this.setState(this.getStateFromStore());
-  }
-});
-
-
-
-},{}],25:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var TITLE;
-
-TITLE = 'Без категории';
-
-window.OperatorCategories_ListItemWithoutCategory = React.createClass({displayName: 'OperatorCategories_ListItemWithoutCategory',
-  propTypes: {
-    category: React.PropTypes.object.isRequired,
-    isActive: React.PropTypes.bool.isRequired,
-    onCategorySelect: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    var itemClasses, totalCount, withoutCategoryCount;
-    totalCount = this.props.category.current_deep_products_count;
-    withoutCategoryCount = this.props.category.current_products_count;
-    itemClasses = React.addons.classSet({
-      'adm-categories-item': true,
-      '__muted': true,
-      'selected': this.props.isActive
-    });
-    if (withoutCategoryCount !== 0 && totalCount !== withoutCategoryCount) {
-      return React.DOM.div({className: itemClasses, 
-                   onClick:  this.handleClick}, 
-              React.DOM.span({className: "adm-categories-item-name"}, 
-                TITLE 
-              ), 
-              React.DOM.span({className: "adm-categories-item-counter"}, 
-                withoutCategoryCount 
-              )
-            );
-    } else {
-      return null;
-    }
-  },
-  handleClick: function() {
-    return this.props.onCategorySelect({
-      category: this.props.category,
-      includeSubcategories: false
-    });
-  }
-});
-
-
-
-},{}],26:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var DRAG_DELAY, DRAG_REVERT;
-
-DRAG_DELAY = 100;
-
-DRAG_REVERT = 100;
-
-window.OperatorCategories_List = React.createClass({displayName: 'OperatorCategories_List',
-  propTypes: {
-    parentCategory: React.PropTypes.object,
-    currentCategory: React.PropTypes.object,
-    changeProductCategoryUrl: React.PropTypes.string,
-    includeSubcategories: React.PropTypes.bool,
-    onCategorySelect: React.PropTypes.func.isRequired
-  },
-  getInitialState: function() {
-    return {
-      parentCategory: this.props.parentCategory,
-      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(this.props.parentCategory)
-    };
-  },
-  componentDidMount: function() {
-    OperatorCategoriesStore.addChangeListener(this._onStoreChange);
-    return $(this.refs.list.getDOMNode()).sortable({
-      scope: 'categoriesReorder',
-      placeholder: 'adm-categories-item __dropzone',
-      forcePlaceholderSize: true,
-      revert: DRAG_REVERT,
-      delay: DRAG_DELAY,
-      stop: this.handleDrop
-    });
-  },
-  componentWillReceiveProps: function(nextProps) {
-    return this.setState({
-      parentCategory: nextProps.parentCategory,
-      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(nextProps.parentCategory)
-    });
-  },
-  componentWillUnmount: function() {
-    return OperatorCategoriesStore.removeChangeListener(this._onStoreChange);
-  },
-  render: function() {
-    var categories, that;
-    that = this;
-    categories = this.state.categoriesToShow.map(function(category) {
-      return OperatorCategories_ListItemManager({
-           category: category, 
-           changeProductCategoryUrl:  that.props.changeProductCategoryUrl, 
-           isActive:  that._isCategoryActive(category), 
-           onCategorySelect:  that.props.onCategorySelect, 
-           key:  category.id});
-    });
-    return React.DOM.div({className: "adm-categories-list"}, 
-
-              OperatorCategories_ListItemWithSubcategories({
-                  category:  this.props.parentCategory, 
-                  changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
-                  isActive:  this.props.currentCategory.id == this.props.parentCategory.id &&
-                             this.props.includeSubcategories == true, 
-                  onCategorySelect:  this.props.onCategorySelect}), 
-
-              React.DOM.span({ref: "list"}, categories ), 
-
-              OperatorCategories_ListItemWithoutCategory({
-                  category:  this.props.parentCategory, 
-                  isActive:  this.props.currentCategory.id == this.props.parentCategory.id &&
-                             this.props.includeSubcategories == false, 
-                  onCategorySelect:  this.props.onCategorySelect}), 
-
-              OperatorCategories_CreateForm({parentCategory:  this.props.parentCategory})
-            );
-  },
-  _isCategoryActive: function(category) {
-    var currentCategory;
-    currentCategory = this.props.currentCategory;
-    if (currentCategory && !(this.state.parentCategory && this.state.parentCategory.id === currentCategory.id)) {
-      return (category.id === currentCategory.id) || (category.id === currentCategory.parent_id);
-    } else {
-      return false;
-    }
-  },
-  handleDrop: function(evt, ui) {
-    var insertIdx, srcId;
-    srcId = parseInt(ui.item.attr('data-objectid'));
-    insertIdx = ui.item.index();
-    $(this.refs.list.getDOMNode()).sortable('cancel');
-    return OperatorCategoriesViewActions.reorderCategories({
-      categoryId: srcId,
-      insertIdx: insertIdx
-    });
-  },
-  handleTotalCountClick: function(e) {
-    e.preventDefault();
-    return this.props.onCategorySelect(this.props.parentCategory);
-  },
-  _onStoreChange: function() {
-    return this.setState({
-      categoriesToShow: OperatorCategoriesStore.getSortedCategoriesByParent(this.state.parentCategory)
-    });
-  }
-});
-
-
-
-},{}],27:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCategories_Loaded',
-  propTypes: {
-    parentCategory: React.PropTypes.object.isRequired,
-    currentCategory: React.PropTypes.object.isRequired,
-    productsFilter: React.PropTypes.object,
-    productsCanMove: React.PropTypes.bool,
-    productsUrl: React.PropTypes.string,
-    addProductImageUrl: React.PropTypes.string,
-    changeProductCategoryUrl: React.PropTypes.string,
-    includeSubcategories: React.PropTypes.bool.isRequired,
-    onCategorySelect: React.PropTypes.func.isRequired
-  },
-  componentDidMount: function() {
-    if (this.props.productsCanMove) {
-      return $(this.getDOMNode()).droppable({
-        scope: 'productsToCategories',
-        addClasses: false,
-        tolerance: 'pointer',
-        over: function() {
-          return DragStateDispatcher.handleViewAction({
-            type: 'dragInsideOfLayout'
-          });
-        },
-        out: function() {
-          return DragStateDispatcher.handleViewAction({
-            type: 'dragOutsideOfLayout'
-          });
-        }
-      });
-    }
-  },
-  componentWillUnmount: function() {
-    if (this.props.productsCanMove) {
-      return $(this.getDOMNode()).droppable('destroy');
-    }
-  },
-  render: function() {
-    var categoriesContent, currentCategory, currentCategoryLevel;
-    currentCategory = this.props.currentCategory;
-    currentCategoryLevel = OperatorCategoriesStore.getCategoryLevel(currentCategory);
-    if (currentCategoryLevel === 0) {
-      categoriesContent = OperatorCategories_OneCategory({
-                               parentCategory:  this.props.parentCategory, 
-                               currentCategory: currentCategory, 
-                               productsFilter:  this.props.productsFilter, 
-                               changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
-                               includeSubcategories:  this.props.includeSubcategories, 
-                               onCategorySelect:  this.props.onCategorySelect});
-    } else {
-      categoriesContent = OperatorCategories_TwoCategories({
-                               parentCategory:  this.props.parentCategory, 
-                               currentCategory: currentCategory, 
-                               productsFilter:  this.props.productsFilter, 
-                               changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
-                               includeSubcategories:  this.props.includeSubcategories, 
-                               onCategorySelect:  this.props.onCategorySelect});
-    }
-    return React.DOM.div({className: "adm-categories-grid"}, 
-              categoriesContent, 
-              React.DOM.div({className: "adm-categories-grid-col __wide"}, 
-                OperatorProducts({
-                    categoryId:  this.props.currentCategory.id, 
-                    productsFilter:  this.props.productsFilter, 
-                    productsUrl:  this.props.productsUrl, 
-                    addProductImageUrl:  this.props.addProductImageUrl, 
-                    productsCanMove:  this.props.productsCanMove, 
-                    includeSubcategories:  this.props.includeSubcategories})
-              )
-            );
-  }
-});
-
-
-
-},{}],28:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_Loading = React.createClass({displayName: 'OperatorCategories_Loading',
-  render: function() {
-    return React.DOM.div({className: "adm-categories-grid"}, 
-      React.DOM.div({className: "adm-categories-grid-col"}, 
-        React.DOM.br(null), 
-        Spinner({
-            className: "fa-3x", 
-            align: "center"})
-      )
-    );
-  }
-});
-
-
-
-},{}],29:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_LoadingError = React.createClass({displayName: 'OperatorCategories_LoadingError',
-  render: function() {
-    return React.DOM.div({className: "adm-categories-grid"}, 
-      React.DOM.div({className: "adm-categories-grid-col"}, 
-        "При загрузке категорий возникла ошибка."
-      )
-    );
-  }
-});
-
-
-
-},{}],30:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_OneCategory = React.createClass({displayName: 'OperatorCategories_OneCategory',
-  propTypes: {
-    parentCategory: React.PropTypes.object.isRequired,
-    currentCategory: React.PropTypes.object.isRequired,
-    includeSubcategories: React.PropTypes.bool.isRequired,
-    changeProductCategoryUrl: React.PropTypes.string,
-    onCategorySelect: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    return React.DOM.div({className: "adm-categories-grid-col"}, 
-      OperatorCategories_List({
-          parentCategory:  this.props.parentCategory, 
-          currentCategory:  this.props.currentCategory, 
-          productsFilter:  this.props.productsFilter, 
-          changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
-          includeSubcategories:  this.props.includeSubcategories, 
-          onCategorySelect:  this.props.onCategorySelect})
-    );
-  }
-});
-
-
-
-},{}],31:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var ERROR_STATE, LOADED_STATE, LOADING_STATE;
-
-LOADING_STATE = 'loading';
-
-LOADED_STATE = 'loaded';
-
-ERROR_STATE = 'error';
-
-window.OperatorCategories = React.createClass({displayName: 'OperatorCategories',
-  propTypes: {
-    productsFilter: React.PropTypes.object,
-    productsCanMove: React.PropTypes.bool,
-    categoriesUrl: React.PropTypes.string,
-    productsUrl: React.PropTypes.string,
-    addProductImageUrl: React.PropTypes.string,
-    changeProductCategoryUrl: React.PropTypes.string,
-    categoryId: React.PropTypes.number
-  },
-  getDefaultProps: function() {
-    return {
-      productsCanMove: true
-    };
-  },
-  getInitialState: function() {
-    return {
-      currentState: LOADING_STATE,
-      currentCategory: null,
-      rootCategory: null,
-      includeSubcategories: true
-    };
-  },
-  componentDidMount: function() {
-    OperatorCategoriesViewActions.loadCategories({
-      data: {
-        filter: this.props.productsFilter
-      },
-      url: this.props.categoriesUrl
-    }).then(this.activateLoadedState).fail(this.activateErrorState);
-    return OperatorCategoriesStore.addChangeListener(this._onStoreChange);
-  },
-  componentWillUnmount: function() {
-    return OperatorCategoriesStore.removeChangeListener(this._onStoreChange);
-  },
-  render: function() {
-    switch (this.state.currentState) {
-      case LOADED_STATE:
-        return OperatorCategories_Loaded({
-            parentCategory:  this.state.rootCategory, 
-            currentCategory:  this.state.currentCategory, 
-            productsFilter:  this.props.productsFilter, 
-            productsCanMove:  this.props.productsCanMove, 
-            productsUrl:  this.props.productsUrl, 
-            addProductImageUrl:  this.props.addProductImageUrl, 
-            changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
-            includeSubcategories:  this.state.includeSubcategories, 
-            onCategorySelect:  this.handleCategorySelect});
-      case LOADING_STATE:
-        return OperatorCategories_Loading(null);
-      case ERROR_STATE:
-        return OperatorCategories_LoadingError(null);
-      default:
-        return console.warn('Unknown currentState of OperatorCategories component', this.state.currentState);
-    }
-  },
-  activateLoadedState: function() {
-    return this.setState({
-      currentState: LOADED_STATE
-    });
-  },
-  activateErrorState: function() {
-    return this.setState({
-      currentState: ERROR_STATE
-    });
-  },
-  handleCategorySelect: function(_arg) {
-    var category, includeSubcategories;
-    category = _arg.category, includeSubcategories = _arg.includeSubcategories;
-    this.setState({
-      currentCategory: category,
-      includeSubcategories: includeSubcategories
-    });
-    Aviator.navigate('', {
-      queryParams: {
-        category_id: category.id
-      }
-    });
-    return DragStateDispatcher.handleViewAction({
-      type: 'currentCategoryChanged'
-    });
-  },
-  _onStoreChange: function() {
-    var currentCategory, rootCategory;
-    rootCategory = OperatorCategoriesStore.getRootCategory();
-    if (OperatorCategoriesStore.getCategoryById(this.props.categoryId)) {
-      currentCategory = OperatorCategoriesStore.getCategoryById(this.props.categoryId);
-    } else {
-      if (OperatorCategoriesStore.isCategoryExists(this.state.currentCategory)) {
-        currentCategory = this.state.currentCategory;
-      } else if (this.state.currentCategory && this.state.currentCategory.parent_id) {
-        currentCategory = OperatorCategoriesStore.getCategoryById(this.state.currentCategory.parent_id);
-      } else {
-        currentCategory = rootCategory;
-      }
-    }
-    return this.setState({
-      currentCategory: currentCategory,
-      rootCategory: rootCategory
-    });
-  }
-});
-
-
-
-},{}],32:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorCategories_TwoCategories = React.createClass({displayName: 'OperatorCategories_TwoCategories',
-  propTypes: {
-    parentCategory: React.PropTypes.object.isRequired,
-    currentCategory: React.PropTypes.object.isRequired,
-    includeSubcategories: React.PropTypes.bool.isRequired,
-    changeProductCategoryUrl: React.PropTypes.string,
-    onCategorySelect: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    var currentCategory, currentCategoryLevel, secondCategory;
-    currentCategory = this.props.currentCategory;
-    currentCategoryLevel = OperatorCategoriesStore.getCategoryLevel(currentCategory);
-    secondCategory = (function() {
-      switch (false) {
-        case currentCategoryLevel !== 1:
-          return currentCategory;
-        default:
-          return OperatorCategoriesStore.getCategoryById(currentCategory.parent_id);
-      }
-    })();
-    return React.DOM.span(null, 
-              React.DOM.div({className: "adm-categories-grid-col"}, 
-                OperatorCategories_List({
-                    parentCategory:  this.props.parentCategory, 
-                    currentCategory:  this.props.currentCategory, 
-                    changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
-                    includeSubcategories:  this.props.includeSubcategories, 
-                    onCategorySelect:  this.props.onCategorySelect})
-              ), 
-              React.DOM.div({className: "adm-categories-grid-col"}, 
-                 OperatorCategories_List({
-                     parentCategory: secondCategory, 
-                     currentCategory:  this.props.currentCategory, 
-                     changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
-                     includeSubcategories:  this.props.includeSubcategories, 
-                     onCategorySelect:  this.props.onCategorySelect})
-              )
-            );
-  }
-});
-
-
-
-},{}],33:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var OperatorProducts_AddProductButton, TITLE;
-
-TITLE = 'Добавить новый товар';
-
-OperatorProducts_AddProductButton = React.createClass({displayName: 'OperatorProducts_AddProductButton',
-  propTypes: {
-    categoryId: React.PropTypes.number.isRequired
-  },
-  render: function() {
-    return React.DOM.button({
-        className: "adm-btn-add-goods", 
-        onClick:  this.handleClick}, 
-      React.DOM.i({className: "adm-btn-add-goods-icon"}), 
-      TITLE 
-    );
-  },
-  handleClick: function() {
-    var backUrl, baseUrl;
-    baseUrl = Routes.operator_product_new_url();
-    backUrl = encodeURIComponent(window.location.href);
-    return window.location = baseUrl + '?category_id=' + this.props.categoryId + '&backurl=' + backUrl;
-  }
-});
-
-module.exports = OperatorProducts_AddProductButton;
-
-
-
-},{}],34:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var OperatorProducts_AddProductButton;
-
-OperatorProducts_AddProductButton = require('./buttons/add_product');
-
-window.OperatorProducts_Empty = React.createClass({displayName: 'OperatorProducts_Empty',
-  categoryId: React.PropTypes.number.isRequired,
-  render: function() {
-    return React.DOM.div({className: "adm-categories-content"}, 
-      OperatorProducts_AddProductButton({categoryId:  this.props.categoryId}), 
-      React.DOM.div({className: "adm-categories-content-empty"}, 
-        "В данной категории товаров нет."
-      )
-    );
-  }
-});
-
-
-
-},{"./buttons/add_product":33}],35:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var SELECTED_STATE, UNSELECTED_STATE;
-
-SELECTED_STATE = 'selected';
-
-UNSELECTED_STATE = 'unselected';
-
-window.OperatorProducts_ListItem = React.createClass({displayName: 'OperatorProducts_ListItem',
-  mixins: [ProductDraggable],
-  propTypes: {
-    product: React.PropTypes.object.isRequired,
-    categoryId: React.PropTypes.number.isRequired,
-    addProductImageUrl: React.PropTypes.string,
-    canMove: React.PropTypes.bool
-  },
-  getInitialState: function() {
-    return {
-      currentState: UNSELECTED_STATE,
-      product: this.props.product
-    };
-  },
-  componentWillReceiveProps: function(nextProps) {
-    return this.setState({
-      product: nextProps.product
-    });
-  },
-  render: function() {
-    var productClasses;
-    productClasses = React.addons.classSet({
-      'adm-categories-goods-item': true,
-      '__selected': this.isSelectedState()
-    });
-    return React.DOM.tr({className: productClasses, 
-                'data-category-id':  this.props.categoryId, 
-                'data-product-id':  this.state.product.id, 
-                onClick:  this.handleClick, 
-                onDrop:  this.handleDrop}, 
-              React.DOM.td({className: "adm-categories-goods-cover", 
-                  'data-title': "Товар"}, 
-                ProductThumb({product:  this.state.product})
-              ), 
-              React.DOM.td({className: "adm-categories-goods-content"}, 
-                React.DOM.span(null,  this.state.product.title), 
-                ProductModificationList({modifications:  this.state.product.items})
-              ), 
-              React.DOM.td({className: "adm-categories-goods-price", 
-                  'data-title': "Сумма"}, 
-                Money({money:  this.state.product.price}), 
-                ProductTotalItemsQuantity({product:  this.state.product})
-              ), 
-              React.DOM.td({className: "adm-categories-goods-status", 
-                  'data-title': "Статус"}, 
-                ProductState({state:  this.state.product.state})
-              )
-            );
-  },
-  isSelectedState: function() {
-    return this.state.currentState === SELECTED_STATE;
-  },
-  activateSelectedState: function() {
-    return this.setState({
-      currentState: SELECTED_STATE
-    });
-  },
-  activateUnselectedState: function() {
-    return this.setState({
-      currentState: UNSELECTED_STATE
-    });
-  },
-  toggleSelectedState: function() {
-    if (this.isSelectedState()) {
-      this.activateUnselectedState();
-      return DragStateDispatcher.handleViewAction({
-        type: 'productBecameUnselected',
-        product: this.state.product
-      });
-    } else {
-      this.activateSelectedState();
-      return DragStateDispatcher.handleViewAction({
-        type: 'productBecameSelected',
-        product: this.state.product
-      });
-    }
-  },
-  _setPreviewImage: function(files) {
-    var newProduct, previewImage, previewImageSrc;
-    newProduct = _.clone(this.state.product);
-    previewImage = files[0];
-    previewImageSrc = window.URL.createObjectURL(previewImage);
-    if (newProduct.image == null) {
-      newProduct.image = {};
-    }
-    newProduct.image.url = previewImageSrc;
-    return this.setState({
-      product: newProduct
-    });
-  },
-  handleDrop: function(e) {
-    var files;
-    files = e.dataTransfer.files;
-    this._setPreviewImage(files);
-    ProductImagesViewActions.addProductImages({
-      url: this.props.addProductImageUrl,
-      files: files,
-      productId: this.state.product.id
-    });
-    return e.preventDefault();
-  },
-  handleClick: function(e) {
-    var backUrl, baseUrl;
-    if (EventHelpers.isAnyServiceKey(e)) {
-      return this.toggleSelectedState();
-    } else {
-      baseUrl = this.props.product.edit_path;
-      backUrl = encodeURIComponent(window.location.href);
-      return window.location = baseUrl + '?backurl=' + backUrl;
-    }
-  }
-});
-
-
-
-},{}],36:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorProducts_ListItemDrag = React.createClass({displayName: 'OperatorProducts_ListItemDrag',
-  propTypes: {
-    product: React.PropTypes.object.isRequired
-  },
-  render: function() {
-    return React.DOM.span({className: "adm-categories-goods-draghelper"}, 
-      React.DOM.table(null, 
-        React.DOM.tbody(null, 
-          React.DOM.tr(null, 
-            React.DOM.td({className: "adm-categories-goods-cover", 
-                'data-title': "Товар"}, 
-              ProductThumb({product:  this.props.product})
-            ), 
-            React.DOM.td({className: "adm-categories-goods-content"}, 
-               this.props.product.title
-            )
-          )
-        )
-      ), 
-      React.DOM.hr(null), 
-      React.DOM.i(null, "Перетащите товар в категорию")
-    );
-  },
-  imageUrl: function() {
-    return AppHelpers.productImageUrl(this.props.product);
-  }
-});
-
-
-
-},{}],37:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorProducts_ListItemsDrag = React.createClass({displayName: 'OperatorProducts_ListItemsDrag',
-  propTypes: {
-    products: React.PropTypes.array.isRequired
-  },
-  render: function() {
-    var products;
-    products = this.props.products.map(function(product) {
-      return React.DOM.tr(null, 
-        React.DOM.td({className: "adm-categories-goods-cover", 
-            'data-title': "Товар"}, 
-          ProductThumb({product: product })
-        ), 
-        React.DOM.td({className: "adm-categories-goods-content"}, 
-           product.title
-        )
-      );
-    });
-    return React.DOM.span({className: "adm-categories-goods-draghelper"}, 
-              React.DOM.table(null, 
-                React.DOM.tbody(null, 
-                  products 
-                )
-              ), 
-              React.DOM.hr(null), 
-              React.DOM.i(null, "Перетащите товары в категорию")
-            );
-  },
-  imageUrl: function() {
-    return AppHelpers.productImageUrl(this.props.product);
-  }
-});
-
-
-
-},{}],38:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var OperatorProducts_AddProductButton;
-
-OperatorProducts_AddProductButton = require('../buttons/add_product');
-
-window.OperatorProducts_List = React.createClass({displayName: 'OperatorProducts_List',
-  propTypes: {
-    categoryId: React.PropTypes.number.isRequired,
-    productsCanMove: React.PropTypes.bool,
-    addProductImageUrl: React.PropTypes.string
-  },
-  getInitialState: function() {
-    return this.getStateFromStore();
-  },
-  componentDidMount: function() {
-    OperatorProductsStore.addChangeListener(this._onStoreChange);
-    return $(window).on('drop dragover', this.handleWindowEvents);
-  },
-  componentWillUnmount: function() {
-    OperatorProductsStore.removeChangeListener(this._onStoreChange);
-    return $(window).off('drop dragover', this.handleWindowEvents);
-  },
-  render: function() {
-    var products, that;
-    that = this;
-    products = this.state.products.map(function(product) {
-      return OperatorProducts_ListItem({
-            product: product, 
-            canMove:  that.props.productsCanMove, 
-            addProductImageUrl:  that.props.addProductImageUrl, 
-            categoryId:  that.props.categoryId, 
-            key:  product.id});
-    });
-    return React.DOM.div({className: "adm-categories-content"}, 
-              OperatorProducts_AddProductButton({categoryId:  this.props.categoryId}), 
-              React.DOM.table({className: "adm-categories-goods"}, 
-                React.DOM.tbody(null, products )
-              )
-            );
-  },
-  getStateFromStore: function() {
-    return {
-      products: OperatorProductsStore.getProducts(this.props.categoryId)
-    };
-  },
-  handleWindowEvents: function(e) {
-    return e.preventDefault();
-  },
-  _onStoreChange: function() {
-    return this.setState(this.getStateFromStore());
-  }
-});
-
-
-
-},{"../buttons/add_product":33}],39:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorProducts_Loading = React.createClass({displayName: 'OperatorProducts_Loading',
-  render: function() {
-    return React.DOM.div({className: "adm-categories-content"}, 
-      Spinner({className: "fa-3x"})
-    );
-  }
-});
-
-
-
-},{}],40:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.OperatorProducts_LoadingError = React.createClass({displayName: 'OperatorProducts_LoadingError',
-  propTypes: {
-    message: React.PropTypes.string.isRequired
-  },
-  render: function() {
-    return React.DOM.div({className: "adm-categories-content"}, 
-      "Ошибка загрузки ",  this.props.message, "."
-    );
-  }
-});
-
-
-
-},{}],41:[function(require,module,exports){
-var THRESHOLD, windowHeight;
-
-windowHeight = $(window).height();
-
-THRESHOLD = windowHeight * 2;
-
-window.LoadMoreProductsMixin = {
-  componentDidMount: function() {
-    return $(window).on('scroll', this.handleScroll);
-  },
-  componentWillUnmount: function() {
-    return $(window).off('scroll', this.handleScroll);
-  },
-  handleScroll: function() {
-    var isNearBottom;
-    if (!this.isLoadingMoreState() && !this.state.isAllProductsLoaded) {
-      isNearBottom = $(window).scrollTop() + windowHeight > $(document).height() - THRESHOLD;
-      if (isNearBottom) {
-        return this.loadMoreProducts();
-      }
-    }
-  }
-};
-
-
-
-},{}],42:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var EMPTY_STATE, ERROR_STATE, LOADED_STATE, LOADING_MORE_STATE, LOADING_STATE;
-
-LOADING_MORE_STATE = 'loadingMoreState';
-
-LOADING_STATE = 'loading';
-
-LOADED_STATE = 'loaded';
-
-EMPTY_STATE = 'empty';
-
-ERROR_STATE = 'error';
-
-window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
-  mixins: [React.addons.PureRenderMixin, LoadMoreProductsMixin],
-  propTypes: {
-    categoryId: React.PropTypes.number.isRequired,
-    productsFilter: React.PropTypes.object,
-    productsUrl: React.PropTypes.string,
-    addProductImageUrl: React.PropTypes.string,
-    productsCanMove: React.PropTypes.bool,
-    includeSubcategories: React.PropTypes.bool.isRequired
-  },
-  getInitialState: function() {
-    return {
-      currentState: LOADING_STATE,
-      products: null,
-      page: 1,
-      isAllProductsLoaded: false
-    };
-  },
-  componentDidMount: function() {
-    return this.loadProducts(this.props.categoryId, this.props.includeSubcategories);
-  },
-  componentWillReceiveProps: function(nextProps) {
-    if (this.props.categoryId !== nextProps.categoryId || this.props.includeSubcategories !== nextProps.includeSubcategories) {
-      this.setState({
-        page: 1,
-        isAllProductsLoaded: false
-      });
-      return this.loadProducts(nextProps.categoryId, nextProps.includeSubcategories);
-    }
-  },
-  componentWillUnmount: function() {
-    if (this.xhr != null) {
-      this.xhr.abort();
-    }
-    return this.xhr = null;
-  },
-  render: function() {
-    switch (this.state.currentState) {
-      case LOADED_STATE:
-      case LOADING_MORE_STATE:
-        return OperatorProducts_List({
-             categoryId:  this.props.categoryId, 
-             addProductImageUrl:  this.props.addProductImageUrl, 
-             productsCanMove:  this.props.productsCanMove});
-      case LOADING_STATE:
-        return OperatorProducts_Loading(null);
-      case EMPTY_STATE:
-        return OperatorProducts_Empty({categoryId:  this.props.categoryId});
-      case ERROR_STATE:
-        return OperatorProducts_LoadingError({
-                                   message:  this.state.errorMessage});
-      default:
-        return console.warn('Unknown currentState of OperatorProducts component', this.state.currentState);
-    }
-  },
-  isLoadingMoreState: function() {
-    return this.state.currentState === LOADING_MORE_STATE;
-  },
-  activateErrorState: function() {
-    return this.setState({
-      currentState: ERROR_STATE
-    });
-  },
-  activateLoadingState: function() {
-    return this.setState({
-      currentState: LOADING_STATE
-    });
-  },
-  activateLoadingMoreState: function() {
-    return this.setState({
-      currentState: LOADING_MORE_STATE
-    });
-  },
-  activateLoadedState: function() {
-    return this.setState({
-      currentState: LOADED_STATE
-    });
-  },
-  loadProducts: function(categoryId, includeSubcategories) {
-    this.activateLoadingState();
-    return this.xhr = OperatorProductsViewActions.loadProducts({
-      url: this.props.productsUrl,
-      data: {
-        categoryId: categoryId,
-        filter: this.props.productsFilter,
-        includeSubcategories: includeSubcategories
-      }
-    }).then((function(_this) {
-      return function(response) {
-        var currentState;
-        currentState = response.total_count === 0 ? EMPTY_STATE : LOADED_STATE;
-        return _this.setState({
-          currentState: currentState,
-          page: response.page,
-          isAllProductsLoaded: response.items.length === 0
-        });
-      };
-    })(this)).fail((function(_this) {
-      return function(errMsg) {
-        if (errMsg !== 'abort') {
-          return _this.setState({
-            currentState: ERROR_STATE,
-            errorMessage: errMsg
-          });
-        }
-      };
-    })(this));
-  },
-  loadMoreProducts: function() {
-    this.activateLoadingMoreState();
-    return this.xhr = OperatorProductsViewActions.loadMoreProducts({
-      url: this.props.productsUrl,
-      data: {
-        categoryId: this.props.categoryId,
-        filter: this.props.productsFilter,
-        includeSubcategories: this.props.includeSubcategories,
-        page: this.state.page + 1
-      }
-    }).then((function(_this) {
-      return function(response) {
-        return _this.setState({
-          currentState: LOADED_STATE,
-          page: response.page,
-          isAllProductsLoaded: response.items.length === 0
-        });
-      };
-    })(this)).fail((function(_this) {
-      return function(errMsg) {
-        if (errMsg !== 'abort') {
-          return _this.setState({
-            currentState: ERROR_STATE,
-            errorMessage: errMsg
-          });
-        }
-      };
-    })(this));
-  }
-});
-
-
-
-},{}],43:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var ERROR_STATE, LOADED_STATE, LOADING_STATE, ProductImages_Image;
-
-LOADING_STATE = 'loading';
-
-LOADED_STATE = 'loaded';
-
-ERROR_STATE = 'error';
-
-ProductImages_Image = React.createClass({displayName: 'ProductImages_Image',
-  mixins: ['ReactActivitiesUser', ComponentManipulationsMixin],
-  propTypes: {
-    image: React.PropTypes.object.isRequired,
-    size: React.PropTypes.string,
-    fieldName: React.PropTypes.string,
-    productId: React.PropTypes.number,
-    productCardId: React.PropTypes.number,
-    onImagePreload: React.PropTypes.func.isRequired,
-    onImageDelete: React.PropTypes.func.isRequired,
-    onImageRotate: React.PropTypes.func.isRequired
-  },
-  getDefaultProps: function() {
-    return {
-      size: '150x150'
-    };
-  },
-  componentDidMount: function() {
-    if (this.isLoadingState()) {
-      return this.preloadImage();
-    }
-  },
-  getInitialState: function() {
-    return {
-      currentState: this.props.image.id != null ? LOADED_STATE : LOADING_STATE,
-      image: this.props.image
-    };
-  },
-  render: function() {
-    var message;
-    message = (function() {
-      switch (this.state.currentState) {
-        case LOADING_STATE:
-          return React.DOM.div({className: "products__new-form-image-thumb-preload"}, 
-          Spinner({className: "fa-2x"})
-        );
-        case ERROR_STATE:
-          return React.DOM.div({className: "form-alert form-alert-danger"}, 
-          "Ошибка загрузки. Перезагрузите данное изображение."
-        );
-      }
-    }).call(this);
-    return React.DOM.div({'data-id':  this.props.image.id, 
-                 className: "products__new-form-image-thumb-block"}, 
-              React.DOM.img({src:  this._getImageUrl(), 
-                   className: "products__new-form-image-thumb"}), 
-
-              message, 
-
-              React.DOM.div({className: "products__new-form-image-thumb-remove", 
-                   onClick:  this.props.onImageDelete}), 
-              React.DOM.div({className: "products__new-form-image-thumb-update", 
-                   onClick:  this.rotateImage}), 
-
-               this.renderHiddenInput() 
-            );
-  },
-  renderHiddenInput: function() {
-    if (this.props.image.id) {
-      return React.DOM.input({type: "hidden", 
-              name:  this.props.fieldName, 
-              value:  this.props.image.id});
-    }
-  },
-  isLoadingState: function() {
-    return this.state.currentState === LOADING_STATE;
-  },
-  activateLoadingState: function() {
-    return this.setState({
-      currentState: LOADING_STATE
-    });
-  },
-  activateLoadedState: function() {
-    return this.setState({
-      currentState: LOADED_STATE
-    });
-  },
-  activateErrorState: function() {
-    return this.setState({
-      currentState: ERROR_STATE
-    });
-  },
-  preloadImage: function() {
-    var file, formData;
-    file = this.props.image.file;
-    if (!file) {
-      return console.warn('Missing file object for preloading product image');
-    }
-    formData = new FormData();
-    formData.append('image', file);
-    return ProductImagesViewActions.preloadImage({
-      file: file,
-      productId: this.props.productId,
-      productCardId: this.props.productCardId,
-      success: (function(_this) {
-        return function(data) {
-          _this.activateLoadedState();
-          return _this.props.onImagePreload({
-            id: data.id,
-            uuid: _this.props.image.uuid,
-            src: data.url
-          });
-        };
-      })(this),
-      error: this.activateErrorState,
-      beforeSend: this.incrementActivities,
-      complete: this.decrementActivities
-    });
-  },
-  _getImageUrl: function() {
-    var _ref;
-    return ThumborService.image_url((_ref = this.state.image) != null ? _ref.url : void 0, this.props.size);
-  },
-  rotateImage: function() {
-    this.activateLoadingState();
-    return ProductImagesViewActions.rotateImage(this.props.image.id).then((function(_this) {
-      return function(data) {
-        _this.activateLoadedState();
-        return _this.props.onImageRotate(data);
-      };
-    })(this)).fail((function(_this) {
-      return function() {
-        _this.activateErrorState();
-        return setTimeout(_this.activateLoadedState, 3000);
-      };
-    })(this));
-  }
-});
-
-module.exports = ProductImages_Image;
-
-
-
-},{}],44:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var ImagesMixin, ProductImages_List, ProductImages_Placeholder;
-
-ProductImages_Placeholder = require('./placeholder');
-
-ProductImages_List = require('./list');
-
-ImagesMixin = require('./mixins/images');
-
-window.ProductImages = React.createClass({displayName: 'ProductImages',
-  mixins: ['ReactActivitiesMixin', ImagesMixin],
-  propTypes: {
-    images: React.PropTypes.array.isRequired,
-    fieldName: React.PropTypes.string.isRequired,
-    productId: React.PropTypes.number,
-    productCardId: React.PropTypes.number
-  },
-  getDefaultProps: function() {
-    return {
-      fieldName: 'product[image_ids][]',
-      images: [
-        {
-          id: 4682,
-          url: 'assets/product-1-square.png?1',
-          id: 4681,
-          url: 'assets/product-2-square.png?1',
-          id: 4680,
-          url: 'assets/product-3-square.png?1'
-        }
-      ]
-    };
-  },
-  getInitialState: function() {
-    return {
-      images: this.convertRawImages()
-    };
-  },
-  render: function() {
-    return React.DOM.div({className: "products__new-form-images-list __small"}, 
-      ProductImages_Placeholder({onImagesAdd:  this.pushImages}), 
-      ProductImages_List({
-          images:  this.state.images, 
-          fieldName:  this.props.fieldName, 
-          productId:  this.props.productId, 
-          productCardId:  this.props.productCardId, 
-          activitiesHandler:  this.activitiesHandler, 
-          onImagesReorder:  this.updateImages, 
-          onImagePreload:  this.updateImage, 
-          onImageRotate:  this.updateImage, 
-          onImageDelete:  this.deleteImage})
-    );
-  }
-});
-
-
-
-},{"./list":45,"./mixins/images":47,"./placeholder":49}],45:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var ProductImageSortableMixin, ProductImages_Image, ProductImages_List;
-
-ProductImages_Image = require('./image');
-
-ProductImageSortableMixin = require('./mixins/sortable');
-
-ProductImages_List = React.createClass({displayName: 'ProductImages_List',
-  mixins: [ProductImageSortableMixin],
-  propTypes: {
-    images: React.PropTypes.array.isRequired,
-    fieldName: React.PropTypes.string,
-    productId: React.PropTypes.number,
-    productCardId: React.PropTypes.number,
-    activitiesHandler: React.PropTypes.object.isRequired,
-    onImagePreload: React.PropTypes.func.isRequired,
-    onImageDelete: React.PropTypes.func.isRequired,
-    onImageRotate: React.PropTypes.func.isRequired
-  },
-  render: function() {
-    var images, that;
-    that = this;
-    images = this.props.images.sort(function(a, b) {
-      return a.position - b.position;
-    }).map(function(image) {
-      return ProductImages_Image({
-             image: image, 
-             fieldName:  that.props.fieldName, 
-             productId:  that.props.productId, 
-             productCardId:  that.props.productCardId, 
-             activitiesHandler:  that.props.activitiesHandler, 
-             onImagePreload:  that.props.onImagePreload.bind(null, image), 
-             onImageDelete:  that.props.onImageDelete.bind(null, image), 
-             onImageRotate:  that.props.onImageRotate.bind(null, image), 
-             key:  image.uuid || image.id});
-    });
-    return React.DOM.div({ref: "list", 
-                 className: "products__new-form-images-list-list"}, 
-              images 
-            );
-  }
-});
-
-module.exports = ProductImages_List;
-
-
-
-},{"./image":43,"./mixins/sortable":48}],46:[function(require,module,exports){
-var ACCEPT_FILE_TYPES, FileUploadMixin, MAX_FILE_SIZE, MAX_NUMBER_OF_FILES;
-
-ACCEPT_FILE_TYPES = /(\.|\/)(gif|jpe?g|png)$/i;
-
-MAX_FILE_SIZE = 10 * 1000 * 1000;
-
-MAX_NUMBER_OF_FILES = 6;
-
-FileUploadMixin = {
-  propTypes: {
-    onImagesAdd: React.PropTypes.func.isRequired
-  },
-  componentDidMount: function() {
-    var $fileInput;
-    $fileInput = $(this.refs.fileInput.getDOMNode());
-    $fileInput.on('fileuploadadd', this.addFilesToForm);
-    $fileInput.on('fileuploaddrop', this.activateViewState);
-    $(window).on('dragover', this.activateDropzoneState);
-    $(window).on('dragleave', this.activateViewState);
-    return $fileInput.fileupload({
-      acceptFileTypes: ACCEPT_FILE_TYPES,
-      maxFileSize: MAX_FILE_SIZE,
-      maxNumberOfFiles: MAX_NUMBER_OF_FILES,
-      singleFileUploads: false,
-      autoUpload: false,
-      replaceFileInput: false,
-      pasteZone: null
-    });
-  },
-  componentWillUnmount: function() {
-    var $fileInput;
-    $fileInput = $(this.refs.fileInput.getDOMNode());
-    $fileInput.off('fileuploadadd', this.addFilesToForm);
-    $fileInput.off('fileuploaddrop', this.activateViewState);
-    $(window).off('dragover', this.activateDropzoneState);
-    return $(window).off('dragleave', this.activateViewState);
-  },
-  addFilesToForm: function(e, data) {
-    var images;
-    images = data.files.map(function(file) {
-      return {
-        id: null,
-        uuid: UuidService.generate(),
-        url: window.URL.createObjectURL(file),
-        file: file
-      };
-    });
-    return this.props.onImagesAdd(images);
-  }
-};
-
-module.exports = FileUploadMixin;
-
-
-
-},{}],47:[function(require,module,exports){
-var ImagesMixin, LOADING_IMAGES_MESSAGE, SAVE_BUTTON_TEXT;
-
-LOADING_IMAGES_MESSAGE = 'Идёт загрузка изображений..';
-
-SAVE_BUTTON_TEXT = 'Сохранить';
-
-ImagesMixin = {
-  propTypes: {
-    images: React.PropTypes.array.isRequired
-  },
-  componentDidUpdate: function(prevProps, prevState) {
-    if (this.hasActivities()) {
-      return this._deactivateSubmitButton();
-    } else {
-      return this._activateSubmitButton();
-    }
-  },
-  updateImages: function(imagesData) {
-    var imageData, newImage, newImages, _i, _j, _len, _len1;
-    newImages = this.state.images.slice(0);
-    for (_i = 0, _len = newImages.length; _i < _len; _i++) {
-      newImage = newImages[_i];
-      for (_j = 0, _len1 = imagesData.length; _j < _len1; _j++) {
-        imageData = imagesData[_j];
-        if (!(imageData.id === newImage.id)) {
-          continue;
-        }
-        _.extend(newImage, imageData);
-        break;
-      }
-    }
-    return this.setState({
-      images: newImages
-    });
-  },
-  updateImage: function(oldImage, data) {
-    var newImage, newImages, _i, _len;
-    newImages = this.state.images.slice(0);
-    for (_i = 0, _len = newImages.length; _i < _len; _i++) {
-      newImage = newImages[_i];
-      if (!(newImage === oldImage)) {
-        continue;
-      }
-      _.extend(newImage, data);
-      break;
-    }
-    return this.setState({
-      images: newImages
-    });
-  },
-  pushImages: function(images) {
-    var image, lastImagePosition, newImages, _i, _len;
-    newImages = this.state.images.slice(0);
-    lastImagePosition = 0;
-    this._deactivateSubmitButton();
-    if (newImages.length) {
-      lastImagePosition = newImages[newImages.length - 1].position + 1;
-    }
-    for (_i = 0, _len = images.length; _i < _len; _i++) {
-      image = images[_i];
-      _.extend(image, {
-        position: ++lastImagePosition
-      });
-      newImages.push(image);
-    }
-    return this.setState({
-      images: newImages
-    });
-  },
-  deleteImage: function(image) {
-    var i, newImage, newImages, _i, _len;
-    newImages = this.state.images.slice(0);
-    for (i = _i = 0, _len = newImages.length; _i < _len; i = ++_i) {
-      newImage = newImages[i];
-      if (!(newImage === image)) {
-        continue;
-      }
-      newImages.splice(i, 1);
-      break;
-    }
-    return this.setState({
-      images: newImages
-    });
-  },
-  convertRawImages: function() {
-    return this.props.images.map(function(image, i) {
-      image.position = i;
-      return image;
-    });
-  },
-  _activateSubmitButton: function() {
-    var $submitButton;
-    $submitButton = $('[data-button-save]');
-    return $submitButton.removeAttr('disabled').text(SAVE_BUTTON_TEXT);
-  },
-  _deactivateSubmitButton: function() {
-    var $submitButton;
-    $submitButton = $('[data-button-save]');
-    return $submitButton.attr('disabled', 'disabled').text(LOADING_IMAGES_MESSAGE);
-  },
-  handleFormSubmit: function(e) {
-    if (this.hasActivities()) {
-      return e.preventDefault();
-    }
-  },
-  handlePageClose: function() {
-    if (this.hasActivities()) {
-      return this.state.activities + ' изображений ещё не загрузилось. Вы уверены, что хотите выйти?';
-    }
-  }
-};
-
-module.exports = ImagesMixin;
-
-
-
-},{}],48:[function(require,module,exports){
-var DRAG_DELAY, DRAG_REVERT, ProductImageSortableMixin, _getNewPositions;
-
-DRAG_DELAY = 100;
-
-DRAG_REVERT = 100;
-
-_getNewPositions = function(image, insertIndex) {
-  var currentPosition, imageToShift, minPosition, newPositions, nextSibling, oldImagesPositions, oldTail, originalIndex, positionDiff, previousSibling, slicePosition, _i, _len;
-  originalIndex = image.position;
-  if (insertIndex === originalIndex) {
-    return [];
-  }
-  oldImagesPositions = _.reject(this.props.images, function(i) {
-    return i === image;
-  });
-  if (!(insertIndex < 1)) {
-    previousSibling = oldImagesPositions[insertIndex - 1];
-  }
-  if (!(insertIndex > oldImagesPositions.length - 1)) {
-    nextSibling = oldImagesPositions[insertIndex];
-  }
-  if (!previousSibling && !nextSibling) {
-    return [
-      {
-        id: image.id,
-        position: 0
-      }
-    ];
-  }
-  if (!nextSibling) {
-    return [
-      {
-        id: image.id,
-        position: previousSibling.position + 1
-      }
-    ];
-  }
-  if (!previousSibling) {
-    previousSibling = {
-      id: null,
-      position: -1
-    };
-  }
-  positionDiff = nextSibling.position - previousSibling.position;
-  if (positionDiff > 1) {
-    return [
-      {
-        id: image.id,
-        position: previousSibling.position + 1
-      }
-    ];
-  }
-  slicePosition = previousSibling.position + 1;
-  newPositions = [
-    {
-      id: image.id,
-      position: slicePosition
-    }
-  ];
-  oldTail = oldImagesPositions.slice(insertIndex);
-  for (_i = 0, _len = oldTail.length; _i < _len; _i++) {
-    imageToShift = oldTail[_i];
-    minPosition = slicePosition + 1;
-    currentPosition = imageToShift.position;
-    if (currentPosition < minPosition) {
-      currentPosition = minPosition;
-      newPositions.push({
-        id: imageToShift.id,
-        position: currentPosition
-      });
-      slicePosition = currentPosition + 1;
-    }
-  }
-  return newPositions;
-};
-
-ProductImageSortableMixin = {
-  propTypes: {
-    images: React.PropTypes.array.isRequired,
-    onImagesReorder: React.PropTypes.func.isRequired
-  },
-  componentDidMount: function() {
-    return $(this.getDOMNode()).sortable({
-      scope: 'productImagesReorder',
-      placeholder: 'products__new-form-image-thumb-block __dropzone',
-      forcePlaceholderSize: true,
-      revert: DRAG_REVERT,
-      delay: DRAG_DELAY,
-      stop: this.handleDrop
-    });
-  },
-  handleDrop: function(evt, ui) {
-    var imageId, insertIndex;
-    imageId = parseInt(ui.item.data('id'), 10);
-    insertIndex = ui.item.index();
-    $(this.getDOMNode()).sortable('cancel');
-    return this.reorderImages({
-      imageId: imageId,
-      insertIndex: insertIndex
-    });
-  },
-  reorderImages: function(_arg) {
-    var imageId, insertIndex, newPositions;
-    imageId = _arg.imageId, insertIndex = _arg.insertIndex;
-    newPositions = this.getReorderedPositions(imageId, insertIndex);
-    if (newPositions.length) {
-      return this.props.onImagesReorder(newPositions);
-    }
-  },
-  getImageById: function(imageId) {
-    var image, _i, _len, _ref;
-    _ref = this.props.images;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      image = _ref[_i];
-      if (image.id === imageId) {
-        return image;
-      }
-    }
-  },
-  getReorderedPositions: function(imageId, insertIndex) {
-    var image;
-    image = this.getImageById(imageId);
-    return _getNewPositions.apply(this, [image, insertIndex]);
-  }
-};
-
-module.exports = ProductImageSortableMixin;
-
-
-
-},{}],49:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var DROPZONE_STATE, FileUploadMixin, ProductImages_Placeholder, VIEW_STATE;
-
-FileUploadMixin = require('./mixins/file_upload');
-
-VIEW_STATE = 'view';
-
-DROPZONE_STATE = 'dropZone';
-
-ProductImages_Placeholder = React.createClass({displayName: 'ProductImages_Placeholder',
-  mixins: [FileUploadMixin],
-  getInitialState: function() {
-    return {
-      currentState: VIEW_STATE
-    };
-  },
-  render: function() {
-    var emptyThumbClasses;
-    emptyThumbClasses = React.addons.classSet({
-      'products__new-form-image-thumb-empty': true,
-      '__dropzone': this.isDropzoneState()
-    });
-    return React.DOM.div({className: "products__new-form-image-thumb-block"}, 
-              React.DOM.input({ref: "fileInput", 
-                     type: "file", 
-                     accept: "image/*", 
-                     multiple: true, 
-                     id: "image", 
-                     className: "form-upload__input products__new-form-image-input"}), 
-               React.DOM.div({className: emptyThumbClasses }), 
-               React.DOM.div({className: "products__new-form-image-thumb-add"})
-             );
-  },
-  isDropzoneState: function() {
-    return this.state.currentState === DROPZONE_STATE;
-  },
-  activateDropzoneState: function() {
-    return this.setState({
-      currentState: DROPZONE_STATE
-    });
-  },
-  activateViewState: function() {
-    return this.setState({
-      currentState: VIEW_STATE
-    });
-  }
-});
-
-module.exports = ProductImages_Placeholder;
-
-
-
-},{"./mixins/file_upload":46}],50:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.ProductModificationList = React.createClass({displayName: 'ProductModificationList',
-  propTypes: {
-    modifications: React.PropTypes.array.isRequired
-  },
-  render: function() {
-    var modificationList;
-    modificationList = this.props.modifications.filter(function(modification) {
-      return modification.is_archived === false;
-    }).map(function(modification) {
-      return ProductModificationListItem({
-             modification: modification, 
-             key:  modification.id});
-    });
-    return React.DOM.ul({className: "adm-categories-goods-modifications"}, 
-              modificationList 
-            );
-  }
-});
-
-
-
-},{}],51:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.ProductModificationListItem = React.createClass({displayName: 'ProductModificationListItem',
-  propTypes: {
-    modification: React.PropTypes.object.isRequired
-  },
-  render: function() {
-    var count, itemClasses, quantityUnit, title;
-    title = this.props.modification.title;
-    count = this.props.modification.count;
-    quantityUnit = this.props.modification.quantity_unit.short;
-    itemClasses = React.addons.classSet({
-      'adm-categories-goods-modifications-item': true,
-      '__not-synced': !this.isSynced()
-    });
-    return React.DOM.li({className: itemClasses }, 
-              title, " - ", count, quantityUnit 
-            );
-  },
-  isSynced: function() {
-    return this.props.modification.is_stock_synced === true;
-  }
-});
-
-
-
-},{}],52:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var TITLES;
-
-TITLES = {
-  published: 'OK',
-  has_errors: 'Ошибки',
-  unpublished: 'Снят',
-  archive: 'Архив'
-};
-
-window.ProductState = React.createClass({displayName: 'ProductState',
-  propTypes: {
-    state: React.PropTypes.string.isRequired
-  },
-  render: function() {
-    var classes, source, title;
-    source = {
-      label: true
-    };
-    source["__" + this.props.state] = true;
-    classes = React.addons.classSet(source);
-    title = TITLES[this.props.state];
-    return React.DOM.span({className: classes}, title);
-  }
-});
-
-
-
-},{}],53:[function(require,module,exports){
-
-/** @jsx React.DOM */
-var ERROR_STATE, PROCESS_STATE, PropTypes, SHOW_STATE, cx;
-
-cx = React.addons.classSet;
-
-PropTypes = React.PropTypes;
-
-SHOW_STATE = 'show';
-
-ERROR_STATE = 'error';
-
-PROCESS_STATE = 'process';
-
-window.StatusToggle = React.createClass({displayName: 'StatusToggle',
-  propTypes: {
-    titleOn: PropTypes.string.isRequired,
-    titleOff: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    method: PropTypes.string.isRequired,
-    fieldName: PropTypes.string.isRequired,
-    currentValue: PropTypes.bool.isRequired,
-    disabled: PropTypes.bool
-  },
-  getDefaultProps: function() {
-    return {
-      disabled: false
-    };
-  },
-  getInitialState: function() {
-    return {
-      currentState: SHOW_STATE,
-      checked: this.props.currentValue
-    };
-  },
-  render: function() {
-    var statusClasses;
-    statusClasses = cx({
-      'toggle__block': true,
-      'checked': this.state.checked
-    });
-    return React.DOM.label({className: statusClasses }, 
-              React.DOM.div({className: "toggle__block-label-checked pull-left"}, 
-                 this.props.titleOn
-              ), 
-              React.DOM.div({className: "toggle__block-box pull-left"}, 
-                React.DOM.input({type: "checkbox", 
-                       checked:  this.state.checked, 
-                       disabled:  this.props.disabled, 
-                       className: "toggle__block-checkbox", 
-                       onChange:  this.handleInputChange}), 
-                React.DOM.div({className: "toggle__block-switch"}), 
-                React.DOM.div({className: "toggle__block-track"})
-              ), 
-              React.DOM.div({className: "toggle__block-label-unchecked pull-left"}, 
-                 this.props.titleOff
-              ), 
-              React.DOM.div({className: "clearfix"})
-            );
-  },
-  isProcessState: function() {
-    return this.state.currentState === PROCESS_STATE;
-  },
-  handleInputChange: function(e) {
-    var checked, data;
-    if (this.isProcessState() || this.props.disabled) {
-      return e.preventDefault();
-    }
-    checked = e.target.checked;
-    data = {};
-    data[this.props.fieldName] = checked;
-    return Requester.request({
-      url: this.props.url,
-      data: data,
-      method: this.props.method,
-      success: (function(_this) {
-        return function() {
-          return _this.setState({
-            checked: checked
-          });
-        };
-      })(this),
-      error: (function(_this) {
-        return function(data) {
-          var _ref;
-          alert(((_ref = data.responseJSON) != null ? _ref.error : void 0) || 'Ошибка');
-          return _this.setState({
-            checked: !checked
-          });
-        };
-      })(this)
-    });
-  }
-});
-
-
-
-},{}],54:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.ProductThumb = React.createClass({displayName: 'ProductThumb',
-  propTypes: {
-    product: React.PropTypes.object.isRequired,
-    style: React.PropTypes.string
-  },
-  getDefaultProps: function() {
-    return {
-      style: '50x50'
-    };
-  },
-  render: function() {
-    return React.DOM.img({src:  this._getImageUrl(), 
-          className: "adm-categories-goods-thumb", 
-          alt:  this.props.product.title});
-  },
-  _getImageUrl: function() {
-    var _ref;
-    return ThumborService.image_url((_ref = this.props.product.image) != null ? _ref.url : void 0, this.props.style);
-  }
-});
-
-
-
-},{}],55:[function(require,module,exports){
-
-/** @jsx React.DOM */
-window.ProductTotalItemsQuantity = React.createClass({displayName: 'ProductTotalItemsQuantity',
-  propTypes: {
-    product: React.PropTypes.object.isRequired
-  },
-  render: function() {
-    var content, quantity, quantityUnit;
-    quantity = parseInt(this.props.product.total_items_quantity);
-    quantityUnit = this.props.product.quantity_unit.short;
-    if (quantity > 0) {
-      content = "" + quantity + " " + quantityUnit;
-    } else {
-      content = 'Нет в наличии';
-    }
-    return React.DOM.span({className: "adm-categories-goods-total-quantity", 
-                  dangerouslySetInnerHTML: { __html: content}});
-  }
-});
-
-
-
-},{}],56:[function(require,module,exports){
-window.ModalController = {
-  show: function(url) {
-    var container;
-    container = document.querySelectorAll('[modal-container]')[0];
-    if (!container) {
-      container = $('<\div>', {
-        'modal-container': ''
-      }).appendTo('body')[0];
-    }
-    return React.renderComponent(ModalComponent({
-      url: url
-    }), container);
-  }
-};
-
-
-
-},{}],57:[function(require,module,exports){
-var BaseDispatcher,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-BaseDispatcher = (function(_super) {
-  __extends(BaseDispatcher, _super);
-
-  function BaseDispatcher() {
-    return BaseDispatcher.__super__.constructor.apply(this, arguments);
-  }
-
-  BaseDispatcher.prototype.handleViewAction = function(action) {
-    return this.dispatch({
-      source: 'VIEW_ACTION',
-      action: action
-    });
-  };
-
-  BaseDispatcher.prototype.handleServerAction = function(action) {
-    return this.dispatch({
-      source: 'SERVER_ACTION',
-      action: action
-    });
-  };
-
-  return BaseDispatcher;
-
-})(Dispatcher);
-
-module.exports = BaseDispatcher;
-
-
-
-},{}],58:[function(require,module,exports){
-var BaseDispatcher;
-
-BaseDispatcher = require('./_base');
-
-window.DragStateDispatcher = new BaseDispatcher();
-
-
-
-},{"./_base":57}],59:[function(require,module,exports){
-var BaseDispatcher;
-
-BaseDispatcher = require('./_base');
-
-window.OperatorCategoriesDispatcher = new BaseDispatcher();
-
-
-
-},{"./_base":57}],60:[function(require,module,exports){
-var BaseDispatcher;
-
-BaseDispatcher = require('./_base');
-
-window.OperatorProductsDispatcher = new BaseDispatcher();
-
-
-
-},{"./_base":57}],61:[function(require,module,exports){
-window.AppHelpers = {
-  reselectAndFocus: function(node) {
-    var value, valueLength;
-    value = node.value;
-    valueLength = value.length;
-    node.focus();
-    if (node.setSelectionRange != null) {
-      return node.setSelectionRange(0, valueLength);
-    } else {
-      return node.value = value;
-    }
-  }
-};
-
-
-
-},{}],62:[function(require,module,exports){
-window.EventHelpers = {
-  isAnyServiceKey: function(e) {
-    return e.shiftKey || e.ctrlKey || e.altKey || e.metaKey;
-  }
-};
-
-
-
-},{}],63:[function(require,module,exports){
-var addThousandsSeparator, setDecimal;
-
-addThousandsSeparator = function(value, separator) {
-  var prevResult, result;
-  if (separator == null) {
-    separator = '.';
-  }
-  result = value;
-  while (result !== prevResult) {
-    prevResult = result;
-    result = result.replace(/^(-?\d+)(\d{3})/, "$1" + separator + "$2");
-  }
-  return result;
-};
-
-setDecimal = function(value, mark) {
-  if (mark == null) {
-    mark = ',';
-  }
-  return value.replace(/^(-?\d+)\.(\d+)/, "$1" + mark + "$2");
-};
-
-window.MoneyHelpers = {
-  format: function(cents, currency) {
-    var decimalMark, exponent, result, subunitToUnit, symbolFirst, symbolHtml, thousandsSeparator, unit;
-    symbolHtml = currency.html_name;
-    symbolFirst = currency.symbol_first;
-    subunitToUnit = currency.subunit_to_unit;
-    thousandsSeparator = currency.thousands_separator;
-    decimalMark = currency.decimal_mark;
-    exponent = currency.exponent;
-    unit = cents / subunitToUnit;
-    result = unit.toFixed(exponent);
-    result = setDecimal(result, decimalMark);
-    result = addThousandsSeparator(result, thousandsSeparator);
-    result = symbolFirst ? symbolHtml + result : result + symbolHtml;
-    return result;
-  }
-};
-
-
-
-},{}],64:[function(require,module,exports){
-var BaseMixin, ERROR_TIMEOUT, ram, rau;
-
-ERROR_TIMEOUT = 1000;
-
-BaseMixin = {
-  setActivitiesHandler: function(handler) {
-    this.activitiesHandler = handler;
-    this.hasActivities = handler.hasActivities;
-    this.incrementActivities = handler.increment;
-    return this.decrementActivities = handler.decrement;
-  }
-};
-
-ram = {
-  componentWillMount: function() {
-    return this.setActivitiesHandler(this.createActivitiesHandler());
-  },
-  getInitialState: function() {
-    return {
-      activities: 0
-    };
-  },
-  incrementActivities: function() {
-    return this.activitiesHandler.incrementActivities;
-  },
-  decrementActivities: function() {
-    return this.activitiesHandler.decrementActivities;
-  },
-  createActivitiesHandler: function() {
-    var activities, decrement, hasActivities, increment;
-    increment = (function() {
-      return _.defer((function(_this) {
-        return function() {
-          return _this.setState({
-            activities: ++_this.state.activities
-          });
-        };
-      })(this));
-    }).bind(this);
-    decrement = (function() {
-      return _.defer((function(_this) {
-        return function() {
-          return _this.setState({
-            activities: --_this.state.activities
-          });
-        };
-      })(this));
-    }).bind(this);
-    hasActivities = (function() {
-      return this.state.activities > 0;
-    }).bind(this);
-    activities = (function() {
-      return this.state.activities;
-    }).bind(this);
-    return {
-      increment: increment,
-      decrement: decrement,
-      hasActivities: hasActivities,
-      activities: activities
-    };
-  }
-};
-
-rau = {
-  propTypes: {
-    activitiesHandler: React.PropTypes.object.isRequired
-  },
-  componentWillMount: function() {
-    return this.setActivitiesHandler(this.props.activitiesHandler);
-  },
-  componentWillReceiveProps: function(nextProps) {
-    return this.setActivitiesHandler(nextProps.activitiesHandler);
-  }
-};
-
-React.mixins.add('ReactActivitiesMixin', [ram, BaseMixin]);
-
-React.mixins.add('ReactActivitiesUser', [rau, BaseMixin]);
-
-
-
-},{}],65:[function(require,module,exports){
-window.CategoryDroppable = {
-  componentDidMount: function() {
-    var that;
-    that = this;
-    return $(this.getDOMNode()).droppable({
-      scope: 'productsToCategories',
-      addClasses: false,
-      tolerance: 'pointer',
-      drop: this.handleProductDrop,
-      accept: _.throttle(function(productNode) {
-        var category_id;
-        category_id = parseInt(productNode.attr('data-category-id'));
-        return category_id !== that.props.category.id;
-      })
-    });
-  },
-  handleProductDrop: function(e, ui) {
-    if (DragStateStore.isMultipleSelected()) {
-      OperatorProductsService.changeProductsCategory({
-        url: this.props.changeProductCategoryUrl,
-        products: DragStateStore.getSelectedProducts(),
-        newCategoryId: this.props.category.id,
-        oldCategoryId: parseInt(ui.draggable.attr('data-category-id'))
-      });
-    } else {
-      OperatorProductsService.changeProductsCategory({
-        url: this.props.changeProductCategoryUrl,
-        products: DragStateStore.getDraggedProducts(),
-        newCategoryId: this.props.category.id,
-        oldCategoryId: parseInt(ui.draggable.attr('data-category-id'))
-      });
-    }
-    return DragStateDispatcher.handleViewAction({
-      type: 'productsMoved'
-    });
-  },
-  componentWillUnmount: function() {
-    return $(this.getDOMNode()).droppable('destroy');
-  }
-};
-
-
-
-},{}],66:[function(require,module,exports){
-window.ComponentManipulationsMixin = {
-  safeUpdate: function(func) {
-    if (!this._isUnmounted()) {
-      func();
-    }
-  },
-  safeUpdateState: function(newStates) {
-    if (!this._isUnmounted()) {
-      this.setState(newStates);
-    }
-  },
-  _isUnmounted: function() {
-    return this._compositeLifeCycleState === 'UNMOUNTING' || this._compositeLifeCycleState === 'UNMOUNTED' || this._lifeCycleState === 'UNMOUNTING' || this._lifeCycleState === 'UNMOUNTED';
-  }
-};
-
-
-
-},{}],67:[function(require,module,exports){
-window.ProductDraggable = {
-  getInitialState: function() {
-    return {
-      isDragged: false
-    };
-  },
-  componentDidMount: function() {
-    var that;
-    that = this;
-    if (this.props.canMove) {
-      return $(this.getDOMNode()).draggable({
-        scope: 'productsToCategories',
-        addClasses: false,
-        appendTo: 'body',
-        zIndex: 100,
-        cursor: 'default',
-        cursorAt: {
-          top: -5,
-          left: -15
-        },
-        helper: function() {
-          var stringComponent;
-          if (DragStateStore.isMultipleSelected()) {
-            stringComponent = React.renderComponentToString(OperatorProducts_ListItemsDrag({
-              products: DragStateStore.getSelectedProducts()
-            }));
-          } else {
-            stringComponent = React.renderComponentToString(OperatorProducts_ListItemDrag({
-              product: that.props.product
-            }));
-          }
-          return $(stringComponent);
-        },
-        start: (function(_this) {
-          return function(e) {
-            DragStateDispatcher.handleViewAction({
-              type: 'productBecameDraggable',
-              product: _this.props.product
-            });
-            return _this.setState({
-              isDragged: true
-            });
-          };
-        })(this),
-        stop: function(e) {
-          return setTimeout(function() {
-            DragStateDispatcher.handleViewAction({
-              type: 'productBecameStatic',
-              product: that.props.product
-            });
-            return that.setState({
-              isDragged: false
-            });
-          }, 0);
-        }
-      });
-    }
-  },
-  componentWillUnmount: function() {
-    if (this.props.canMove) {
-      return $(this.getDOMNode()).draggable('destroy');
-    }
-  }
-};
-
-
-
-},{}],68:[function(require,module,exports){
-window.UnmountMixin = {
-  unmount: function() {
-    return _.defer((function(_this) {
-      return function() {
-        return React.unmountComponentAtNode(_this.getDOMNode().parentNode);
-      };
-    })(this));
-  }
-};
-
-
-
-},{}],69:[function(require,module,exports){
-window.CategoriesResource = {
-  index: function(_arg) {
-    var data, url;
-    data = _arg.data, url = _arg.url;
-    return Requester.request({
-      url: url || ApiRoutes.operator_categories_url(),
-      data: data
-    });
-  },
-  get: function(_arg) {
-    var categoryId, error, success;
-    categoryId = _arg.categoryId, success = _arg.success, error = _arg.error;
-    return Requester.request({
-      url: ApiRoutes.operator_category_url(categoryId),
-      success: function(category) {
-        return typeof success === "function" ? success(category) : void 0;
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      }
-    });
-  },
-  create: function(_arg) {
-    var data, error, success;
-    data = _arg.data, success = _arg.success, error = _arg.error;
-    return Requester.request({
-      url: ApiRoutes.operator_categories_url(),
-      method: 'POST',
-      data: data,
-      success: function(category) {
-        return typeof success === "function" ? success(category) : void 0;
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      }
-    });
-  },
-  update: function(_arg) {
-    var categoryId, data, error, success;
-    data = _arg.data, categoryId = _arg.categoryId, success = _arg.success, error = _arg.error;
-    return Requester.request({
-      url: ApiRoutes.operator_category_url(categoryId),
-      method: 'PUT',
-      data: data,
-      success: function(category) {
-        return typeof success === "function" ? success(category) : void 0;
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      }
-    });
-  },
-  "delete": function(_arg) {
-    var categoryId, error, success;
-    categoryId = _arg.categoryId, success = _arg.success, error = _arg.error;
-    return Requester.request({
-      url: ApiRoutes.operator_category_url(categoryId),
-      method: 'DELETE',
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      },
-      success: function(response) {
-        return typeof success === "function" ? success(response) : void 0;
-      }
-    });
-  }
-};
-
-
-
-},{}],70:[function(require,module,exports){
-window.ProductsResource = {
-  index: function(_arg) {
-    var data, error, success;
-    data = _arg.data, success = _arg.success, error = _arg.error;
-    error || (error = KioskOperatorApp.error_alert);
-    data.per_page || (data.per_page = 1000);
-    return Requester.request({
-      dataType: 'json',
-      url: ApiRoutes.operator_products_by_category_url(),
-      method: 'get',
-      data: data,
-      error: function(xhr, status, err) {
-        return error(err || status);
-      },
-      success: function(data) {
-        return success(data.products);
-      }
-    });
-  },
-  get: function(_arg) {
-    var error, productId, success;
-    productId = _arg.productId, success = _arg.success, error = _arg.error;
-    return Requester.request({
-      url: ApiRoutes.operator_product_url(productId),
-      success: function(product) {
-        return typeof success === "function" ? success(product) : void 0;
-      },
-      error: function(xhr, status, err) {
-        return typeof error === "function" ? error(err || status) : void 0;
-      }
-    });
-  },
-  publish: function(_arg) {
-    var error, id, success;
-    id = _arg.id, success = _arg.success, error = _arg.error;
-    return $.ajax({
-      dataType: 'json',
-      method: 'post',
-      url: ApiRoutes.operator_product_publicate_url(id),
-      error: function(xhr, status, err) {
-        if (error) {
-          return error(err || status);
-        }
-      },
-      success: function(data) {
-        if (success) {
-          return success(data);
-        }
-      }
-    });
-  },
-  unpublish: function(_arg) {
-    var error, id, success;
-    id = _arg.id, success = _arg.success, error = _arg.error;
-    return $.ajax({
-      dataType: 'json',
-      method: 'delete',
-      url: ApiRoutes.operator_product_publicate_url(id),
-      error: function(xhr, status, err) {
-        if (error) {
-          return error(err || status);
-        }
-      },
-      success: function(data) {
-        if (success) {
-          return success(data);
-        }
-      }
-    });
-  },
-  update: function(_arg) {
-    var data, error, id, success;
-    id = _arg.id, data = _arg.data, success = _arg.success, error = _arg.error;
-    return Requester.request({
-      dataType: 'json',
-      method: 'put',
-      url: ApiRoutes.operator_product_url(id),
-      data: data,
-      error: function(xhr, status, err) {
-        return error(err || status);
-      },
-      success: success
-    });
-  }
-};
-
-
-
-},{}],71:[function(require,module,exports){
-window.OperatorCategoriesService = {
-  reorderCategories: function(_arg) {
-    var categoryId, insertIdx, newPositions;
-    categoryId = _arg.categoryId, insertIdx = _arg.insertIdx;
-    newPositions = OperatorCategoriesStore.getReorderedPositions(categoryId, insertIdx);
-    if (newPositions.length) {
-      OperatorCategoriesServerActions.reorderCategories(newPositions);
-      return this.updateCategories(newPositions, function(err, response) {
-        if (err) {
-          return console.error(err);
-        }
-      });
-    }
-  },
-  updateCategories: function(data, callback) {
-    var done, that;
-    done = _.after(data.length, function() {
-      return callback();
-    });
-    that = this;
-    return _.each(data, function(i) {
-      return CategoriesResource.update({
-        categoryId: i.id,
-        data: {
-          name: i.name,
-          position: i.position,
-          parent_id: i.parent_id
-        },
-        success: done
-      });
-    });
-  }
-};
-
-
-
-},{}],72:[function(require,module,exports){
-window.OperatorProductsService = {
-  loadProducts: function(_arg) {
-    var data, url;
-    url = _arg.url, data = _arg.data;
-    return Requester.request({
-      url: url || ApiRoutes.operator_products_by_category_url(),
-      data: {
-        category_id: data.categoryId,
-        filter: data.filter,
-        include_subcategories: data.includeSubcategories,
-        page: 1,
-        per_page: 30
-      }
-    }).then(function(response) {
-      OperatorProductsServerActions.receiveProducts(data.categoryId, response.items);
-      return response;
-    });
-  },
-  loadMoreProducts: function(_arg) {
-    var data, url;
-    url = _arg.url, data = _arg.data;
-    return Requester.request({
-      url: url || ApiRoutes.operator_products_by_category_url(),
-      data: {
-        category_id: data.categoryId,
-        filter: data.filter,
-        include_subcategories: data.includeSubcategories,
-        page: data.page,
-        per_page: 30
-      }
-    }).then(function(response) {
-      OperatorProductsServerActions.receiveMoreProducts(data.categoryId, response.items);
-      return response;
-    });
-  },
-  changeProductCategory: function(_arg) {
-    var newCategoryId, oldCategoryId, productId, success, url;
-    url = _arg.url, productId = _arg.productId, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId, success = _arg.success;
-    return Requester.request({
-      url: url || ApiRoutes.operator_products_change_category_url(productId),
-      method: 'PUT',
-      data: {
-        new_category_id: newCategoryId,
-        old_category_id: oldCategoryId
-      },
-      success: function(product) {
-        if (typeof success === "function") {
-          success();
-        }
-        return OperatorProductsServerActions.moveProduct({
-          product: product,
-          newCategoryId: newCategoryId,
-          oldCategoryId: oldCategoryId
-        });
-      }
-    });
-  },
-  changeProductsCategory: function(_arg) {
-    var completedRequests, newCategoryId, oldCategoryId, product, products, url, _i, _len, _results;
-    url = _arg.url, products = _arg.products, newCategoryId = _arg.newCategoryId, oldCategoryId = _arg.oldCategoryId;
-    completedRequests = 0;
-    _results = [];
-    for (_i = 0, _len = products.length; _i < _len; _i++) {
-      product = products[_i];
-      _results.push(this.changeProductCategory({
-        url: url,
-        productId: product.id,
-        newCategoryId: newCategoryId,
-        oldCategoryId: oldCategoryId,
-        success: function() {
-          completedRequests++;
-          if (completedRequests === products.length) {
-            OperatorCategoriesViewActions.reloadCategory({
-              categoryId: newCategoryId
-            });
-            return OperatorCategoriesViewActions.reloadCategory({
-              categoryId: oldCategoryId
-            });
-          }
-        }
-      }));
-    }
-    return _results;
-  }
-};
-
-
-
-},{}],73:[function(require,module,exports){
-window.ThumborService = {
-  image_url: function(url, style) {
-    var escapedImageUrl, fallbackImageUrl, imageUrl, thumborUrl;
-    if (style == null) {
-      style = '100x100';
-    }
-    fallbackImageUrl = encodeURIComponent(typeof gon !== "undefined" && gon !== null ? gon.fallback_product_thumb_url : void 0);
-    thumborUrl = typeof gon !== "undefined" && gon !== null ? gon.thumbor_url : void 0;
-    if ((url != null) && url !== '') {
-      if (this.isExternalImage(url)) {
-        escapedImageUrl = encodeURIComponent(url);
-        imageUrl = thumborUrl + ("/unsafe/" + style + "/") + escapedImageUrl;
-      } else {
-        imageUrl = url;
-      }
-    } else {
-      imageUrl = thumborUrl + ("/unsafe/" + style + "/") + fallbackImageUrl;
-    }
-    return imageUrl;
-  },
-  isExternalImage: function(url) {
-    var externalImageMatcher;
-    externalImageMatcher = new RegExp('^http');
-    return externalImageMatcher.test(url);
-  }
-};
-
-
-
-},{}],74:[function(require,module,exports){
-window.UuidService = {
-  generate: function() {
-    var s4;
-    s4 = function() {
-      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-    };
-    return "" + (s4() + s4()) + "-" + (s4()) + "-" + (s4()) + "-" + (s4()) + "-" + (s4() + s4() + s4());
-  }
-};
-
-
-
-},{}],75:[function(require,module,exports){
-var BaseStore, CHANGE_EVENT,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-CHANGE_EVENT = 'change';
-
-BaseStore = (function(_super) {
-  __extends(BaseStore, _super);
-
-  function BaseStore() {
-    return BaseStore.__super__.constructor.apply(this, arguments);
-  }
-
-  BaseStore.prototype.emitChange = function() {
-    return this.emit(CHANGE_EVENT);
-  };
-
-  BaseStore.prototype.addChangeListener = function(cb) {
-    return this.on(CHANGE_EVENT, cb);
-  };
-
-  BaseStore.prototype.removeChangeListener = function(cb) {
-    return this.off(CHANGE_EVENT, cb);
-  };
-
-  return BaseStore;
-
-})(EventEmitter);
-
-module.exports = BaseStore;
-
-
-
-},{}],76:[function(require,module,exports){
-var BaseStore, _draggedProducts, _isOutsideOfLayout, _selectedProducts;
-
-BaseStore = require('./_base');
-
-_draggedProducts = [];
-
-_selectedProducts = [];
-
-_isOutsideOfLayout = false;
-
-window.DragStateStore = _.extend(new BaseStore(), {
-  isDragged: function() {
-    return _draggedProducts.length > 0 && !_isOutsideOfLayout;
-  },
-  isMultipleSelected: function() {
-    return _selectedProducts.length > 1;
-  },
-  isSelectedProductExists: function(product) {
-    var _i, _len, _selectedProduct;
-    for (_i = 0, _len = _selectedProducts.length; _i < _len; _i++) {
-      _selectedProduct = _selectedProducts[_i];
-      if (_selectedProduct.id === product.id) {
-        return true;
-      }
-    }
-    return false;
-  },
-  isDraggedProductExists: function(product) {
-    var _draggedProduct, _i, _len;
-    for (_i = 0, _len = _draggedProducts.length; _i < _len; _i++) {
-      _draggedProduct = _draggedProducts[_i];
-      if (_draggedProduct.id === product.id) {
-        return true;
-      }
-    }
-    return false;
-  },
-  pushDraggedProduct: function(product) {
-    if (!this.isDraggedProductExists(product)) {
-      return _draggedProducts.push(product);
-    }
-  },
-  deleteDraggedProduct: function(product) {
-    var clonedDraggedProduct, clonedDraggedProducts, i, _i, _len;
-    clonedDraggedProducts = _draggedProducts.slice(0);
-    for (i = _i = 0, _len = clonedDraggedProducts.length; _i < _len; i = ++_i) {
-      clonedDraggedProduct = clonedDraggedProducts[i];
-      if (!(clonedDraggedProduct.id === product.id)) {
-        continue;
-      }
-      clonedDraggedProducts.splice(i, 1);
-      break;
-    }
-    return _draggedProducts = clonedDraggedProducts;
-  },
-  pushSelectedProduct: function(product) {
-    if (!this.isSelectedProductExists(product)) {
-      return _selectedProducts.push(product);
-    }
-  },
-  deleteSelectedProduct: function(product) {
-    var clonedSelectedProduct, clonedSelectedProducts, i, _i, _len;
-    clonedSelectedProducts = _selectedProducts.slice(0);
-    for (i = _i = 0, _len = clonedSelectedProducts.length; _i < _len; i = ++_i) {
-      clonedSelectedProduct = clonedSelectedProducts[i];
-      if (!(clonedSelectedProduct.id === product.id)) {
-        continue;
-      }
-      clonedSelectedProducts.splice(i, 1);
-      break;
-    }
-    return _selectedProducts = clonedSelectedProducts;
-  },
-  resetProducts: function() {
-    _draggedProducts = [];
-    return _selectedProducts = [];
-  },
-  getDraggedProducts: function() {
-    return _draggedProducts;
-  },
-  getSelectedProducts: function() {
-    return _selectedProducts;
-  }
-});
-
-DragStateDispatcher.register(function(payload) {
-  var action;
-  action = payload.action;
-  switch (action.type) {
-    case 'productBecameDraggable':
-      DragStateStore.pushDraggedProduct(action.product);
-      return DragStateStore.emitChange();
-    case 'productBecameStatic':
-      DragStateStore.deleteDraggedProduct(action.product);
-      return DragStateStore.emitChange();
-    case 'dragOutsideOfLayout':
-      _isOutsideOfLayout = true;
-      return DragStateStore.emitChange();
-    case 'dragInsideOfLayout':
-      _isOutsideOfLayout = false;
-      return DragStateStore.emitChange();
-    case 'productBecameSelected':
-      return DragStateStore.pushSelectedProduct(action.product);
-    case 'productBecameUnselected':
-      return DragStateStore.deleteSelectedProduct(action.product);
-    case 'productsMoved':
-      return DragStateStore.resetProducts();
-    case 'currentCategoryChanged':
-      if (!DragStateStore.isDragged()) {
-        return DragStateStore.resetProducts();
-      }
-  }
-});
-
-
-
-},{"./_base":75}],77:[function(require,module,exports){
-var BaseStore, _categories, _getNewPositions;
-
-BaseStore = require('./_base');
-
-_categories = [];
-
-_getNewPositions = function(category, insertIndex) {
-  var catToShift, currentPosition, minPosition, newPositions, nextSibling, oldCategoriesParent, oldCategoriesPositions, oldTail, originalIndex, positionDiff, previousSibling, slicePosition, _i, _len;
-  oldCategoriesParent = OperatorCategoriesStore.getCategoryById(category.parent_id);
-  oldCategoriesPositions = OperatorCategoriesStore.getSortedCategoriesByParent(oldCategoriesParent);
-  originalIndex = _.findIndex(oldCategoriesPositions, function(i) {
-    return i.id === category.id;
-  });
-  if (insertIndex === originalIndex) {
-    return [];
-  }
-  oldCategoriesPositions = _.reject(oldCategoriesPositions, function(i) {
-    return i.id === category.id;
-  });
-  if (!(insertIndex < 1)) {
-    previousSibling = oldCategoriesPositions[insertIndex - 1];
-  }
-  if (!(insertIndex > oldCategoriesPositions.length - 1)) {
-    nextSibling = oldCategoriesPositions[insertIndex];
-  }
-  if (!nextSibling) {
-    return [
-      {
-        id: category.id,
-        position: previousSibling.position + 1
-      }
-    ];
-  }
-  if (!previousSibling) {
-    previousSibling = {
-      position: -1,
-      id: null
-    };
-  }
-  positionDiff = nextSibling.position - previousSibling.position;
-  if (positionDiff > 1) {
-    return [
-      {
-        id: category.id,
-        position: previousSibling.position + 1
-      }
-    ];
-  }
-  slicePosition = previousSibling.position + 1;
-  newPositions = [
-    {
-      id: category.id,
-      position: slicePosition,
-      name: category.name
-    }
-  ];
-  oldTail = oldCategoriesPositions.slice(insertIndex);
-  for (_i = 0, _len = oldTail.length; _i < _len; _i++) {
-    catToShift = oldTail[_i];
-    minPosition = slicePosition + 1;
-    currentPosition = catToShift.position;
-    if (currentPosition < minPosition) {
-      currentPosition = minPosition;
-      newPositions.push({
-        id: catToShift.id,
-        position: currentPosition,
-        name: catToShift.name
-      });
-      slicePosition = currentPosition + 1;
-    }
-  }
-  return newPositions;
-};
-
-window.OperatorCategoriesStore = _.extend(new BaseStore(), {
-  isCategoryExists: function(category) {
-    var _category, _i, _len;
-    if (!category) {
-      return false;
-    }
-    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
-      _category = _categories[_i];
-      if (_category.id === category.id) {
-        return true;
-      }
-    }
-    return false;
-  },
-  pushCategories: function(categories) {
-    var category, clonedCategories, _i, _len;
-    clonedCategories = _categories.slice(0);
-    for (_i = 0, _len = categories.length; _i < _len; _i++) {
-      category = categories[_i];
-      if (!this.isCategoryExists(category)) {
-        clonedCategories.push(category);
-      }
-    }
-    return _categories = clonedCategories;
-  },
-  updateCategory: function(data) {
-    var _category, _i, _len, _results;
-    _results = [];
-    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
-      _category = _categories[_i];
-      if (!(_category.id === data.id)) {
-        continue;
-      }
-      _.extend(_category, data);
-      break;
-    }
-    return _results;
-  },
-  updatePositions: function(newPositions) {
-    var category, newPosition, reorderedCategories, _i, _j, _len, _len1;
-    reorderedCategories = _categories.slice(0);
-    for (_i = 0, _len = reorderedCategories.length; _i < _len; _i++) {
-      category = reorderedCategories[_i];
-      for (_j = 0, _len1 = newPositions.length; _j < _len1; _j++) {
-        newPosition = newPositions[_j];
-        if (category.id === newPosition.id) {
-          category.position = newPosition.position;
-        }
-      }
-    }
-    return _categories = reorderedCategories;
-  },
-  deleteCategory: function(category) {
-    var clonedCategories, clonedCategory, i, _i, _len;
-    clonedCategories = _categories.slice(0);
-    for (i = _i = 0, _len = clonedCategories.length; _i < _len; i = ++_i) {
-      clonedCategory = clonedCategories[i];
-      if (!(clonedCategory.id === category.id)) {
-        continue;
-      }
-      clonedCategories.splice(i, 1);
-      break;
-    }
-    return _categories = clonedCategories;
-  },
-  getCategories: function() {
-    return _categories;
-  },
-  getRootCategory: function() {
-    var _category, _i, _len;
-    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
-      _category = _categories[_i];
-      if (_category.parent_id === null) {
-        return _category;
-      }
-    }
-  },
-  getCategoryLevel: function(category) {
-    if (category.parent_id) {
-      return 1 + this.getCategoryLevel(this.getCategoryById(category.parent_id));
-    } else {
-      return 0;
-    }
-  },
-  getCategoryPosition: function(category) {
-    var lastPosition, lastSibling, siblings;
-    siblings = _.filter(_categories, function(i) {
-      return i.parent_id === category.parent_id;
-    });
-    if (siblings.length) {
-      lastSibling = _.max(siblings, function(i) {
-        return i.position;
-      });
-      lastPosition = lastSibling.position;
-    } else {
-      lastPosition = -1;
-    }
-    return lastPosition + 1;
-  },
-  getReorderedPositions: function(categoryId, insertIdx) {
-    var category;
-    category = this.getCategoryById(categoryId);
-    return _getNewPositions(category, insertIdx);
-  },
-  getCategoryById: function(categoryId) {
-    var _category, _i, _len;
-    for (_i = 0, _len = _categories.length; _i < _len; _i++) {
-      _category = _categories[_i];
-      if (_category.id === categoryId) {
-        return _category;
-      }
-    }
-  },
-  getSortedCategoriesByParent: function(parentCategory) {
-    var parentId;
-    parentId = parentCategory ? parentCategory.id : null;
-    return _.filter(_categories, function(i) {
-      return i.parent_id === parentId;
-    }).sort(function(a, b) {
-      return a.position - b.position;
-    });
-  }
-});
-
-OperatorCategoriesStore.dispatchToken = OperatorCategoriesDispatcher.register(function(payload) {
-  var action;
-  action = payload.action;
-  switch (action.type) {
-    case 'categoriesLoaded':
-      OperatorCategoriesStore.pushCategories(action.categories);
-      return OperatorCategoriesStore.emitChange();
-    case 'categoriesReordered':
-      OperatorCategoriesStore.updatePositions(action.newPositions);
-      return OperatorCategoriesStore.emitChange();
-    case 'categoryLoaded':
-      if (OperatorCategoriesStore.isCategoryExists(action.category)) {
-        OperatorCategoriesStore.updateCategory(action.category);
-      } else {
-        OperatorCategoriesStore.pushCategories([action.category]);
-      }
-      return OperatorCategoriesStore.emitChange();
-    case 'categoryCreated':
-      OperatorCategoriesStore.pushCategories([action.category]);
-      return OperatorCategoriesStore.emitChange();
-    case 'categoryUpdated':
-      OperatorCategoriesStore.updateCategory(action.category);
-      return OperatorCategoriesStore.emitChange();
-    case 'categoryDeleted':
-      OperatorCategoriesStore.deleteCategory(action.category);
-      return OperatorCategoriesStore.emitChange();
-  }
-});
-
-
-
-},{"./_base":75}],78:[function(require,module,exports){
-var BaseStore, _products;
-
-BaseStore = require('./_base');
-
-_products = {};
-
-window.OperatorProductsStore = _.extend(new BaseStore(), {
-  isProductExists: function(categoryId, productId) {
-    var product, products, _i, _len, _ref;
-    products = (_ref = _products[categoryId]) != null ? _ref : [];
-    for (_i = 0, _len = products.length; _i < _len; _i++) {
-      product = products[_i];
-      if (product.id === productId) {
-        return true;
-      }
-    }
-    return false;
-  },
-  replaceProducts: function(categoryId, products) {
-    return _products[categoryId] = products;
-  },
-  pushProducts: function(categoryId, products) {
-    var clonedProducts, product, _i, _len;
-    _products[categoryId] || (_products[categoryId] = []);
-    clonedProducts = _products[categoryId].slice(0);
-    for (_i = 0, _len = products.length; _i < _len; _i++) {
-      product = products[_i];
-      if (!this.isProductExists(categoryId, product)) {
-        clonedProducts.push(product);
-      }
-    }
-    return _products[categoryId] = clonedProducts;
-  },
-  updateProduct: function(categoryId, data) {
-    var product, products, _i, _len;
-    products = this.getProducts(categoryId);
-    for (_i = 0, _len = products.length; _i < _len; _i++) {
-      product = products[_i];
-      if (!(product.id === data.id)) {
-        continue;
-      }
-      _.extend(product, data);
-      break;
-    }
-    return _products[categoryId] = products;
-  },
-  moveProduct: function(_arg) {
-    var newCategoryId, oldCategoryId, product;
-    oldCategoryId = _arg.oldCategoryId, newCategoryId = _arg.newCategoryId, product = _arg.product;
-    this.removeProduct(oldCategoryId, product.id);
-    return this.pushProducts(newCategoryId, [product]);
-  },
-  removeProduct: function(categoryId, productId) {
-    var clonedProduct, clonedProducts, i, _i, _len;
-    if (!this.isProductExists(categoryId, productId)) {
-      return;
-    }
-    clonedProducts = _products[categoryId].slice(0);
-    for (i = _i = 0, _len = clonedProducts.length; _i < _len; i = ++_i) {
-      clonedProduct = clonedProducts[i];
-      if (!(clonedProduct.id === productId)) {
-        continue;
-      }
-      clonedProducts.splice(i, 1);
-      break;
-    }
-    return _products[categoryId] = clonedProducts;
-  },
-  getProducts: function(categoryId) {
-    var _ref;
-    return (_ref = _products[categoryId]) != null ? _ref : [];
-  }
-});
-
-OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(function(payload) {
-  var action;
-  action = payload.action;
-  switch (action.type) {
-    case 'productsLoaded':
-      OperatorProductsStore.replaceProducts(action.categoryId, action.products);
-      return OperatorProductsStore.emitChange();
-    case 'moreProductsLoaded':
-      OperatorProductsStore.pushProducts(action.categoryId, action.products);
-      return OperatorProductsStore.emitChange();
-    case 'productMoved':
-      OperatorProductsStore.moveProduct({
-        product: action.product,
-        newCategoryId: action.newCategoryId,
-        oldCategoryId: action.oldCategoryId
-      });
-      return OperatorProductsStore.emitChange();
-    case 'productUpdated':
-      OperatorProductsStore.updateProduct(action.categoryId, action.product);
-      return OperatorProductsStore.emitChange();
-  }
-});
-
-
-
-},{"./_base":75}],79:[function(require,module,exports){
-window.ApiRoutes = {
-  operator_product_image_delete_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/images/' + id;
-  },
-  operator_product_images_rotate_url: function(id) {
-    return gon.api_root_url + '/v1/operator/product_images/' + id + '/rotate';
-  },
-  operator_product_images_url: function() {
-    return gon.api_root_url + '/v1/operator/product_images';
-  },
-  operator_categories_url: function() {
-    return gon.api_root_url + '/v1/operator/categories';
-  },
-  operator_category_url: function(id) {
-    return gon.api_root_url + '/v1/operator/categories/' + id;
-  },
-  operator_product_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/' + id;
-  },
-  operator_product_publicate_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/' + id + '/publication';
-  },
-  operator_products_by_category_url: function() {
-    return gon.api_root_url + '/v1/operator/products';
-  },
-  operator_products_change_category_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/' + id + '/change_category';
-  }
-};
-
-
-
-},{}],80:[function(require,module,exports){
-window.Routes = {
-  products_image_delete_path: function(id) {
-    return gon.root_url + '/products/images/' + id;
-  },
-  operator_product_url: function(id) {
-    return gon.root_url + '/operator/products/' + id;
-  },
-  operator_product_edit_url: function(id) {
-    return gon.root_url + '/operator/products/' + id + '/edit';
-  },
-  operator_product_new_url: function() {
-    return gon.root_url + '/operator/products/new';
-  },
-  operator_categories_new_url: function(parentId) {
-    return gon.root_url + '/operator/categories/new?parent_id=' + parentId;
-  },
-  operator_categories_edit_url: function(categoryId) {
-    return gon.root_url + '/operator/categories/' + categoryId + '/edit';
-  },
-  products_by_category_url: function(id) {
-    return gon.root_url + '/operator/products?category_id=' + id;
-  }
-};
-
-
-
-},{}],81:[function(require,module,exports){
-/**
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-module.exports.Dispatcher = require('./lib/Dispatcher')
-
-},{"./lib/Dispatcher":82}],82:[function(require,module,exports){
-/*
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule Dispatcher
- * @typechecks
- */
-
-"use strict";
-
-var invariant = require('./invariant');
-
-var _lastID = 1;
-var _prefix = 'ID_';
-
-/**
- * Dispatcher is used to broadcast payloads to registered callbacks. This is
- * different from generic pub-sub systems in two ways:
- *
- *   1) Callbacks are not subscribed to particular events. Every payload is
- *      dispatched to every registered callback.
- *   2) Callbacks can be deferred in whole or part until other callbacks have
- *      been executed.
- *
- * For example, consider this hypothetical flight destination form, which
- * selects a default city when a country is selected:
- *
- *   var flightDispatcher = new Dispatcher();
- *
- *   // Keeps track of which country is selected
- *   var CountryStore = {country: null};
- *
- *   // Keeps track of which city is selected
- *   var CityStore = {city: null};
- *
- *   // Keeps track of the base flight price of the selected city
- *   var FlightPriceStore = {price: null}
- *
- * When a user changes the selected city, we dispatch the payload:
- *
- *   flightDispatcher.dispatch({
- *     actionType: 'city-update',
- *     selectedCity: 'paris'
- *   });
- *
- * This payload is digested by `CityStore`:
- *
- *   flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'city-update') {
- *       CityStore.city = payload.selectedCity;
- *     }
- *   });
- *
- * When the user selects a country, we dispatch the payload:
- *
- *   flightDispatcher.dispatch({
- *     actionType: 'country-update',
- *     selectedCountry: 'australia'
- *   });
- *
- * This payload is digested by both stores:
- *
- *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'country-update') {
- *       CountryStore.country = payload.selectedCountry;
- *     }
- *   });
- *
- * When the callback to update `CountryStore` is registered, we save a reference
- * to the returned token. Using this token with `waitFor()`, we can guarantee
- * that `CountryStore` is updated before the callback that updates `CityStore`
- * needs to query its data.
- *
- *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'country-update') {
- *       // `CountryStore.country` may not be updated.
- *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
- *       // `CountryStore.country` is now guaranteed to be updated.
- *
- *       // Select the default city for the new country
- *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
- *     }
- *   });
- *
- * The usage of `waitFor()` can be chained, for example:
- *
- *   FlightPriceStore.dispatchToken =
- *     flightDispatcher.register(function(payload) {
- *       switch (payload.actionType) {
- *         case 'country-update':
- *           flightDispatcher.waitFor([CityStore.dispatchToken]);
- *           FlightPriceStore.price =
- *             getFlightPriceStore(CountryStore.country, CityStore.city);
- *           break;
- *
- *         case 'city-update':
- *           FlightPriceStore.price =
- *             FlightPriceStore(CountryStore.country, CityStore.city);
- *           break;
- *     }
- *   });
- *
- * The `country-update` payload will be guaranteed to invoke the stores'
- * registered callbacks in order: `CountryStore`, `CityStore`, then
- * `FlightPriceStore`.
- */
-
-  function Dispatcher() {
-    this.$Dispatcher_callbacks = {};
-    this.$Dispatcher_isPending = {};
-    this.$Dispatcher_isHandled = {};
-    this.$Dispatcher_isDispatching = false;
-    this.$Dispatcher_pendingPayload = null;
-  }
-
-  /**
-   * Registers a callback to be invoked with every dispatched payload. Returns
-   * a token that can be used with `waitFor()`.
-   *
-   * @param {function} callback
-   * @return {string}
-   */
-  Dispatcher.prototype.register=function(callback) {
-    var id = _prefix + _lastID++;
-    this.$Dispatcher_callbacks[id] = callback;
-    return id;
-  };
-
-  /**
-   * Removes a callback based on its token.
-   *
-   * @param {string} id
-   */
-  Dispatcher.prototype.unregister=function(id) {
-    invariant(
-      this.$Dispatcher_callbacks[id],
-      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
-      id
-    );
-    delete this.$Dispatcher_callbacks[id];
-  };
-
-  /**
-   * Waits for the callbacks specified to be invoked before continuing execution
-   * of the current callback. This method should only be used by a callback in
-   * response to a dispatched payload.
-   *
-   * @param {array<string>} ids
-   */
-  Dispatcher.prototype.waitFor=function(ids) {
-    invariant(
-      this.$Dispatcher_isDispatching,
-      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
-    );
-    for (var ii = 0; ii < ids.length; ii++) {
-      var id = ids[ii];
-      if (this.$Dispatcher_isPending[id]) {
-        invariant(
-          this.$Dispatcher_isHandled[id],
-          'Dispatcher.waitFor(...): Circular dependency detected while ' +
-          'waiting for `%s`.',
-          id
-        );
-        continue;
-      }
-      invariant(
-        this.$Dispatcher_callbacks[id],
-        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
-        id
-      );
-      this.$Dispatcher_invokeCallback(id);
-    }
-  };
-
-  /**
-   * Dispatches a payload to all registered callbacks.
-   *
-   * @param {object} payload
-   */
-  Dispatcher.prototype.dispatch=function(payload) {
-    invariant(
-      !this.$Dispatcher_isDispatching,
-      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
-    );
-    this.$Dispatcher_startDispatching(payload);
-    try {
-      for (var id in this.$Dispatcher_callbacks) {
-        if (this.$Dispatcher_isPending[id]) {
-          continue;
-        }
-        this.$Dispatcher_invokeCallback(id);
-      }
-    } finally {
-      this.$Dispatcher_stopDispatching();
-    }
-  };
-
-  /**
-   * Is this Dispatcher currently dispatching.
-   *
-   * @return {boolean}
-   */
-  Dispatcher.prototype.isDispatching=function() {
-    return this.$Dispatcher_isDispatching;
-  };
-
-  /**
-   * Call the callback stored with the given id. Also do some internal
-   * bookkeeping.
-   *
-   * @param {string} id
-   * @internal
-   */
-  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
-    this.$Dispatcher_isPending[id] = true;
-    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
-    this.$Dispatcher_isHandled[id] = true;
-  };
-
-  /**
-   * Set up bookkeeping needed when dispatching.
-   *
-   * @param {object} payload
-   * @internal
-   */
-  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
-    for (var id in this.$Dispatcher_callbacks) {
-      this.$Dispatcher_isPending[id] = false;
-      this.$Dispatcher_isHandled[id] = false;
-    }
-    this.$Dispatcher_pendingPayload = payload;
-    this.$Dispatcher_isDispatching = true;
-  };
-
-  /**
-   * Clear bookkeeping used for dispatching.
-   *
-   * @internal
-   */
-  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
-    this.$Dispatcher_pendingPayload = null;
-    this.$Dispatcher_isDispatching = false;
-  };
-
-
-module.exports = Dispatcher;
-
-},{"./invariant":83}],83:[function(require,module,exports){
-/**
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule invariant
- */
-
-"use strict";
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var invariant = function(condition, format, a, b, c, d, e, f) {
-  if (false) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  }
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error(
-        'Minified exception occurred; use the non-minified dev environment ' +
-        'for the full error message and additional helpful warnings.'
-      );
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(
-        'Invariant Violation: ' +
-        format.replace(/%s/g, function() { return args[argIndex++]; })
-      );
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-};
-
-module.exports = invariant;
-
 },{}],"eventEmitter":[function(require,module,exports){
 /*!
  * EventEmitter v4.2.9 - git.io/ee
@@ -8245,7 +8250,7 @@ module.exports = invariant;
 
 },{}],"jquery.autosize":[function(require,module,exports){
 /*!
-	Autosize 1.18.13
+	Autosize 1.18.15
 	license: MIT
 	http://www.jacklmoore.com/autosize
 */
@@ -8330,7 +8335,7 @@ module.exports = invariant;
 			}
 
 			// IE8 and lower return 'auto', which parses to NaN, if no min-height is set.
-			minHeight = Math.max(parseInt($ta.css('minHeight'), 10) - boxOffset || 0, $ta.height());
+			minHeight = Math.max(parseFloat($ta.css('minHeight')) - boxOffset || 0, $ta.height());
 
 			$ta.css({
 				overflow: 'hidden',
@@ -8349,17 +8354,17 @@ module.exports = invariant;
 			function setWidth() {
 				var width;
 				var style = window.getComputedStyle ? window.getComputedStyle(ta, null) : false;
-				
+
 				if (style) {
 
 					width = ta.getBoundingClientRect().width;
 
 					if (width === 0 || typeof width !== 'number') {
-						width = parseInt(style.width,10);
+						width = parseFloat(style.width);
 					}
 
 					$.each(['paddingLeft', 'paddingRight', 'borderLeftWidth', 'borderRightWidth'], function(i,val){
-						width -= parseInt(style[val],10);
+						width -= parseFloat(style[val]);
 					});
 				} else {
 					width = $ta.width();
@@ -8374,7 +8379,7 @@ module.exports = invariant;
 				mirrored = ta;
 				mirror.className = options.className;
 				mirror.id = options.id;
-				maxHeight = parseInt($ta.css('maxHeight'), 10);
+				maxHeight = parseFloat($ta.css('maxHeight'));
 
 				// mirror is a duplicate textarea located off-screen that
 				// is automatically updated to contain the same text as the
@@ -8384,7 +8389,7 @@ module.exports = invariant;
 				$.each(typographyStyles, function(i,val){
 					styles[val] = $ta.css(val);
 				});
-				
+
 				$(mirror).css(styles).attr('wrap', $ta.attr('wrap'));
 
 				setWidth();
@@ -8412,8 +8417,8 @@ module.exports = invariant;
 				}
 
 				if (!ta.value && options.placeholder) {
-					// If the textarea is empty, copy the placeholder text into 
-					// the mirror control and use that for sizing so that we 
+					// If the textarea is empty, copy the placeholder text into
+					// the mirror control and use that for sizing so that we
 					// don't end up with placeholder getting trimmed.
 					mirror.value = ($ta.attr("placeholder") || '');
 				} else {
@@ -8422,7 +8427,7 @@ module.exports = invariant;
 
 				mirror.value += options.append || '';
 				mirror.style.overflowY = ta.style.overflowY;
-				original = parseInt(ta.style.height,10);
+				original = parseFloat(ta.style.height);
 
 				// Setting scrollTop to zero is needed in IE8 and lower for the next step to be accurately applied
 				mirror.scrollTop = 0;
@@ -8446,6 +8451,10 @@ module.exports = invariant;
 
 				if (original !== height) {
 					ta.style.height = height + 'px';
+
+					// Trigger a repaint for IE8 for when ta is nested 2 or more levels inside an inline-block
+					mirror.className = mirror.className;
+
 					if (callback) {
 						options.callback.call(ta,ta);
 					}
@@ -10049,7 +10058,7 @@ module.exports = invariant;
 }(jQuery)
 },{}],"jquery.ui.core":[function(require,module,exports){
 /*!
- * jQuery UI Core 1.11.1
+ * jQuery UI Core 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -10074,7 +10083,7 @@ module.exports = invariant;
 $.ui = $.ui || {};
 
 $.extend( $.ui, {
-	version: "1.11.1",
+	version: "1.11.2",
 
 	keyCode: {
 		BACKSPACE: 8,
@@ -10355,7 +10364,7 @@ $.ui.plugin = {
 
 },{}],"jquery.ui.draggable":[function(require,module,exports){
 /*!
- * jQuery UI Draggable 1.11.1
+ * jQuery UI Draggable 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -10382,7 +10391,7 @@ $.ui.plugin = {
 }(function( $ ) {
 
 $.widget("ui.draggable", $.ui.mouse, {
-	version: "1.11.1",
+	version: "1.11.2",
 	widgetEventPrefix: "drag",
 	options: {
 		addClasses: true,
@@ -10417,8 +10426,8 @@ $.widget("ui.draggable", $.ui.mouse, {
 	},
 	_create: function() {
 
-		if (this.options.helper === "original" && !(/^(?:r|a|f)/).test(this.element.css("position"))) {
-			this.element[0].style.position = "relative";
+		if ( this.options.helper === "original" ) {
+			this._setPositionRelative();
 		}
 		if (this.options.addClasses){
 			this.element.addClass("ui-draggable");
@@ -10450,20 +10459,9 @@ $.widget("ui.draggable", $.ui.mouse, {
 	},
 
 	_mouseCapture: function(event) {
+		var o = this.options;
 
-		var document = this.document[ 0 ],
-			o = this.options;
-
-		// support: IE9
-		// IE9 throws an "Unspecified error" accessing document.activeElement from an <iframe>
-		try {
-			// Support: IE9+
-			// If the <body> is blurred, IE will switch windows, see #9520
-			if ( document.activeElement && document.activeElement.nodeName.toLowerCase() !== "body" ) {
-				// Blur any element that currently has focus, see #4261
-				$( document.activeElement ).blur();
-			}
-		} catch ( error ) {}
+		this._blurActiveElement( event );
 
 		// among others, prevent a drag on a resizable-handle
 		if (this.helper || o.disabled || $(event.target).closest(".ui-resizable-handle").length > 0) {
@@ -10476,18 +10474,52 @@ $.widget("ui.draggable", $.ui.mouse, {
 			return false;
 		}
 
-		$(o.iframeFix === true ? "iframe" : o.iframeFix).each(function() {
-			$("<div class='ui-draggable-iframeFix' style='background: #fff;'></div>")
-			.css({
-				width: this.offsetWidth + "px", height: this.offsetHeight + "px",
-				position: "absolute", opacity: "0.001", zIndex: 1000
-			})
-			.css($(this).offset())
-			.appendTo("body");
-		});
+		this._blockFrames( o.iframeFix === true ? "iframe" : o.iframeFix );
 
 		return true;
 
+	},
+
+	_blockFrames: function( selector ) {
+		this.iframeBlocks = this.document.find( selector ).map(function() {
+			var iframe = $( this );
+
+			return $( "<div>" )
+				.css( "position", "absolute" )
+				.appendTo( iframe.parent() )
+				.outerWidth( iframe.outerWidth() )
+				.outerHeight( iframe.outerHeight() )
+				.offset( iframe.offset() )[ 0 ];
+		});
+	},
+
+	_unblockFrames: function() {
+		if ( this.iframeBlocks ) {
+			this.iframeBlocks.remove();
+			delete this.iframeBlocks;
+		}
+	},
+
+	_blurActiveElement: function( event ) {
+		var document = this.document[ 0 ];
+
+		// Only need to blur if the event occurred on the draggable itself, see #10527
+		if ( !this.handleElement.is( event.target ) ) {
+			return;
+		}
+
+		// support: IE9
+		// IE9 throws an "Unspecified error" accessing document.activeElement from an <iframe>
+		try {
+
+			// Support: IE9, IE10
+			// If the <body> is blurred, IE will switch windows, see #9520
+			if ( document.activeElement && document.activeElement.nodeName.toLowerCase() !== "body" ) {
+
+				// Blur any element that currently has focus, see #4261
+				$( document.activeElement ).blur();
+			}
+		} catch ( error ) {}
 	},
 
 	_mouseStart: function(event) {
@@ -10519,26 +10551,13 @@ $.widget("ui.draggable", $.ui.mouse, {
 		this.cssPosition = this.helper.css( "position" );
 		this.scrollParent = this.helper.scrollParent( true );
 		this.offsetParent = this.helper.offsetParent();
-		this.offsetParentCssPosition = this.offsetParent.css( "position" );
+		this.hasFixedAncestor = this.helper.parents().filter(function() {
+				return $( this ).css( "position" ) === "fixed";
+			}).length > 0;
 
 		//The element's absolute position on the page minus margins
-		this.offset = this.positionAbs = this.element.offset();
-		this.offset = {
-			top: this.offset.top - this.margins.top,
-			left: this.offset.left - this.margins.left
-		};
-
-		//Reset scroll cache
-		this.offset.scroll = false;
-
-		$.extend(this.offset, {
-			click: { //Where the click happened, relative to the element
-				left: event.pageX - this.offset.left,
-				top: event.pageY - this.offset.top
-			},
-			parent: this._getParentOffset(),
-			relative: this._getRelativeOffset() //This is a relative to absolute position minus the actual position calculation - only used for relative positioned helper
-		});
+		this.positionAbs = this.element.offset();
+		this._refreshOffsets( event );
 
 		//Generate the original position
 		this.originalPosition = this.position = this._generatePosition( event, false );
@@ -10565,6 +10584,10 @@ $.widget("ui.draggable", $.ui.mouse, {
 			$.ui.ddmanager.prepareOffsets(this, event);
 		}
 
+		// Reset helper's right/bottom css if they're set and set explicit width/height instead
+		// as this prevents resizing of elements with right/bottom set (see #7772)
+		this._normalizeRightBottom();
+
 		this._mouseDrag(event, true); //Execute the drag once - this causes the helper not to be visible before getting its correct position
 
 		//If the ddmanager is used for droppables, inform the manager that dragging has started (see #5003)
@@ -10575,9 +10598,24 @@ $.widget("ui.draggable", $.ui.mouse, {
 		return true;
 	},
 
+	_refreshOffsets: function( event ) {
+		this.offset = {
+			top: this.positionAbs.top - this.margins.top,
+			left: this.positionAbs.left - this.margins.left,
+			scroll: false,
+			parent: this._getParentOffset(),
+			relative: this._getRelativeOffset()
+		};
+
+		this.offset.click = {
+			left: event.pageX - this.offset.left,
+			top: event.pageY - this.offset.top
+		};
+	},
+
 	_mouseDrag: function(event, noPropagation) {
 		// reset any necessary cached properties (see #5009)
-		if ( this.offsetParentCssPosition === "fixed" ) {
+		if ( this.hasFixedAncestor ) {
 			this.offset.parent = this._getParentOffset();
 		}
 
@@ -10635,19 +10673,19 @@ $.widget("ui.draggable", $.ui.mouse, {
 		return false;
 	},
 
-	_mouseUp: function(event) {
-		//Remove frame helpers
-		$("div.ui-draggable-iframeFix").each(function() {
-			this.parentNode.removeChild(this);
-		});
+	_mouseUp: function( event ) {
+		this._unblockFrames();
 
 		//If the ddmanager is used for droppables, inform the manager that dragging has stopped (see #5003)
 		if ( $.ui.ddmanager ) {
 			$.ui.ddmanager.dragStop(this, event);
 		}
 
-		// The interaction is over; whether or not the click resulted in a drag, focus the element
-		this.element.focus();
+		// Only need to focus if the event occurred on the draggable itself, see #10527
+		if ( this.handleElement.is( event.target ) ) {
+			// The interaction is over; whether or not the click resulted in a drag, focus the element
+			this.element.focus();
+		}
 
 		return $.ui.mouse.prototype._mouseUp.call(this, event);
 	},
@@ -10683,10 +10721,22 @@ $.widget("ui.draggable", $.ui.mouse, {
 	_createHelper: function(event) {
 
 		var o = this.options,
-			helper = $.isFunction(o.helper) ? $(o.helper.apply(this.element[ 0 ], [ event ])) : (o.helper === "clone" ? this.element.clone().removeAttr("id") : this.element);
+			helperIsFunction = $.isFunction( o.helper ),
+			helper = helperIsFunction ?
+				$( o.helper.apply( this.element[ 0 ], [ event ] ) ) :
+				( o.helper === "clone" ?
+					this.element.clone().removeAttr( "id" ) :
+					this.element );
 
 		if (!helper.parents("body").length) {
 			helper.appendTo((o.appendTo === "parent" ? this.element[0].parentNode : o.appendTo));
+		}
+
+		// http://bugs.jqueryui.com/ticket/9446
+		// a helper function can return the original element
+		// which wouldn't have been set to relative in _create
+		if ( helperIsFunction && helper[ 0 ] === this.element[ 0 ] ) {
+			this._setPositionRelative();
 		}
 
 		if (helper[0] !== this.element[0] && !(/(fixed|absolute)/).test(helper.css("position"))) {
@@ -10695,6 +10745,12 @@ $.widget("ui.draggable", $.ui.mouse, {
 
 		return helper;
 
+	},
+
+	_setPositionRelative: function() {
+		if ( !( /^(?:r|a|f)/ ).test( this.element.css( "position" ) ) ) {
+			this.element[ 0 ].style.position = "relative";
+		}
 	},
 
 	_adjustOffsetFromHelper: function(obj) {
@@ -10781,7 +10837,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 
 	_setContainment: function() {
 
-		var over, c, ce,
+		var isUserScrollable, c, ce,
 			o = this.options,
 			document = this.document[ 0 ];
 
@@ -10828,13 +10884,23 @@ $.widget("ui.draggable", $.ui.mouse, {
 			return;
 		}
 
-		over = c.css( "overflow" ) !== "hidden";
+		isUserScrollable = /(scroll|auto)/.test( c.css( "overflow" ) );
 
 		this.containment = [
 			( parseInt( c.css( "borderLeftWidth" ), 10 ) || 0 ) + ( parseInt( c.css( "paddingLeft" ), 10 ) || 0 ),
 			( parseInt( c.css( "borderTopWidth" ), 10 ) || 0 ) + ( parseInt( c.css( "paddingTop" ), 10 ) || 0 ),
-			( over ? Math.max( ce.scrollWidth, ce.offsetWidth ) : ce.offsetWidth ) - ( parseInt( c.css( "borderRightWidth" ), 10 ) || 0 ) - ( parseInt( c.css( "paddingRight" ), 10 ) || 0 ) - this.helperProportions.width - this.margins.left - this.margins.right,
-			( over ? Math.max( ce.scrollHeight, ce.offsetHeight ) : ce.offsetHeight ) - ( parseInt( c.css( "borderBottomWidth" ), 10 ) || 0 ) - ( parseInt( c.css( "paddingBottom" ), 10 ) || 0 ) - this.helperProportions.height - this.margins.top  - this.margins.bottom
+			( isUserScrollable ? Math.max( ce.scrollWidth, ce.offsetWidth ) : ce.offsetWidth ) -
+				( parseInt( c.css( "borderRightWidth" ), 10 ) || 0 ) -
+				( parseInt( c.css( "paddingRight" ), 10 ) || 0 ) -
+				this.helperProportions.width -
+				this.margins.left -
+				this.margins.right,
+			( isUserScrollable ? Math.max( ce.scrollHeight, ce.offsetHeight ) : ce.offsetHeight ) -
+				( parseInt( c.css( "borderBottomWidth" ), 10 ) || 0 ) -
+				( parseInt( c.css( "paddingBottom" ), 10 ) || 0 ) -
+				this.helperProportions.height -
+				this.margins.top -
+				this.margins.bottom
 		];
 		this.relativeContainer = c;
 	},
@@ -10964,16 +11030,29 @@ $.widget("ui.draggable", $.ui.mouse, {
 		}
 	},
 
+	_normalizeRightBottom: function() {
+		if ( this.options.axis !== "y" && this.helper.css( "right" ) !== "auto" ) {
+			this.helper.width( this.helper.width() );
+			this.helper.css( "right", "auto" );
+		}
+		if ( this.options.axis !== "x" && this.helper.css( "bottom" ) !== "auto" ) {
+			this.helper.height( this.helper.height() );
+			this.helper.css( "bottom", "auto" );
+		}
+	},
+
 	// From now on bulk stuff - mainly helpers
 
-	_trigger: function(type, event, ui) {
+	_trigger: function( type, event, ui ) {
 		ui = ui || this._uiHash();
 		$.ui.plugin.call( this, type, [ event, ui, this ], true );
-		//The absolute position has to be recalculated after plugins
-		if (type === "drag") {
-			this.positionAbs = this._convertPositionTo("absolute");
+
+		// Absolute position and offset (see #6884 ) have to be recalculated after plugins
+		if ( /^(drag|start|stop)/.test( type ) ) {
+			this.positionAbs = this._convertPositionTo( "absolute" );
+			ui.offset = this.positionAbs;
 		}
-		return $.Widget.prototype._trigger.call(this, type, event, ui);
+		return $.Widget.prototype._trigger.call( this, type, event, ui );
 	},
 
 	plugins: {},
@@ -10989,160 +11068,197 @@ $.widget("ui.draggable", $.ui.mouse, {
 
 });
 
-$.ui.plugin.add("draggable", "connectToSortable", {
-	start: function( event, ui, inst ) {
+$.ui.plugin.add( "draggable", "connectToSortable", {
+	start: function( event, ui, draggable ) {
+		var uiSortable = $.extend( {}, ui, {
+			item: draggable.element
+		});
 
-		var o = inst.options,
-			uiSortable = $.extend({}, ui, { item: inst.element });
-		inst.sortables = [];
-		$(o.connectToSortable).each(function() {
+		draggable.sortables = [];
+		$( draggable.options.connectToSortable ).each(function() {
 			var sortable = $( this ).sortable( "instance" );
-			if (sortable && !sortable.options.disabled) {
-				inst.sortables.push({
-					instance: sortable,
-					shouldRevert: sortable.options.revert
-				});
-				sortable.refreshPositions();	// Call the sortable's refreshPositions at drag start to refresh the containerCache since the sortable container cache is used in drag and needs to be up to date (this will ensure it's initialised as well as being kept in step with any changes that might have happened on the page).
+
+			if ( sortable && !sortable.options.disabled ) {
+				draggable.sortables.push( sortable );
+
+				// refreshPositions is called at drag start to refresh the containerCache
+				// which is used in drag. This ensures it's initialized and synchronized
+				// with any changes that might have happened on the page since initialization.
+				sortable.refreshPositions();
 				sortable._trigger("activate", event, uiSortable);
 			}
 		});
-
 	},
-	stop: function( event, ui, inst ) {
-
-		//If we are still over the sortable, we fake the stop event of the sortable, but also remove helper
+	stop: function( event, ui, draggable ) {
 		var uiSortable = $.extend( {}, ui, {
-			item: inst.element
+			item: draggable.element
 		});
 
-		$.each(inst.sortables, function() {
-			if (this.instance.isOver) {
+		draggable.cancelHelperRemoval = false;
 
-				this.instance.isOver = 0;
+		$.each( draggable.sortables, function() {
+			var sortable = this;
 
-				inst.cancelHelperRemoval = true; //Don't remove the helper in the draggable instance
-				this.instance.cancelHelperRemoval = false; //Remove it in the sortable instance (so sortable plugins like revert still work)
+			if ( sortable.isOver ) {
+				sortable.isOver = 0;
 
-				//The sortable revert is supported, and we have to set a temporary dropped variable on the draggable to support revert: "valid/invalid"
-				if (this.shouldRevert) {
-					this.instance.options.revert = this.shouldRevert;
-				}
+				// Allow this sortable to handle removing the helper
+				draggable.cancelHelperRemoval = true;
+				sortable.cancelHelperRemoval = false;
 
-				//Trigger the stop of the sortable
-				this.instance._mouseStop(event);
+				// Use _storedCSS To restore properties in the sortable,
+				// as this also handles revert (#9675) since the draggable
+				// may have modified them in unexpected ways (#8809)
+				sortable._storedCSS = {
+					position: sortable.placeholder.css( "position" ),
+					top: sortable.placeholder.css( "top" ),
+					left: sortable.placeholder.css( "left" )
+				};
 
-				this.instance.options.helper = this.instance.options._helper;
+				sortable._mouseStop(event);
 
-				//If the helper has been the original item, restore properties in the sortable
-				if (inst.options.helper === "original") {
-					this.instance.currentItem.css({ top: "auto", left: "auto" });
-				}
-
+				// Once drag has ended, the sortable should return to using
+				// its original helper, not the shared helper from draggable
+				sortable.options.helper = sortable.options._helper;
 			} else {
-				this.instance.cancelHelperRemoval = false; //Remove the helper in the sortable instance
-				this.instance._trigger("deactivate", event, uiSortable);
+				// Prevent this Sortable from removing the helper.
+				// However, don't set the draggable to remove the helper
+				// either as another connected Sortable may yet handle the removal.
+				sortable.cancelHelperRemoval = true;
+
+				sortable._trigger( "deactivate", event, uiSortable );
 			}
-
 		});
-
 	},
-	drag: function( event, ui, inst ) {
-
-		var that = this;
-
-		$.each(inst.sortables, function() {
-
+	drag: function( event, ui, draggable ) {
+		$.each( draggable.sortables, function() {
 			var innermostIntersecting = false,
-				thisSortable = this;
+				sortable = this;
 
-			//Copy over some variables to allow calling the sortable's native _intersectsWith
-			this.instance.positionAbs = inst.positionAbs;
-			this.instance.helperProportions = inst.helperProportions;
-			this.instance.offset.click = inst.offset.click;
+			// Copy over variables that sortable's _intersectsWith uses
+			sortable.positionAbs = draggable.positionAbs;
+			sortable.helperProportions = draggable.helperProportions;
+			sortable.offset.click = draggable.offset.click;
 
-			if (this.instance._intersectsWith(this.instance.containerCache)) {
+			if ( sortable._intersectsWith( sortable.containerCache ) ) {
 				innermostIntersecting = true;
-				$.each(inst.sortables, function() {
-					this.instance.positionAbs = inst.positionAbs;
-					this.instance.helperProportions = inst.helperProportions;
-					this.instance.offset.click = inst.offset.click;
-					if (this !== thisSortable &&
-						this.instance._intersectsWith(this.instance.containerCache) &&
-						$.contains(thisSortable.instance.element[0], this.instance.element[0])
-					) {
+
+				$.each( draggable.sortables, function() {
+					// Copy over variables that sortable's _intersectsWith uses
+					this.positionAbs = draggable.positionAbs;
+					this.helperProportions = draggable.helperProportions;
+					this.offset.click = draggable.offset.click;
+
+					if ( this !== sortable &&
+							this._intersectsWith( this.containerCache ) &&
+							$.contains( sortable.element[ 0 ], this.element[ 0 ] ) ) {
 						innermostIntersecting = false;
 					}
+
 					return innermostIntersecting;
 				});
 			}
 
-			if (innermostIntersecting) {
-				//If it intersects, we use a little isOver variable and set it once, so our move-in stuff gets fired only once
-				if (!this.instance.isOver) {
+			if ( innermostIntersecting ) {
+				// If it intersects, we use a little isOver variable and set it once,
+				// so that the move-in stuff gets fired only once.
+				if ( !sortable.isOver ) {
+					sortable.isOver = 1;
 
-					this.instance.isOver = 1;
-					//Now we fake the start of dragging for the sortable instance,
-					//by cloning the list group item, appending it to the sortable and using it as inst.currentItem
-					//We can then fire the start event of the sortable with our passed browser event, and our own helper (so it doesn't create a new one)
-					this.instance.currentItem = $(that).clone().removeAttr("id").appendTo(this.instance.element).data("ui-sortable-item", true);
-					this.instance.options._helper = this.instance.options.helper; //Store helper option to later restore it
-					this.instance.options.helper = function() { return ui.helper[0]; };
+					sortable.currentItem = ui.helper
+						.appendTo( sortable.element )
+						.data( "ui-sortable-item", true );
 
-					event.target = this.instance.currentItem[0];
-					this.instance._mouseCapture(event, true);
-					this.instance._mouseStart(event, true, true);
+					// Store helper option to later restore it
+					sortable.options._helper = sortable.options.helper;
 
-					//Because the browser event is way off the new appended portlet, we modify a couple of variables to reflect the changes
-					this.instance.offset.click.top = inst.offset.click.top;
-					this.instance.offset.click.left = inst.offset.click.left;
-					this.instance.offset.parent.left -= inst.offset.parent.left - this.instance.offset.parent.left;
-					this.instance.offset.parent.top -= inst.offset.parent.top - this.instance.offset.parent.top;
+					sortable.options.helper = function() {
+						return ui.helper[ 0 ];
+					};
 
-					inst._trigger("toSortable", event);
-					inst.dropped = this.instance.element; //draggable revert needs that
-					//hack so receive/update callbacks work (mostly)
-					inst.currentItem = inst.element;
-					this.instance.fromOutside = inst;
+					// Fire the start events of the sortable with our passed browser event,
+					// and our own helper (so it doesn't create a new one)
+					event.target = sortable.currentItem[ 0 ];
+					sortable._mouseCapture( event, true );
+					sortable._mouseStart( event, true, true );
 
+					// Because the browser event is way off the new appended portlet,
+					// modify necessary variables to reflect the changes
+					sortable.offset.click.top = draggable.offset.click.top;
+					sortable.offset.click.left = draggable.offset.click.left;
+					sortable.offset.parent.left -= draggable.offset.parent.left -
+						sortable.offset.parent.left;
+					sortable.offset.parent.top -= draggable.offset.parent.top -
+						sortable.offset.parent.top;
+
+					draggable._trigger( "toSortable", event );
+
+					// Inform draggable that the helper is in a valid drop zone,
+					// used solely in the revert option to handle "valid/invalid".
+					draggable.dropped = sortable.element;
+
+					// Need to refreshPositions of all sortables in the case that
+					// adding to one sortable changes the location of the other sortables (#9675)
+					$.each( draggable.sortables, function() {
+						this.refreshPositions();
+					});
+
+					// hack so receive/update callbacks work (mostly)
+					draggable.currentItem = draggable.element;
+					sortable.fromOutside = draggable;
 				}
 
-				//Provided we did all the previous steps, we can fire the drag event of the sortable on every draggable drag, when it intersects with the sortable
-				if (this.instance.currentItem) {
-					this.instance._mouseDrag(event);
+				if ( sortable.currentItem ) {
+					sortable._mouseDrag( event );
+					// Copy the sortable's position because the draggable's can potentially reflect
+					// a relative position, while sortable is always absolute, which the dragged
+					// element has now become. (#8809)
+					ui.position = sortable.position;
 				}
-
 			} else {
+				// If it doesn't intersect with the sortable, and it intersected before,
+				// we fake the drag stop of the sortable, but make sure it doesn't remove
+				// the helper by using cancelHelperRemoval.
+				if ( sortable.isOver ) {
 
-				//If it doesn't intersect with the sortable, and it intersected before,
-				//we fake the drag stop of the sortable, but make sure it doesn't remove the helper by using cancelHelperRemoval
-				if (this.instance.isOver) {
+					sortable.isOver = 0;
+					sortable.cancelHelperRemoval = true;
 
-					this.instance.isOver = 0;
-					this.instance.cancelHelperRemoval = true;
+					// Calling sortable's mouseStop would trigger a revert,
+					// so revert must be temporarily false until after mouseStop is called.
+					sortable.options._revert = sortable.options.revert;
+					sortable.options.revert = false;
 
-					//Prevent reverting on this forced stop
-					this.instance.options.revert = false;
+					sortable._trigger( "out", event, sortable._uiHash( sortable ) );
+					sortable._mouseStop( event, true );
 
-					// The out event needs to be triggered independently
-					this.instance._trigger("out", event, this.instance._uiHash(this.instance));
+					// restore sortable behaviors that were modfied
+					// when the draggable entered the sortable area (#9481)
+					sortable.options.revert = sortable.options._revert;
+					sortable.options.helper = sortable.options._helper;
 
-					this.instance._mouseStop(event, true);
-					this.instance.options.helper = this.instance.options._helper;
-
-					//Now we remove our currentItem, the list group clone again, and the placeholder, and animate the helper back to it's original size
-					this.instance.currentItem.remove();
-					if (this.instance.placeholder) {
-						this.instance.placeholder.remove();
+					if ( sortable.placeholder ) {
+						sortable.placeholder.remove();
 					}
 
-					inst._trigger("fromSortable", event);
-					inst.dropped = false; //draggable revert needs that
+					// Recalculate the draggable's offset considering the sortable
+					// may have modified them in unexpected ways (#8809)
+					draggable._refreshOffsets( event );
+					ui.position = draggable._generatePosition( event, true );
+
+					draggable._trigger( "fromSortable", event );
+
+					// Inform draggable that the helper is no longer in a valid drop zone
+					draggable.dropped = false;
+
+					// Need to refreshPositions of all sortables just in case removing
+					// from one sortable changes the location of other sortables (#9675)
+					$.each( draggable.sortables, function() {
+						this.refreshPositions();
+					});
 				}
-
 			}
-
 		});
-
 	}
 });
 
@@ -11272,9 +11388,9 @@ $.ui.plugin.add("draggable", "snap", {
 
 		for (i = inst.snapElements.length - 1; i >= 0; i--){
 
-			l = inst.snapElements[i].left;
+			l = inst.snapElements[i].left - inst.margins.left;
 			r = l + inst.snapElements[i].width;
-			t = inst.snapElements[i].top;
+			t = inst.snapElements[i].top - inst.margins.top;
 			b = t + inst.snapElements[i].height;
 
 			if ( x2 < l - d || x1 > r + d || y2 < t - d || y1 > b + d || !$.contains( inst.snapElements[ i ].item.ownerDocument, inst.snapElements[ i ].item ) ) {
@@ -11291,16 +11407,16 @@ $.ui.plugin.add("draggable", "snap", {
 				ls = Math.abs(l - x2) <= d;
 				rs = Math.abs(r - x1) <= d;
 				if (ts) {
-					ui.position.top = inst._convertPositionTo("relative", { top: t - inst.helperProportions.height, left: 0 }).top - inst.margins.top;
+					ui.position.top = inst._convertPositionTo("relative", { top: t - inst.helperProportions.height, left: 0 }).top;
 				}
 				if (bs) {
-					ui.position.top = inst._convertPositionTo("relative", { top: b, left: 0 }).top - inst.margins.top;
+					ui.position.top = inst._convertPositionTo("relative", { top: b, left: 0 }).top;
 				}
 				if (ls) {
-					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: l - inst.helperProportions.width }).left - inst.margins.left;
+					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: l - inst.helperProportions.width }).left;
 				}
 				if (rs) {
-					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: r }).left - inst.margins.left;
+					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: r }).left;
 				}
 			}
 
@@ -11312,16 +11428,16 @@ $.ui.plugin.add("draggable", "snap", {
 				ls = Math.abs(l - x1) <= d;
 				rs = Math.abs(r - x2) <= d;
 				if (ts) {
-					ui.position.top = inst._convertPositionTo("relative", { top: t, left: 0 }).top - inst.margins.top;
+					ui.position.top = inst._convertPositionTo("relative", { top: t, left: 0 }).top;
 				}
 				if (bs) {
-					ui.position.top = inst._convertPositionTo("relative", { top: b - inst.helperProportions.height, left: 0 }).top - inst.margins.top;
+					ui.position.top = inst._convertPositionTo("relative", { top: b - inst.helperProportions.height, left: 0 }).top;
 				}
 				if (ls) {
-					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: l }).left - inst.margins.left;
+					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: l }).left;
 				}
 				if (rs) {
-					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: r - inst.helperProportions.width }).left - inst.margins.left;
+					ui.position.left = inst._convertPositionTo("relative", { top: 0, left: r - inst.helperProportions.width }).left;
 				}
 			}
 
@@ -11378,7 +11494,7 @@ return $.ui.draggable;
 
 },{}],"jquery.ui.droppable":[function(require,module,exports){
 /*!
- * jQuery UI Droppable 1.11.1
+ * jQuery UI Droppable 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -11406,7 +11522,7 @@ return $.ui.draggable;
 }(function( $ ) {
 
 $.widget( "ui.droppable", {
-	version: "1.11.1",
+	version: "1.11.2",
 	widgetEventPrefix: "drop",
 	options: {
 		accept: "*",
@@ -11614,8 +11730,8 @@ $.ui.intersect = (function() {
 			return false;
 		}
 
-		var x1 = ( draggable.positionAbs || draggable.position.absolute ).left,
-			y1 = ( draggable.positionAbs || draggable.position.absolute ).top,
+		var x1 = ( draggable.positionAbs || draggable.position.absolute ).left + draggable.margins.left,
+			y1 = ( draggable.positionAbs || draggable.position.absolute ).top + draggable.margins.top,
 			x2 = x1 + draggable.helperProportions.width,
 			y2 = y1 + draggable.helperProportions.height,
 			l = droppable.offset.left,
@@ -11793,7 +11909,7 @@ return $.ui.droppable;
 
 },{}],"jquery.ui.mouse":[function(require,module,exports){
 /*!
- * jQuery UI Mouse 1.11.1
+ * jQuery UI Mouse 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -11823,7 +11939,7 @@ $( document ).mouseup( function() {
 });
 
 return $.widget("ui.mouse", {
-	version: "1.11.1",
+	version: "1.11.2",
 	options: {
 		cancel: "input,textarea,button,select,option",
 		distance: 1,
@@ -11863,6 +11979,8 @@ return $.widget("ui.mouse", {
 		if ( mouseHandled ) {
 			return;
 		}
+
+		this._mouseMoved = false;
 
 		// we may have missed mouseup (out of window)
 		(this._mouseStarted && this._mouseUp(event));
@@ -11917,13 +12035,23 @@ return $.widget("ui.mouse", {
 	},
 
 	_mouseMove: function(event) {
-		// IE mouseup check - mouseup happened when mouse was out of window
-		if ($.ui.ie && ( !document.documentMode || document.documentMode < 9 ) && !event.button) {
-			return this._mouseUp(event);
+		// Only check for mouseups outside the document if you've moved inside the document
+		// at least once. This prevents the firing of mouseup in the case of IE<9, which will
+		// fire a mousemove event if content is placed under the cursor. See #7778
+		// Support: IE <9
+		if ( this._mouseMoved ) {
+			// IE mouseup check - mouseup happened when mouse was out of window
+			if ($.ui.ie && ( !document.documentMode || document.documentMode < 9 ) && !event.button) {
+				return this._mouseUp(event);
 
-		// Iframe mouseup check - mouseup occurred in another document
-		} else if ( !event.which ) {
-			return this._mouseUp( event );
+			// Iframe mouseup check - mouseup occurred in another document
+			} else if ( !event.which ) {
+				return this._mouseUp( event );
+			}
+		}
+
+		if ( event.which || event.button ) {
+			this._mouseMoved = true;
 		}
 
 		if (this._mouseStarted) {
@@ -11982,7 +12110,7 @@ return $.widget("ui.mouse", {
 
 },{}],"jquery.ui.sortable":[function(require,module,exports){
 /*!
- * jQuery UI Sortable 1.11.1
+ * jQuery UI Sortable 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -12009,7 +12137,7 @@ return $.widget("ui.mouse", {
 }(function( $ ) {
 
 return $.widget("ui.sortable", $.ui.mouse, {
-	version: "1.11.1",
+	version: "1.11.2",
 	widgetEventPrefix: "sort",
 	ready: false,
 	options: {
@@ -12894,6 +13022,10 @@ return $.widget("ui.sortable", $.ui.mouse, {
 			}
 
 			if(this.currentContainer === this.containers[innermostIndex]) {
+				if ( !this.currentContainer.containerCache.over ) {
+					this.containers[ innermostIndex ]._trigger( "over", event, this._uiHash() );
+					this.currentContainer.containerCache.over = 1;
+				}
 				return;
 			}
 
@@ -13232,18 +13364,6 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		}
 
 		this.dragging = false;
-		if(this.cancelHelperRemoval) {
-			if(!noPropagation) {
-				this._trigger("beforeStop", event, this._uiHash());
-				for (i=0; i < delayedTriggers.length; i++) {
-					delayedTriggers[i].call(this, event);
-				} //Trigger all delayed events
-				this._trigger("stop", event, this._uiHash());
-			}
-
-			this.fromOutside = false;
-			return false;
-		}
 
 		if(!noPropagation) {
 			this._trigger("beforeStop", event, this._uiHash());
@@ -13252,10 +13372,12 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		//$(this.placeholder[0]).remove(); would have been the jQuery way - unfortunately, it unbinds ALL events from the original node!
 		this.placeholder[0].parentNode.removeChild(this.placeholder[0]);
 
-		if(this.helper[0] !== this.currentItem[0]) {
-			this.helper.remove();
+		if ( !this.cancelHelperRemoval ) {
+			if ( this.helper[ 0 ] !== this.currentItem[ 0 ] ) {
+				this.helper.remove();
+			}
+			this.helper = null;
 		}
-		this.helper = null;
 
 		if(!noPropagation) {
 			for (i=0; i < delayedTriggers.length; i++) {
@@ -13265,7 +13387,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		}
 
 		this.fromOutside = false;
-		return true;
+		return !this.cancelHelperRemoval;
 
 	},
 
@@ -13294,7 +13416,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 
 },{}],"jquery.ui.widget":[function(require,module,exports){
 /*!
- * jQuery UI Widget 1.11.1
+ * jQuery UI Widget 1.11.2
  * http://jqueryui.com
  *
  * Copyright 2014 jQuery Foundation and other contributors
@@ -13331,7 +13453,7 @@ $.cleanData = (function( orig ) {
 				}
 
 			// http://bugs.jquery.com/ticket/8235
-			} catch( e ) {}
+			} catch ( e ) {}
 		}
 		orig( elems );
 	};
@@ -13549,10 +13671,6 @@ $.Widget.prototype = {
 		this.element = $( element );
 		this.uuid = widget_uuid++;
 		this.eventNamespace = "." + this.widgetName + this.uuid;
-		this.options = $.widget.extend( {},
-			this.options,
-			this._getCreateOptions(),
-			options );
 
 		this.bindings = $();
 		this.hoverable = $();
@@ -13574,6 +13692,11 @@ $.Widget.prototype = {
 				element.document || element );
 			this.window = $( this.document[0].defaultView || this.document[0].parentWindow );
 		}
+
+		this.options = $.widget.extend( {},
+			this.options,
+			this._getCreateOptions(),
+			options );
 
 		this._create();
 		this._trigger( "create", null, this._getCreateEventData() );
@@ -13737,8 +13860,14 @@ $.Widget.prototype = {
 	},
 
 	_off: function( element, eventName ) {
-		eventName = (eventName || "").split( " " ).join( this.eventNamespace + " " ) + this.eventNamespace;
+		eventName = (eventName || "").split( " " ).join( this.eventNamespace + " " ) +
+			this.eventNamespace;
 		element.unbind( eventName ).undelegate( eventName );
+
+		// Clear the stack to avoid memory leaks (#10056)
+		this.bindings = $( this.bindings.not( element ).get() );
+		this.focusable = $( this.focusable.not( element ).get() );
+		this.hoverable = $( this.hoverable.not( element ).get() );
 	},
 
 	_delay: function( handler, delay ) {

@@ -11997,13 +11997,19 @@ ul.pagination {
   font-size: 26px;
   line-height: 30px;
   color: inherit; }
+  /* line 53, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/modules/adm-dashboard */
+  .adm-dashboard-item-title a {
+    color: #0f0f0f; }
+    /* line 24, ./app/bower_components/compass-mixins/lib/compass/typography/links/link-colors */
+    .adm-dashboard-item-title a:hover {
+      color: #686868 !important; }
 
-/* line 54, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/modules/adm-dashboard */
+/* line 56, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/modules/adm-dashboard */
 .adm-dashboard-item-text {
   max-width: 500px;
   font-size: 15px;
   line-height: 20px; }
-  /* line 58, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/modules/adm-dashboard */
+  /* line 60, d:/work/projects/kiosk/git/kiosk-operator-static/app/stylesheets/sass/modules/adm-dashboard */
   .adm-dashboard-item-text a {
     color: #1e71be; }
     /* line 24, ./app/bower_components/compass-mixins/lib/compass/typography/links/link-colors */

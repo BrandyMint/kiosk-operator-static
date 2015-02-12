@@ -13,6 +13,7 @@ window.OperatorCategories = React.createClass
     productsUrl:              React.PropTypes.string
     addProductImageUrl:       React.PropTypes.string
     changeProductCategoryUrl: React.PropTypes.string
+    loadProductsPerPage:      React.PropTypes.number
     categoryId:               React.PropTypes.number
 
   getDefaultProps: ->
@@ -21,6 +22,7 @@ window.OperatorCategories = React.createClass
     productsUrl:              ApiRoutes.operator_products_by_category_url()
     addProductImageUrl:       ApiRoutes.operator_product_images_url()
     changeProductCategoryUrl: ApiRoutes.operator_products_change_category_url()
+    loadProductsPerPage:      60
 
   getInitialState: ->
     currentState:         LOADING_STATE
@@ -55,6 +57,7 @@ window.OperatorCategories = React.createClass
             addProductImageUrl={ this.props.addProductImageUrl }
             changeProductCategoryUrl={ this.props.changeProductCategoryUrl }
             includeSubcategories={ this.state.includeSubcategories }
+            loadProductsPerPage={ this.props.loadProductsPerPage }
             onCategorySelect={ this.handleCategorySelect } />`
       when LOADING_STATE
         `<OperatorCategories_Loading />`

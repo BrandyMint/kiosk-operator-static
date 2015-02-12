@@ -2327,6 +2327,7 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
     addProductImageUrl: React.PropTypes.string,
     changeProductCategoryUrl: React.PropTypes.string,
     includeSubcategories: React.PropTypes.bool.isRequired,
+    perPage: React.PropTypes.number.isRequired,
     onCategorySelect: React.PropTypes.func.isRequired
   },
   componentDidMount: function() {
@@ -2383,6 +2384,7 @@ window.OperatorCategories_Loaded = React.createClass({displayName: 'OperatorCate
                     productsUrl:  this.props.productsUrl, 
                     addProductImageUrl:  this.props.addProductImageUrl, 
                     productsCanMove:  this.props.productsCanMove, 
+                    perPage:  this.props.perPage, 
                     includeSubcategories:  this.props.includeSubcategories})
               )
             );
@@ -2469,11 +2471,13 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
     productsUrl: React.PropTypes.string,
     addProductImageUrl: React.PropTypes.string,
     changeProductCategoryUrl: React.PropTypes.string,
+    perPage: React.PropTypes.number,
     categoryId: React.PropTypes.number
   },
   getDefaultProps: function() {
     return {
       productsCanMove: true,
+      perPage: 60,
       categoriesUrl: ApiRoutes.operator_categories_url(),
       productsUrl: ApiRoutes.operator_products_by_category_url(),
       addProductImageUrl: ApiRoutes.operator_product_images_url(),
@@ -2512,6 +2516,7 @@ window.OperatorCategories = React.createClass({displayName: 'OperatorCategories'
             addProductImageUrl:  this.props.addProductImageUrl, 
             changeProductCategoryUrl:  this.props.changeProductCategoryUrl, 
             includeSubcategories:  this.state.includeSubcategories, 
+            perPage:  this.props.perPage, 
             onCategorySelect:  this.handleCategorySelect});
       case LOADING_STATE:
         return OperatorCategories_Loading(null);
@@ -2998,6 +3003,7 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
     productsUrl: React.PropTypes.string,
     addProductImageUrl: React.PropTypes.string,
     productsCanMove: React.PropTypes.bool,
+    perPage: React.PropTypes.number.isRequired,
     includeSubcategories: React.PropTypes.bool.isRequired
   },
   getInitialState: function() {
@@ -3030,10 +3036,13 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
     switch (this.state.currentState) {
       case LOADED_STATE:
       case LOADING_MORE_STATE:
-        return OperatorProducts_List({
-             categoryId:  this.props.categoryId, 
-             addProductImageUrl:  this.props.addProductImageUrl, 
-             productsCanMove:  this.props.productsCanMove});
+        return React.DOM.div(null, 
+          OperatorProducts_List({
+              categoryId:  this.props.categoryId, 
+              addProductImageUrl:  this.props.addProductImageUrl, 
+              productsCanMove:  this.props.productsCanMove}), 
+           this.renderLoadMoreSpinner() 
+        );
       case LOADING_STATE:
         return OperatorProducts_Loading(null);
       case EMPTY_STATE:
@@ -3043,6 +3052,11 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
                                    message:  this.state.errorMessage});
       default:
         return console.warn('Unknown currentState of OperatorProducts component', this.state.currentState);
+    }
+  },
+  renderLoadMoreSpinner: function() {
+    if (this.isLoadingMoreState()) {
+      return OperatorProducts_Loading(null);
     }
   },
   isLoadingMoreState: function() {
@@ -3075,7 +3089,8 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
       data: {
         categoryId: categoryId,
         filter: this.props.productsFilter,
-        includeSubcategories: includeSubcategories
+        includeSubcategories: includeSubcategories,
+        per_page: this.props.perPage
       }
     }).then((function(_this) {
       return function(response) {
@@ -3106,6 +3121,7 @@ window.OperatorProducts = React.createClass({displayName: 'OperatorProducts',
         categoryId: this.props.categoryId,
         filter: this.props.productsFilter,
         includeSubcategories: this.props.includeSubcategories,
+        per_page: this.props.perPage,
         page: this.state.page + 1
       }
     }).then((function(_this) {
@@ -4551,7 +4567,7 @@ window.OperatorProductsService = {
         filter: data.filter,
         include_subcategories: data.includeSubcategories,
         page: 1,
-        per_page: 30
+        per_page: data.per_page
       }
     }).then(function(response) {
       OperatorProductsServerActions.receiveProducts(data.categoryId, response.items);
@@ -4568,7 +4584,7 @@ window.OperatorProductsService = {
         filter: data.filter,
         include_subcategories: data.includeSubcategories,
         page: data.page,
-        per_page: 30
+        per_page: data.per_page
       }
     }).then(function(response) {
       OperatorProductsServerActions.receiveMoreProducts(data.categoryId, response.items);

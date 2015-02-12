@@ -8,7 +8,7 @@ window.OperatorProductsService =
         filter:                data.filter
         include_subcategories: data.includeSubcategories
         page:                  1
-        per_page:              30
+        per_page:              data.per_page
     }
       .then (response) ->
         OperatorProductsServerActions.receiveProducts data.categoryId, response.items
@@ -22,7 +22,7 @@ window.OperatorProductsService =
         filter:                data.filter
         include_subcategories: data.includeSubcategories
         page:                  data.page
-        per_page:              30
+        per_page:              data.per_page
     }
       .then (response) ->
         OperatorProductsServerActions.receiveMoreProducts data.categoryId, response.items

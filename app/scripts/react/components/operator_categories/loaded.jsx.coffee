@@ -11,6 +11,7 @@ window.OperatorCategories_Loaded = React.createClass
     addProductImageUrl:       React.PropTypes.string
     changeProductCategoryUrl: React.PropTypes.string
     includeSubcategories:     React.PropTypes.bool.isRequired
+    perPage:                  React.PropTypes.number.isRequired
     onCategorySelect:         React.PropTypes.func.isRequired
 
   componentDidMount: ->
@@ -56,6 +57,7 @@ window.OperatorCategories_Loaded = React.createClass
                     productsUrl={ this.props.productsUrl }
                     addProductImageUrl={ this.props.addProductImageUrl }
                     productsCanMove={ this.props.productsCanMove }
+                    perPage={ this.props.perPage }
                     includeSubcategories={ this.props.includeSubcategories } />
               </div>
             </div>`

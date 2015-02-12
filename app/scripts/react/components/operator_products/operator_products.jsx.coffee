@@ -15,6 +15,7 @@ window.OperatorProducts = React.createClass
     productsUrl:          React.PropTypes.string
     addProductImageUrl:   React.PropTypes.string
     productsCanMove:      React.PropTypes.bool
+    perPage:              React.PropTypes.number.isRequired
     includeSubcategories: React.PropTypes.bool.isRequired
 
   getInitialState: ->
@@ -42,15 +43,21 @@ window.OperatorProducts = React.createClass
   render: ->
     switch @state.currentState
       when LOADED_STATE, LOADING_MORE_STATE
-        `<OperatorProducts_List
-             categoryId={ this.props.categoryId }
-             addProductImageUrl={ this.props.addProductImageUrl }
-             productsCanMove={ this.props.productsCanMove } />`
+        `<div>
+          <OperatorProducts_List
+              categoryId={ this.props.categoryId }
+              addProductImageUrl={ this.props.addProductImageUrl }
+              productsCanMove={ this.props.productsCanMove } />
+          { this.renderLoadMoreSpinner() }
+        </div>`
       when LOADING_STATE then `<OperatorProducts_Loading />`
       when EMPTY_STATE   then `<OperatorProducts_Empty categoryId={ this.props.categoryId } />`
       when ERROR_STATE   then `<OperatorProducts_LoadingError
                                    message={ this.state.errorMessage } />`
       else console.warn 'Unknown currentState of OperatorProducts component', @state.currentState
+
+  renderLoadMoreSpinner: ->
+    `<OperatorProducts_Loading />` if @isLoadingMoreState()
 
   isLoadingMoreState: -> @state.currentState is LOADING_MORE_STATE
 
@@ -68,6 +75,7 @@ window.OperatorProducts = React.createClass
         categoryId:           categoryId
         filter:               @props.productsFilter
         includeSubcategories: includeSubcategories
+        per_page:             @props.perPage
     }
       .then (response) =>
         currentState = if response.total_count == 0 then EMPTY_STATE else LOADED_STATE
@@ -91,6 +99,7 @@ window.OperatorProducts = React.createClass
         categoryId:           @props.categoryId
         filter:               @props.productsFilter
         includeSubcategories: @props.includeSubcategories
+        per_page:             @props.perPage
         page:                 @state.page + 1
     }
       .then (response) =>

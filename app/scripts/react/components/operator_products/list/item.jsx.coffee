@@ -45,7 +45,7 @@ window.OperatorProducts_ListItem = React.createClass
               </td>
               <td className="adm-categories-goods-status"
                   data-title="Статус">
-                <ProductState state={ this.state.product.state } />
+                <ProductState product={ this.state.product } />
               </td>
             </tr>`
 

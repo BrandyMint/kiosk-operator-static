@@ -5165,31 +5165,31 @@ OperatorProductsStore.dispatchToken = OperatorProductsDispatcher.register(functi
 },{"./_base":75}],79:[function(require,module,exports){
 window.ApiRoutes = {
   operator_product_image_delete_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/images/' + id;
+    return gon.operator_api_url + '/v1/products/images/' + id;
   },
   operator_product_images_rotate_url: function(id) {
-    return gon.api_root_url + '/v1/operator/product_images/' + id + '/rotate';
+    return gon.operator_api_url + '/v1/product_images/' + id + '/rotate';
   },
   operator_product_images_url: function() {
-    return gon.api_root_url + '/v1/operator/product_images';
+    return gon.operator_api_url + '/v1/product_images';
   },
   operator_categories_url: function() {
-    return gon.api_root_url + '/v1/operator/categories';
+    return gon.operator_api_url + '/v1/categories';
   },
   operator_category_url: function(id) {
-    return gon.api_root_url + '/v1/operator/categories/' + id;
+    return gon.operator_api_url + '/v1/categories/' + id;
   },
   operator_product_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/' + id;
+    return gon.operator_api_url + '/v1/products/' + id;
   },
   operator_product_publicate_url: function(id) {
-    return gon.api_root_url + '/v1/operator/products/' + id + '/publication';
+    return gon.operator_api_url + '/v1/products/' + id + '/publication';
   },
   operator_products_by_category_url: function() {
-    return gon.api_root_url + '/v1/operator/products';
+    return gon.operator_api_url + '/v1/products';
   },
   operator_products_change_category_url: function() {
-    return gon.api_root_url + '/v1/operator/products/:id/change_category';
+    return gon.operator_api_url + '/v1/products/:id/change_category';
   }
 };
 

@@ -5,8 +5,8 @@ window.gon =
  # localStorage.setItem('root_url', 'http://kaskad.3001.vkontraste.ru')
  root_url: localStorage.getItem('root_url') || ''
 
- # localStorage.setItem('api_root_url', 'http://kaskad.3001.vkontraste.ru/api')
- api_root_url: localStorage.getItem('api_root_url') || ''
+ # localStorage.setItem('operator_api_url', 'http://kaskad.3001.vkontraste.ru/operator/api')
+ operator_api_url: localStorage.getItem('operator_api_url') || ''
 
  # Если null значит брать напрямую
  thumbor_url: 'http://thumball.brandydev.ru'

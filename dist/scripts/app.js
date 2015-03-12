@@ -3966,7 +3966,7 @@ window.ProductTotalItemsQuantity = React.createClass({displayName: 'ProductTotal
     quantity = parseInt(this.props.product.total_items_quantity);
     quantityUnit = this.props.product.quantity_unit.short;
     if (quantity > 0) {
-      content = quantity + " " + quantityUnit;
+      content = "" + quantity + " " + quantityUnit;
     } else {
       content = 'Нет в наличии';
     }
@@ -3997,8 +3997,8 @@ window.ModalController = {
 
 },{}],57:[function(require,module,exports){
 var BaseDispatcher,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 BaseDispatcher = (function(_super) {
   __extends(BaseDispatcher, _super);
@@ -4675,7 +4675,7 @@ window.UuidService = {
     s4 = function() {
       return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
     };
-    return (s4() + s4()) + "-" + (s4()) + "-" + (s4()) + "-" + (s4()) + "-" + (s4() + s4() + s4());
+    return "" + (s4() + s4()) + "-" + (s4()) + "-" + (s4()) + "-" + (s4()) + "-" + (s4() + s4() + s4());
   }
 };
 
@@ -4683,8 +4683,8 @@ window.UuidService = {
 
 },{}],75:[function(require,module,exports){
 var BaseStore, CHANGE_EVENT,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-  __hasProp = {}.hasOwnProperty;
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 CHANGE_EVENT = 'change';
 
@@ -5201,22 +5201,22 @@ window.Routes = {
     return gon.root_url + '/products/images/' + id;
   },
   operator_product_url: function(id) {
-    return gon.root_url + '/operator/products/' + id;
+    return gon.root_url + '/products/' + id;
   },
   operator_product_edit_url: function(id) {
-    return gon.root_url + '/operator/products/' + id + '/edit';
+    return gon.root_url + '/products/' + id + '/edit';
   },
   operator_product_new_url: function() {
-    return gon.root_url + '/operator/products/new';
+    return gon.root_url + '/products/new';
   },
   operator_categories_new_url: function(parentId) {
-    return gon.root_url + '/operator/categories/new?parent_id=' + parentId;
+    return gon.root_url + '/categories/new?parent_id=' + parentId;
   },
   operator_categories_edit_url: function(categoryId) {
-    return gon.root_url + '/operator/categories/' + categoryId + '/edit';
+    return gon.root_url + '/categories/' + categoryId + '/edit';
   },
   products_by_category_url: function(id) {
-    return gon.root_url + '/operator/products?category_id=' + id;
+    return gon.root_url + '/products?category_id=' + id;
   }
 };
 

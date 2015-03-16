@@ -1,4 +1,3 @@
-require './libs'
 require './routes/api'
 require './routes/routes'
 require './legacy'

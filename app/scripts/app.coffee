@@ -30,6 +30,5 @@ window.KioskOperatorApp =
     # /*-----  End of Router  ------*/
 
     window.EB.emit 'start'
-    ReactUjs.initialize()
 
   error_alert: (message) -> alert message

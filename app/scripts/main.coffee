@@ -1,6 +1,6 @@
-# Here we can require local settings
 require './local/gon'
-require './dist'
+require './libs'
+require './bundle'
 require './local/routes'
 
 mockOperator = require './data/operator.json'

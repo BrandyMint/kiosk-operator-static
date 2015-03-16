@@ -29,14 +29,11 @@ ram =
 
 # Добавляется тому, кто активитисы принимает
 rau =
-  propTypes:
-    activitiesHandler: React.PropTypes.object.isRequired
-
   componentWillMount: ->
     @setActivitiesHandler @props.activitiesHandler
 
   componentWillReceiveProps: (nextProps) ->
     @setActivitiesHandler nextProps.activitiesHandler
 
-React.mixins.add 'ReactActivitiesMixin', [ram, BaseMixin]
-React.mixins.add 'ReactActivitiesUser', [rau, BaseMixin]
+window.ReactActivitiesMixin = _.extend {}, BaseMixin, ram
+window.ReactActivitiesUser = _.extend {}, BaseMixin, rau

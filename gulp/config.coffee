@@ -7,7 +7,7 @@ module.exports = {
     scripts: {
       baseDir: src
       extensions: ['.coffee', '.jsx.coffee', '.js.jsx.coffee']
-      entries: './scripts/dist.coffee'
+      entries: './scripts/bundle.coffee'
       dest: dist + '/scripts/'
       outputName: 'app.js'
     }
@@ -15,6 +15,13 @@ module.exports = {
       src: src + '/stylesheets/dist.scss'
       dest: dist + '/stylesheets'
       outputName: 'app.css'
+    }
+    appBundle: {
+      baseDir: src
+      entries: './scripts/appBundle.coffee'
+      extensions: ['.js.jsx.coffee', '.jsx.coffee', '.coffee']
+      dest: dist + '/scripts/'
+      outputName: 'appBundle.js'
     }
   }
   vendor: {
@@ -24,7 +31,7 @@ module.exports = {
     extensions: ['.coffee']
   }
   local: {
-    entries: src + '/scripts/local.coffee'
+    entries: src + '/scripts/main.coffee'
     dest: build + '/scripts'
     outputName: 'local.js'
     extensions: ['.coffee', '.jsx.coffee', '.js.jsx.coffee']

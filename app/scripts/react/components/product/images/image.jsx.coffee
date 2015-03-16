@@ -5,7 +5,7 @@ LOADED_STATE  = 'loaded'
 ERROR_STATE   = 'error'
 
 ProductImages_Image = React.createClass
-  mixins: ['ReactActivitiesUser', ComponentManipulationsMixin]
+  mixins: [ReactActivitiesUser, ComponentManipulationsMixin]
 
   propTypes:
     image:          React.PropTypes.object.isRequired

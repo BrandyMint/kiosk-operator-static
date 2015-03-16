@@ -1,11 +1,10 @@
 ###* @jsx React.DOM ###
-{ PropTypes } = React
 
 window.Money = React.createClass
 
   propTypes:
-    money:     PropTypes.object
-    className: PropTypes.string
+    money:     React.PropTypes.object
+    className: React.PropTypes.string
 
   getDefaultProps: ->
     className: 'nobr'

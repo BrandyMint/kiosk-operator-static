@@ -1,8 +1,5 @@
 ###* @jsx React.DOM ###
 
-cx = React.addons.classSet
-{ PropTypes } = React
-
 SHOW_STATE    = 'show'
 ERROR_STATE   = 'error'
 PROCESS_STATE = 'process'
@@ -10,13 +7,13 @@ PROCESS_STATE = 'process'
 window.StatusToggle = React.createClass
 
   propTypes:
-    titleOn:      PropTypes.string.isRequired
-    titleOff:     PropTypes.string.isRequired
-    url:          PropTypes.string.isRequired
-    method:       PropTypes.string.isRequired
-    fieldName:    PropTypes.string.isRequired
-    currentValue: PropTypes.bool.isRequired
-    disabled:     PropTypes.bool
+    titleOn:      React.PropTypes.string.isRequired
+    titleOff:     React.PropTypes.string.isRequired
+    url:          React.PropTypes.string.isRequired
+    method:       React.PropTypes.string.isRequired
+    fieldName:    React.PropTypes.string.isRequired
+    currentValue: React.PropTypes.bool.isRequired
+    disabled:     React.PropTypes.bool
 
   getDefaultProps: ->
     disabled: false
@@ -26,7 +23,7 @@ window.StatusToggle = React.createClass
     checked: @props.currentValue
 
   render: ->
-    statusClasses = cx
+    statusClasses = React.addons.classSet
       'toggle__block': true
       'checked':       @state.checked
 

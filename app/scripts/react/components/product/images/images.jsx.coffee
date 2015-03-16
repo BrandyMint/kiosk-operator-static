@@ -5,7 +5,7 @@ ProductImages_List        = require './list'
 ImagesMixin               = require './mixins/images'
 
 window.ProductImages = React.createClass
-  mixins: ['ReactActivitiesMixin', ImagesMixin]
+  mixins: [ReactActivitiesMixin, ImagesMixin]
 
   propTypes:
     images:        React.PropTypes.array.isRequired
